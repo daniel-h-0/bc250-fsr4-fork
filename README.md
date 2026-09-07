@@ -55,7 +55,7 @@ a checkout. Download the script from this fork's `v4` branch, inspect it, then
 run it as your desktop user:
 
 ```sh
-curl -fLO https://raw.githubusercontent.com/daniel-h-0/bc250-fsr4/v4/install-v4.sh
+curl -fLO https://raw.githubusercontent.com/daniel-h-0/bc250-fsr4-fork/v4/install-v4.sh
 bash install-v4.sh --upgrade-v3
 ```
 

@@ -21,7 +21,7 @@ import urllib.error
 import urllib.request
 
 VERSION = 'v4.0.0-rc1'
-REPOSITORY = 'daniel-h-0/bc250-fsr4'
+REPOSITORY = 'daniel-h-0/bc250-fsr4-fork'
 ASSET = 'bc250-fsr4-' + VERSION + '-cachyos-x86_64.tar.gz'
 args = sys.argv[1:]
 if '--help' in args or '-h' in args:

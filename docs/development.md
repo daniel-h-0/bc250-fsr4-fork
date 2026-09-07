@@ -3,7 +3,7 @@
 The v4 branch starts at upstream v3 commit
 `6173651fa3a5a557cba2c2ff802e2d6f49881bc1`. `upstream` should remain
 `https://github.com/dmorazasanchez/bc250-fsr4.git`; `origin` targets
-`https://github.com/daniel-h-0/bc250-fsr4.git`. Do not squash away the original
+`https://github.com/daniel-h-0/bc250-fsr4-fork.git`. Do not squash away the original
 history or mix experimental upstream branches into the accepted source.
 
 ## Source inputs
