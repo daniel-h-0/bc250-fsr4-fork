@@ -2,6 +2,11 @@
 
 ## Unreleased — maintenance on v4
 
+- Add guided game setup: detect supported Steam games and accounts, fetch
+  pinned runtime dependencies, merge launch options and select Proton with
+  one rollback record. Preview without changes using `--dry-run`.
+- Separate the short end-user game guide from manual integration and
+  troubleshooting, and document a working v3 user's actual upgrade needs.
 - Clarify that the qualified runtime is pinned FSR 4.1.1 INT8 and should not
   be co-installed with the newer 4.1.1b mod; document switching between setups.
 - Recover interrupted game setup and rollback transactions, preserve later
@@ -25,6 +30,8 @@
   extraction without Git metadata and prepare their pinned Mesa source on
   pushes and pull requests. Manual container builds also package and check
   the extracted binary distribution; these artifacts remain unqualified.
+- Pin maintained GitHub Actions releases using Node.js 24, removing the
+  deprecated action-runtime dependency.
 - Include the full Mesa license-text directory in newly generated binary
   archives alongside the existing summary and scoped project notices.
 - Keep current tooling development separate from the immutable rc1 driver,

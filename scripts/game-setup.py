@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
-"""Prepare explicitly selected, known game integrations; never edit Steam's library."""
+"""Prepare known game integrations with reversible file and optional Steam changes."""
 
 import argparse
 import configparser
@@ -20,6 +20,7 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 import driver
+import steam_config
 
 ROOT = Path(__file__).resolve().parents[1]
 COMMON = {
@@ -174,9 +175,14 @@ def records(state):
 def require_recovered(state):
     for path, transaction in records(state):
         if transaction["state"] in ("prepared", "rolling-back"):
+            command = (
+                "./setup-game.sh"
+                if transaction.get("guided") or transaction.get("steam_changes")
+                else "python3 scripts/game-setup.py"
+            )
             raise RuntimeError(
                 "An interrupted game transaction needs recovery: "
-                "run game-setup.py recover " + shlex.quote(str(path))
+                "run " + command + " recover " + shlex.quote(str(path))
             )
 
 
@@ -220,6 +226,17 @@ def restore_transaction(path, transaction, state):
         current = capture(Path(item["path"]))
         if current not in (item["before"], item["after"]):
             raise RuntimeError("A game file changed independently; preserving it: " + item["path"])
+    steam_restores = [
+        (
+            Path(change["path"]),
+            steam_config.restore_settings(
+                steam_config.read_config(Path(change["path"])), change, recover=True
+            ),
+        )
+        for change in transaction.get("steam_changes", [])
+    ]
+    for steam_path, content in steam_restores:
+        driver.atomic(steam_path, content)
     for item in reversed(transaction["changes"]):
         if capture(Path(item["path"])) != item["before"]:
             restore(Path(item["path"]), item["before"])
@@ -227,9 +244,7 @@ def restore_transaction(path, transaction, state):
     driver.write_json(path, transaction)
 
 
-def install(args, state, policy):
-    require_stopped()
-    require_recovered(state)
+def validate_game(args, policy):
     profile = next((p for p in policy["profiles"] if p["id"] == args.profile), None)
     if profile is None:
         raise RuntimeError(
@@ -248,6 +263,13 @@ def install(args, state, policy):
             raise RuntimeError(
                 "The game-native FSR SDK changed. Requalify this profile before injection."
             )
+    return profile, target
+
+
+def install(args, state, policy, *, steam_changes=None, quiet=False):
+    require_stopped()
+    require_recovered(state)
+    profile, target = validate_game(args, policy)
     runtime = payload(state, policy)
     paths = [target / profile["proxy"], target / "OptiScaler", target / "OptiScaler.ini"]
     managed = managed_runtime(state, paths)
@@ -289,21 +311,39 @@ def install(args, state, policy):
     ]
     changes = [{"path": str(p), "before": b, "after": a} for p, b, a in zip(paths, before, after)]
     transaction = {"schema": 1, "profile": profile["id"], "state": "prepared", "changes": changes}
+    if steam_changes is not None:
+        transaction["guided"] = True
+    if steam_changes:
+        transaction["steam_changes"] = steam_changes
+        # Stage all Steam edits before touching any game files.
+        for change in steam_changes:
+            if steam_config.read_config(Path(change["path"])).hex() != change["before_hex"]:
+                raise RuntimeError("Steam configuration changed while staging; run setup again.")
     directory = state / "transactions"
     directory.mkdir(exist_ok=True)
     record = directory / (str(time.time_ns()) + ".json")
     driver.write_json(record, transaction)
+    print("Recovery record: " + str(record), flush=True)
     try:
         for item in changes:
             path = Path(item["path"])
             if capture(path) != item["before"]:
                 raise RuntimeError("Game file changed while staging: " + str(path))
             restore(path, item["after"])
+        for change in steam_changes or []:
+            require_stopped()
+            steam_path = Path(change["path"])
+            if steam_config.read_config(steam_path).hex() != change["before_hex"]:
+                raise RuntimeError("Steam configuration changed during setup; restoring changes.")
+            driver.atomic(steam_path, bytes.fromhex(change["after_hex"]))
         transaction["state"] = "active"
         driver.write_json(record, transaction)
     except BaseException:
+        require_stopped()
         restore_transaction(record, transaction, "aborted")
         raise
+    if quiet:
+        return record
     print(
         "Configured "
         + profile["title"]
@@ -322,6 +362,7 @@ def install(args, state, policy):
     )
     print("Rollback record: " + str(record))
     print("Game-side upscaler selection is still required; see docs/games.md.")
+    return record
 
 
 def rollback(path):
@@ -334,10 +375,15 @@ def rollback(path):
     for item in transaction["changes"]:
         if capture(Path(item["path"])) != item["after"]:
             raise RuntimeError("A game file changed after setup; preserving it: " + item["path"])
+    for change in transaction.get("steam_changes", []):
+        steam_config.restore_settings(steam_config.read_config(Path(change["path"])), change)
     transaction["state"] = "rolling-back"
     driver.write_json(path, transaction)
     restore_transaction(path, transaction, "rolled-back")
-    print("Original game runtime files restored exactly.")
+    print(
+        "Original game runtime files restored exactly."
+        + (" Managed Steam settings restored." if transaction.get("steam_changes") else "")
+    )
 
 
 def recover(path):

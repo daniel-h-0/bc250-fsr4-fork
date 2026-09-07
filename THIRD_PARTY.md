@@ -32,6 +32,7 @@ The bundled Wayland protocols source archive retains its internal COPYING.
 | Mesa 26.2.2 | Archive URL/hash and modifications in `v4/manifest.json`; original per-file notices remain authoritative |
 | Wayland protocols 1.41 | Vendored archive in `v4/source-dependencies/`, hash pinned in the manifest; retain its internal `COPYING` |
 | Game profiles | `v4/games.json` records upstream artifact URLs, versions and hashes; it does not grant rights to those artifacts |
+| GE-Proton | `v4/proton.json` pins an upstream download for guided setup; Proton binaries are not redistributed in this repository or its driver archives |
 
 The source exporter preserves tracked provenance and notices. A newly packaged
 binary includes the pinned source recipe, Mesa license summary and license texts; review

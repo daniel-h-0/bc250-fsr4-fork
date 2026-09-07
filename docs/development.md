@@ -13,6 +13,7 @@ history or mix experimental upstream branches into the accepted source.
 | `v4/manifest.json`, `v4/patches/` | Pinned driver source identity and ordered Mesa changes |
 | `v4/source-dependencies/` | Hash-pinned build input |
 | `v4/games.json` | Pinned provider/runtime identities and explicit game profiles |
+| `v4/proton.json` | Guided setup's pinned GE-Proton archive and installation checks |
 | `scripts/`, top-level shell entry points | Source preparation, build, packaging, installation, recovery and game setup |
 | `tests/`, `.github/workflows/` | Active checks and CI |
 | `docs/qualification.*`, `docs/performance.md`, `docs/data/`, `docs/assets/` | Recorded rc1 qualification and later performance evidence |

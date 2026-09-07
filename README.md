@@ -18,10 +18,35 @@ integration before switching; see [runtime compatibility](docs/games.md#runtime-
 The project's `v4` / `4.0.0-rc1` name identifies this Mesa fork's release,
 not the FSR provider version.
 
-The driver improves a compatible FSR4 path. Games still need an FSR4 INT8
-provider/model hook and a supported game input. Installing this driver alone
-does not turn every game's upscaler into FSR4. Start with [game setup and proof
-of engagement](docs/games.md) after installing the driver.
+Install the driver once, then use guided setup to configure a supported game.
+The driver alone does not enable FSR4 in every game.
+
+## Start a supported Steam game
+
+On your working Linux BC250 installation, check the
+[prerequisites](#prerequisites), then obtain the maintained tools:
+
+```sh
+git clone --branch v4 https://github.com/daniel-h-0/bc250-fsr4-fork.git
+cd bc250-fsr4-fork
+./install-v4.sh
+```
+
+For an existing standard v3 installation, use `./install-v4.sh --upgrade-v3`
+instead. If you already have a verified v4 private or system installation,
+keep it and continue below.
+
+Close Steam and all games, then run:
+
+```sh
+./setup-game.sh
+```
+
+Choose your installed game and Steam account. Setup downloads the pinned
+runtime, selects the required Proton version and configures launch options
+with backups. Restart Steam, launch the game and select **FSR** in Deadzone or
+Kingdom Come: Deliverance II, or **DLSS** in Control. See the short
+[game setup guide](docs/games.md) for prerequisites, supported scope and undo.
 
 ## Choose an installation
 
@@ -50,10 +75,18 @@ No v4 32-bit binary is shipped. Keep your distribution's working
   binary. An ABI failure leaves the selected installation unchanged; use the
   source route on a different distribution.
 - For Windows games, use a compatible Proton build and follow
-  [the game guide](docs/games.md). Steam Flatpak and unusual runtime sandboxes
+  [the game guide](docs/games.md). Guided setup also needs `bsdtar` from
+  libarchive to unpack the pinned runtime. Steam Flatpak and unusual runtime sandboxes
   need additional path/library exposure and are not yet qualified.
 
 ## Private archive install or v3 upgrade
+
+**Coming from v3? Read the [v3 upgrade checklist](docs/upgrading-v3.md) first.**
+Use Python 3.12+ and install `vulkan-tools`; keep distribution libraries
+coherent. Guided game setup selects the tested GE-Proton11-6 and pinned
+runtime for the documented profiles. A working
+prebuilt v3 already needs most of the same libraries as v4; a new kernel,
+firmware flash or LLVM upgrade is not an automatic prerequisite.
 
 Obtain the matching binary `.tar.gz` and adjacent `.tar.gz.sha256` from the
 [v4.0.0-rc1 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc1),
@@ -89,8 +122,9 @@ From this checkout, with the archive under `dist/`:
 python3 scripts/driver.py status
 ```
 
-The installer prints a stable Steam launch option. Add it to the game's
-existing options without dropping its Proton/OptiScaler settings. For a
+For supported games, run `./setup-game.sh` after installation to configure
+Steam automatically. The driver installer also prints a launch option for
+[manual setup](docs/game-troubleshooting.md). For a
 standard v3 installation, preserve your existing Steam launch string by
 migrating the exact old ICD instead:
 
@@ -104,7 +138,8 @@ For a source-built v3, pass the actual old `radv-bc250-fsr4-v3.json` or
 Only those explicitly named manifests are migrated. Their original driver
 files stay in place and their JSON bytes are recorded for rollback. Close the
 game before upgrading and relaunch it afterward; a running process keeps its
-previously loaded driver. No Steam VDF files are edited.
+previously loaded driver. These driver-migration commands leave Steam settings
+unchanged; guided game setup configures those separately.
 
 By default v4 lives under `~/.local/share/bc250-fsr4/`, with immutable
 `releases/`, a `current` link, stable `current.json`, and transaction records.
@@ -118,6 +153,9 @@ Use the same prefix for `status`, `run`, `rollback` and `recover`.
 Do not run the private installer with sudo.
 
 Rollback the most recent private installation:
+
+If guided setup configured a game to use this installation, first use its
+[game rollback command](docs/games.md#undo-game-setup) to restore Steam settings.
 
 ```sh
 python3 scripts/driver.py rollback

@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 import platform
+import shlex
 import shutil
 import subprocess
 import sys
@@ -311,7 +312,7 @@ def install(args, prefix):
     print("Installed and validated " + release_id)
     print(
         "Steam launch option: VK_DRIVER_FILES="
-        + __import__("shlex").quote(str(prefix / "current.json"))
+        + shlex.quote(str(prefix / "current.json"))
         + " %command%"
     )
     print("Existing explicitly migrated v3 launch paths now select v4. Restart the game.")

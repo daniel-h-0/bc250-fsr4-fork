@@ -100,6 +100,19 @@ def check_inputs(root):
     require(
         games["provider_sha256"] == manifest["provider_sha256"], "Source/game provider mismatch"
     )
+    proton = load(root / "v4/proton.json")
+    require(proton["schema"] == 1, "Unsupported Proton pin schema")
+    require(proton["name"] == games["proton"], "Proton/game profile version mismatch")
+    require(bool(SHA256.fullmatch(proton["sha256"])), "Invalid Proton archive SHA256")
+    require(proton["url"].startswith("https://"), "Proton archive URL must use HTTPS")
+    require(
+        proton["provider"]["sha256"] == games["provider_sha256"]
+        and proton["provider"]["version"] == games["fsr4"],
+        "Proton/game provider pin mismatch",
+    )
+    require(bool(proton["files"]), "Missing Proton runtime file pins")
+    for relative, metadata in proton["files"].items():
+        require(bool(SHA256.fullmatch(metadata["sha256"])), "Invalid Proton file pin: " + relative)
     for field in ("id", "appid"):
         values = [profile[field] for profile in games["profiles"]]
         require(len(set(values)) == len(values), "Duplicate game profile " + field)

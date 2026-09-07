@@ -3,8 +3,10 @@
 """Build/install Arch packages with the distribution's original RADV package metadata."""
 
 import argparse
+import hashlib
 import json
 import os
+import shlex
 import shutil
 import subprocess
 import sys
@@ -80,7 +82,7 @@ def build(args):
         "driver_sha256": release["driver_sha256"],
         "base_version": version,
         "base_package_sha256": driver.digest(base),
-        "base_driver_sha256": __import__("hashlib").sha256(old_library).hexdigest(),
+        "base_driver_sha256": hashlib.sha256(old_library).hexdigest(),
         "library": "/usr/lib/libvulkan_radeon.so",
         "rollback_package": "/usr/share/bc250-fsr4-v4/rollback/base.pkg.tar.zst",
         "scope": "64-bit only; distribution lib32-vulkan-radeon is untouched",
@@ -172,10 +174,7 @@ package_bc250-fsr4-v4() {
     report = {"metadata": metadata, "packages": {p.name: driver.digest(p) for p in packages}}
     (output / "packages.json").write_text(json.dumps(report, indent=2) + "\n")
     print("Packages ready. Review " + str(output / "packages.json"))
-    print(
-        "Install: python3 scripts/system-package.py install "
-        + __import__("shlex").quote(str(output))
-    )
+    print("Install: python3 scripts/system-package.py install " + shlex.quote(str(output)))
 
 
 def install(args):
