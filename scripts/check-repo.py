@@ -46,7 +46,10 @@ def check_snapshot(root):
         return "checkout/source tree (no exported snapshot metadata)"
     snapshot = load(path)
     require(snapshot["schema"] == 1, "Unsupported source snapshot schema")
-    require(bool(re.fullmatch(r"[0-9a-f]{40,64}", snapshot["commit"])), "Invalid snapshot commit")
+    require(
+        bool(re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", snapshot["commit"])),
+        "Invalid snapshot commit",
+    )
     for relative, metadata in snapshot["files"].items():
         source = relative_file(root, relative)
         require(digest(source) == metadata["sha256"], "Source snapshot file changed: " + relative)

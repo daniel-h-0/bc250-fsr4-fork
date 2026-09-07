@@ -116,7 +116,32 @@ def verify_source(source, expected):
             raise RuntimeError("Materialized source mismatch: " + relative)
 
 
-def configuration(build):
+def command_files(arguments):
+    """Fingerprint explicit executables and script/configuration file arguments.
+
+    A wrapper's version and bytes do not identify the compiler it invokes.
+    Follow executable arguments through PATH, and retain regular file arguments
+    such as the non-executable script in ``python compiler.py``. Commands hidden
+    inside wrapper code and the wider host dependency tree remain out of scope.
+    """
+    files = []
+    for index, argument in enumerate(arguments):
+        if argument.startswith("-"):
+            continue
+        executable = shutil.which(argument)
+        paths = {Path(executable).resolve()} if executable else set()
+        # An interpreter consumes an explicit relative script from its working
+        # directory even if PATH contains an executable with the same name.
+        if index > 0 and Path(argument).is_file():
+            paths.add(Path(argument).resolve())
+        for path in sorted(paths):
+            files.append(
+                {"argument_index": index, "path": str(path.resolve()), "sha256": digest(path)}
+            )
+    return files
+
+
+def configuration(build, *, include_tool_files=True):
     """Read actual Meson settings, rather than assuming the requested flags won."""
     info = build / "meson-info"
     options = read_json(info / "intro-buildoptions.json")
@@ -128,8 +153,20 @@ def configuration(build):
         "compilers": {
             machine: {
                 language: {
-                    key: item[key]
-                    for key in ("id", "version", "full_version", "exelist", "linker_id")
+                    **{
+                        key: item[key]
+                        for key in ("id", "version", "full_version", "exelist", "linker_id")
+                    },
+                    **(
+                        {
+                            "executable_files": command_files(item["exelist"]),
+                            "linker_executable_files": command_files(
+                                item.get("linker_exelist", [])
+                            ),
+                        }
+                        if include_tool_files
+                        else {}
+                    ),
                 }
                 for language, item in languages.items()
             }
@@ -141,19 +178,39 @@ def configuration(build):
     }
 
 
-def verify_configuration(build, expected):
-    if configuration(build) != expected:
+def verify_configuration(build, expected, *, check_tools=True):
+    if not check_tools:
+        # Packaging may run outside the build container. Verify its recorded
+        # Meson settings without resolving compiler names against a new host.
+        expected = {
+            **expected,
+            "compilers": {
+                machine: {
+                    language: {
+                        key: value
+                        for key, value in item.items()
+                        if key not in ("executable_files", "linker_executable_files")
+                    }
+                    for language, item in languages.items()
+                }
+                for machine, languages in expected["compilers"].items()
+            },
+        }
+    if configuration(build, include_tool_files=check_tools) != expected:
         raise RuntimeError("Meson configuration changed; use a new work directory.")
 
 
 def tool_identity(command):
     arguments = shlex.split(command)
+    if not arguments:
+        raise RuntimeError("Build tool command must not be empty.")
     executable = shutil.which(arguments[0])
     if not executable:
         raise RuntimeError("Missing build tool: " + arguments[0])
     return {
         "command": arguments,
         "executable_sha256": digest(executable),
+        "command_files": command_files(arguments),
         "version": subprocess.check_output(arguments + ["--version"], text=True).splitlines()[0],
     }
 
@@ -193,7 +250,7 @@ def verify_completed_build(work, root=ROOT):
     if digest(work / "source-files.json") != result["source_files_sha256"]:
         raise RuntimeError("Materialized source record changed since this build.")
     verify_source(source_directory(work, manifest), read_json(work / "source-files.json"))
-    verify_configuration(work / "build", result["configuration"])
+    verify_configuration(work / "build", result["configuration"], check_tools=False)
     return manifest, result
 
 

@@ -49,6 +49,11 @@ def main():
     manifest, built = build.verify_completed_build(args.work, ROOT)
     inventory = source_files(ROOT)
     identity = source_identity(ROOT)
+    if identity.get("dirty"):
+        raise RuntimeError(
+            "Binary packaging requires a clean source checkout. Commit source changes and "
+            "new helper files first, or build from a verified source snapshot."
+        )
     library = args.work / "build/src/amd/vulkan/libvulkan_radeon.so"
     name = "bc250-fsr4-v" + manifest["version"] + "-" + args.label
     args.output.mkdir(parents=True, exist_ok=True)

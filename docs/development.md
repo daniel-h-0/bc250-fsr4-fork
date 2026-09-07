@@ -108,8 +108,11 @@ Qualify the exact stripped release artifact before publication.
 Current build provenance uses schema 2. Work directories created by the
 original rc1 tooling need a fresh build directory; they cannot be resumed or
 repackaged with these stronger checks. The original qualified archives remain
-installable. New provenance also records the source revision and whether its
-checkout was dirty; publish only from reviewed, committed sources.
+installable. Binary packaging requires a clean Git checkout, so newly added
+helpers cannot be silently omitted from the tracked source inventory. Commit
+reviewed changes first, or build from a verified source snapshot. Provenance
+records the available source revision; GitHub-generated source downloads have
+no Git metadata and report that limitation explicitly.
 
 Before a GitHub release, update the qualification report, review notices,
 run the documented installation on a v3-style baseline, and attach the tested

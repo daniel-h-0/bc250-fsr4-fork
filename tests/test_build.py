@@ -2,12 +2,15 @@
 """Build provenance and source-distribution contracts without a GPU or Mesa build."""
 
 import importlib.util
+import os
+import shlex
 import shutil
 import subprocess
 import sys
 import tarfile
 import tempfile
 import unittest
+from contextlib import chdir
 from pathlib import Path
 from unittest import mock
 
@@ -21,6 +24,88 @@ spec = importlib.util.spec_from_file_location(
 )
 package = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(package)
+
+
+class ToolIdentityTests(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name)
+        self.wrapper = self.root / "wrapper"
+        self.wrapper.write_text('#!/bin/sh\nexec "$@"\n')
+        self.wrapper.chmod(0o755)
+        self.compiler = self.root / "fixturecc"
+        self.compiler.write_text("#!/bin/sh\n# first implementation\nprintf 'compiler 1.0\\n'\n")
+        self.compiler.chmod(0o755)
+
+    def test_wrapped_compiler_bytes_are_checked_even_with_same_version(self):
+        command = shlex.join([str(self.wrapper), "fixturecc"])
+        with mock.patch.dict(os.environ, {"PATH": str(self.root) + os.pathsep + os.defpath}):
+            before = build.tool_identity(command)
+            self.compiler.write_text(
+                "#!/bin/sh\n# changed implementation\nprintf 'compiler 1.0\\n'\n"
+            )
+            after = build.tool_identity(command)
+        self.assertEqual(before["version"], after["version"])
+        self.assertEqual(before["executable_sha256"], after["executable_sha256"])
+        self.assertNotEqual(before["command_files"], after["command_files"])
+        self.assertEqual(after["command_files"][1]["path"], str(self.compiler.resolve()))
+
+    def test_nonexecutable_compiler_script_is_fingerprinted(self):
+        script = self.root / "compiler script.py"
+        script.write_text("# first implementation\nprint('compiler 1.0')\n")
+        command = shlex.join([sys.executable, str(script)])
+        before = build.tool_identity(command)
+        script.write_text("# changed implementation\nprint('compiler 1.0')\n")
+        after = build.tool_identity(command)
+        self.assertFalse(os.access(script, os.X_OK))
+        self.assertEqual(before["version"], after["version"])
+        self.assertEqual(before["executable_sha256"], after["executable_sha256"])
+        self.assertNotEqual(before["command_files"], after["command_files"])
+        self.assertEqual(after["command_files"][1]["path"], str(script.resolve()))
+
+    def test_relative_interpreter_script_is_not_shadowed_by_path(self):
+        scripts = self.root / "scripts"
+        scripts.mkdir()
+        script = scripts / self.compiler.name
+        script.write_text("print('compiler 1.0')\n")
+        with (
+            chdir(scripts),
+            mock.patch.dict(os.environ, {"PATH": str(self.root) + os.pathsep + os.defpath}),
+        ):
+            identity = build.tool_identity(shlex.join([sys.executable, script.name]))
+        recorded = {item["path"] for item in identity["command_files"]}
+        self.assertIn(str(script.resolve()), recorded)
+
+    def test_configured_compiler_exelist_detects_same_version_replacement(self):
+        info = self.root / "build/meson-info"
+        info.mkdir(parents=True)
+        build.write_json(info / "intro-buildoptions.json", [])
+        build.write_json(info / "intro-dependencies.json", [])
+        build.write_json(info / "meson-info.json", {"meson_version": {"full": "1.12.0"}})
+        build.write_json(
+            info / "intro-compilers.json",
+            {
+                "host": {
+                    "c": {
+                        "id": "fixture",
+                        "version": "1.0",
+                        "full_version": "compiler 1.0",
+                        "exelist": [str(self.wrapper), str(self.compiler)],
+                        "linker_exelist": [str(self.compiler)],
+                        "linker_id": "fixture",
+                    }
+                }
+            },
+        )
+        before = build.configuration(info.parent)
+        self.compiler.write_text("#!/bin/sh\n# changed implementation\nprintf 'compiler 1.0\\n'\n")
+        with self.assertRaisesRegex(RuntimeError, "Meson configuration changed"):
+            build.verify_configuration(info.parent, before)
+        # The package command may run outside the original compiler container.
+        # Compiler hashes remain provenance; the static Meson settings still match.
+        self.compiler.unlink()
+        build.verify_configuration(info.parent, before, check_tools=False)
 
 
 class BuildFixture(unittest.TestCase):

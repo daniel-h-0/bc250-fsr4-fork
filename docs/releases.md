@@ -88,6 +88,10 @@ the source commit, source manifest hash, full toolchain/ABI requirements,
 driver hash and observed runtime scope. A successful build or tooling test
 suite does not transfer the old binary's gameplay acceptance to a new one.
 
+Binary packaging requires a clean Git checkout or an intact extracted source
+distribution. Commit reviewed source changes and new helper files before
+packaging; untracked local helpers are never silently added to a release.
+
 Review [provenance and licenses](../THIRD_PARTY.md) before distribution. Keep
 the complete source/tooling records, dependency notices and file manifest
 with the archive. Preserve the original base packages needed for system
