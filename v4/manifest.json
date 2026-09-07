@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "id": "bc250-fsr4-v4.0.0-rc1",
+  "mesa": "26.2.2",
+  "architecture": "x86_64",
+  "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+  "runtime_qualification": "Source checkpoint qualified on BC250 GFX1013. Each release binary requires its own recorded validation. No v4 i686 binary is released.",
+  "base_archive": {
+    "name": "mesa-26.2.2.tar.xz",
+    "sha256": "eeb29ca7e56cfaa8e8a79538dcf834e3b18e501c31bef5145e959ea437cc4216",
+    "url": "https://archive.mesa3d.org/mesa-26.2.2.tar.xz"
+  },
+  "sources": {
+    "src/amd/common/ac_gpu_info.c": "65d5c30816e08e3815e766fb9cc1cc5e5426816f7570e1f86dc7fc9a59b35b1f",
+    "src/amd/common/ac_gpu_info.h": "7a0ef7f1851818d11ff8898ad465070f33808557ffe5ada4580eefa4e104645f",
+    "src/amd/common/nir/ac_nir_fixup_smem_loads_null_prt.c": "5063c4732229e5c64fcee7b8325c68d9515ef54f51c8ac10c6887799ca24ee67",
+    "src/amd/compiler/aco_shader_info.h": "68a834dc5cbbfa5a25f02697523a3781e72599f4e155bc30c7abfb6cf7233523",
+    "src/amd/compiler/instruction_selection/aco_isel_setup.cpp": "d90b1acb80acf6d9101c7b8236a0dcd46fca2891ddb54b328c9ba561fd8b2b0d",
+    "src/amd/compiler/instruction_selection/aco_select_nir_alu.cpp": "621613b81c1452c910033274d3f0c38c60699d76e00db4d30306760852876f13",
+    "src/amd/vulkan/radv_cmd_buffer.c": "d529f70ed7d25e5b47d6d814dd2b0ca114c66c2dd1af167784ed88ca12cd4289",
+    "src/amd/vulkan/radv_device.c": "d32846ee2556e5c7511fe519e74aa6e1314ea6867d2541e0411a1138afaade35",
+    "src/amd/vulkan/radv_physical_device.c": "49b9301a584e3e267bb399d98429b3cb96b8618f2a5f37e2acaaacc215a752e9",
+    "src/amd/vulkan/radv_pipeline.c": "abe95a98539db8b01117664bb8bac53f0ea993067465b1d2fda509176247c7ce",
+    "src/amd/vulkan/radv_queue.c": "0a967db517e3f9630cf8e4a6e8be917c8298ec3a2e4dbc8a4028c3d27244ee89",
+    "src/amd/vulkan/radv_shader.c": "ae39b1b52bcd368638668cde7bb4265014163c09faa2f2d1facfd7dec6fdd567",
+    "src/amd/vulkan/radv_shader.h": "d164fdb829fe0fbf5e16d314e80880e3ac3d84783869981988fdaf3b02dc41c1",
+    "src/amd/vulkan/radv_shader_args.c": "9c90c4d92228134949bf6f59857c31549e0b7ffa78b6864b23ea835fa1877f41",
+    "src/compiler/nir/nir_opt_algebraic.py": "e6567a24b19df668f7892e039e4e2b5c9060db829f5990fc0c78657a920554df"
+  },
+  "patch_order": [
+    "patches/0001-accepted-2.84.patch",
+    "patches/0002-composed-resolution-over-2.84.patch",
+    "patches/0003-production-defaults.patch"
+  ],
+  "source_inputs": {
+    "patches/0001-accepted-2.84.patch": "42ee9ff3decb9f917471db3697a5b8525582a30abc6731a59d5f659032f801c1",
+    "patches/0002-composed-resolution-over-2.84.patch": "275f6efd591a3910ed8c36b2903fcf1323f0429202494edcae6bf50c54be8449",
+    "source-dependencies/wayland-protocols-1.41.tar.xz": "2786b6b1b79965e313f2c289c12075b9ed700d41844810c51afda10ee329576b",
+    "patches/0003-production-defaults.patch": "c10fe1b3b0f5c48820f8b84656c4070109b5014d2f9547c78b020af7a88f106a"
+  },
+  "lineage": {
+    "name": "Upstream BC250 FSR4 V3",
+    "url": "https://github.com/dmorazasanchez/bc250-fsr4/tree/v3",
+    "inspected_revision": "6173651fa3a5a557cba2c2ff802e2d6f49881bc1"
+  },
+  "version": "4.0.0-rc1"
+}
