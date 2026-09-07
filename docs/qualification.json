@@ -1,0 +1,831 @@
+{
+  "schema": 1,
+  "version": "4.0.0-rc1",
+  "date": "2026-09-07",
+  "target": "AMD BC250 GFX1013, x86_64, CachyOS",
+  "release_driver_sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+  "source_manifest_sha256": "5f6809df51db8d76adebe450c2ae080100b2f0ad8a0d91fbbf40f94f6f6a212a",
+  "checks": {
+    "cpu": {
+      "complete": true,
+      "comparisons": 92,
+      "private_record_sha256": "96574569f9fa53835720080e5512063df2b52f442fa6d295b2168cf6a4287a03",
+      "cases": [
+        {
+          "case": "families-1080p-e0d8ce49e87ed7c3",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-963f411bf3adf4a6",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-e7c288d8ff89d888",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-9061c22140f39b6a",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-2b94cdfc6f11de60",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-ddd1c7018bd1708f",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-fdfc534367db7623",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-2897aa8c309540b9",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-f7ea511744202f66",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-aa4e6f6474b130b3",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-b6a81d50ce41c20f",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-204cd1c7f7565b7b",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-83fc83db145b9eab",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-e288a0e9629bdace",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-0cf0c70309ac947e",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-28d8a63cb6d53b09",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-fe94e2a85ab8086b",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-3af1171a14f73767",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-9c405b28b4266d13",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-07cf611d7042a76e",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-9f8f2d65fd1e19de",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-f768eb37222b4fbd",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-c620021443a811fc",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-76367260ae8284e1",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-1b5366424fd62c4b",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-cb88eec183418365",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-f2135595b24a4520",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-7b5321a3d5ca0065",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-dff9e56040c7e96e",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-bfc85615aef8f504",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-cfa3ce97a03a1ee4",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-8d6a9c38f670428e",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-c0a1391e903746f4",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-65d51e63f9cec64a",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-3b1bdd031f5893d4",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-b4e989434eb54e49",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-963f411bf3adf4a6",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-9061c22140f39b6a",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-ddd1c7018bd1708f",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-2897aa8c309540b9",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-aa4e6f6474b130b3",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-204cd1c7f7565b7b",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-e288a0e9629bdace",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-28d8a63cb6d53b09",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-3af1171a14f73767",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-07cf611d7042a76e",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-f768eb37222b4fbd",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-76367260ae8284e1",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-88fc1786caa6ae3c",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-direct-default",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-direct-required32",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-direct-required64",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-selected-64",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-selected-32",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-disabled-64",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-unsupported-64",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-byte-control-64",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-already-guarded-64",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-disabled-32",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-unsupported-32",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-byte-control-32",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-already-guarded-32",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-963f411bf3adf4a6",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-9061c22140f39b6a",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-ddd1c7018bd1708f",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-2897aa8c309540b9",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-aa4e6f6474b130b3",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-204cd1c7f7565b7b",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-e288a0e9629bdace",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-28d8a63cb6d53b09",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-3af1171a14f73767",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-07cf611d7042a76e",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-f768eb37222b4fbd",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-76367260ae8284e1",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-88fc1786caa6ae3c",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-ce9a97c7eac4c38a",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-1f1c7946a576bb47",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-fb4c106011fa7983",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-6b8ad22ef761b394",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-393dc20bfc4b2e02",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-849ddf9ef9045fc0",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-5c8603738a776e5c",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-b79b40de272d14f9",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-e5e062dcdbed09c6",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-82bfb78aa65fbf25",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-c0caaff4e7ae5b81",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-c975e79a94f58607",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-4884abce5f8063f2",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-e072714bcfc4c100",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-3b79f23adf07d2e6",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-32a0b8cadf5e4411",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-aa506050a79beb68",
+          "allocated_program_equal": true
+        }
+      ]
+    },
+    "container-cpu": {
+      "complete": true,
+      "comparisons": 92,
+      "private_record_sha256": "c3387fc5a93722c31f0f33ee34946b04ebf4efe97d5ef96acaee0d950709558d",
+      "cases": [
+        {
+          "case": "families-1080p-e0d8ce49e87ed7c3",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-963f411bf3adf4a6",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-e7c288d8ff89d888",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-9061c22140f39b6a",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-2b94cdfc6f11de60",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-ddd1c7018bd1708f",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-fdfc534367db7623",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-2897aa8c309540b9",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-f7ea511744202f66",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-aa4e6f6474b130b3",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-b6a81d50ce41c20f",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-204cd1c7f7565b7b",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-83fc83db145b9eab",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-e288a0e9629bdace",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-0cf0c70309ac947e",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-28d8a63cb6d53b09",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-fe94e2a85ab8086b",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-3af1171a14f73767",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-9c405b28b4266d13",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-07cf611d7042a76e",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-9f8f2d65fd1e19de",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-f768eb37222b4fbd",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1080p-c620021443a811fc",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-1440p-76367260ae8284e1",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-1b5366424fd62c4b",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-cb88eec183418365",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-f2135595b24a4520",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-7b5321a3d5ca0065",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-dff9e56040c7e96e",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-bfc85615aef8f504",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-cfa3ce97a03a1ee4",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-8d6a9c38f670428e",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-c0a1391e903746f4",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-65d51e63f9cec64a",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-3b1bdd031f5893d4",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "families-8k-derived-b4e989434eb54e49",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-963f411bf3adf4a6",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-9061c22140f39b6a",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-ddd1c7018bd1708f",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-2897aa8c309540b9",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-aa4e6f6474b130b3",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-204cd1c7f7565b7b",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-e288a0e9629bdace",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-28d8a63cb6d53b09",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-3af1171a14f73767",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-07cf611d7042a76e",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-f768eb37222b4fbd",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-76367260ae8284e1",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-corpus-88fc1786caa6ae3c",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-direct-default",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-direct-required32",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-direct-required64",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-selected-64",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-selected-32",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-disabled-64",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-unsupported-64",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-byte-control-64",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-already-guarded-64",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-disabled-32",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-unsupported-32",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-byte-control-32",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "composed-imageprep-already-guarded-32",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-963f411bf3adf4a6",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-9061c22140f39b6a",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-ddd1c7018bd1708f",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-2897aa8c309540b9",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-aa4e6f6474b130b3",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-204cd1c7f7565b7b",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-e288a0e9629bdace",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-28d8a63cb6d53b09",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-3af1171a14f73767",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-07cf611d7042a76e",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-f768eb37222b4fbd",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-76367260ae8284e1",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-current-88fc1786caa6ae3c",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-ce9a97c7eac4c38a",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-1f1c7946a576bb47",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-fb4c106011fa7983",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-6b8ad22ef761b394",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-393dc20bfc4b2e02",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-849ddf9ef9045fc0",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-5c8603738a776e5c",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-b79b40de272d14f9",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-e5e062dcdbed09c6",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-82bfb78aa65fbf25",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-c0caaff4e7ae5b81",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-c975e79a94f58607",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-4884abce5f8063f2",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-e072714bcfc4c100",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-3b79f23adf07d2e6",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-32a0b8cadf5e4411",
+          "allocated_program_equal": true
+        },
+        {
+          "case": "previous-legacy-aa506050a79beb68",
+          "allocated_program_equal": true
+        }
+      ]
+    },
+    "gpu-private": {
+      "complete": true,
+      "comparisons": 96,
+      "private_record_sha256": "8e3195b4e14377bf05b7a8176d22a3057ed2a694ba5648e1ae3213646797beff"
+    },
+    "gpu-images": {
+      "complete": true,
+      "comparisons": 12,
+      "private_record_sha256": "e2633b55a01dd8b7b37cd097e469349d8551489481447754d436bcf3195ec549"
+    },
+    "gpu-installed": {
+      "complete": true,
+      "comparisons": 12,
+      "private_record_sha256": "80e139c53da5cecbba5a315b2878515a622b1eca2141047c6a1faf9e135e0ec6"
+    },
+    "container-gpu": {
+      "complete": true,
+      "comparisons": 12,
+      "private_record_sha256": "1278aa8b00389624974ac8fd244d2c359d44c540507bf99d625316b99fffd0ef"
+    },
+    "container-images": {
+      "complete": true,
+      "comparisons": 12,
+      "private_record_sha256": "511169668ef827d2a129c53335bcb0d3ef1341458a3901adf52c3f1dc99d6b4c"
+    }
+  },
+  "runtime": {
+    "private": {
+      "game": "Deadzone: Rogue",
+      "driver_sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+      "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+      "optiscaler_sha256": "469bcfe59108f04f8b8cf45953e515f0a0cd24b00717be62b7dcf5c20430410d",
+      "model": "INT8 (2)",
+      "frame_generation": false,
+      "production_overrides": {},
+      "live_namespace_and_inode_verified": true,
+      "initialization": [
+        "[2026.09.07-20.23.51:382][  2]LogFSR4: Successfully initialized FSR Upscaling provider using version '4.1.1'",
+        "[2026.09.07-20.23.51:719][  2]LogFSR4: Successfully initialized FSR Upscaling provider using version '4.1.1'"
+      ],
+      "screenshot_sha256": "70dea2b2a2e8a9bed71bb8ea4c29345e57d3ca4993a095dac0e83b0a00df27c8",
+      "private_record_sha256": "b7eef5d916f1b4c29e8e8e250e6fc2144362d192dc4cc74b18dd9dc8807e787a"
+    },
+    "system": {
+      "game": "Deadzone: Rogue",
+      "driver_sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+      "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+      "optiscaler_sha256": "469bcfe59108f04f8b8cf45953e515f0a0cd24b00717be62b7dcf5c20430410d",
+      "model": "INT8 (2)",
+      "frame_generation": false,
+      "production_overrides": {},
+      "live_namespace_and_inode_verified": true,
+      "initialization": [
+        "[2026.09.07-20.34.21:694][  2]LogFSR4: Successfully initialized FSR Upscaling provider using version '4.1.1'",
+        "[2026.09.07-20.34.21:778][  2]LogFSR4: Successfully initialized FSR Upscaling provider using version '4.1.1'"
+      ],
+      "screenshot_sha256": "afcb5abe88112b642bafa95a7d52ead91f303530fb8c0ba7e3149b7d2dde1abe",
+      "private_record_sha256": "ddfdcaaa31442cdc4f52662e76a8618c775cffa5b4236a87852579f0bdc9492b"
+    }
+  },
+  "rollbacks": {
+    "private_v3_icd_byte_exact": true,
+    "private_v3_loader_after_rollback": true,
+    "system_original_library_sha256": "79018a8d09a279d2ef01af935d0f5fc0459e565e59e73e494c060f2700d205f6",
+    "system_package_reinstall": true,
+    "lib32_untouched": true
+  },
+  "notes": [
+    "Game corpus and provider DLLs are not redistributed; some full program/output tests require private locally obtained inputs.",
+    "Container build passed selected GPU checks but was not used for the game acceptance.",
+    "Screenshots identify the AMD provider/model; live driver hashes identify this v4 build."
+  ]
+}

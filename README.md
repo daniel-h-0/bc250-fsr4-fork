@@ -1,166 +1,184 @@
-# BC-250 FSR4 V3 — Deferred SDot Hybrid
+# BC250 FSR4 v4
 
-Experimental Mesa RADV build for the **AMD BC-250 / GFX1013 (PCI ID `1002:13FE`)**, focused on making **FSR 4 INT8** substantially faster without enabling the BC-250's broken native signed packed-dot path.
+A continuation of [dmoraza's BC250 FSR4 project](https://github.com/dmorazasanchez/bc250-fsr4),
+based on its v3 branch with the original history preserved. v4 brings the
+qualified FSR 4.1.1 INT8 optimizations into a default-on Mesa 26.2.2 RADV build,
+and adds checked installation, v3 migration, package integration and rollback.
 
-**V3 is based on Mesa 26.2.0 and the runtime-validated EXP-042B hybrid.**
+**Current release: 4.0.0-rc1, x86_64 / AMD BC250 (GFX1013).** See
+[qualification](docs/qualification.md) for the exact tested artifacts and limits.
 
-> BC-250 / GFX1013 only. Use this per-user/per-game. **Do not replace your system Mesa with this library.**
+The driver improves a compatible FSR4 path. Games still need an FSR4 INT8
+provider/model hook and a supported game input. Installing this driver alone
+does not turn every game's upscaler into FSR4. Start with [game setup and proof
+of engagement](docs/games.md) after installing the driver.
 
-## V3 result
+## Choose an installation
 
-Same-scene Cyberpunk 2077 development test, FSR 4.1.1 INT8, frame generation OFF:
+| Route | What changes | Best fit |
+| --- | --- | --- |
+| [Private archive](#private-archive-install-or-v3-upgrade) | A versioned user directory and explicitly selected v3 ICD files | Existing v3 users; easiest rollback |
+| [Native source build](#build-from-source) | Same installable archive, built for your distribution | Missing binary dependencies or local development |
+| [Docker / Podman](#container-build) | Same pinned source build in an Arch container | A build environment without host compiler dependencies |
+| [System packages](docs/system-install.md) | Package-owned 64-bit `vulkan-radeon`, plus status/rollback helper | Arch/CachyOS users wanting normal system Vulkan launches to use v4 |
 
-| Development build | FPS |
-|---|---:|
-| EXP-035B2 | 58 |
-| EXP-040E | 59 |
-| EXP-042A | 61 |
-| **EXP-042B / V3** | **63** |
+No v4 32-bit binary is shipped. Keep your distribution's working
+`lib32-vulkan-radeon`. Never set a 64-bit-only `VK_DRIVER_FILES` globally in
+`/etc/environment`, Steam's service, or a desktop startup file: it can break
+32-bit applications. System packages avoid that override.
 
-These are local same-scene development measurements, not a universal game benchmark.
+## Prerequisites
 
-## What changed
+- A functioning Linux BC250 graphics setup (PCI `1002:13fe`, RADV GFX1013).
+  v4 does not flash firmware, install a kernel or change clocks/voltages.
+- Python **3.12+**, `binutils` (`readelf`/`strip`), glibc's `ldd`, `vulkan-tools`, and your
+  usual working Vulkan loader. The private installer requires a successful
+  `vulkaninfo --summary`; a missing tool is an error, not a skipped check.
+- Use the archive built for your distribution. The native CachyOS build does
+  **not require LLVM 22**, but still depends on system libraries, including
+  `libdisplay-info.so.3` and `libSPIRV-Tools.so`. It is not a universal Linux
+  binary. An ABI failure leaves the selected installation unchanged; use the
+  source route on a different distribution.
+- For Windows games, use a compatible Proton build and follow
+  [the game guide](docs/games.md). Steam Flatpak and unusual runtime sandboxes
+  need additional path/library exposure and are not yet qualified.
 
-V3 combines the best runtime-validated parts of the investigation:
+## Private archive install or v3 upgrade
 
-- FSR4 `iadd(0, SDot)` wrapper fusion so the software fallback can optimize the real accumulator path.
-- Signed i24 `MUL24/MAD24` lowering. Native `v_dot4_i32_i8` remains disabled.
-- A GFX1013-only dense-reduction pre-pass for shapes that improved without losing occupancy.
-- Two shorter dependency chains for pressure-sensitive reduction families.
-- A **deferred-SDot optimization round**: remaining signed packed dots survive one NIR optimization round, then the real GFX1013 capability set is restored and they are lowered in software.
-- ACO support required by the tested `imad24_ir3` path.
-- The BC-250 compute-queue/base compatibility changes used by the tested runtime build.
+Obtain the matching `.tar.gz` and adjacent `.tar.gz.sha256` from this fork's
+release, or create them with the source instructions below. Until a GitHub
+release is published, the source route is the complete installation route.
+The checksum detects corruption; obtain both files from the trusted release.
 
-The key safety rule is unchanged: **V3 does not expose or use the broken native signed packed-dot instruction.** Direct BC-250 testing showed native `v_dot4_i32_i8` returned `0` for a case whose correct result is `70`.
+After a release is published, the standalone installer can download it without
+a checkout. Download the script from this fork's `v4` branch, inspect it, then
+run it as your desktop user:
 
-## Why V3 is faster
-
-The pathological captured shader `ed7...` changed from:
-
-- 256 -> 168 VGPR
-- 1314 -> 0 VGPR spills
-- 320512 -> 0 scratch bytes
-- 4 -> 6 waves/SIMD
-- 21750 -> 16904 instructions
-
-Across the 64-shader FSR4 capture, EXP-042B changed 13 shaders:
-
-- 12 lower the static inverse-throughput estimate
-- 1 (`ed7`) has a slightly worse static inverse estimate but removes the catastrophic VGPR spill/scratch behavior above
-- 0 new VGPR spill regressions
-- 0 shaders lose resident waves
-
-The game result is authoritative: EXP-042B reached **63 FPS** in the same scene where EXP-042A reached 61 FPS.
-
-## Easiest install — precompiled release
-
-The release contains the **exact runtime-tested V3 RADV binary** packaged for the current CachyOS/Arch-style LLVM 22 stack.
-
-Install without replacing system Mesa:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/dmorazasanchez/bc250-fsr4/v3/install-v3.sh | bash
+```sh
+curl -fLO https://raw.githubusercontent.com/daniel-h-0/bc250-fsr4/v4/install-v4.sh
+bash install-v4.sh --upgrade-v3
 ```
 
-The installer:
+`--upgrade-v3` migrates the standard v3 ICD path. Omit it for a new install,
+or use `--upgrade-v3-icd PATH` for a custom v3 installation. This standalone
+route downloads the named release and its checksum, verifies the archive,
+and runs its bundled installer. A local archive works without network access:
+`bash install-v4.sh /path/to/ARCHIVE.tar.gz --upgrade-v3`.
 
-1. checks x86_64 and, when `lspci` is available, BC-250 PCI ID `1002:13FE`
-2. downloads the V3 release archive
-3. verifies its SHA256
-4. installs under `~/.local/share/bc250-fsr4/v3`
-5. generates a private Vulkan ICD
-6. checks dynamic dependencies
-7. runs `vulkaninfo --summary` when available
-8. prints the Steam Launch Option
+From this checkout, with the archive under `dist/`:
 
-No `sudo` is required and no system Mesa file is overwritten.
-
-### Steam
-
-After installation:
-
-```text
-VK_DRIVER_FILES="$HOME/.local/share/bc250-fsr4/v3/radv-bc250-fsr4-v3.json" %command%
-```
-
-Add any game/OptiScaler-specific options after that as usual.
-
-### Uninstall / rollback
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/dmorazasanchez/bc250-fsr4/v3/uninstall-v3.sh | bash
-```
-
-Then remove `VK_DRIVER_FILES=...` from the game's Steam Launch Options. Your system RADV installation was never modified.
-
-## Precompiled binary compatibility
-
-The precompiled release is the exact binary tested on:
-
-- CachyOS / Arch-style rolling userspace
-- x86_64
-- glibc 2.44
-- LLVM 22.1 (`libLLVM.so.22.1`)
-- Mesa 26.2.0 source base
-- AMD BC-250 / GFX1013
-
-It also dynamically uses normal Vulkan/Mesa userspace dependencies such as libdrm, libelf, Wayland/XCB, zlib/zstd and SPIR-V Tools.
-
-The installer runs `ldd` and refuses to present an incompatible binary as working. If your distribution has a different LLVM/ABI stack, use the reproducible source build below.
-
-## Reproducible source build
-
-Requirements:
-
-- Docker
-- x86_64 host, or Docker buildx/QEMU on ARM
-- BC-250 for runtime validation
-
-```bash
-git clone -b v3 --single-branch https://github.com/dmorazasanchez/bc250-fsr4.git
-cd bc250-fsr4
-./build-anywhere.sh
-./setup.sh
-./check.sh
-```
-
-The source builder checks out Mesa 26.2.0 and applies `bc250-fsr4-v3.patch`.
-
-Test it without touching system Mesa:
-
-```bash
+```sh
+./install-v4.sh dist/bc250-fsr4-v4.0.0-rc1-cachyos-x86_64.tar.gz
 ./run-bc250-fsr4.sh vulkaninfo --summary
+python3 scripts/driver.py status
 ```
 
-## Source layout
+The installer prints a stable Steam launch option. Add it to the game's
+existing options without dropping its Proton/OptiScaler settings. For a
+standard v3 installation, preserve your existing Steam launch string by
+migrating the exact old ICD instead:
 
-- `bc250-fsr4-v3.patch` — complete V3 delta against Mesa 26.2.0
-- `build-anywhere.sh` — reproducible Docker build entry point
-- `build-bc250.sh` — applies V3 and builds RADV
-- `install-v3.sh` — precompiled per-user installer
-- `uninstall-v3.sh` — removes the per-user V3 installation
-- `setup.sh` / `check.sh` — source-build ICD generation and validation
-- `V3.md` — technical investigation notes
-- `V2.md` and V2 patches — retained as historical material
-
-## Safety / scope
-
-This is experimental software for a very unusual GPU. It has been tested specifically on:
-
-```text
-AMD BC-250
-GFX1013
-PCI ID 0x13FE
-Mesa 26.2.0
-FSR 4.1.1 INT8
+```sh
+./install-v4.sh dist/bc250-fsr4-v4.0.0-rc1-cachyos-x86_64.tar.gz \
+  --upgrade-v3-icd "$HOME/.local/share/bc250-fsr4/v3/radv-bc250-fsr4-v3.json"
 ```
 
-Games can still crash, hang, show corruption or reset the GPU.
+For a source-built v3, pass the actual old `radv-bc250-fsr4-v3.json` or
+`radv-bc250-fsr4.json` path. Repeat `--upgrade-v3-icd` for multiple installs.
+Only those explicitly named manifests are migrated. Their original driver
+files stay in place and their JSON bytes are recorded for rollback. Close the
+game before upgrading and relaunch it afterward; a running process keeps its
+previously loaded driver. No Steam VDF files are edited.
 
-Do not enable Mesa's native signed packed-dot path on BC-250. V3 deliberately does not do that.
+By default v4 lives under `~/.local/share/bc250-fsr4/`, with immutable
+`releases/`, a `current` link, stable `current.json`, and transaction records.
+For a custom root use `python3 scripts/driver.py --prefix /your/dedicated/path
+install ARCHIVE` and use the same prefix for `status`, `run` and `rollback`.
+Do not run the private installer with sudo.
 
-## Credits
+Rollback the most recent private installation:
 
-Thanks to the BC-250 community for reverse engineering, testing and sharing results.
+```sh
+python3 scripts/driver.py rollback
+```
 
-Special thanks to **higorprado** for earlier packaging/benchmarking contributions and to the MastaG BC-250 work for the compute-queue/RADV compatibility base used during development.
+This restores the previous v4 selection and any migrated v3 manifests. It
+refuses to overwrite an ICD you edited after installation. An interrupted transaction is reported by `status`; use
+`python3 scripts/driver.py recover` to restore its recorded prior selection.
+Payloads remain available for inspection; no automatic directory deletion occurs. If this was
+your first private install without a v3 migration, remove its printed launch
+option when returning to system RADV.
+
+## Build from source
+
+On an up-to-date Arch/CachyOS host, the build dependencies are:
+
+```sh
+sudo pacman -S --needed base-devel python python-pip ninja git \
+  libdrm libelf zlib zstd libx11 libxext libxcb libxshmfence \
+  libxrandr libxxf86vm wayland libdisplay-info spirv-tools glslang vulkan-tools
+./scripts/bootstrap.sh
+./scripts/build-native.sh --jobs 4
+python3 scripts/package.py --label cachyos-x86_64
+```
+
+Use normal distribution update practices before installing build dependencies;
+do not force a partial Mesa/LLVM/glibc update. Python build tools live in a
+repository-local virtual environment. The builder downloads the SHA256-pinned
+Mesa 26.2.2 archive, verifies every patch input, applies the three patches with
+zero fuzz, and checks all fifteen modified source files against the qualified
+manifest. It builds only 64-bit RADV with ACO, without LLVM or game tracing.
+
+For offline/repeated work, pass `--mesa-archive /path/to/mesa-26.2.2.tar.xz`.
+Use `--prepare-only` to verify the source without compiling, `--work PATH` for
+another build directory, and `--resume` to resume an interrupted build with
+matching inputs. Do not reuse a work directory for different inputs. Build
+artifacts are under `.work/native`; archive outputs are under `dist/`.
+
+Compiler and dependency versions are recorded; these are reproducible *source*
+inputs, not a claim of bit-identical binaries across different toolchains.
+A locally built archive receives the same ABI/device/loader checks on install.
+New compiler output still needs appropriate GPU/game qualification before
+being advertised as an accepted release.
+
+## Container build
+
+Install and start Docker or configure rootless Podman, then:
+
+```sh
+./build-anywhere.sh --jobs 4
+python3 scripts/package.py --work .work/container --label arch-container-x86_64
+```
+
+Podman is preferred when both are present; select explicitly with
+`BC250_CONTAINER_ENGINE=docker`. The container uses the supplied Dockerfile,
+compiles the same pinned Mesa sources, and writes output as your user. The
+Arch base image and dependency repositories can advance: the resulting ABI
+is recorded and still checked on the destination host. A container build does
+not make an Arch binary compatible with every distribution. No GPU device is
+passed into the build container. ARM builders require working x86_64 emulation;
+that configuration is untested.
+
+## What's in v4
+
+- Exact bounded arithmetic lowerings and selective unrolling/reduction.
+- Composed image-preparation and texture optimizations.
+- Matching arithmetic coverage for the small, middle and large resolution
+  buckets of the qualified FSR 4.1.1 INT8 shader family.
+- Independent masked-store repair for the eight guarded large-bucket shaders.
+- Default-on selection with exact shader, weight, interface and subgroup
+  checks. Unknown inputs retain their correctness fallback.
+- `BC250_FSR4_DISABLE=1` disables the optimization while keeping the independent
+  store repair. The driver's internal cache marker `v3` is a cache generation,
+  not the project's public release version.
+
+Performance depends on the game, scene and output configuration. Earlier
+matched Deadzone trials measured a useful improvement; they are not a promise
+of a uniform percentage in every game or at every resolution. See the
+[qualified evidence and limitations](docs/qualification.md).
+
+Inherited v2/v3 documentation, scripts and experiments are archived under
+`legacy/v3/` as historical material. The
+active v4 source is `v4/manifest.json` plus its ordered patches. Experimental
+upstream Linux 7.3/native-DOT/SDWA work is not part of this qualified release.
+See [provenance and licenses](THIRD_PARTY.md) and [development](docs/development.md).

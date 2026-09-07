@@ -6,3 +6,8 @@ radv-bc250-fsr4.json
 .cts-out/
 .cts-icd/
 __pycache__
+.venv/
+.work/
+dist/
+*.pkg.tar.zst
+*.pyc

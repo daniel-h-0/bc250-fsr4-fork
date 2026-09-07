@@ -2,4 +2,4 @@
 # SPDX-License-Identifier: MIT
 set -euo pipefail
 root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
-exec python3 "$root/scripts/driver.py" run "$@"
+exec "$root/run-bc250-fsr4.sh" vulkaninfo --summary

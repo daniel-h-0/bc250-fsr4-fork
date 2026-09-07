@@ -1,6 +1,3 @@
-.build/
-.cts-out/
-.cts-icd/
-*.so
-.git/
-.DS_Store
+*
+!Dockerfile
+!requirements-build.txt

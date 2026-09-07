@@ -1,0 +1,84 @@
+# System installation on Arch / CachyOS
+
+This route packages the v4 library as `vulkan-radeon`, preserving the exact
+base package's dependencies and other files. A second package,
+`bc250-fsr4-v4`, installs `bc250-fsr4 status`, a post-update identity check and
+an exact original-package rollback. `bc250-fsr4-driver` remains available as a
+compatibility alias for the earlier local integration. There is no loose overwrite of an
+untracked `/usr/lib` file and no global ICD environment override.
+
+This is presently a **64-bit Mesa 26.2.2** integration. It leaves 32-bit RADV,
+OpenGL, firmware, kernels, Proton, display settings and GPU tuning alone.
+Already-running compositor/desktop processes keep the driver they loaded;
+new game processes use the new package. A reboot is not required for game
+proof. Keep your normal distribution recovery boot entry.
+
+## Generate packages for your installation
+
+First build or obtain a compatible v4 archive using the main README. Locate
+the exact installed `vulkan-radeon` package in `/var/cache/pacman/pkg/` and
+verify its version with `pacman -Q vulkan-radeon`. If the exact archive is
+missing, retrieve it from your distribution's trusted package archive. Do not
+substitute a similarly named package or an archive from another distribution.
+
+```sh
+python3 scripts/system-package.py build \
+  dist/bc250-fsr4-v4.0.0-rc1-cachyos-x86_64.tar.gz \
+  --base-package /var/cache/pacman/pkg/EXACT-vulkan-radeon-PACKAGE.pkg.tar.zst \
+  --output .work/system-packages
+```
+
+The builder verifies the release, checks the library against this host with
+`vulkaninfo`, requires a matching Mesa version, and retains the complete base
+package. Inspect `.work/system-packages/PKGBUILD` and `packages.json`; the
+package keeps the base distribution version so the next normal repository
+upgrade supersedes it. Its description and `bc250-fsr4 status` identify v4 by
+release and driver SHA256. It is a local derivative of that base, not a
+repository-wide Mesa upgrade.
+
+Exit Steam and all games, then install the reviewed pair:
+
+```sh
+python3 scripts/system-package.py install .work/system-packages
+bc250-fsr4 status
+vulkaninfo --summary
+```
+
+The install command checks that the live package **and live library hash**
+match the retained base before invoking your normal pacman confirmation.
+It will not discard an unrecorded local modification. Existing private v3/v4
+`VK_DRIVER_FILES` launch options override the system driver: remove those
+options when switching a game to this route. Check
+the real game process mapping; a successful desktop `vulkaninfo` alone does
+not prove which driver the game loaded.
+
+The earlier local development package `bc250-fsr4-integration` conflicts with
+this helper because its old status metadata would become misleading. Preserve
+its exact driver/helper archives and remove that old helper during a deliberate
+migration. This does not apply to ordinary upstream v3 private installations.
+
+## Updates and rollback
+
+`bc250-fsr4 status` checks the installed driver's SHA256, rather than assuming
+that a package name proves v4 is active. The pacman hook reports when a later
+distribution update replaces v4. It never blocks package upgrades, rewrites a
+new driver, adds `IgnorePkg`, or freezes Mesa. Rebase and qualify v4 against a
+new Mesa version before rebuilding the package; do not force the old binary
+back over a newer Mesa installation.
+
+With Steam and games closed:
+
+```sh
+sudo bc250-fsr4 rollback
+```
+
+Rollback validates the original archive and reinstalls it with pacman. It
+refuses to downgrade if the current driver has changed since installation.
+The helper remains installed but reports inactive. You may remove it with
+`sudo pacman -R bc250-fsr4-v4`, or reinstall the v4 package pair with the same
+reviewed install command to activate v4 again. 32-bit RADV is untouched in
+both directions.
+
+On other distributions use the private install, or supply a native package
+integration with equivalent ownership, compatibility and rollback checks.
+Copying the Arch library into another distribution's `/usr/lib` is unsupported.

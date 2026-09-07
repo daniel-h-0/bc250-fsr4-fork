@@ -1,0 +1,30 @@
+name: v4 checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tooling:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m unittest discover -s tests -v
+      - run: for script in ./*.sh scripts/*.sh; do bash -n "$script" || exit; done
+  source-build:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: BC250_CONTAINER_ENGINE=docker ./build-anywhere.sh --jobs 4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: unqualified-source-build
+          include-hidden-files: true
+          path: |
+            .work/container/build-result.json
+            .work/container/build/src/amd/vulkan/libvulkan_radeon.so
