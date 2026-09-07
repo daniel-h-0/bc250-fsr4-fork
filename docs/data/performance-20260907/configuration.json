@@ -1,0 +1,35 @@
+{
+  "scalability_groups": {
+    "sg.ResolutionQuality": "66.6667",
+    "sg.ViewDistanceQuality": "2",
+    "sg.AntiAliasingQuality": "2",
+    "sg.ShadowQuality": "2",
+    "sg.PostProcessQuality": "2",
+    "sg.TextureQuality": "2",
+    "sg.EffectsQuality": "2",
+    "sg.FoliageQuality": "2",
+    "sg.GlobalIlluminationQuality": "2",
+    "sg.ReflectionQuality": "2",
+    "sg.ShadingQuality": "2",
+    "sg.LandscapeQuality": "3"
+  },
+  "saved_settings": "((\"AntialiasingMethod\", \"3\"),(\"FSRMode\", \"1\"),(\"GlobalQuality\", \"4\"),(\"LimitMenuFPS\", \"false\"),(\"MotionBlurEnabled\", \"false\"),(\"Sharpness\", \"0.6\"))",
+  "hardware_raytracing": "Off, menu-applied and confirmed after restart",
+  "raytraced_shadows": "Off",
+  "fsr_mode": "Quality",
+  "frame_generation": false,
+  "dynamic_resolution": false,
+  "full_screen": true,
+  "game_frame_limit": 500,
+  "gamescope_frame_limit": 0,
+  "gamescope_vrr": false,
+  "physical_output": [
+    2560,
+    1440,
+    120
+  ],
+  "compositor_hdr": true,
+  "game_hdr": false,
+  "model": 2,
+  "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e"
+}

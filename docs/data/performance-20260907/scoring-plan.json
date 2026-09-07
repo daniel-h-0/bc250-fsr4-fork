@@ -1,0 +1,103 @@
+{
+  "frozen_epoch": 1788818894.3399196,
+  "runs": [
+    {
+      "name": "hwrt-off-1080-1-v3",
+      "arm": "v3",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "name": "hwrt-off-1080-2-v4",
+      "arm": "v4",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "name": "hwrt-off-1080-3-v4",
+      "arm": "v4",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "name": "hwrt-off-1080-4-v3",
+      "arm": "v3",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "name": "hwrt-off-1440-1-v3",
+      "arm": "v3",
+      "width": 2560,
+      "height": 1440
+    },
+    {
+      "name": "hwrt-off-1440-2-v4",
+      "arm": "v4",
+      "width": 2560,
+      "height": 1440
+    },
+    {
+      "name": "hwrt-off-1440-3-v4",
+      "arm": "v4",
+      "width": 2560,
+      "height": 1440
+    },
+    {
+      "name": "hwrt-off-1440-4-v3",
+      "arm": "v3",
+      "width": 2560,
+      "height": 1440
+    },
+    {
+      "name": "hwrt-off-4k-1-v3",
+      "arm": "v3",
+      "width": 3840,
+      "height": 2160
+    },
+    {
+      "name": "hwrt-off-4k-2-v4",
+      "arm": "v4",
+      "width": 3840,
+      "height": 2160
+    },
+    {
+      "name": "hwrt-off-4k-3-v4",
+      "arm": "v4",
+      "width": 3840,
+      "height": 2160
+    },
+    {
+      "name": "hwrt-off-4k-4-v3",
+      "arm": "v3",
+      "width": 3840,
+      "height": 2160
+    }
+  ],
+  "sampling": "First 30 consecutive valid PEX one-second rows at least 60 seconds after Play input; same as original plan",
+  "hardware_raytracing": "Off, selected/applied in the in-game menu, persisted across restart",
+  "graphics_preset": "High/custom, unchanged apart from HWRT; FSR Quality; FG/DRS off",
+  "proofs": [
+    "proof-hwrt-off-1080-v3",
+    "proof-1440-v4",
+    "proof-4k-v4-r2"
+  ],
+  "earlier_campaign": "Seven complete windows with Lumen HWRT Performance retained separately; interrupted eighth window has no timing.json and is not scored",
+  "sha256": {
+    "common.py": "ec4a60578f1f8522eacca56474d8a49c6aa80eae22a6be991d42ed40fd555b9b",
+    "input.py": "fc7402791fc1669e0ca78070efd23a167831f0b34eff737455e2ca67cd240a7c",
+    "bench_hwrt.py": "a2a8e19fb071facddf664468ef2752178fc2f0ac81fcfa9a1409f47613a67de9",
+    "wrapper.py": "6d47d6497312888925fe8970e32b139987afdcc25ee8379b294b270422f18bad",
+    "usb_guard.py": "9a33e2aef9a958999cb8e66d0640f1f10e8a0bf1d021e03c2206e8824baf8b5a",
+    "analyze_hwrt.py": "4b5d2b302b2a737042e1424e4edc0e5ac0bd2773d33825887e8acae99a6c15af",
+    "quiet.ini": "0b4a309528c763f3db3057555d5b549464f90f1161ebd4f489426375d705dd52",
+    "proof.ini": "9630c34b651bccd0fb717e1b31e8307da1454b58202e94673177cf06e31b6f7b",
+    "drivers.json": "5b980c702758884889fc5c911ccab985e24ce8a6f5ebf4bf503141b71ab03a9f",
+    "hwrt-menu-settings-after.ini": "69edaf624f086cee7e6b1c32e78dd96b102bbabbc5b8c06b4dbd59af21643ce9",
+    "menu-hwrt-off-applied.png": "4b2d54fc99e59ef1e446bd61b7eb89f5c33a7a9d6cc425891908143caac3fc8b",
+    "menu-hwrt-off-after-restart.png": "63c199c9a26b3ccf92f0672f4f194ac72c00da044a41787653ac83bd26b11073",
+    "hardware-before.json": "df05aa871a01b9ad77d68145df9b78e1fcbd5d7a83cf9f4407d27ea5562eb03c"
+  },
+  "original_manifest_sha256": "3c7d2ab51941c4e3a420edb1ccc82336042d5da8576cef894a1243398d9e38fb",
+  "public_copy_note": "Absolute host paths in the hash map are shortened to basenames. The original manifest digest is the one referenced by results.json."
+}

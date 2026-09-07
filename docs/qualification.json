@@ -827,5 +827,120 @@
     "Game corpus and provider DLLs are not redistributed; some full program/output tests require private locally obtained inputs.",
     "Container build passed selected GPU checks but was not used for the game acceptance.",
     "Screenshots identify the AMD provider/model; live driver hashes identify this v4 build."
-  ]
+  ],
+  "performance": {
+    "date": "2026-09-07",
+    "method": "docs/performance.md",
+    "data": "docs/data/performance-20260907/results.json",
+    "result_sha256": "9340578d4abb62145c1050d78f44c75bb6ab0bdca728a6292502bb398f33b9e4",
+    "hardware_raytracing": "Off (in-game menu)",
+    "baseline": "Original upstream v3 patch on Mesa 26.2.0, source rebuild for current LLVM ABI",
+    "launches": 12,
+    "selected_one_second_aggregates": 360,
+    "summary": [
+      {
+        "output": [
+          1920,
+          1080
+        ],
+        "v3": {
+          "fps": 80.64648371922227,
+          "frame_time_ms": 12.399796666666667,
+          "gpu_time_ms": 10.255588333333334,
+          "individual_fps": [
+            81.30418415722929,
+            79.99933867213365
+          ],
+          "individual_gpu_ms": [
+            10.261606666666667,
+            10.24957
+          ]
+        },
+        "v4": {
+          "fps": 92.17807575194266,
+          "frame_time_ms": 10.848566666666667,
+          "gpu_time_ms": 9.166301666666666,
+          "individual_fps": [
+            92.08645813381267,
+            92.2698758539577
+          ],
+          "individual_gpu_ms": [
+            9.148456666666666,
+            9.184146666666667
+          ]
+        },
+        "fps_change_percent": 14.298939644868614,
+        "gpu_time_change_percent": -10.621396172135755
+      },
+      {
+        "output": [
+          2560,
+          1440
+        ],
+        "v3": {
+          "fps": 52.264257402401505,
+          "frame_time_ms": 19.13353503333333,
+          "gpu_time_ms": 15.237845,
+          "individual_fps": [
+            51.96600348022561,
+            52.565954687327036
+          ],
+          "individual_gpu_ms": [
+            15.200423333333333,
+            15.275266666666667
+          ]
+        },
+        "v4": {
+          "fps": 62.148716807986226,
+          "frame_time_ms": 16.0904368,
+          "gpu_time_ms": 12.969973333333334,
+          "individual_fps": [
+            61.8157508931727,
+            62.48528914044874
+          ],
+          "individual_gpu_ms": [
+            12.966363333333334,
+            12.973583333333334
+          ]
+        },
+        "fps_change_percent": 18.91246503223163,
+        "gpu_time_change_percent": -14.883152221765394
+      },
+      {
+        "output": [
+          3840,
+          2160
+        ],
+        "v3": {
+          "fps": 28.52005715799722,
+          "frame_time_ms": 35.06304333333333,
+          "gpu_time_ms": 30.291836716666666,
+          "individual_fps": [
+            28.627188855256744,
+            28.41372431035982
+          ],
+          "individual_gpu_ms": [
+            30.276909833333335,
+            30.3067636
+          ]
+        },
+        "v4": {
+          "fps": 33.43141367184349,
+          "frame_time_ms": 29.911986666666667,
+          "gpu_time_ms": 25.148936783333333,
+          "individual_fps": [
+            33.481929708786765,
+            33.381049837934114
+          ],
+          "individual_gpu_ms": [
+            25.168233533333332,
+            25.129640033333335
+          ]
+        },
+        "fps_change_percent": 17.220710627044067,
+        "gpu_time_change_percent": -16.977841196746223
+      }
+    ],
+    "later_addendum": true
+  }
 }

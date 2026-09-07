@@ -3,8 +3,10 @@
 The fresh native x86_64 release passed source/compiler/output checks and two
 real Deadzone launches after a recoverable return to a v3-style setup. Both
 the migrated private v3 launch path and the normal system package path rendered
-FSR 4.1.1 INT8. This is proof of operation, not a new performance benchmark or
-blanket acceptance of every game.
+FSR 4.1.1 INT8. A subsequent [fresh performance campaign](performance.md)
+compares this exact binary with upstream v3 at 1080p, 1440p and 4K, with hardware
+ray tracing disabled in the game menu. These checks do not establish blanket
+acceptance of every game.
 
 ## Exact driver and source
 
@@ -88,8 +90,9 @@ Balanced 1.70x, local source, linear color** at 2560×1440 output.
 The watermark identifies the AMD provider/model, not the Mesa fork revision.
 The live mapped driver SHA256 establishes the v4 identity. Its companion
 [private-install proof](assets/deadzone-private-v4.png) used the migrated v3
-launch path. This test did not time an FPS gain or assess every temporal
-artifact across extended play.
+launch path. These initial operation checks did not time FPS; the separate
+[performance addendum](performance.md) supplies fresh measurements. Neither
+campaign assesses every temporal artifact across extended play.
 
 Afterward, the original game settings, runtime links, quiet configuration,
 launch fields and save-file hashes were restored. The qualified v4 system
@@ -109,9 +112,20 @@ KCD2 and Control helpers carry known predecessor integration routes; they were
 not newly played for this release. Unknown/new provider shaders use the
 original guarded fallback and do not gain a blanket performance guarantee.
 
-Earlier quiet Deadzone 1080p Quality trials of this optimization family
-measured 86.68 → 100.37 FPS and 9.5849 → 8.4884 ms engine whole-frame GPU time
-in a stationary scene over mirrored runs. Those are prior scene-specific
-results, not timings of this release. The internal resolution buckets do not
-map one-to-one to “2K” and “4K”; ordinary 1440p and 2160p can share the middle
-bucket.
+The internal shader resolution buckets do not map one-to-one to game output
+labels; ordinary 1440p and 2160p can share the middle bucket.
+
+## Fresh performance addendum
+
+| Game output | v3 FPS | v4 FPS | FPS gain | v3 → v4 whole-frame GPU ms |
+| --- | ---: | ---: | ---: | ---: |
+| 1920×1080 | 80.65 | 92.18 | +14.3% | 10.256 → 9.166 |
+| 2560×1440 | 52.26 | 62.15 | +18.9% | 15.238 → 12.970 |
+| 3840×2160 | 28.52 | 33.43 | +17.2% | 30.292 → 25.149 |
+
+The comparison uses the exact published v4 ELF and the original v3 source patch
+on Mesa 26.2.0, rebuilt for the host LLVM ABI. High/custom graphics, native FSR
+4.1.1 INT8 Quality and HWRT Off are matched across 12 launches. These are
+whole-frame PEX averages in one stationary scene; see [methods, repeatability,
+raw aggregates and limits](performance.md). Earlier development-driver on/off
+timings are not pooled with this release comparison.

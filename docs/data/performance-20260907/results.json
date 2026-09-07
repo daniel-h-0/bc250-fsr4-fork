@@ -1,0 +1,648 @@
+{
+  "schema": 1,
+  "date": "2026-09-07",
+  "game": "Deadzone: Rogue",
+  "lumen_hardware_raytracing": "Off (selected and applied in the game menu)",
+  "scoring_plan_sha256": "3c7d2ab51941c4e3a420edb1ccc82336042d5da8576cef894a1243398d9e38fb",
+  "summary": [
+    {
+      "output": [
+        1920,
+        1080
+      ],
+      "v3": {
+        "fps": 80.64648371922227,
+        "frame_time_ms": 12.399796666666667,
+        "gpu_time_ms": 10.255588333333334,
+        "individual_fps": [
+          81.30418415722929,
+          79.99933867213365
+        ],
+        "individual_gpu_ms": [
+          10.261606666666667,
+          10.24957
+        ]
+      },
+      "v4": {
+        "fps": 92.17807575194266,
+        "frame_time_ms": 10.848566666666667,
+        "gpu_time_ms": 9.166301666666666,
+        "individual_fps": [
+          92.08645813381267,
+          92.2698758539577
+        ],
+        "individual_gpu_ms": [
+          9.148456666666666,
+          9.184146666666667
+        ]
+      },
+      "fps_change_percent": 14.298939644868614,
+      "gpu_time_change_percent": -10.621396172135755
+    },
+    {
+      "output": [
+        2560,
+        1440
+      ],
+      "v3": {
+        "fps": 52.264257402401505,
+        "frame_time_ms": 19.13353503333333,
+        "gpu_time_ms": 15.237845,
+        "individual_fps": [
+          51.96600348022561,
+          52.565954687327036
+        ],
+        "individual_gpu_ms": [
+          15.200423333333333,
+          15.275266666666667
+        ]
+      },
+      "v4": {
+        "fps": 62.148716807986226,
+        "frame_time_ms": 16.0904368,
+        "gpu_time_ms": 12.969973333333334,
+        "individual_fps": [
+          61.8157508931727,
+          62.48528914044874
+        ],
+        "individual_gpu_ms": [
+          12.966363333333334,
+          12.973583333333334
+        ]
+      },
+      "fps_change_percent": 18.91246503223163,
+      "gpu_time_change_percent": -14.883152221765394
+    },
+    {
+      "output": [
+        3840,
+        2160
+      ],
+      "v3": {
+        "fps": 28.52005715799722,
+        "frame_time_ms": 35.06304333333333,
+        "gpu_time_ms": 30.291836716666666,
+        "individual_fps": [
+          28.627188855256744,
+          28.41372431035982
+        ],
+        "individual_gpu_ms": [
+          30.276909833333335,
+          30.3067636
+        ]
+      },
+      "v4": {
+        "fps": 33.43141367184349,
+        "frame_time_ms": 29.911986666666667,
+        "gpu_time_ms": 25.148936783333333,
+        "individual_fps": [
+          33.481929708786765,
+          33.381049837934114
+        ],
+        "individual_gpu_ms": [
+          25.168233533333332,
+          25.129640033333335
+        ]
+      },
+      "fps_change_percent": 17.220710627044067,
+      "gpu_time_change_percent": -16.977841196746223
+    }
+  ],
+  "runs": [
+    {
+      "run": "hwrt-off-1080-1-v3",
+      "arm": "v3",
+      "output": [
+        1920,
+        1080
+      ],
+      "nominal_render": [
+        1280,
+        720
+      ],
+      "sample_count": 30,
+      "first_timestamp": "2026-09-07T22:10:30.574Z",
+      "last_timestamp": "2026-09-07T22:10:59.577Z",
+      "fps": 81.30418415722929,
+      "means_ms": {
+        "FrameTime": 12.29949,
+        "GPUTime": 10.261606666666667,
+        "GameThreadTime": 6.306496666666667,
+        "RenderThreadTime": 12.28446,
+        "RHIThreadTime": 6.25908,
+        "GameThreadWaitTime": 7.175386666666666
+      },
+      "frame_time_sample_min_max_ms": [
+        11.6637,
+        13.6366
+      ],
+      "driver_sha256": "88214d555c1887f14478368c55dab081d2462365e2dc5f0f239d9884c808a6cd",
+      "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+      "scene_sha256": "20d5bacde0d8d12f60331ca81ca006cd9b44db8899cebe26675611a9608620ca",
+      "loaded_scene_sha256": "59862a2642557b35d3a757ade6ed8462ff0d922755a91dd8c941c5792dcf589c",
+      "raw_pex_sha256": "418b7fc9dfacecdc450bb95a5eac0514fb4900032d973be3e8c1f03b24dbe11d",
+      "checks": {
+        "frozen_inputs": true,
+        "exact_scoring_rule": true,
+        "save_bytes_unchanged": true,
+        "expected_driver": true,
+        "quiet_config": true,
+        "focus_and_cap": true,
+        "full_cpu_affinity": true,
+        "physical_mode_unchanged": true,
+        "no_scored_pso_waits": true
+      }
+    },
+    {
+      "run": "hwrt-off-1080-2-v4",
+      "arm": "v4",
+      "output": [
+        1920,
+        1080
+      ],
+      "nominal_render": [
+        1280,
+        720
+      ],
+      "sample_count": 30,
+      "first_timestamp": "2026-09-07T22:13:52.570Z",
+      "last_timestamp": "2026-09-07T22:14:21.570Z",
+      "fps": 92.08645813381267,
+      "means_ms": {
+        "FrameTime": 10.85936,
+        "GPUTime": 9.148456666666666,
+        "GameThreadTime": 6.049986666666666,
+        "RenderThreadTime": 10.822313333333334,
+        "RHIThreadTime": 5.025406666666667,
+        "GameThreadWaitTime": 5.917433333333333
+      },
+      "frame_time_sample_min_max_ms": [
+        10.5243,
+        11.8246
+      ],
+      "driver_sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+      "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+      "scene_sha256": "13ccf94b4b7715e789d484ecec0485d37d260d7d1e9e2812e16c852a00e45a13",
+      "loaded_scene_sha256": "ed152e9d44df16ab43113d8e6d6bc86583e7e9e807a998dd31ff4eb99aeff4be",
+      "raw_pex_sha256": "2166e24fbfb41ecaf353e2825c15d6c61a47e2f4d584e3553aa8c76e80aefc94",
+      "checks": {
+        "frozen_inputs": true,
+        "exact_scoring_rule": true,
+        "save_bytes_unchanged": true,
+        "expected_driver": true,
+        "quiet_config": true,
+        "focus_and_cap": true,
+        "full_cpu_affinity": true,
+        "physical_mode_unchanged": true,
+        "no_scored_pso_waits": true
+      }
+    },
+    {
+      "run": "hwrt-off-1080-3-v4",
+      "arm": "v4",
+      "output": [
+        1920,
+        1080
+      ],
+      "nominal_render": [
+        1280,
+        720
+      ],
+      "sample_count": 30,
+      "first_timestamp": "2026-09-07T22:17:18.574Z",
+      "last_timestamp": "2026-09-07T22:17:47.574Z",
+      "fps": 92.2698758539577,
+      "means_ms": {
+        "FrameTime": 10.837773333333333,
+        "GPUTime": 9.184146666666667,
+        "GameThreadTime": 6.02986,
+        "RenderThreadTime": 10.800126666666667,
+        "RHIThreadTime": 5.041323333333334,
+        "GameThreadWaitTime": 6.041516666666666
+      },
+      "frame_time_sample_min_max_ms": [
+        10.4326,
+        11.9587
+      ],
+      "driver_sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+      "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+      "scene_sha256": "181f50e4364b517446b5a20b4852ea587bbab88922da3e977458c0c89390b060",
+      "loaded_scene_sha256": "43b0c5579b7cd0a99d4b32bed3e4a74b41683ed600234ec9af972fdfc4bc9319",
+      "raw_pex_sha256": "9e2ec6514b9528775b1386206e1c823e20673b7055bb866e5b1328727f9899ca",
+      "checks": {
+        "frozen_inputs": true,
+        "exact_scoring_rule": true,
+        "save_bytes_unchanged": true,
+        "expected_driver": true,
+        "quiet_config": true,
+        "focus_and_cap": true,
+        "full_cpu_affinity": true,
+        "physical_mode_unchanged": true,
+        "no_scored_pso_waits": true
+      }
+    },
+    {
+      "run": "hwrt-off-1080-4-v3",
+      "arm": "v3",
+      "output": [
+        1920,
+        1080
+      ],
+      "nominal_render": [
+        1280,
+        720
+      ],
+      "sample_count": 30,
+      "first_timestamp": "2026-09-07T22:21:01.574Z",
+      "last_timestamp": "2026-09-07T22:21:30.581Z",
+      "fps": 79.99933867213365,
+      "means_ms": {
+        "FrameTime": 12.500103333333334,
+        "GPUTime": 10.24957,
+        "GameThreadTime": 6.605793333333334,
+        "RenderThreadTime": 12.500103333333334,
+        "RHIThreadTime": 6.241436666666667,
+        "GameThreadWaitTime": 7.13467
+      },
+      "frame_time_sample_min_max_ms": [
+        11.9025,
+        13.4351
+      ],
+      "driver_sha256": "88214d555c1887f14478368c55dab081d2462365e2dc5f0f239d9884c808a6cd",
+      "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+      "scene_sha256": "935d7f203f9f03a60bbd58dffe57a237be9b904e7eefbf8cbdf7848089d67055",
+      "loaded_scene_sha256": "aaf245fa7b2867207b1a57eaa987502e296020914ac249980578ca21e22c7d2c",
+      "raw_pex_sha256": "7fde10e16b343d6026afd606f283cd6370a662fa277b6fbb71624d664f7cfdeb",
+      "checks": {
+        "frozen_inputs": true,
+        "exact_scoring_rule": true,
+        "save_bytes_unchanged": true,
+        "expected_driver": true,
+        "quiet_config": true,
+        "focus_and_cap": true,
+        "full_cpu_affinity": true,
+        "physical_mode_unchanged": true,
+        "no_scored_pso_waits": true
+      }
+    },
+    {
+      "run": "hwrt-off-1440-1-v3",
+      "arm": "v3",
+      "output": [
+        2560,
+        1440
+      ],
+      "nominal_render": [
+        1707,
+        960
+      ],
+      "sample_count": 30,
+      "first_timestamp": "2026-09-07T22:24:24.591Z",
+      "last_timestamp": "2026-09-07T22:24:53.584Z",
+      "fps": 51.96600348022561,
+      "means_ms": {
+        "FrameTime": 19.243350133333333,
+        "GPUTime": 15.200423333333333,
+        "GameThreadTime": 8.37956,
+        "RenderThreadTime": 19.243350133333333,
+        "RHIThreadTime": 10.740466666666666,
+        "GameThreadWaitTime": 12.160573333333334
+      },
+      "frame_time_sample_min_max_ms": [
+        17.1173,
+        21.2644
+      ],
+      "driver_sha256": "88214d555c1887f14478368c55dab081d2462365e2dc5f0f239d9884c808a6cd",
+      "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+      "scene_sha256": "c600dc9976adec495a62a3b62232523a49d0666000c31fe1bda790b36cfffe56",
+      "loaded_scene_sha256": "e25df9c0225bd0b7b2eb4ac47d3346e676bea60d66c824d65de432cbdb04372b",
+      "raw_pex_sha256": "a5a462c5c615d021611f66ab6c4a8cb55bddfd53c466276d500c1223447568e8",
+      "checks": {
+        "frozen_inputs": true,
+        "exact_scoring_rule": true,
+        "save_bytes_unchanged": true,
+        "expected_driver": true,
+        "quiet_config": true,
+        "focus_and_cap": true,
+        "full_cpu_affinity": true,
+        "physical_mode_unchanged": true,
+        "no_scored_pso_waits": true
+      }
+    },
+    {
+      "run": "hwrt-off-1440-2-v4",
+      "arm": "v4",
+      "output": [
+        2560,
+        1440
+      ],
+      "nominal_render": [
+        1707,
+        960
+      ],
+      "sample_count": 30,
+      "first_timestamp": "2026-09-07T22:27:45.587Z",
+      "last_timestamp": "2026-09-07T22:28:14.578Z",
+      "fps": 61.8157508931727,
+      "means_ms": {
+        "FrameTime": 16.177106733333332,
+        "GPUTime": 12.966363333333334,
+        "GameThreadTime": 7.788106666666667,
+        "RenderThreadTime": 16.177106733333332,
+        "RHIThreadTime": 8.600476666666667,
+        "GameThreadWaitTime": 9.89456
+      },
+      "frame_time_sample_min_max_ms": [
+        15.0589,
+        17.954901
+      ],
+      "driver_sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+      "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+      "scene_sha256": "2ea284746be53cceeb38612cc36d087949b4a73bee14e4e20ab97f20ba19d81d",
+      "loaded_scene_sha256": "c41cd10c1ca9e94f52bd16e9b2cd62d5e996c0abce1b75ef93779cb4624d1011",
+      "raw_pex_sha256": "2456bc0444d511cbda63b0b1aa53a4aae128930b5e5a9b73ccf1c692e6ba86f8",
+      "checks": {
+        "frozen_inputs": true,
+        "exact_scoring_rule": true,
+        "save_bytes_unchanged": true,
+        "expected_driver": true,
+        "quiet_config": true,
+        "focus_and_cap": true,
+        "full_cpu_affinity": true,
+        "physical_mode_unchanged": true,
+        "no_scored_pso_waits": true
+      }
+    },
+    {
+      "run": "hwrt-off-1440-3-v4",
+      "arm": "v4",
+      "output": [
+        2560,
+        1440
+      ],
+      "nominal_render": [
+        1707,
+        960
+      ],
+      "sample_count": 30,
+      "first_timestamp": "2026-09-07T22:31:20.586Z",
+      "last_timestamp": "2026-09-07T22:31:49.583Z",
+      "fps": 62.48528914044874,
+      "means_ms": {
+        "FrameTime": 16.003766866666666,
+        "GPUTime": 12.973583333333334,
+        "GameThreadTime": 7.35766,
+        "RenderThreadTime": 16.003766866666666,
+        "RHIThreadTime": 8.550633333333334,
+        "GameThreadWaitTime": 9.83713
+      },
+      "frame_time_sample_min_max_ms": [
+        14.9804,
+        17.8473
+      ],
+      "driver_sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+      "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+      "scene_sha256": "e3a3e77428a7cbac1e1dafc688b295df5fabbb663523db203e7a5600c2c3fe48",
+      "loaded_scene_sha256": "9770540c0eb6153aa5ff23046c99987ec179c7d151b6af2fff2c9be83534733c",
+      "raw_pex_sha256": "99b88fec1e80d20fe02f3b7702e93fa08faeb277c9b1cc9918b005ca1f5bcd2d",
+      "checks": {
+        "frozen_inputs": true,
+        "exact_scoring_rule": true,
+        "save_bytes_unchanged": true,
+        "expected_driver": true,
+        "quiet_config": true,
+        "focus_and_cap": true,
+        "full_cpu_affinity": true,
+        "physical_mode_unchanged": true,
+        "no_scored_pso_waits": true
+      }
+    },
+    {
+      "run": "hwrt-off-1440-4-v3",
+      "arm": "v3",
+      "output": [
+        2560,
+        1440
+      ],
+      "nominal_render": [
+        1707,
+        960
+      ],
+      "sample_count": 30,
+      "first_timestamp": "2026-09-07T22:34:45.583Z",
+      "last_timestamp": "2026-09-07T22:35:14.580Z",
+      "fps": 52.565954687327036,
+      "means_ms": {
+        "FrameTime": 19.023719933333332,
+        "GPUTime": 15.275266666666667,
+        "GameThreadTime": 8.40833,
+        "RenderThreadTime": 19.023719933333332,
+        "RHIThreadTime": 10.702686666666667,
+        "GameThreadWaitTime": 12.123026666666666
+      },
+      "frame_time_sample_min_max_ms": [
+        18.005301,
+        20.656799
+      ],
+      "driver_sha256": "88214d555c1887f14478368c55dab081d2462365e2dc5f0f239d9884c808a6cd",
+      "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+      "scene_sha256": "f9be6d2df3092c42597d5c5781df9f9a2acdf4137e65c7f5ec775d26dc0cd96a",
+      "loaded_scene_sha256": "7f26a3cf9c2615cc58fda72b091492663917494514fe7bd7cca7c5754a9cfd0e",
+      "raw_pex_sha256": "e386bf920f90d10f297bc7eb0891a740a059a112c3d14e72b575c5802d8046f0",
+      "checks": {
+        "frozen_inputs": true,
+        "exact_scoring_rule": true,
+        "save_bytes_unchanged": true,
+        "expected_driver": true,
+        "quiet_config": true,
+        "focus_and_cap": true,
+        "full_cpu_affinity": true,
+        "physical_mode_unchanged": true,
+        "no_scored_pso_waits": true
+      }
+    },
+    {
+      "run": "hwrt-off-4k-1-v3",
+      "arm": "v3",
+      "output": [
+        3840,
+        2160
+      ],
+      "nominal_render": [
+        2560,
+        1440
+      ],
+      "sample_count": 30,
+      "first_timestamp": "2026-09-07T22:38:09.627Z",
+      "last_timestamp": "2026-09-07T22:38:38.612Z",
+      "fps": 28.627188855256744,
+      "means_ms": {
+        "FrameTime": 34.9318267,
+        "GPUTime": 30.276909833333335,
+        "GameThreadTime": 10.3135267,
+        "RenderThreadTime": 34.9318267,
+        "RHIThreadTime": 24.4357536,
+        "GameThreadWaitTime": 26.840113166666665
+      },
+      "frame_time_sample_min_max_ms": [
+        33.666302,
+        36.829102
+      ],
+      "driver_sha256": "88214d555c1887f14478368c55dab081d2462365e2dc5f0f239d9884c808a6cd",
+      "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+      "scene_sha256": "153ba0200a1eff34a8797f66fa41010e4b7f0b40c3b262c9d12063f79e16268f",
+      "loaded_scene_sha256": "0c0080f3b198edd4e64cfbd2fdcb582722bbccf1deb6f70a4846e561901da9c9",
+      "raw_pex_sha256": "5e0a996caf33cde19ceedc9f90e87d9097b197f6a0f62c81a6a68b7e732d7f08",
+      "checks": {
+        "frozen_inputs": true,
+        "exact_scoring_rule": true,
+        "save_bytes_unchanged": true,
+        "expected_driver": true,
+        "quiet_config": true,
+        "focus_and_cap": true,
+        "full_cpu_affinity": true,
+        "physical_mode_unchanged": true,
+        "no_scored_pso_waits": true
+      }
+    },
+    {
+      "run": "hwrt-off-4k-2-v4",
+      "arm": "v4",
+      "output": [
+        3840,
+        2160
+      ],
+      "nominal_render": [
+        2560,
+        1440
+      ],
+      "sample_count": 30,
+      "first_timestamp": "2026-09-07T22:41:35.598Z",
+      "last_timestamp": "2026-09-07T22:42:04.614Z",
+      "fps": 33.481929708786765,
+      "means_ms": {
+        "FrameTime": 29.8668568,
+        "GPUTime": 25.168233533333332,
+        "GameThreadTime": 9.8991833,
+        "RenderThreadTime": 29.8668568,
+        "RHIThreadTime": 19.845063433333333,
+        "GameThreadWaitTime": 21.875073266666668
+      },
+      "frame_time_sample_min_max_ms": [
+        28.888599,
+        31.423401
+      ],
+      "driver_sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+      "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+      "scene_sha256": "1b96e218593de807721fb62723edf3e2634f3de2fa852a23cd1623b641aec9ce",
+      "loaded_scene_sha256": "7779e4fc80dbab86c6cee7e0f22f26efec2a3966f4a70e1845b92158f990b7fe",
+      "raw_pex_sha256": "7ed6285f201939d66a7e07b956235a9afef760741ba7f869c40083fa8a7281ca",
+      "checks": {
+        "frozen_inputs": true,
+        "exact_scoring_rule": true,
+        "save_bytes_unchanged": true,
+        "expected_driver": true,
+        "quiet_config": true,
+        "focus_and_cap": true,
+        "full_cpu_affinity": true,
+        "physical_mode_unchanged": true,
+        "no_scored_pso_waits": true
+      }
+    },
+    {
+      "run": "hwrt-off-4k-3-v4",
+      "arm": "v4",
+      "output": [
+        3840,
+        2160
+      ],
+      "nominal_render": [
+        2560,
+        1440
+      ],
+      "sample_count": 30,
+      "first_timestamp": "2026-09-07T22:45:10.594Z",
+      "last_timestamp": "2026-09-07T22:45:39.612Z",
+      "fps": 33.381049837934114,
+      "means_ms": {
+        "FrameTime": 29.957116533333334,
+        "GPUTime": 25.129640033333335,
+        "GameThreadTime": 10.0264133,
+        "RenderThreadTime": 29.957116533333334,
+        "RHIThreadTime": 19.82565676666667,
+        "GameThreadWaitTime": 22.022266733333332
+      },
+      "frame_time_sample_min_max_ms": [
+        28.6451,
+        31.020399
+      ],
+      "driver_sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+      "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+      "scene_sha256": "b4306e3499350553a08d3317a54ef9bae0f1b2f97054b98a41584504fdb95ac9",
+      "loaded_scene_sha256": "585fc2707fffd8f8555cea31d69a013f1f0e29d1fda42083e3a809e1d43fb395",
+      "raw_pex_sha256": "64ad09eff45b0737d6c275cb3686e7aee1b5cec3bb035368a1d1004b5d50fb88",
+      "checks": {
+        "frozen_inputs": true,
+        "exact_scoring_rule": true,
+        "save_bytes_unchanged": true,
+        "expected_driver": true,
+        "quiet_config": true,
+        "focus_and_cap": true,
+        "full_cpu_affinity": true,
+        "physical_mode_unchanged": true,
+        "no_scored_pso_waits": true
+      }
+    },
+    {
+      "run": "hwrt-off-4k-4-v3",
+      "arm": "v3",
+      "output": [
+        3840,
+        2160
+      ],
+      "nominal_render": [
+        2560,
+        1440
+      ],
+      "sample_count": 30,
+      "first_timestamp": "2026-09-07T22:48:54.625Z",
+      "last_timestamp": "2026-09-07T22:49:23.616Z",
+      "fps": 28.41372431035982,
+      "means_ms": {
+        "FrameTime": 35.194259966666664,
+        "GPUTime": 30.3067636,
+        "GameThreadTime": 10.366623333333333,
+        "RenderThreadTime": 35.194259966666664,
+        "RHIThreadTime": 24.808460133333334,
+        "GameThreadWaitTime": 26.9067967
+      },
+      "frame_time_sample_min_max_ms": [
+        33.440701,
+        38.553101
+      ],
+      "driver_sha256": "88214d555c1887f14478368c55dab081d2462365e2dc5f0f239d9884c808a6cd",
+      "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+      "scene_sha256": "c4ffecec525abc076cd4a3d4b52ca3b8095712d8fc84a9379aafda4a2bd53b2d",
+      "loaded_scene_sha256": "347d7fa35645aa635c2209454a173d82e250298227c050d81156df7dca9b5082",
+      "raw_pex_sha256": "bc3df7eb8172e5a1577353e323197af44450843e6e80e0ca7da55c3f1d39030a",
+      "checks": {
+        "frozen_inputs": true,
+        "exact_scoring_rule": true,
+        "save_bytes_unchanged": true,
+        "expected_driver": true,
+        "quiet_config": true,
+        "focus_and_cap": true,
+        "full_cpu_affinity": true,
+        "physical_mode_unchanged": true,
+        "no_scored_pso_waits": true
+      }
+    }
+  ],
+  "limitations": [
+    "Whole-frame PEX timing, not an isolated FSR pass timer.",
+    "One-second aggregates do not support 1% lows.",
+    "Two launches per driver/resolution in one stationary scene on one host.",
+    "v3 source rebuild (Mesa 26.2.0, LLVM enabled, O3) versus released v4 ELF (Mesa 26.2.2, LLVM disabled, O2).",
+    "Physical display 1440p/120; game viewports independently verified at requested resolution; nominal render dimensions derived from Quality mode."
+  ]
+}

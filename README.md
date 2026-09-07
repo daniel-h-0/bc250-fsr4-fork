@@ -172,10 +172,12 @@ that configuration is untested.
   store repair. The driver's internal cache marker `v3` is a cache generation,
   not the project's public release version.
 
-Performance depends on the game, scene and output configuration. Earlier
-matched Deadzone trials measured a useful improvement; they are not a promise
-of a uniform percentage in every game or at every resolution. See the
-[qualified evidence and limitations](docs/qualification.md).
+Fresh matched Deadzone trials against upstream v3 measured **+14.3%,
++18.9% and +17.2% FPS** at 1080p, 1440p and 4K respectively, using
+High/custom graphics, FSR 4.1.1 INT8 Quality and hardware ray tracing off. These
+are scene-specific averages from two launches per driver at each resolution.
+See the [performance data and method](docs/performance.md) and
+[qualification limits](docs/qualification.md).
 
 Inherited v2/v3 documentation, scripts and experiments are archived under
 `legacy/v3/` as historical material. The

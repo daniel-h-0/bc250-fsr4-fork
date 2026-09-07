@@ -1,0 +1,110 @@
+{
+  "inputs": {
+    "mesa-26.2.0.tar.xz": {
+      "url": "https://archive.mesa3d.org/mesa-26.2.0.tar.xz",
+      "sha256": "efd4bb08cdb7c365a812cd4e6c9202ab55b2f22cdcd13c7d6c4f9647b799a4ef"
+    },
+    "mesa-26.2.0.tar.xz.sig": {
+      "url": "https://archive.mesa3d.org/mesa-26.2.0.tar.xz.sig",
+      "sha256": "d07bd4a2d90dd2668ad474ced311ee6c05faaa3993dd5caf09d1e7512253b201"
+    },
+    "bc250-fsr4-v3.patch": {
+      "url": "https://raw.githubusercontent.com/dmorazasanchez/bc250-fsr4/v3/bc250-fsr4-v3.patch",
+      "sha256": "7fde37fad572b4ba4dcac6052792d10d8d3df65982b01236c63a3eff0a25d225"
+    }
+  },
+  "note": "Exact upstream Mesa 26.2.0 + V3 patch, recompiled against current toolchain because released ELF requires an unavailable LLVM-versioned C++ symbol. Not the published ELF.",
+  "sha256": "88214d555c1887f14478368c55dab081d2462365e2dc5f0f239d9884c808a6cd",
+  "meson_options": [
+    "--buildtype=release",
+    "--wrap-mode=nodownload",
+    "-Dvulkan-drivers=amd",
+    "-Dgallium-drivers=",
+    "-Dllvm=enabled",
+    "-Dplatforms=x11,wayland",
+    "-Dglx=disabled",
+    "-Degl=disabled",
+    "-Dgbm=disabled",
+    "-Dgles1=disabled",
+    "-Dgles2=disabled",
+    "-Dopengl=false",
+    "-Dvideo-codecs=",
+    "-Dvalgrind=disabled",
+    "-Dbuild-tests=false",
+    "-Dglvnd=disabled",
+    "-Dradv-u_trace=false"
+  ],
+  "upstream_commit": "6173651fa3a5a557cba2c2ff802e2d6f49881bc1",
+  "signature_note": "The downloaded source signature is retained by hash; this campaign does not claim independent cryptographic signature verification.",
+  "fresh_source_audit": {
+    "archive_source_files_checked": 12803,
+    "expected_patch_files": 8,
+    "mismatches": []
+  },
+  "extra_source_audit": {
+    "epoch": 1788818757.4957461,
+    "archive_links": [
+      {
+        "path": "bin/ci/pipeline_message.py",
+        "matches": true,
+        "kind": "symlink"
+      },
+      {
+        "path": "include/android_stub/sync/sync.h",
+        "matches": true,
+        "kind": "symlink"
+      },
+      {
+        "path": "src/compiler/isaspec/README.rst",
+        "matches": true,
+        "kind": "symlink"
+      },
+      {
+        "path": "src/gallium/drivers/asahi/.clang-format",
+        "matches": true,
+        "kind": "symlink"
+      },
+      {
+        "path": "src/gallium/drivers/freedreno/.clang-format",
+        "matches": true,
+        "kind": "symlink"
+      },
+      {
+        "path": "src/gallium/drivers/panfrost/.clang-format",
+        "matches": true,
+        "kind": "symlink"
+      },
+      {
+        "path": "src/gallium/winsys/asahi/drm/.clang-format",
+        "matches": true,
+        "kind": "symlink"
+      },
+      {
+        "path": "src/gallium/winsys/panfrost/drm/.clang-format",
+        "matches": true,
+        "kind": "symlink"
+      }
+    ],
+    "vendored_wayland_regular_files": 125,
+    "vendored_wayland_all_match": true,
+    "remaining_generated_or_package_cache": [
+      "src/amd/compiler/__pycache__/aco_opcodes.cpython-314.pyc",
+      "src/amd/registers/__pycache__/regdb.cpython-314.pyc",
+      "src/compiler/__pycache__/builtin_types.cpython-314.pyc",
+      "src/compiler/nir/__pycache__/nir_algebraic.cpython-314.pyc",
+      "src/compiler/nir/__pycache__/nir_intrinsics.cpython-314.pyc",
+      "src/compiler/nir/__pycache__/nir_opcodes.cpython-314.pyc",
+      "src/util/__pycache__/drirc_gen.cpython-314.pyc",
+      "src/util/format/__pycache__/u_format_pack.cpython-314.pyc",
+      "src/util/format/__pycache__/u_format_parse.cpython-314.pyc",
+      "src/util/perf/__pycache__/u_trace.cpython-314.pyc",
+      "src/vulkan/util/__pycache__/vk_entrypoints.cpython-314.pyc",
+      "src/vulkan/util/__pycache__/vk_extensions.cpython-314.pyc",
+      "src/vulkan/util/__pycache__/vk_physical_device_features_gen.cpython-314.pyc",
+      "subprojects/.wraplock",
+      "subprojects/packagecache/wayland-protocols-1.41.tar.xz",
+      "subprojects/wayland-protocols-1.41/.meson-subproject-wrap-hash.txt"
+    ],
+    "unexpected_extras": []
+  }
+}
