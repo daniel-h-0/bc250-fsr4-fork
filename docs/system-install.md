@@ -13,9 +13,16 @@ Already-running compositor/desktop processes keep the driver they loaded;
 new game processes use the new package. A reboot is not required for game
 proof. Keep your normal distribution recovery boot entry.
 
+The qualified game runtime is **FSR 4.1.1 INT8, not the newer 4.1.1b mod**.
+Do not co-install 4.1.1b with this setup; installing the system driver does
+not remove a competing game-local runtime. Follow the
+[runtime compatibility guidance](games.md#runtime-compatibility) before switching.
+
 ## Generate packages for your installation
 
-First build or obtain a compatible v4 archive using the main README. Locate
+Use the maintained `v4` checkout's packaging tools; see
+[release identities](releases.md) for their relationship to the original rc1
+driver. First build or obtain a compatible v4 archive using the main README. Locate
 the exact installed `vulkan-radeon` package in `/var/cache/pacman/pkg/` and
 verify its version with `pacman -Q vulkan-radeon`. If the exact archive is
 missing, retrieve it from your distribution's trusted package archive. Do not
@@ -66,6 +73,14 @@ new driver, adds `IgnorePkg`, or freezes Mesa. Rebase and qualify v4 against a
 new Mesa version before rebuilding the package; do not force the old binary
 back over a newer Mesa installation.
 
+For a v4-to-v4 update on the same Mesa base, first prepare and review the new
+package pair using the retained **original distribution package**, available
+at `/usr/share/bc250-fsr4-v4/rollback/base.pkg.tar.zst`. Close Steam and games,
+roll back the active v4 package to that original base, then install the new
+reviewed pair. The install command requires the live base library to match its
+rollback archive; it deliberately refuses to replace an active v4 driver
+directly. Keep both generations of package output until the update is verified.
+
 With Steam and games closed:
 
 ```sh
@@ -78,6 +93,12 @@ The helper remains installed but reports inactive. You may remove it with
 `sudo pacman -R bc250-fsr4-v4`, or reinstall the v4 package pair with the same
 reviewed install command to activate v4 again. 32-bit RADV is untouched in
 both directions.
+
+Retain the generated directory and original package archive until rollback
+and reinstallation have been verified. A package directory built for another
+host or distribution is not a substitute for this machine's exact base.
+When requesting help, include the package versions, `bc250-fsr4 status`
+output and actual driver SHA256 after reviewing the output for private paths.
 
 On other distributions use the private install, or supply a native package
 integration with equivalent ownership, compatibility and rollback checks.

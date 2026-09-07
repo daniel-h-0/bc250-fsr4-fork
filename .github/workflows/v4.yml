@@ -1,30 +1,82 @@
 name: v4 checks
+
 on:
   push:
   pull_request:
   workflow_dispatch:
+
 permissions:
   contents: read
+
+concurrency:
+  group: v4-checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   tooling:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.12', '3.14']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python3 scripts/check-repo.py
+      - if: matrix.python == '3.12'
+        run: |
+          python3 -m pip install -r requirements-dev.txt
+          ruff check .
+          ruff format --check .
+
+  source-distribution:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python3 -m unittest discover -s tests -v
-      - run: for script in ./*.sh scripts/*.sh; do bash -n "$script" || exit; done
+      - name: Export and verify the complete source without Git metadata
+        run: |
+          python3 scripts/source-release.py --output dist/source
+          cd dist/source
+          sha256sum -c *.sha256
+          tar -xzf *.tar.gz
+          cd bc250-fsr4-*/
+          python3 scripts/check-repo.py
+          python3 scripts/build.py --prepare-only --work .work/ci-source
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source-snapshot
+          path: |
+            dist/source/*.tar.gz
+            dist/source/*.sha256
+
   source-build:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - run: BC250_CONTAINER_ENGINE=docker ./build-anywhere.sh --jobs 4
+      - name: Package the completed build and check the extracted distribution
+        run: |
+          python3 scripts/package.py --work .work/container --label ci-unqualified-x86_64
+          cd dist
+          sha256sum -c *.sha256
+          tar -xzf *.tar.gz
+          cd bc250-fsr4-*/
+          python3 scripts/check-repo.py
       - uses: actions/upload-artifact@v4
         with:
-          name: unqualified-source-build
+          name: unqualified-container-build
           include-hidden-files: true
           path: |
             .work/container/build-result.json
-            .work/container/build/src/amd/vulkan/libvulkan_radeon.so
+            .work/container/inputs.json
+            dist/*.tar.gz
+            dist/*.sha256

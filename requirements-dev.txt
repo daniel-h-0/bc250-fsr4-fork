@@ -1,0 +1,2 @@
+# Tooling checks only; runtime installers use Python's standard library.
+ruff==0.16.6

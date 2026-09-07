@@ -1,10 +1,33 @@
 # Game setup and proof of engagement
 
 There are two separate requirements: v4 RADV must be the driver the game loads,
-and the game must actually request the supported FSR4 INT8 model. The driver
-installer handles the first. A game-compatible FSR4 provider/model hook handles
+and the game must actually request the supported FSR4 INT8 model. Driver
+installation and the game's launch configuration address the first. A
+game-compatible FSR4 provider/model hook handles
 the second. Native FSR4 availability alone is insufficient on GFX1013: a tested
 Proton-only upgrade without the model hook fell back to FSR 3.1.5.
+
+## Runtime compatibility
+
+**This guide uses the pinned FSR 4.1.1 INT8 runtime. It does not use the
+newer 4.1.1b mod, and the two setups should not be co-installed.** Do not
+copy 4.1.1b DLLs into a game configured by this guide, replace files inside
+the managed runtime, or combine their proxy DLLs and launch overrides.
+The tested provider SHA256 is
+`4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e`;
+version labels alone do not establish the same binary or shader family.
+
+To switch setups, close Steam and the game, undo the existing integration
+with its own rollback procedure, and restore any original game DLLs it
+replaced. For this helper, use [Undo game setup](#undo-game-setup). Remove
+the outgoing integration's launch overrides before following the other
+guide. Preserve backups and unrelated mods; this helper does not uninstall
+an unknown 4.1.1b deployment for you.
+
+4.1.1b and mixed-runtime configurations have not been qualified here.
+The correctness and performance results in this repository apply only to
+the recorded provider and driver hashes. The project's `v4` release name
+is separate from the FSR provider's `4.1.1` version.
 
 ## Known profiles
 
@@ -13,6 +36,11 @@ automatically inject the whole Steam library or choose unsupported online /
 anti-cheat games. These are the known integration paths from the predecessor
 host deployment; the fresh v4 release's actual test scope is recorded in
 [qualification](qualification.md).
+
+Use the maintained `v4` checkout for current game tooling. The original rc1
+archive retains its bundled tool revision; later recovery and validation
+changes do not extend the original driver/game qualification. See
+[release identities](releases.md).
 
 | Profile | Game | In-game selection | Route |
 | --- | --- | --- | --- |
@@ -69,6 +97,11 @@ them. For the Deadzone native route, the essential runtime fragment is:
 PROTON_FSR4_UPGRADE=4.1.1 WINEDLLOVERRIDES=dxgi=n,b %command%
 ```
 
+An existing installation managed by this helper can be updated only while its
+recorded links and retained runtime still pass verification. Unrelated runtime
+files remain outside that operation. Keep the printed transaction records:
+repeated changes to the same game must be rolled back newest first.
+
 Keep the private driver's printed `VK_DRIVER_FILES=...` assignment as well if
 using the private route. With the system package route, do not add a private
 ICD override. Preserve unrelated launcher variables, Wine overrides and game
@@ -110,9 +143,10 @@ For a native profile, check all of the following in the current launch:
    identifies FSR 4.1.1 INT8 and its render/output dimensions.
 
 The helper below checks the namespace-resolved file identity, mapped inode and
-SHA256, the model configuration and native initialization. It adds no tracing. Btrfs can report different devices in `maps` and `stat`;
-the helper records both and verifies the actual file through the game
-process's mount namespace instead of rejecting that normal difference.
+SHA256, the model configuration and supplied native initialization evidence.
+It adds no tracing. Btrfs can report different devices in `maps` and `stat`;
+the helper verifies the actual file through the game process's mount namespace
+instead of rejecting that normal difference.
 For the installed private release, use its `current/release.json`; for a system
 install use `release.json` extracted from the exact installed archive.
 
@@ -126,7 +160,11 @@ python3 scripts/prove-game.py --pid GAME_PID \
 For Deadzone, the engine log is ordinarily under its Proton prefix at
 `drive_c/users/steamuser/AppData/Local/Valhalla/Saved/Logs/`. Its Linux process
 is ordinarily named `GameThread`. Check that the PID and log belong to the
-current launch. Save the JSON output and a current screenshot. This native-log
+current launch. The maintained helper records the process start and log
+modification time, rejects a log older than the process, and checks that the
+PID did not change during capture. A recently appended log can still contain
+old initialization lines: select this launch's log and check its timestamps.
+Save the JSON output and a current screenshot. This native-log
 helper is not an engagement detector for the different Control/DLSS route.
 
 A clean desktop `vulkaninfo`, a library file existing on disk, or a generic
@@ -147,3 +185,18 @@ clobber files edited after setup; inspect those differences before restoring
 manually. Undo any launch-option/Proton changes you made in Steam separately.
 Game saves, graphics preferences and Steam account files are not written by
 this helper.
+
+If setup or rollback was interrupted, the maintained helper refuses another
+install or rollback while recovery is pending. Close Steam and games and use
+the original transaction record:
+
+```sh
+python3 scripts/game-setup.py recover /path/to/transactions/RECORD.json
+```
+
+Recovery restores the pretransaction files only when every current file still
+matches a recorded before or after state. Independent edits are preserved and
+need manual reconciliation. Rollback and recovery derive the state directory
+from the record; an explicitly supplied `--state` must match it. These commands
+recover file changes managed by the helper, not manual Steam launch-option or
+Proton selections.

@@ -1,5 +1,10 @@
 # v4.0.0-rc1 qualification — 2026-09-07
 
+**Runtime clarification:** these checks use the pinned **FSR 4.1.1 INT8**
+provider, not the newer **4.1.1b** mod. Do not co-install 4.1.1b with this
+setup. No qualification below covers 4.1.1b or a mixed runtime; see
+[runtime compatibility](games.md#runtime-compatibility).
+
 The fresh native x86_64 release passed source/compiler/output checks and two
 real Deadzone launches after a recoverable return to a v3-style setup. Both
 the migrated private v3 launch path and the normal system package path rendered

@@ -5,8 +5,18 @@ based on its v3 branch with the original history preserved. v4 brings the
 qualified FSR 4.1.1 INT8 optimizations into a default-on Mesa 26.2.2 RADV build,
 and adds checked installation, v3 migration, package integration and rollback.
 
-**Current release: 4.0.0-rc1, x86_64 / AMD BC250 (GFX1013).** See
-[qualification](docs/qualification.md) for the exact tested artifacts and limits.
+**Published prerelease: [v4.0.0-rc1](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc1),
+x86_64 / AMD BC250 (GFX1013).** The `v4` branch contains later documentation and
+tooling maintenance. The tag and original release assets remain unchanged;
+fresh builds require their own qualification. See [release identities](docs/releases.md)
+and [qualification](docs/qualification.md) for the exact tested artifacts and limits.
+
+**FSR version: this setup uses the pinned FSR 4.1.1 INT8 provider, not the
+newer 4.1.1b mod. Do not co-install 4.1.1b with this setup or mix its DLLs
+with this runtime.** Restore the original game files and undo the competing
+integration before switching; see [runtime compatibility](docs/games.md#runtime-compatibility).
+The project's `v4` / `4.0.0-rc1` name identifies this Mesa fork's release,
+not the FSR provider version.
 
 The driver improves a compatible FSR4 path. Games still need an FSR4 INT8
 provider/model hook and a supported game input. Installing this driver alone
@@ -31,7 +41,7 @@ No v4 32-bit binary is shipped. Keep your distribution's working
 
 - A functioning Linux BC250 graphics setup (PCI `1002:13fe`, RADV GFX1013).
   v4 does not flash firmware, install a kernel or change clocks/voltages.
-- Python **3.12+**, `binutils` (`readelf`/`strip`), glibc's `ldd`, `vulkan-tools`, and your
+- Python **3.12+**, `binutils` (`readelf`; `strip` for packaging), glibc's `ldd`, `vulkan-tools`, and your
   usual working Vulkan loader. The private installer requires a successful
   `vulkaninfo --summary`; a missing tool is an error, not a skipped check.
 - Use the archive built for your distribution. The native CachyOS build does
@@ -45,20 +55,26 @@ No v4 32-bit binary is shipped. Keep your distribution's working
 
 ## Private archive install or v3 upgrade
 
-Obtain the matching `.tar.gz` and adjacent `.tar.gz.sha256` from this fork's
-release, or create them with the source instructions below. Until a GitHub
-release is published, the source route is the complete installation route.
+Obtain the matching binary `.tar.gz` and adjacent `.tar.gz.sha256` from the
+[v4.0.0-rc1 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc1),
+or create them with the source instructions below. Source and performance
+archives are separate assets and cannot be installed as drivers.
 The checksum detects corruption; obtain both files from the trusted release.
 
-After a release is published, the standalone installer can download it without
-a checkout. Download the script from this fork's `v4` branch, inspect it, then
-run it as your desktop user:
+For the maintained installer, first [obtain the v4 checkout](#obtain-the-source)
+and run `./install-v4.sh --upgrade-v3` there. This uses the checkout's tooling
+with the unchanged published driver archive.
+
+The standalone script can also download the release without a checkout.
+Download it into an empty directory, inspect it, then run it as your desktop user:
 
 ```sh
 curl -fLO https://raw.githubusercontent.com/daniel-h-0/bc250-fsr4-fork/v4/install-v4.sh
 bash install-v4.sh --upgrade-v3
 ```
 
+The standalone route executes the installer bundled in the selected release;
+later `v4` tooling fixes are available through the checkout route above.
 `--upgrade-v3` migrates the standard v3 ICD path. Omit it for a new install,
 or use `--upgrade-v3-icd PATH` for a custom v3 installation. This standalone
 route downloads the named release and its checksum, verifies the archive,
@@ -92,8 +108,13 @@ previously loaded driver. No Steam VDF files are edited.
 
 By default v4 lives under `~/.local/share/bc250-fsr4/`, with immutable
 `releases/`, a `current` link, stable `current.json`, and transaction records.
-For a custom root use `python3 scripts/driver.py --prefix /your/dedicated/path
-install ARCHIVE` and use the same prefix for `status`, `run` and `rollback`.
+For a custom root use:
+
+```sh
+python3 scripts/driver.py --prefix /your/dedicated/path install ARCHIVE
+```
+
+Use the same prefix for `status`, `run`, `rollback` and `recover`.
 Do not run the private installer with sudo.
 
 Rollback the most recent private installation:
@@ -110,6 +131,20 @@ your first private install without a v3 migration, remove its printed launch
 option when returning to system RADV.
 
 ## Build from source
+
+### Obtain the source
+
+```sh
+git clone --branch v4 https://github.com/daniel-h-0/bc250-fsr4-fork.git
+cd bc250-fsr4-fork
+```
+
+The `v4` branch is maintained. To inspect the original release source, use a
+separate checkout of tag `v4.0.0-rc1`; its tooling predates the current branch.
+See [development](docs/development.md) for repository layout and
+[contributing](CONTRIBUTING.md) for changes and checks.
+
+### Native build
 
 On an up-to-date Arch/CachyOS host, the build dependencies are:
 
@@ -134,6 +169,10 @@ Use `--prepare-only` to verify the source without compiling, `--work PATH` for
 another build directory, and `--resume` to resume an interrupted build with
 matching inputs. Do not reuse a work directory for different inputs. Build
 artifacts are under `.work/native`; archive outputs are under `dist/`.
+
+Build directories from the original rc1 tooling predate the current provenance
+checks. Use a new `--work PATH` for those builds; `--resume` cannot upgrade their
+old records. Existing qualified release archives remain installable.
 
 Compiler and dependency versions are recorded; these are reproducible *source*
 inputs, not a claim of bit-identical binaries across different toolchains.
@@ -180,7 +219,8 @@ See the [performance data and method](docs/performance.md) and
 [qualification limits](docs/qualification.md).
 
 Inherited v2/v3 documentation, scripts and experiments are archived under
-`legacy/v3/` as historical material. The
-active v4 source is `v4/manifest.json` plus its ordered patches. Experimental
-upstream Linux 7.3/native-DOT/SDWA work is not part of this qualified release.
-See [provenance and licenses](THIRD_PARTY.md) and [development](docs/development.md).
+`legacy/v3/` as historical material; read the [archive guide](legacy/README.md)
+before using them. The active v4 source is `v4/manifest.json` plus its ordered
+patches. Experimental upstream Linux 7.3/native-DOT/SDWA work is outside this
+qualified release. See [provenance and licenses](THIRD_PARTY.md),
+[development](docs/development.md) and the [changelog](CHANGELOG.md).

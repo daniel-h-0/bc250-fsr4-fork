@@ -1,0 +1,11 @@
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+extend-exclude = ["legacy", "docs/data", ".work", "dist"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.ruff.lint.per-file-ignores]
+# Standalone entry points suppress bytecode before importing adjacent modules.
+"scripts/*.py" = ["E402"]

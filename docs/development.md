@@ -6,6 +6,25 @@ The v4 branch starts at upstream v3 commit
 `https://github.com/daniel-h-0/bc250-fsr4-fork.git`. Do not squash away the original
 history or mix experimental upstream branches into the accepted source.
 
+## Repository map
+
+| Path | Responsibility |
+| --- | --- |
+| `v4/manifest.json`, `v4/patches/` | Pinned driver source identity and ordered Mesa changes |
+| `v4/source-dependencies/` | Hash-pinned build input |
+| `v4/games.json` | Pinned provider/runtime identities and explicit game profiles |
+| `scripts/`, top-level shell entry points | Source preparation, build, packaging, installation, recovery and game setup |
+| `tests/`, `.github/workflows/` | Active checks and CI |
+| `docs/qualification.*`, `docs/performance.md`, `docs/data/`, `docs/assets/` | Recorded rc1 qualification and later performance evidence |
+| `legacy/` | Archived upstream scripts, patches, documentation and disabled workflow; see its index |
+| `.work/`, `dist/`, `.venv/` | Ignored local build, release and Python environment outputs |
+
+The `v4` branch may improve tooling without changing the qualified Mesa source.
+Keep that distinction visible in reviews and the [changelog](../CHANGELOG.md).
+The [release guide](releases.md) identifies the immutable rc1 artifacts and
+explains how to distribute a later source snapshot. Historical qualification
+records describe the binaries actually tested, even after the tools change.
+
 ## Source inputs
 
 `v4/manifest.json` pins the Mesa archive, three ordered patches, Wayland
@@ -24,13 +43,19 @@ binary merely because the source file hashes match.
 ## Checks
 
 ```sh
-python3 -m unittest discover -s tests -v
-for script in ./*.sh scripts/*.sh; do bash -n "$script" || exit; done
+python3 scripts/check-repo.py
+.venv/bin/ruff check .
+.venv/bin/ruff format --check .
 ```
 
-CI runs tooling tests on pushes and PRs. A manually dispatched workflow also
-builds the source in the container and uploads an **unqualified** build
-artifact. CI does not automatically publish, install, flash or run GPU tests.
+The repository check validates pinned hashes, active documentation links,
+published performance arithmetic, syntax and tooling tests. These checks run
+without a GPU and do not install a driver or launch a game.
+See [contributor setup](../CONTRIBUTING.md) for the development dependencies.
+CI runs the checks on pushes and PRs. A manually dispatched workflow also
+builds the source in the container, packages it, checks the extracted bundle
+and uploads an **unqualified** build artifact. CI does not automatically
+publish, install, flash or run GPU tests.
 
 Release qualification should establish:
 
@@ -55,14 +80,44 @@ Reports must state that limitation and identify tested inputs by hash.
 
 ## Packaging and publication
 
+The two artifact types have different purposes:
+
+- `scripts/package.py` creates an installable binary archive from a completed
+  pinned build and includes its source/tooling records.
+- `scripts/source-release.py` exports all tracked files at a reviewed Git
+  revision, with a commit/file manifest and an adjacent checksum. It does not
+  build a driver or include ignored local artifacts.
+
+After committing and reviewing a clean checkout:
+
+```sh
+python3 scripts/source-release.py --output dist/source
+```
+
+Use `--ref TAG` to export a specific recorded revision. A default HEAD export
+requires a clean working tree; an explicit ref exports Git object contents,
+including when the working tree has unrelated edits. See [release guidance](releases.md)
+for filenames, verification and publication boundaries.
+
 Generate archives only after source checks; `scripts/package.py` records
 compiler/flags, shared-library dependencies, ELF symbol-version requirements,
 source manifest SHA256 and every archive file's SHA256. The packaging step
 strips a copy of the driver; the unstripped build evidence stays unchanged.
 Qualify the exact stripped release artifact before publication.
 
+Current build provenance uses schema 2. Work directories created by the
+original rc1 tooling need a fresh build directory; they cannot be resumed or
+repackaged with these stronger checks. The original qualified archives remain
+installable. New provenance also records the source revision and whether its
+checkout was dirty; publish only from reviewed, committed sources.
+
 Before a GitHub release, update the qualification report, review notices,
 run the documented installation on a v3-style baseline, and attach the tested
 archive plus checksum. A checksum fetched beside its archive is an integrity
 check, not an independent signature. Tag the reviewed commit and retain the
 original source/package evidence for rollback and future compiler comparisons.
+
+Never move the `v4.0.0-rc1` tag, replace its original attached archives, or copy
+its accepted-binary claim onto a new build. Later tooling validation belongs
+in its own report and commit. A future binary release needs a new reviewed
+release identity and qualification of the exact distributed ELF.

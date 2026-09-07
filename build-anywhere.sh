@@ -15,5 +15,5 @@ fi
 userns=()
 if [[ "${engine##*/}" == podman ]]; then userns=(--userns=keep-id); fi
 "$engine" run --rm --platform linux/amd64 "${userns[@]}" --user "$(id -u):$(id -g)" \
-    -v "$root:/workspace" bc250-fsr4-v4-builder \
+    -v "$root:/workspace:Z" bc250-fsr4-v4-builder \
     --work /workspace/.work/container "$@"

@@ -11,3 +11,4 @@ __pycache__
 dist/
 *.pkg.tar.zst
 *.pyc
+.ruff_cache/

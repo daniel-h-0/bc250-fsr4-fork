@@ -28,6 +28,7 @@ if '--help' in args or '-h' in args:
     print('Usage: install-v4.sh [ARCHIVE.tar.gz] [--upgrade-v3 | --upgrade-v3-icd PATH] [--sha256 DIGEST]')
     print('Without ARCHIVE, download the named release and checksum from ' + REPOSITORY + '.')
     print('BC250_FSR4_PREFIX selects a dedicated private installation directory.')
+    print('Runtime: pinned FSR 4.1.1 INT8. Do not co-install the newer 4.1.1b mod with this setup.')
     raise SystemExit(0)
 if sys.version_info < (3,12):
     raise SystemExit('Python 3.12 or newer is required. No installation changed.')
@@ -84,5 +85,5 @@ try:
         command+=['install',str(archive),*args]
         subprocess.run(command,check=True)
 except (OSError,ValueError,IndexError,RuntimeError,tarfile.TarError,subprocess.SubprocessError) as error:
-    raise SystemExit('ERROR: '+str(error)+'\nIf the named GitHub release is not published yet, use the README source-build route.')
+    raise SystemExit('ERROR: '+str(error)+'\nCheck the archive/checksum and release instructions. For a different host ABI, use the README source-build route.')
 PY

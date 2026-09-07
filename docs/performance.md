@@ -4,6 +4,10 @@ The published v4.0.0-rc1 binary was compared with a verified rebuild of the
 original upstream v3 driver in Deadzone: Rogue at three output resolutions.
 **Lumen hardware ray tracing is off; FSR 4.1.1 INT8 Quality is on.**
 
+These results use the pinned **FSR 4.1.1** provider, not the newer **4.1.1b**
+mod. Do not co-install 4.1.1b with this setup. The measurements do not cover
+4.1.1b or mixed runtimes; see [runtime compatibility](games.md#runtime-compatibility).
+
 | Game output | v3 FPS | v4 FPS | FPS gain | v3 → v4 whole-frame GPU ms |
 | --- | ---: | ---: | ---: | ---: |
 | 1920×1080 | 80.65 | 92.18 | +14.3% | 10.256 → 9.166 |
