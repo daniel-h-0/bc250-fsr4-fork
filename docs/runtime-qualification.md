@@ -89,9 +89,11 @@ and first-install recovery remain covered by the RC2 evidence and current tests.
 See the [RC2 update guide](upgrading-rc2.md) for the exact commands and distinction
 between runtime rollback and restoring a separately retired manual deployment.
 
-Debug launch options were removed, and 1,022 original save/settings files were
+Debug launch options were removed, and 1,016 original save/settings files were
 verified after restoration from the fresh qualification snapshot. Test-created
-files were quarantined.
+files were quarantined. Steam’s six cloud indexes were retained as current
+metadata, and the four original files that the cloud had reintroduced from the
+test session were restored and successfully uploaded before final verification.
 The host's separately managed migration
 adds the four newly qualified titles to its shared-runtime selection; that local
 library policy is not shipped in this distribution.

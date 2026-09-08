@@ -444,8 +444,10 @@
     "offline_runtime_archive_sha256": "48ccb8958dfc0714bc4739cfafc068be8315200e083f5855d307da19f5795ce4"
   },
   "restoration": {
-    "original_settings_and_save_files_verified": 1022,
+    "original_settings_and_save_files_verified": 1016,
     "test_created_files_quarantined": 59,
+    "steam_cloud_indexes_preserved": 6,
+    "restored_original_files_uploaded_to_steam_cloud": 4,
     "debug_launch_options_removed": true
   },
   "automated_checks": {
