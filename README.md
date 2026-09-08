@@ -197,4 +197,5 @@ This project builds on substantial work by these projects and their contributors
   for the FSR implementation and API bridge.
 
 Their authors retain credit for their work; [provenance and licenses](THIRD_PARTY.md)
-record the component identities and applicable notices.
+record the component identities and applicable notices. This work was accomplished with 
+the assistance of AI tools (GPT-6-Astra-xhigh) with constant human oversight.
