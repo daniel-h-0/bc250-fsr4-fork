@@ -2,7 +2,7 @@
   "schema": 1,
   "date": "2026-09-08",
   "distribution": "4.0.0-rc4",
-  "status": "driver qualification passed; installation qualification in progress",
+  "status": "bounded driver, runtime startup and upgrade checks passed",
   "driver": {
     "sha256": "13163d1350d346f54d58b82863e5fc2f31ddfab0a0dd6495886c3fec286315d2",
     "source_manifest_sha256": "5f6809df51db8d76adebe450c2ae080100b2f0ad8a0d91fbbf40f94f6f6a212a",
@@ -119,7 +119,7 @@
       "record_sha256": "e6c63c3c68c895f8290a4854ff3bd009e82201489a1356c6133f0c96087fca64"
     },
     "python311_tests": {
-      "count": 170,
+      "count": 171,
       "passed": true,
       "python": "Debian 3.11.2-6+deb12u8",
       "safe_tar_compatibility_path_used": true
@@ -127,7 +127,32 @@
     "assembly_without_installer_utilities": {
       "passed": true,
       "path": "/nonexistent",
-      "python": "3.14"
+      "python": "3.14",
+      "python311_passed": true,
+      "modern_and_legacy_payloads_identical": true
+    },
+    "python314_tests": {
+      "count": 171,
+      "passed": true
+    },
+    "windows_d3d12_startup": {
+      "returncode": 0,
+      "device_result": "D3D12CreateDevice HRESULT=0x00000000",
+      "probe_sha256": "8f62c57d3546290b21bfb804f6bda087b13eaa51931d89cc4c8ef3767c325a6e",
+      "source_sha256": "ca51d16d771b2cc685979b07423ee362b4b88c12d770f615c029596a9da634c2",
+      "driver_mapping_verified": true,
+      "native_optiscaler_mapping_verified": true,
+      "runtime": "4.0.0-rc4",
+      "graphics_provider": "SteamOS 3.8",
+      "game_or_swapchain": false
+    },
+    "installation": {
+      "isolated_rc3_to_rc4": true,
+      "original_private_driver_replaced_automatically": true,
+      "rollback_restored_exact_rc3_and_driver_selection": true,
+      "offline_reinstall_reused_retained_rc4": true,
+      "explicit_rebind_without_upstream_cache": true,
+      "rebind_rollback_restored_portable_driver": true
     }
   },
   "limits": {

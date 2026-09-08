@@ -81,7 +81,15 @@ The exact binary passed eager loading and Vulkan initialization with Debian 12,
 SteamOS 3.7 and SteamOS 3.8 libraries, plus Steam Runtime 4 with the SteamOS 3.7
 and 3.8 graphics providers. It matched all 92 retained complete shader programs,
 96 tensor outputs and 12 image/texture outputs. The tooling suite also runs
-against Debian's actual Python 3.11 package.
+against Debian's actual Python 3.11 package. All 171 tests pass on Python 3.11
+and 3.14. A real RC3 → RC4 → RC3 → RC4 cycle preserves both driver and
+runtime selections. Offline assemblies with no helper tools on `PATH` produce
+the same runtime payload on both Python versions.
+
+A Windows probe also imports the native OptiScaler WinMM proxy and creates a
+D3D12 device through RC4 inside Steam Runtime 4 with a SteamOS 3.8 graphics
+provider. Process maps verify the exact portable driver and proxy. It uses a
+private virtual X display, without a game or swapchain.
 
 These isolated userspaces share the CachyOS host kernel and BC250 GPU. They do
 not establish booted-OS, compositor, every-game or Flatpak Steam acceptance.

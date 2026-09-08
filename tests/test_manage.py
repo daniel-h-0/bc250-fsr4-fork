@@ -261,6 +261,15 @@ class ManageTests(unittest.TestCase):
             "https://example.invalid/portable.tar.gz", "f" * 64, self.args.cache / "drivers", True
         )
 
+    def test_automatic_update_preserves_an_existing_private_driver_choice(self):
+        self.apply()
+        previous = runtime.selection(self.steam)
+        self.system = self.root / "also-available-system-driver.so"
+        self.system.write_bytes(b"verified system driver")
+        self.args.driver_archive = None
+        self.apply()
+        self.assertEqual(runtime.selection(self.steam), previous)
+
     def test_corrupt_explicit_archive_cannot_hide_behind_existing_driver(self):
         self.apply()
         previous = manage.runtime.selection(self.steam)

@@ -222,6 +222,9 @@ def apply(args, prefix, root):
         if driver.pending(prefix):
             raise RuntimeError("An existing driver transaction needs recovery before installation.")
         before = runtime.selection(root)
+        selection_mode = args.driver
+        if selection_mode == "auto" and before and before["driver"]["mode"] == "private":
+            selection_mode = "private"
         requested_driver = None
         if args.driver_archive:
             archive, checksum = driver_archive(args, policy)
@@ -230,7 +233,9 @@ def apply(args, prefix, root):
                     archive, Path(temporary), driver.archive_checksum(archive, checksum)
                 )
         try:
-            selected = runtime.select_driver("private" if requested_driver else args.driver, prefix)
+            selected = runtime.select_driver(
+                "private" if requested_driver else selection_mode, prefix
+            )
         except RuntimeError:
             if args.driver == "system":
                 raise
