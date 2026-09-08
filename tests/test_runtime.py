@@ -432,5 +432,36 @@ class RuntimeInstallerTests(unittest.TestCase):
         self.assertFalse(self.tool.exists())
 
 
+class DriverSelectionTests(unittest.TestCase):
+    def test_rebuilt_system_driver_requires_matching_source_identity(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            library = root / "libvulkan_radeon.so"
+            library.write_bytes(b"independently rebuilt system driver")
+            metadata = root / "system.json"
+            policy = json.loads((runtime.ROOT / "runtime/manifest.json").read_text())["driver"]
+            record = {
+                "driver_sha256": runtime.driver.digest(library),
+                "version": policy["version"],
+                "mesa": policy["mesa"],
+            }
+            with (
+                mock.patch.object(runtime, "SYSTEM_LIBRARY", library),
+                mock.patch.object(runtime, "SYSTEM_METADATA", metadata),
+            ):
+                for source in (None, "0" * 64):
+                    metadata.write_text(json.dumps({**record, "source_manifest_sha256": source}))
+                    with self.assertRaisesRegex(RuntimeError, "verified v4 driver was not found"):
+                        runtime.select_driver("system", root)
+                metadata.write_text(
+                    json.dumps(
+                        {**record, "source_manifest_sha256": policy["source_manifest_sha256"]}
+                    )
+                )
+                self.assertEqual(
+                    runtime.select_driver("system", root)["sha256"], record["driver_sha256"]
+                )
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,5 +1,16 @@
 # Changelog
 
+## 4.0.0-rc5 — 2026-09-08
+
+- Honor explicit v3 migrations with reversible private-driver transactions,
+  including when a compatible driver is already installed.
+- Guard managed driver paths, legacy extraction and private archive publication.
+- Keep Steam utility calls and zero-ID launches out of game upscaler injection.
+- Pin imported build helpers and check setup-version/FSR-cost documentation drift.
+- Refresh current upgrade and recovery instructions. Reuse the unchanged RC4
+  portable driver and RC3 upstream runtime components; see the
+  [review and validation scope](docs/review-rc5.md).
+
 ## v4.0.0-rc4 — portable installation and startup checks
 
 - Make an older-library driver build the default private download. Pin Debian 12

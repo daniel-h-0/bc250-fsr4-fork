@@ -72,6 +72,17 @@ class RepositoryCheckTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Published data mismatch"):
             checks.check_performance(self.root)
 
+    def test_changed_cost_estimate_is_detected_against_original_timestamps(self):
+        for name in ("fsr-cost-20260908", "performance-20260907"):
+            shutil.copytree(ROOT / "docs/data" / name, self.root / "docs/data" / name)
+        checks.check_fsr_cost(self.root)
+        path = self.root / "docs/data/fsr-cost-20260908/estimates.json"
+        values = json.loads(path.read_text())
+        values["estimates"][0]["v4_estimated_cost_ms"] = 0
+        path.write_text(json.dumps(values))
+        with self.assertRaisesRegex(ValueError, "FSR cost reconstruction changed"):
+            checks.check_fsr_cost(self.root)
+
 
 if __name__ == "__main__":
     unittest.main()

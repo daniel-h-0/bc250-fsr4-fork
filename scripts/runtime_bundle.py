@@ -313,6 +313,24 @@ def assemble(destination, cache, policy=None, offline=False):
     return version
 
 
+def publish_tree(tree, output):
+    """Publish a complete archive/checksum pair without replacing existing output."""
+    checksum = Path(str(output) + ".sha256")
+    if any(path.exists() or path.is_symlink() for path in (output, checksum)):
+        raise RuntimeError("Output already exists; choose a new directory.")
+    with tempfile.TemporaryDirectory(prefix=".publish-", dir=output.parent) as temporary:
+        staged = Path(temporary) / output.name
+        tar_tree(tree, staged)
+        staged_checksum = Path(temporary) / checksum.name
+        staged_checksum.write_text(digest(staged) + "  " + output.name + "\n")
+        os.link(staged, output)
+        try:
+            os.link(staged_checksum, checksum)
+        except BaseException:
+            output.unlink()
+            raise
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cache", type=Path, default=Path.home() / ".cache/bc250-fsr4-runtime")
@@ -324,12 +342,7 @@ def main():
         parent = Path(temporary)
         tree = assemble(parent, args.cache, offline=args.offline)
         output = args.output / (tree.name + "-x86_64.tar.gz")
-        if output.exists():
-            raise RuntimeError("Output already exists; choose a new directory.")
-        tar_tree(parent, output)
-        output.with_suffix(output.suffix + ".sha256").write_text(
-            digest(output) + "  " + output.name + "\n"
-        )
+        publish_tree(parent, output)
         print(output)
 
 

@@ -8,6 +8,7 @@ import hashlib
 import json
 import math
 import re
+import runpy
 import subprocess
 import sys
 from pathlib import Path, PurePosixPath
@@ -98,6 +99,10 @@ def check_inputs(root):
         require(bool(SHA256.fullmatch(expected)), "Invalid final source hash: " + relative)
     runtime = load(root / "runtime/manifest.json")
     require(runtime["schema"] == 1, "Unsupported runtime schema")
+    require(
+        runtime["release"]["id"] == "bc250-fsr4-runtime-" + runtime["release"]["version"],
+        "Runtime id/version mismatch",
+    )
     for name, expected in runtime["integration"].items():
         require(
             digest(relative_file(root, name)) == expected,
@@ -178,6 +183,19 @@ def check_docs(root):
     documents = [*root.glob("*.md"), *(root / "docs").rglob("*.md")]
     if (root / "legacy/README.md").exists():
         documents.append(root / "legacy/README.md")
+    if (root / "runtime/manifest.json").is_file():
+        version = load(root / "runtime/manifest.json")["release"]["version"]
+        for name in (
+            "README.md",
+            "docs/games.md",
+            "docs/releases.md",
+            "docs/upgrading-rc1.md",
+            "docs/upgrading-rc2.md",
+        ):
+            for actual in re.findall(
+                r"bc250-fsr4-setup-([A-Za-z0-9.-]+)\.tar\.gz", (root / name).read_text()
+            ):
+                require(actual == version, "Stale setup version in " + name)
     for document in documents:
         prose = re.sub(r"```.*?```", "", document.read_text(), flags=re.DOTALL)
         for target in re.findall(r"\[[^\]\n]*\]\(([^)\n]+)\)", prose):
@@ -283,6 +301,13 @@ def check_syntax(root):
     return f"{len(python_files)} Python and {len(shell_files)} shell entry points, JSON documents"
 
 
+def check_fsr_cost(root):
+    directory = root / "docs/data/fsr-cost-20260908"
+    reconstructed = runpy.run_path(str(directory / "reconstruct.py"))["reconstruct"]()
+    require(reconstructed == load(directory / "estimates.json"), "FSR cost reconstruction changed")
+    return "historical FFX timestamps and matched GPU deltas reproduce the published cost estimates"
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -293,7 +318,14 @@ def main():
     )
     args = parser.parse_args()
     root = args.root.resolve()
-    for check in (check_snapshot, check_inputs, check_docs, check_performance, check_syntax):
+    for check in (
+        check_snapshot,
+        check_inputs,
+        check_docs,
+        check_performance,
+        check_fsr_cost,
+        check_syntax,
+    ):
         print("PASS:", check(root), flush=True)
     if not args.skip_tests:
         subprocess.run(

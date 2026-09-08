@@ -195,7 +195,9 @@ def status(prefix, root):
             "version": report.get("version"),
             "steam_tool": report["tool"],
             "driver": report.get("driver"),
+            "unfinished_runtime_transactions": report.get("interrupted_transactions", []),
         }
+        result["unfinished_driver_transactions"] = [str(p) for p, _ in driver.pending(prefix)]
         if not report["installed"]:
             try:
                 result["driver"] = runtime.select_driver("auto", prefix)
@@ -211,9 +213,11 @@ def status(prefix, root):
 
 def apply(args, prefix, root):
     policy = json.loads((ROOT / "runtime/manifest.json").read_text())
-    if args.driver_archive and args.driver == "system":
+    migrate_v3 = args.upgrade_v3 or bool(args.upgrade_v3_icd)
+    if (args.driver_archive or migrate_v3) and args.driver == "system":
         raise RuntimeError(
-            "--driver-archive installs a private driver; do not combine it with --driver system."
+            "Driver archives and v3 migration require a private driver; "
+            "do not combine them with --driver system."
         )
     with locks(prefix, root) as held:
         recover_pending(prefix, root, held)
@@ -264,6 +268,10 @@ def apply(args, prefix, root):
                     # A matching source hash does not establish distro ABI compatibility.
                     # Let the ordinary transaction install and qualify the portable asset.
                     selected = None
+        if migrate_v3:
+            # Even a reusable driver needs an owned transaction to journal and
+            # restore the explicitly requested legacy ICD changes.
+            selected = None
         target = desired_runtime(args, policy)
         if (
             selected is not None
@@ -395,7 +403,14 @@ def doctor(prefix, root):
         if not result.get("driver"):
             raise RuntimeError("No verified driver is selected. Run bc250-fsr4 install first.")
         result["checks"] = runtime.probe_driver(result["driver"], root)
-        result["healthy"] = result.get("error") is None and not result["unfinished_operations"]
+        result["healthy"] = result.get("error") is None and not any(
+            result.get(name)
+            for name in (
+                "unfinished_operations",
+                "unfinished_driver_transactions",
+                "unfinished_runtime_transactions",
+            )
+        )
     except (OSError, ValueError, KeyError, RuntimeError, subprocess.SubprocessError) as error:
         result.update(healthy=False, diagnostic=str(error))
     return result
@@ -421,7 +436,7 @@ def main():
             command.add_argument(
                 "--driver-archive",
                 type=Path,
-                help="Local driver archive, used only if a compatible driver is missing",
+                help="Install this private driver archive, replacing a different selected build",
             )
             command.add_argument("--driver-sha256")
             command.add_argument("--runtime-archive", type=Path)
@@ -433,7 +448,7 @@ def main():
             command.add_argument(
                 "--upgrade-v3",
                 action="store_true",
-                help="Migrate the standard v3 ICD when installing the private driver",
+                help="Install a private driver and reversibly migrate the standard v3 ICD",
             )
             command.add_argument("--upgrade-v3-icd", type=Path, action="append", default=[])
     args = parser.parse_args()

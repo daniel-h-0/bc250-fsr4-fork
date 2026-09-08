@@ -1,6 +1,6 @@
 # System installation on Arch / CachyOS
 
-**Already running the rc1 system packages?** The rc3 shared runtime reuses
+**Already running the qualified rc1 system packages?** The current shared runtime reuses
 that compatible driver; follow the [rc1 transition guide](upgrading-rc1.md).
 There is no system-package replacement needed for that transition.
 
@@ -43,13 +43,18 @@ python3 scripts/system-package.py build \
   --output .work/system-packages
 ```
 
-The builder verifies the release, checks the library against this host with
-`vulkaninfo`, requires a matching Mesa version, and retains the complete base
+The builder verifies the release, checks the library with an eager-loading
+Vulkan probe, requires a matching Mesa version, and retains the complete base
 package. Inspect `.work/system-packages/PKGBUILD` and `packages.json`; the
 package keeps the base distribution version so the next normal repository
 upgrade supersedes it. Its description and `bc250-fsr4 status` identify v4 by
 release and driver SHA256. It is a local derivative of that base, not a
 repository-wide Mesa upgrade.
+
+New package records include the source-manifest SHA256 as well as the ELF hash.
+The shared runtime requires this source identity for independently rebuilt
+system drivers; matching version labels alone are insufficient. The published
+qualified system ELF is also recognized directly by its pinned hash.
 
 Exit Steam and all games, then install the reviewed pair:
 

@@ -88,6 +88,25 @@ class LegacyExtractionTests(unittest.TestCase):
             self.extract([("file", tarfile.REGTYPE, b"one"), ("file", tarfile.REGTYPE, b"two")])
         self.assertEqual(list(self.destination.iterdir()), [])
 
+    def test_hardlink_cannot_import_external_file_through_existing_directory_link(self):
+        outside = self.root / "external"
+        outside.mkdir()
+        sentinel = outside / "file"
+        sentinel.write_bytes(b"preserve")
+        (self.destination / "link").symlink_to(outside)
+        with self.assertRaisesRegex(RuntimeError, "hard link target escapes"):
+            self.extract([("hard", tarfile.LNKTYPE, "link/file")])
+        self.assertFalse((self.destination / "hard").exists())
+        self.assertEqual(sentinel.stat().st_nlink, 1)
+        self.assertEqual(sentinel.read_bytes(), b"preserve")
+
+    def test_existing_private_directory_permissions_are_preserved(self):
+        directory = self.destination / "private"
+        directory.mkdir(mode=0o700)
+        self.extract([("private/new/file", tarfile.REGTYPE, b"data")])
+        self.assertEqual(directory.stat().st_mode & 0o777, 0o700)
+        self.assertEqual((directory / "new").stat().st_mode & 0o777, 0o755)
+
 
 if __name__ == "__main__":
     unittest.main()

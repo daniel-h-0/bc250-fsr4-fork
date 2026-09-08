@@ -1,20 +1,20 @@
-# Update an existing rc2 or rc3 runtime
+# Update an existing rc2, rc3 or rc4 runtime
 
 RC4 adds a portable driver, automatic repair of the old private driver's ABI
 mismatches, fewer installer prerequisites and host/Steam Runtime diagnostics.
-It preserves RC3’s DX11/DX12/Vulkan routes, component versions and game preset.
+RC5 adds [installer and recovery corrections](review-rc5.md). It preserves RC3’s DX11/DX12/Vulkan routes, component versions and game preset.
 A verified working system driver can still be reused. A private driver built
 from the original CachyOS binary is upgraded to the portable build.
 
-Download the RC4 setup archive and checksum from the
-[release page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc4).
+Download the RC5 setup archive and checksum from the
+[release page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc5).
 Extract into a new directory and retain the previous installer and recovery
 records. With Steam and games closed, run as your desktop user:
 
 ```sh
-sha256sum -c bc250-fsr4-setup-4.0.0-rc4.tar.gz.sha256
-tar -xzf bc250-fsr4-setup-4.0.0-rc4.tar.gz
-cd bc250-fsr4-setup-4.0.0-rc4
+sha256sum -c bc250-fsr4-setup-4.0.0-rc5.tar.gz.sha256
+tar -xzf bc250-fsr4-setup-4.0.0-rc5.tar.gz
+cd bc250-fsr4-setup-4.0.0-rc5
 ./bc250-fsr4 update
 ./bc250-fsr4 doctor
 ```
@@ -35,6 +35,6 @@ DX11 games; it remains a separate mod and is not installed by this tool.
 The [RC4 qualification record](rc4-compatibility.md) states the tested scope.
 
 To undo the update, close Steam and games and run `./bc250-fsr4 rollback`
-with the same custom paths. Restart Steam. The preceding managed runtime is
-and driver binding are restored. GE reconciles its tracked files on the next launch. Retain runtime versions and transaction records until you
-accept the update. Rollback does not reinstall a retired game-local mod.
+with the same custom paths. Restart Steam. The preceding managed runtime and driver binding are restored. GE reconciles
+its tracked files on the next launch. Retain runtime versions and transaction
+records until you accept the update. Rollback does not reinstall a retired game-local mod.

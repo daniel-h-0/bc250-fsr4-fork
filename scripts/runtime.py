@@ -225,7 +225,7 @@ def steam_root(explicit=None):
     if len(roots) != 1:
         if not roots and (Path.home() / ".var/app/com.valvesoftware.Steam").is_dir():
             raise RuntimeError(
-                "Only Flatpak Steam was found. RC4 currently requires native Steam; "
+                "Only Flatpak Steam was found. BC250 FSR4 currently requires native Steam; "
                 "its host driver binding is not qualified for the Flatpak sandbox."
             )
         raise RuntimeError("Select one native Steam installation with --steam-root PATH.")
@@ -325,6 +325,7 @@ def select_driver(mode, prefix):
             metadata = json.loads(SYSTEM_METADATA.read_text())
             known = known or (
                 metadata.get("driver_sha256") == checksum
+                and metadata.get("source_manifest_sha256") == source["source_manifest_sha256"]
                 and metadata.get("version") == source["version"]
                 and metadata.get("mesa") == source.get("mesa")
             )

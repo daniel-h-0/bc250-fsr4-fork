@@ -7,7 +7,7 @@ If you already completed the move to rc1, follow the
 
 ## Upgrade sequence
 
-1. Check Python **3.12+**, `vulkan-tools` and the [prerequisites](../README.md#prerequisites).
+1. Check Python **3.11+**, a working Vulkan loader and the [prerequisites](../README.md#prerequisites).
    If Arch/CachyOS packages need updating, use a coherent full-system update
    and preserve the normal recovery path. Do not cherry-pick core libraries
    or invent compatibility symlinks.
@@ -17,7 +17,8 @@ If you already completed the move to rc1, follow the
 3. From the current distribution, run
    `./bc250-fsr4 install --upgrade-v3`. For a custom v3 ICD, use
    `--upgrade-v3-icd PATH` instead. The installer preserves migrated ICD bytes
-   and reuses a compatible verified driver when available.
+   and creates a private-driver transaction even if a compatible driver is
+   already installed. Explicit v3 migration cannot be combined with `--driver system`.
 4. Restart Steam and select **BC250 FSR4 (4.1.1 INT8)** under the game's
    Properties → Compatibility. Follow [the game guide](games.md).
 
@@ -41,16 +42,17 @@ does not require the eager loading checks now used by v4.
 | Optional system package | An exact original Mesa 26.2.2 `vulkan-radeon` package from the target distribution; see [system installation](system-install.md). |
 | Python / loader tools | Python 3.11+ and a coherent Vulkan loader, including the distribution's 32-bit components. |
 | LLVM | No LLVM dependency in the v4 archive. Do not change LLVM solely for v4; other applications may need it. |
-| C/C++ runtime | The published v4 ELF directly requires GLIBC 2.38, GLIBCXX 3.4.29 and CXXABI 1.3.9 symbols. These are symbol floors, not a complete distribution guarantee. |
-| Display / SPIR-V | `libdisplay-info.so.3` and `libSPIRV-Tools.so`, also required by the original prebuilt v3. |
+| C/C++ runtime | The default portable build targets Debian 12 glibc 2.36 / GCC 12; its highest required libc symbol is GLIBC 2.34. These are separate from the original CachyOS ELF's ABI. |
+| Display / SPIR-V | The portable build keeps X11/Wayland presentation, disables optional display-info and SPIRV-Tools dependencies, and statically links current DRM. |
 | Source builds | Pinned Mesa 26.2.2 requires libdrm/libdrm_amdgpu ≥2.4.133, libdisplay-info ≥0.1.1 and SPIRV-Tools ≥2024.1 when enabled. |
 | Kernel / firmware | Keep the working BC250 setup. The recorded 7.2.3-1.83 kernel is a test reference, not an established minimum. |
 | Game runtime | The same installer manages the BC250 FSR4 compatibility tool; Steam's Compatibility menu controls each game's opt-in. |
 
-The v3 and published v4 ELFs have the same direct GLIBC/C++ symbol floors;
-v3 additionally links LLVM. Dependencies can impose further requirements,
-which is why the installer resolves all relocations with `ldd -r` and runs
-`vulkaninfo --summary` with the selected ICD and `LD_BIND_NOW=1`.
+The original v3 and CachyOS v4 ELFs had the same direct GLIBC/C++ symbol floors;
+v3 additionally linked LLVM. The default portable artifact has a separate
+[ABI qualification](rc4-compatibility.md). The installer resolves ELF
+relocations eagerly and initializes Vulkan with a standard-library Python
+probe; `ldd`, `vulkaninfo` and `patch` are not installation prerequisites.
 
 Primary references: [Arch system maintenance](https://wiki.archlinux.org/title/System_maintenance#Partial_upgrades_are_unsupported),
 [libdisplay-info ABI 3 files](https://archlinux.org/packages/extra/x86_64/libdisplay-info/files/),

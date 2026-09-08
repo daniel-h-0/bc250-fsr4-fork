@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "release": {
-    "id": "bc250-fsr4-runtime-4.0.0-rc4",
-    "version": "4.0.0-rc4"
+    "id": "bc250-fsr4-runtime-4.0.0-rc5",
+    "version": "4.0.0-rc5"
   },
   "proton": {
     "schema": 1,
@@ -91,12 +91,12 @@
     "Hotfix.CreateD3D12DeviceForLuma": "false"
   },
   "integration": {
-    "runtime/launch.py": "362e485f8123805822a45ea8f41af62c5338bde31784c751b53b8492aafdd4e8",
+    "runtime/launch.py": "bfbf9b5583b4a3ec19f0b95dda1ea49482260f8ecec561c455884b0e67790b76",
     "runtime/patches/0001-pinned-upscaler-manifest.patch": "815241b3ca44c8c5236cfa7eb3c3d325ae21c12d712122578699e992c737ecec",
-    "scripts/runtime_bundle.py": "bfb2be3dbc2441c4ccc75147e7d6f2fd03531ebd9271b8dad51415d1f1b949b9",
+    "scripts/runtime_bundle.py": "4550079407c822f77a1d14ea6cab5914307966e7ba9c7cb08344a4f773cffe4c",
     "runtime/licenses/FidelityFX-SDK-4.0.2.txt": "be05d8cd5489deff924dbe91e0c5b8c0ff034d43cd11749bf9a67a0c38252b7b",
     "runtime/licenses/NVIDIA-DLSS.txt": "21b5daec892b12bea692e66bc8fe45cf5902ccaf3a7b831e78050d8859881c37",
-    "scripts/safe_archive.py": "fed3ae937a850bba81dc38e066f88eaa9ce75b14006deb53407e4a9977c31a6d"
+    "scripts/safe_archive.py": "e9f1e17563b12c1e6a86a2c49e5502d9946bd9de9da5dc8999cd40249102e587"
   },
   "sdk": {
     "version": "4.0.2",

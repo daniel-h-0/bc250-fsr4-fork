@@ -108,6 +108,18 @@ def recipe_hashes(root=ROOT):
     return {name: digest(root / name) for name in ("scripts/build.py", "requirements-build.txt")}
 
 
+def target_recipe_hashes(root, portable):
+    names = [
+        "scripts/build-steamos.py",
+        "scripts/runtime_bundle.py",
+        "scripts/driver.py",
+        "scripts/safe_archive.py",
+    ]
+    if portable:
+        names.append("scripts/build-compat.py")
+    return {name: digest(root / name) for name in names}
+
+
 def source_directory(work, manifest):
     name = "mesa-" + manifest["mesa"]
     if Path(name).name != name or name in (".", ".."):
@@ -272,9 +284,10 @@ def verify_completed_build(work, root=ROOT):
                 root / ("scripts/build-compat.py" if portable else "scripts/build-steamos.py")
             )
             or target.get("packages") != read_json(definition)["packages"]
+            or target.get("recipe_hashes") != target_recipe_hashes(root, portable)
             or result.get("display_info") != "disabled"
         ):
-            raise RuntimeError("SteamOS build target changed since this build.")
+            raise RuntimeError("Target build recipe changed since this build.")
         drm = read_json(definition)["libdrm"]
         sources = {"libdrm-" + drm["version"] + ".tar.xz": drm["sha256"]}
         if target.get("source_archives") != sources:

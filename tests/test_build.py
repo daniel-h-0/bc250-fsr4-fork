@@ -235,6 +235,39 @@ class BuildFixture(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "source input changed"):
             build.verify_completed_build(self.work, self.root)
 
+    def test_portable_build_rejects_edited_imported_target_recipe(self):
+        for name in (
+            "build-compat.py",
+            "build-steamos.py",
+            "runtime_bundle.py",
+            "driver.py",
+            "safe_archive.py",
+        ):
+            (self.root / "scripts" / name).write_text("original " + name)
+        definition = self.root / "v4/build-targets/linux-glibc236.json"
+        definition.parent.mkdir()
+        source = self.work / "target-sources/libdrm-test.tar.xz"
+        source.parent.mkdir()
+        source.write_bytes(b"pinned source")
+        build.write_json(
+            definition,
+            {"packages": [], "libdrm": {"version": "test", "sha256": build.digest(source)}},
+        )
+        self.result.update(display_info="disabled", options=build.build_options("disabled"))
+        self.result["target"] = {
+            "id": "linux-glibc236-x86_64",
+            "definition_sha256": build.digest(definition),
+            "builder_sha256": build.digest(self.root / "scripts/build-compat.py"),
+            "recipe_hashes": build.target_recipe_hashes(self.root, portable=True),
+            "packages": [],
+            "source_archives": {source.name: build.digest(source)},
+        }
+        build.write_json(self.work / "build-result.json", self.result)
+        build.verify_completed_build(self.work, self.root)
+        (self.root / "scripts/build-steamos.py").write_text("changed ABI/link environment")
+        with self.assertRaisesRegex(RuntimeError, "Target build recipe changed"):
+            build.verify_completed_build(self.work, self.root)
+
     def test_package_rejects_recipe_edited_after_build(self):
         (self.root / "scripts/build.py").write_text("changed")
         with self.assertRaisesRegex(RuntimeError, "recipe changed"):

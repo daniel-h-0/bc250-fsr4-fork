@@ -80,6 +80,7 @@ def build(args):
         "version": release["version"],
         "mesa": mesa,
         "driver_sha256": release["driver_sha256"],
+        "source_manifest_sha256": release["source_manifest_sha256"],
         "base_version": version,
         "base_package_sha256": driver.digest(base),
         "base_driver_sha256": hashlib.sha256(old_library).hexdigest(),

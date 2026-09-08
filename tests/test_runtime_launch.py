@@ -17,6 +17,15 @@ spec.loader.exec_module(launch)
 
 
 class LaunchTests(unittest.TestCase):
+    def test_only_game_verbs_with_nonzero_identity_enable_injection(self):
+        for verb in ("getcompatpath", "getnativepath", "destroyprefix", "runinprefix"):
+            self.assertFalse(launch.game_launch([verb, "argument"], {"SteamAppId": "12345"}))
+        for env in ({}, {"SteamAppId": "0"}, {"SteamAppId": "0", "SteamGameId": "0"}):
+            self.assertFalse(launch.game_launch(["run"], env))
+        for verb in ("run", "waitforexitandrun"):
+            self.assertTrue(launch.game_launch([verb], {"SteamAppId": "12345"}))
+            self.assertTrue(launch.game_launch([verb], {"SteamAppId": "0", "SteamGameId": "99"}))
+
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)

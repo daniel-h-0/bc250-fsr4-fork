@@ -189,6 +189,7 @@ def main():
         "id": policy["id"],
         "definition_sha256": build.digest(TARGET),
         "builder_sha256": build.digest(Path(__file__)),
+        "recipe_hashes": build.target_recipe_hashes(ROOT, portable=False),
         "packages": policy["packages"],
         "source_archives": {source_name: policy["libdrm"]["sha256"]},
     }

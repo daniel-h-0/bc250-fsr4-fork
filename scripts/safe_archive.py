@@ -60,7 +60,8 @@ def extract_legacy(archive, destination, members):
         )
         if member.isdir():
             directories.add(path)
-    for directory in sorted(directories, key=lambda p: len(p.parts)):
+    new_directories = {directory for directory in directories if not directory.exists()}
+    for directory in sorted(new_directories, key=lambda p: len(p.parts)):
         directory.mkdir(mode=0o700, exist_ok=True)
     for name, member in entries.items():
         if member.isfile():
@@ -73,6 +74,8 @@ def extract_legacy(archive, destination, members):
         progress = False
         for name, member in list(pending.items()):
             target = root / posixpath.normpath(member.linkname)
+            if not target.resolve().is_relative_to(root):
+                raise RuntimeError("Archive hard link target escapes extraction: " + str(name))
             if target.is_file() and not target.is_symlink():
                 os.link(target, root / name, follow_symlinks=False)
                 del pending[name]
@@ -85,5 +88,5 @@ def extract_legacy(archive, destination, members):
     for name, member in entries.items():
         if member.issym() and not (root / name).resolve().is_relative_to(root):
             raise RuntimeError("Archive link chain escapes extraction: " + str(name))
-    for directory in directories:
+    for directory in new_directories:
         directory.chmod(0o755)

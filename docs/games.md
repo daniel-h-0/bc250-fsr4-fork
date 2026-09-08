@@ -12,12 +12,12 @@ establish compatibility with every game.
 
 ## Install once
 
-Existing rc2 users can [update the shared runtime](upgrading-rc2.md) directly.
+Existing rc2/rc3/rc4 users can [update the shared runtime](upgrading-rc2.md) directly.
 For an existing rc1 driver or per-game setup, follow
 [the rc1 transition guide](upgrading-rc1.md) before proceeding. Retain a
 compatible driver and retire the outgoing game-local hooks first.
 
-Use `bc250-fsr4-setup-4.0.0-rc3.tar.gz` and its checksum from the
+Use `bc250-fsr4-setup-4.0.0-rc5.tar.gz` and its checksum from the
 [releases page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases), or the
 [maintained source checkout](../README.md#obtain-the-source). The original
 driver rc1 archive predates this tool. Check the [prerequisites](../README.md#prerequisites),

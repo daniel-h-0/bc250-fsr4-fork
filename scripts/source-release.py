@@ -50,6 +50,7 @@ def setup_files(files, commit):
     for guide in (
         "docs/steamos-compatibility.md",
         "docs/rc4-compatibility.md",
+        "docs/review-rc5.md",
         "scripts/vulkan_probe.py",
         "scripts/safe_archive.py",
     ):

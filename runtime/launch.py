@@ -19,6 +19,14 @@ def digest(path):
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
+def game_launch(arguments, inherited):
+    return bool(
+        arguments
+        and arguments[0] in ("run", "waitforexitandrun")
+        and any(inherited.get(name, "") not in ("", "0") for name in ("SteamAppId", "SteamGameId"))
+    )
+
+
 def environment(version, driver, inherited, *, game=True):
     lock = json.loads((version / "runtime-lock.json").read_text())
     if driver.get("source_manifest_sha256") != lock["driver"]["source_manifest_sha256"]:
@@ -66,7 +74,7 @@ def environment(version, driver, inherited, *, game=True):
     env["PYTHONDONTWRITEBYTECODE"] = "1"
     if not game:
         # Steam also invokes the tool for installers, path conversion and GPU
-        # queries. These calls have no Steam game identity and need ordinary GE.
+        # queries. These need ordinary GE even if a game identity is inherited.
         return env
     preset = lock["preset"].copy()
     # OptiScaler advertises NVX extensions to unlock a game's DLSS input.
@@ -119,7 +127,7 @@ def main():
             if path.is_symlink() or not path.is_file() or digest(path) != expected["sha256"]:
                 raise RuntimeError("Runtime file changed: " + name)
         selected = json.loads((tool / "driver.json").read_text())
-        game = bool(os.environ.get("SteamAppId") or os.environ.get("SteamGameId"))
+        game = game_launch(sys.argv[1:], os.environ)
         env = environment(version, selected, os.environ, game=game)
         if game:
             library = Path(selected["library"])

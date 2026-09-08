@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "date": "2026-09-08",
+  "distribution": "4.0.0-rc5",
+  "baseline_commit": "05d383586a9f6af980acfd6f4a8233bb034d1106",
+  "scope": "Installer/recovery maintenance and Windows D3D12 startup; unchanged GPU driver, components and preset",
+  "driver": {
+    "sha256": "13163d1350d346f54d58b82863e5fc2f31ddfab0a0dd6495886c3fec286315d2",
+    "source_manifest_sha256": "5f6809df51db8d76adebe450c2ae080100b2f0ad8a0d91fbbf40f94f6f6a212a",
+    "archive_sha256": "00fadb904d9f47fd4488b56756e8bc224d6f04603ff11b90416d574f720a0fc4",
+    "reused_from": "v4.0.0-rc4"
+  },
+  "tooling": {
+    "python314_tests": 186,
+    "debian_python311_tests": 186,
+    "targeted_rc4_regression_cases": 7,
+    "source_files_reproduced": 15,
+    "performance_scoring_rows_reproduced": 360,
+    "fsr_cost_reconstruction": "matches original timestamp and GPU-delta inputs"
+  },
+  "operations": {
+    "isolated_rc4_rc5_rc4_rc5": "passed",
+    "migration_with_reused_private_driver": "passed; legacy-shaped ICD backed by a real library, not a new v3 performance baseline",
+    "exact_icd_and_selection_rollback": "passed",
+    "cache_free_retained_runtime_reinstall": "passed",
+    "paths_containing_spaces": "passed"
+  },
+  "windows_startup": {
+    "HRESULT": "0x00000000",
+    "driver_mapped_sha256": "13163d1350d346f54d58b82863e5fc2f31ddfab0a0dd6495886c3fec286315d2",
+    "native_proxy_mapped_sha256": "469bcfe59108f04f8b8cf45953e515f0a0cd24b00717be62b7dcf5c20430410d",
+    "kernel": "7.2.3-1.83-cachyos-bc250",
+    "environment": "Steam Runtime 4 with SteamOS 3.8 graphics provider, private Xvfb",
+    "probe_sha256": "11917f6d55063b7b2d237c798d2122081855ce1f3bbdddf09ecf003ab3f1ef23",
+    "no_game_or_swapchain": true
+  },
+  "limitations": [
+    "No new performance measurements",
+    "No separately booted SteamOS or Flatpak qualification",
+    "Process-interruption tests do not establish abrupt-power-loss durability",
+    "Recorded build inputs do not establish a hermetic toolchain"
+  ]
+}

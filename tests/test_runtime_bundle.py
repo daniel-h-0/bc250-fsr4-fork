@@ -42,6 +42,54 @@ class RuntimeBundleTests(unittest.TestCase):
         network.assert_not_called()
         self.assertEqual(cached.read_bytes(), b"changed")
 
+    def test_interrupted_packaging_does_not_publish_partial_archive(self):
+        tree = self.root / "payload"
+        tree.mkdir()
+        output = self.root / "release.tar.gz"
+
+        def fail(tree, path):
+            path.write_bytes(b"partial archive")
+            raise OSError("interrupted write")
+
+        with patch.object(bundle, "tar_tree", side_effect=fail):
+            with self.assertRaisesRegex(OSError, "interrupted write"):
+                bundle.publish_tree(tree, output)
+        self.assertFalse(output.exists())
+        self.assertFalse(Path(str(output) + ".sha256").exists())
+
+    def test_packaging_preserves_existing_sidecar_and_concurrent_archive(self):
+        tree = self.root / "payload"
+        tree.mkdir()
+        output = self.root / "release.tar.gz"
+        checksum = Path(str(output) + ".sha256")
+        checksum.write_bytes(b"preserve checksum")
+        with self.assertRaisesRegex(RuntimeError, "Output already exists"):
+            bundle.publish_tree(tree, output)
+        self.assertEqual(checksum.read_bytes(), b"preserve checksum")
+        checksum.unlink()
+        original = bundle.tar_tree
+
+        def race(tree, staged):
+            original(tree, staged)
+            output.write_bytes(b"concurrent writer")
+
+        with patch.object(bundle, "tar_tree", side_effect=race):
+            with self.assertRaises(FileExistsError):
+                bundle.publish_tree(tree, output)
+        self.assertEqual(output.read_bytes(), b"concurrent writer")
+        self.assertFalse(checksum.exists())
+
+    def test_published_runtime_checksum_matches_complete_archive(self):
+        tree = self.root / "payload"
+        tree.mkdir()
+        (tree / "file").write_bytes(b"complete payload")
+        output = self.root / "release.tar.gz"
+        bundle.publish_tree(tree, output)
+        self.assertEqual(
+            Path(str(output) + ".sha256").read_text(),
+            bundle.digest(output) + "  " + output.name + "\n",
+        )
+
     def test_offline_missing_artifact_never_calls_network(self):
         with patch.object(bundle.urllib.request, "urlopen") as network:
             with self.assertRaisesRegex(RuntimeError, "Offline cache is missing"):

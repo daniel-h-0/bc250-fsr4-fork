@@ -52,11 +52,44 @@ class InstallerTests(unittest.TestCase):
             driver.install(self.args, self.prefix)
 
     def test_checksum_failure_preserves_old_current(self):
-        (self.prefix / "current").symlink_to("old")
+        (self.prefix / "current").symlink_to("releases/old")
         self.args.sha256 = "0" * 64
         with self.assertRaisesRegex(RuntimeError, "SHA256"):
             self.install()
-        self.assertEqual(driver.current_target(self.prefix), "old")
+        self.assertEqual(driver.current_target(self.prefix), "releases/old")
+
+    def test_external_current_is_not_adopted_or_replaced(self):
+        current = self.prefix / "current"
+        current.symlink_to(self.payload)
+        with self.assertRaisesRegex(RuntimeError, "outside its managed releases"):
+            self.install()
+        self.assertEqual(os.readlink(current), str(self.payload))
+        self.assertEqual(self.library.read_bytes(), b"test fixture only")
+
+    def test_replaced_managed_directories_are_preserved(self):
+        for name in ("releases", "icds", "transactions"):
+            with self.subTest(name=name):
+                path = self.prefix / name
+                path.symlink_to(self.payload)
+                with self.assertRaisesRegex(RuntimeError, "Managed driver directory was replaced"):
+                    self.install()
+                self.assertEqual(
+                    set(self.payload.iterdir()),
+                    {self.payload / "lib", self.payload / "release.json"},
+                )
+                path.unlink()
+
+    def test_symlink_transaction_is_not_used_for_rollback(self):
+        self.install()
+        record = next((self.prefix / "transactions").glob("*.json"))
+        retained = self.root / "retained.json"
+        record.rename(retained)
+        record.symlink_to(retained)
+        before = retained.read_bytes()
+        with self.assertRaisesRegex(RuntimeError, "transaction record is not a regular file"):
+            driver.rollback(self.prefix)
+        self.assertEqual(retained.read_bytes(), before)
+        self.assertTrue((self.prefix / "current").is_symlink())
 
     def test_uppercase_checksum_is_accepted(self):
         self.args.sha256 = self.args.sha256.upper()
@@ -92,19 +125,19 @@ class InstallerTests(unittest.TestCase):
         self.assertNotIn("VK_ADD_DRIVER_FILES", launched)
 
     def test_empty_adjacent_checksum_is_actionable_and_preserves_selection(self):
-        (self.prefix / "current").symlink_to("old")
+        (self.prefix / "current").symlink_to("releases/old")
         Path(str(self.archive) + ".sha256").write_text("")
         self.args.sha256 = None
         with self.assertRaisesRegex(RuntimeError, "SHA256 file is empty"):
             self.install()
-        self.assertEqual(driver.current_target(self.prefix), "old")
+        self.assertEqual(driver.current_target(self.prefix), "releases/old")
 
     def test_bad_abi_probe_preserves_old_current(self):
-        (self.prefix / "current").symlink_to("old")
+        (self.prefix / "current").symlink_to("releases/old")
         with patch.object(driver, "probe", side_effect=RuntimeError("bad ABI")):
             with self.assertRaisesRegex(RuntimeError, "bad ABI"):
                 driver.install(self.args, self.prefix)
-        self.assertEqual(driver.current_target(self.prefix), "old")
+        self.assertEqual(driver.current_target(self.prefix), "releases/old")
         self.assertFalse((self.prefix / "releases").exists())
 
     def test_missing_file_rejected(self):

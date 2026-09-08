@@ -1,20 +1,21 @@
 # Move from rc1 to the shared Steam runtime
 
-rc3 uses the **same qualified rc1 driver**. Keep a working rc1 private or
-system-package installation; the unified installer can reuse it. The change
-is how games receive the upscaler integration. You do not need to roll back
-the driver, rebuild Mesa, or repeat a completed v3 migration.
+The current distribution retains the **rc1 Mesa source** and uses RC4’s portable
+private build by default. It reuses a verified working system driver, replaces
+the original private binary with the portable build, and manages how games
+receive the upscaler integration. Keep prior releases for rollback; no Mesa
+rebuild or repeat of a completed v3 migration is required.
 
 ## 1. Keep your recovery records and obtain the current tools
 
-Download the rc3 setup archive and its checksum from the
-[release page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc3).
+Download the RC5 setup archive and its checksum from the
+[release page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc5).
 In the download directory:
 
 ```sh
-sha256sum -c bc250-fsr4-setup-4.0.0-rc3.tar.gz.sha256
-tar -xzf bc250-fsr4-setup-4.0.0-rc3.tar.gz
-cd bc250-fsr4-setup-4.0.0-rc3
+sha256sum -c bc250-fsr4-setup-4.0.0-rc5.tar.gz.sha256
+tar -xzf bc250-fsr4-setup-4.0.0-rc5.tar.gz
+cd bc250-fsr4-setup-4.0.0-rc5
 ```
 
 Extract into a fresh directory. Keep your previous installer, game-runtime
@@ -73,7 +74,7 @@ even older mod. Ensure the outgoing upscaler integration is actually retired.
 Do not blanket-delete game DLLs, the game's own FSR SDK, its Proton prefix,
 saves, or shared GE-Proton installations.
 
-## 3. Install using the existing driver
+## 3. Install and verify driver selection
 
 For the standard private location or a compatible system driver:
 
@@ -122,8 +123,8 @@ if engagement is unclear. Do not combine it with the newer 4.1.1b mod.
 
 Close Steam and games, then run `./bc250-fsr4 rollback` with the same custom
 paths, if any. On the first unified installation, this removes the new Steam
-entry and preserves an rc1 driver that it reused. Later updates restore the
-previous managed selection. Retained runtime payloads support recovery.
+entry. A reused driver is left in place; a replaced private driver returns to
+its preceding selection. Later updates restore the previous managed selection. Retained runtime payloads support recovery.
 
 Restart Steam and select the previous compatibility tool for affected games.
 Unified rollback **does not reinstall the old game-local mod or restore

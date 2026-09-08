@@ -196,6 +196,58 @@ class ManageTests(unittest.TestCase):
         self.assertTrue(Path(operation["retired"]).is_dir())
         self.assertEqual(self.system.read_bytes(), original)
 
+    def test_explicit_v3_migration_is_not_skipped_for_reusable_private_driver(self):
+        self.apply()
+        previous = runtime.selection(self.steam)
+        legacy = self.prefix / "v3/radv-bc250-fsr4-v3.json"
+        legacy.parent.mkdir()
+        library = legacy.parent / "libvulkan_radeon.so"
+        library.write_bytes(b"retained v3 payload")
+        original = json.dumps(driver.icd(library)).encode()
+        legacy.write_bytes(original)
+        self.args.upgrade_v3 = True
+        self.apply()
+        operation = manage.operations(self.prefix)[-1][1]
+        self.assertIsNotNone(operation["driver_record"])
+        self.assertNotEqual(legacy.read_bytes(), original)
+        self.assertEqual(
+            json.loads(legacy.read_text()),
+            driver.icd(self.prefix / "current/lib/libvulkan_radeon.so"),
+        )
+        self.rollback()
+        self.assertEqual(legacy.read_bytes(), original)
+        self.assertEqual(library.read_bytes(), b"retained v3 payload")
+        self.assertEqual(runtime.selection(self.steam), previous)
+
+    def test_doctor_reports_interrupted_component_transaction(self):
+        self.apply()
+        selected = runtime.selection(self.steam)
+        record = self.tool / "transactions/unfinished.json"
+        driver.write_json(
+            record,
+            {
+                "state": "prepared",
+                "previous": selected["id"],
+                "target": selected["id"],
+                "driver_before": selected["driver"],
+                "driver_after": selected["driver"],
+            },
+        )
+        with mock.patch.object(driver, "check_hardware"):
+            report = manage.doctor(self.prefix, self.steam)
+        self.assertFalse(report["healthy"])
+        self.assertEqual(report["unfinished_runtime_transactions"], [str(record)])
+        self.assertEqual(json.loads(record.read_text())["state"], "prepared")
+
+    def test_explicit_system_mode_rejects_v3_migration_before_mutation(self):
+        self.args.driver_archive = None
+        self.args.driver = "system"
+        self.args.upgrade_v3_icd = [self.root / "custom/radv-bc250-fsr4.json"]
+        with self.assertRaisesRegex(RuntimeError, "v3 migration require a private driver"):
+            self.apply()
+        self.assertEqual(list(self.prefix.iterdir()), [])
+        self.assertFalse(self.tool.exists())
+
     def test_explicit_abi_replacement_rebinds_same_runtime_and_rolls_back(self):
         self.apply()
         previous = manage.runtime.selection(self.steam)

@@ -3,6 +3,7 @@
 
 import argparse
 import importlib.util
+import json
 import subprocess
 import sys
 import tempfile
@@ -39,6 +40,7 @@ class SystemPackageTests(unittest.TestCase):
                 "version": "4.0.0-test",
                 "mesa": "26.2.2",
                 "driver_sha256": driver.digest(library),
+                "source_manifest_sha256": "b" * 64,
             }
             info = {
                 "pkgname": ["vulkan-radeon"],
@@ -92,6 +94,10 @@ class SystemPackageTests(unittest.TestCase):
                 self.assertIn(field, recipe)
             subprocess.run(["bash", "-n", str(output / "PKGBUILD")], check=True)
             self.assertTrue((output / "packages.json").is_file())
+            self.assertEqual(
+                json.loads((output / "system.json").read_text())["source_manifest_sha256"],
+                release["source_manifest_sha256"],
+            )
             self.assertEqual((output / "base.pkg.tar.zst").read_bytes(), base.read_bytes())
 
 

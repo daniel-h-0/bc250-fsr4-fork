@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 import platform
+import re
 import shlex
 import shutil
 import subprocess
@@ -164,19 +165,35 @@ def switch(prefix, target):
     os.replace(temporary, prefix / "current")
 
 
+def managed_target(prefix, target):
+    if not isinstance(target, str) or not re.fullmatch(
+        r"releases/[A-Za-z0-9][A-Za-z0-9.-]*", target
+    ):
+        raise RuntimeError("Private driver selection is outside its managed releases directory.")
+    path = prefix / target
+    if (prefix / "releases").is_symlink() or path.is_symlink():
+        raise RuntimeError("Private driver release directory is a symlink; preserving it.")
+    return target
+
+
 def current_target(prefix):
     current = prefix / "current"
     if current.is_symlink():
-        return os.readlink(current)
+        return managed_target(prefix, os.readlink(current))
     if current.exists():
         raise RuntimeError("current exists but is not a managed symlink.")
     return None
 
 
 def pending(prefix):
-    records = [
-        (p, json.loads(p.read_text())) for p in sorted((prefix / "transactions").glob("*.json"))
-    ]
+    for name in ("releases", "icds", "transactions"):
+        path = prefix / name
+        if path.is_symlink() or (path.exists() and not path.is_dir()):
+            raise RuntimeError("Managed driver directory was replaced; preserving it: " + str(path))
+    paths = sorted((prefix / "transactions").glob("*.json"))
+    if any(path.is_symlink() or not path.is_file() for path in paths):
+        raise RuntimeError("Driver transaction record is not a regular file; preserving it.")
+    records = [(p, json.loads(p.read_text())) for p in paths]
     return [
         (p, journal)
         for p, journal in records
@@ -188,7 +205,7 @@ def verify_previous(prefix, journal):
     if journal["previous"] is not None:
         # A retained release can be removed or edited between install and rollback.
         # Validate it before restoring migrated launch paths or switching current.
-        verify_release(prefix / journal["previous"])
+        verify_release(prefix / managed_target(prefix, journal["previous"]))
 
 
 def archive_checksum(archive, checksum=None):
@@ -432,7 +449,8 @@ def main():
             "Choose a dedicated installation directory, not a system/home root or symlink."
         )
     prefix.mkdir(parents=True, exist_ok=True)
-    with (prefix / ".lock").open("a") as lock:
+    fd = os.open(prefix / ".lock", os.O_WRONLY | os.O_CREAT | os.O_NOFOLLOW, 0o600)
+    with os.fdopen(fd, "a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
         if args.command == "install":
             if os.geteuid() == 0:

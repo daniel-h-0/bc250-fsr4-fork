@@ -11,9 +11,11 @@ The maintained `v4` branch preserves upstream v3 history at
 | `v4/manifest.json`, `v4/patches/`, `v4/source-dependencies/` | Pinned Mesa source, ordered changes and build inputs |
 | `runtime/manifest.json` | Distribution version, upstream component hashes, driver compatibility and preset |
 | `runtime/launch.py`, `runtime/patches/` | Steam entry point and narrow GE-Proton integration |
-| `bc250-fsr4`, `scripts/manage.py` | Unified component installation, update, status and rollback |
+| `bc250-fsr4`, `scripts/manage.py` | Unified component installation, update, status, doctor and rollback |
 | `scripts/runtime.py`, `scripts/runtime_bundle.py` | Runtime installation, status, rollback and shared assembly/packaging |
 | `scripts/driver.py`, build and package tools | Driver preparation, verification, installation and recovery |
+| `scripts/vulkan_probe.py`, `scripts/safe_archive.py` | Host/container Vulkan checks and data-only archive extraction |
+| `scripts/build-compat.py`, `scripts/build-steamos.py`, `v4/build-targets/` | Pinned target compilers, libraries and ABI checks |
 | `tests/`, `.github/workflows/` | GPU-free checks and CI |
 | `docs/qualification.*`, `docs/performance.md`, `docs/data/`, `docs/assets/` | Immutable driver qualification and later performance evidence |
 | `legacy/game-setup/` | Recovery for retired game-local transactions |
@@ -38,6 +40,10 @@ independent store repair; the internal `v3` cache marker is a generation ID.
 Use the [native or container build commands](../README.md#build-from-source).
 Build provenance records materialized source, recipe, compiler, dependencies
 and flags. Matching source hashes alone do not establish identical binaries.
+Target build records also pin imported builder and extraction helper code.
+Changed recipes require a fresh build; keep the original checkout to inspect
+older completed builds. This is build-input provenance, not a claim that every
+transitive host tool or library is hermetic or that rebuilds are byte-identical.
 
 ## Runtime changes
 
@@ -88,11 +94,17 @@ patch must accept the pinned source, reject drift and retain ordinary upstream
 behavior when its opt-in manifest is absent. Active tools must not scan games
 or edit Steam VDF files.
 
-The initial [runtime qualification](runtime-qualification.md) passed both inputs.
+The [RC3 runtime qualification](runtime-qualification.md) covers the recorded
+DX11, DX12 and Vulkan scenes with FSR and DLSS inputs.
 For a new component set, record current mapped driver/provider identities,
 INT8 behavior and a correct rendered frame through both routes.
 Keep compatibility reports separate from the old driver/performance record.
 Use existing logs and bounded checks; do not enable game GPU tracing.
+
+Recovery tests interrupt processes between transaction steps. They do not
+simulate sudden power loss or prove storage durability: atomic file replacement
+alone does not flush containing directory entries or entire runtime trees.
+Retain normal filesystem backups and prior release payloads.
 
 ## Preserve the evidence
 
