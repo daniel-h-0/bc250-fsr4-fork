@@ -8,6 +8,7 @@ import json
 import os
 import shlex
 import shutil
+import stat
 import subprocess
 import tarfile
 import urllib.request
@@ -63,6 +64,7 @@ ENVIRONMENT_KEYS = (
     "PKG_CONFIG_PATH",
     "PKG_CONFIG_LIBDIR",
     "PKG_CONFIG_SYSROOT_DIR",
+    "PYTHONDONTWRITEBYTECODE",
 )
 
 
@@ -128,18 +130,51 @@ def source_directory(work, manifest):
 
 
 def snapshot_source(source):
-    """Record original source files, including files outside the patched subset."""
-    return {
-        str(path.relative_to(source)): digest(path)
-        for path in sorted(source.rglob("*"))
-        if path.is_file()
-    }
+    """Record every source file and internal link, including executable modes."""
+    if source.is_symlink() or not source.is_dir():
+        raise RuntimeError("Materialized source must be an owned directory.")
+    result = {}
+    for path in sorted(source.rglob("*")):
+        if path.is_dir() and not path.is_symlink():
+            continue
+        name = str(path.relative_to(source))
+        result[name] = source_entry(source, name)
+    return result
 
 
-def verify_source(source, expected):
-    for relative, checksum in expected.items():
-        path = Path(relative)
-        if path.is_absolute() or ".." in path.parts or digest(source / path) != checksum:
+def source_entry(source, relative):
+    name = Path(relative)
+    path = source / name
+    if (
+        name.is_absolute()
+        or ".." in name.parts
+        or not path.resolve().is_relative_to(source.resolve())
+    ):
+        raise RuntimeError("Unsafe materialized source path: " + relative)
+    if path.is_symlink():
+        return {"target": os.readlink(path)}
+    mode = path.lstat().st_mode
+    if not stat.S_ISREG(mode):
+        raise RuntimeError("Nonregular materialized source file: " + relative)
+    return {"sha256": digest(path), "mode": stat.S_IMODE(mode)}
+
+
+def verify_source(source, expected, *, complete=False):
+    if complete:
+        actual = snapshot_source(source)
+        if set(actual) != set(expected):
+            raise RuntimeError("Materialized source inventory changed; use a new work directory.")
+    else:
+        actual = {relative: source_entry(source, relative) for relative in expected}
+    for relative, recorded in expected.items():
+        # The release manifest pins only the patched files by their hashes.
+        # Full build snapshots also own modes and every internal symlink.
+        matches = (
+            actual[relative].get("sha256") == recorded
+            if isinstance(recorded, str)
+            else actual[relative] == recorded
+        )
+        if not matches:
             raise RuntimeError("Materialized source mismatch: " + relative)
 
 
@@ -304,7 +339,9 @@ def verify_completed_build(work, root=ROOT):
         raise RuntimeError("Built library changed since this build.")
     if digest(work / "source-files.json") != result["source_files_sha256"]:
         raise RuntimeError("Materialized source record changed since this build.")
-    verify_source(source_directory(work, manifest), read_json(work / "source-files.json"))
+    verify_source(
+        source_directory(work, manifest), read_json(work / "source-files.json"), complete=True
+    )
     verify_configuration(work / "build", result["configuration"], check_tools=False)
     return manifest, result
 
@@ -355,6 +392,8 @@ def main():
     env = os.environ.copy()
     env.setdefault("CFLAGS", DEFAULT_FLAGS)
     env.setdefault("CXXFLAGS", DEFAULT_FLAGS)
+    # Generators must not add unrecorded Python bytecode to the source tree.
+    env["PYTHONDONTWRITEBYTECODE"] = "1"
     # Preparing source needs patch and Python, but no compiler or Meson install.
     inputs = {
         "schema": 2,
@@ -365,7 +404,7 @@ def main():
     if args.resume:
         if read_json(work / "inputs.json") != inputs:
             raise RuntimeError("Resume inputs changed; use a new work directory.")
-        verify_source(source, read_json(work / "source-files.json"))
+        verify_source(source, read_json(work / "source-files.json"), complete=True)
     else:
         work.mkdir(parents=True, exist_ok=False)
         with tarfile.open(archive) as bundle:
@@ -423,7 +462,7 @@ def main():
         env=env,
         check=True,
     )
-    verify_source(source, read_json(work / "source-files.json"))
+    verify_source(source, read_json(work / "source-files.json"), complete=True)
     actual = configuration(build)
     verify_configuration(build, read_json(work / "configuration.json"))
     library = build / "src/amd/vulkan/libvulkan_radeon.so"

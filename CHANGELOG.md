@@ -1,5 +1,16 @@
 # Changelog
 
+## Source-build review follow-up — 2026-09-08
+
+- Reject added or missing materialized source files during resume and packaging.
+  A real preprocessor check reproduces an unrecorded header shadowing an
+  unchanged recorded header. Also record executable modes and internal links.
+- Disable generator bytecode output to keep the source inventory stable.
+- Clarify which rewrites `BC250_FSR4_DISABLE=1` controls. Generic GFX1013
+  lowerings and the independent store repair remain active.
+- These development-tool corrections leave the RC5 runtime, published assets,
+  driver bytes and previous qualification unchanged.
+
 ## 4.0.0-rc5 — 2026-09-08
 
 - Honor explicit v3 migrations with reversible private-driver transactions,

@@ -230,6 +230,51 @@ class BuildFixture(unittest.TestCase):
         self.assertEqual(manifest["mesa"], "27.0.0")
         self.assertEqual(result["sha256"], build.digest(self.library))
 
+    @unittest.skipUnless(shutil.which("cc"), "C preprocessor required")
+    def test_unrecorded_header_can_change_compiler_input_but_cannot_resume(self):
+        include = self.source / "include"
+        include.mkdir()
+        source = self.source / "src/original.c"
+        source.write_text('#include "answer.h"\nint answer = VALUE;\n')
+        (include / "answer.h").write_text("#define VALUE 1\n")
+        recorded = build.snapshot_source(self.source)
+        command = ["cc", "-E", "-P", "-I", str(include), str(source)]
+        before = subprocess.check_output(command, text=True)
+        (source.parent / "answer.h").write_text("#define VALUE 2\n")
+        after = subprocess.check_output(command, text=True)
+        self.assertNotEqual(before, after)
+        with self.assertRaisesRegex(RuntimeError, "source inventory changed"):
+            build.verify_source(self.source, recorded, complete=True)
+
+    def test_package_rejects_unrecorded_source_file(self):
+        (self.source / "src/override.h").write_text("unrecorded compiler input")
+        with self.assertRaisesRegex(RuntimeError, "source inventory changed"):
+            build.verify_completed_build(self.work, self.root)
+
+    def test_internal_source_links_are_pinned_and_external_links_rejected(self):
+        alias = self.source / "include"
+        alias.symlink_to("src", target_is_directory=True)
+        recorded = build.snapshot_source(self.source)
+        build.verify_source(self.source, recorded, complete=True)
+        alias.unlink()
+        alias.symlink_to("licenses", target_is_directory=True)
+        with self.assertRaisesRegex(RuntimeError, "source mismatch"):
+            build.verify_source(self.source, recorded, complete=True)
+        alias.unlink()
+        alias.symlink_to(self.root, target_is_directory=True)
+        with self.assertRaisesRegex(RuntimeError, "Unsafe materialized source"):
+            build.snapshot_source(self.source)
+
+    def test_source_script_modes_and_special_files_are_checked(self):
+        original = self.source / "src/original.c"
+        recorded = build.snapshot_source(self.source)
+        original.chmod(original.stat().st_mode ^ 0o100)
+        with self.assertRaisesRegex(RuntimeError, "source mismatch"):
+            build.verify_source(self.source, recorded, complete=True)
+        os.mkfifo(self.source / "unrecorded-pipe")
+        with self.assertRaisesRegex(RuntimeError, "Nonregular materialized source"):
+            build.snapshot_source(self.source)
+
     def test_package_rejects_patch_edited_after_build(self):
         (self.root / "v4/patches/test.patch").write_text("changed")
         with self.assertRaisesRegex(RuntimeError, "source input changed"):

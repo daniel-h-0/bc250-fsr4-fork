@@ -34,13 +34,21 @@ families and store guards, and default-on selection/cache identity.
 Rebase onto a new Mesa version explicitly. Apply patches without fuzz, update
 the final source hashes and qualify the resulting compiler output. Unknown
 shader, weight, interface and subgroup inputs must retain their fallback.
-`BC250_FSR4_DISABLE=1` disables the optimization while preserving the
-independent store repair; the internal `v3` cache marker is a generation ID.
+`BC250_FSR4_DISABLE=1` disables the profile-specific rewrites and image-preparation
+replacement. The generic GFX1013 dot lowerings, deferred-dot optimization and
+independent store repair remain active. This switch does not select stock Mesa
+or recreate upstream v3. The internal `v3` cache marker is a generation ID.
 
 Use the [native or container build commands](../README.md#build-from-source).
 Build provenance records materialized source, recipe, compiler, dependencies
 and flags. Matching source hashes alone do not establish identical binaries.
 Target build records also pin imported builder and extraction helper code.
+Full materialized-source records include file hashes, modes and internal link
+targets. Resume and packaging reject added or missing files: an added header
+can shadow a recorded header without changing any recorded file. Meson may
+materialize pinned wrap inputs during initial configuration; those are recorded
+before compilation. Generators run with Python bytecode writing disabled so
+they do not add unrecorded source files during the build.
 Changed recipes require a fresh build; keep the original checkout to inspect
 older completed builds. This is build-input provenance, not a claim that every
 transitive host tool or library is hermetic or that rebuilds are byte-identical.
