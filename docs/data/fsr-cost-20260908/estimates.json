@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "scope": "Illustrative FSR4 cost reconstruction; not a three-resolution isolated-pass benchmark",
+  "historical_measured_ffx_ms": {
+    "v3": 8.015267228915661,
+    "arithmetic_2_84": 5.835466603753635,
+    "saving": 2.1798006251620263
+  },
+  "campaign_results_sha256": "9340578d4abb62145c1050d78f44c75bb6ab0bdca728a6292502bb398f33b9e4",
+  "assumptions": [
+    "Historical packaged v3 Balanced timing approximates the later source-v3 Quality baseline.",
+    "Total FSR4 GPU cost scales with output pixel count, with no fixed-cost term.",
+    "The entire matched whole-frame GPU reduction is attributed to the FSR4 interval."
+  ],
+  "estimates": [
+    {
+      "output": [
+        1920,
+        1080
+      ],
+      "pixel_ratio": 0.5625,
+      "v3_cost_ms": 4.5085878162650594,
+      "v3_basis": "pixel-scaled estimate",
+      "measured_whole_frame_gpu_saving_ms": 1.089286666666668,
+      "v4_estimated_cost_ms": 3.4193011495983914
+    },
+    {
+      "output": [
+        2560,
+        1440
+      ],
+      "pixel_ratio": 1.0,
+      "v3_cost_ms": 8.015267228915661,
+      "v3_basis": "historical measured Balanced anchor",
+      "measured_whole_frame_gpu_saving_ms": 2.2678716666666663,
+      "v4_estimated_cost_ms": 5.747395562248995
+    },
+    {
+      "output": [
+        3840,
+        2160
+      ],
+      "pixel_ratio": 2.25,
+      "v3_cost_ms": 18.034351265060238,
+      "v3_basis": "pixel-scaled estimate",
+      "measured_whole_frame_gpu_saving_ms": 5.142899933333332,
+      "v4_estimated_cost_ms": 12.891451331726905
+    }
+  ]
+}

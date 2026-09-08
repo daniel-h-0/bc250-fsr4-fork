@@ -1,0 +1,201 @@
+{
+  "schema": 1,
+  "source_report": "bc250-admin/reports/fsr4-v3-timing-20260906",
+  "recorded_date": "2026-09-06",
+  "game": "Deadzone: Rogue",
+  "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+  "render": [
+    1506,
+    848
+  ],
+  "output": [
+    2560,
+    1440
+  ],
+  "quality": "Balanced",
+  "gpu_cus": 40,
+  "gpu_max_mhz": 1850,
+  "gpu_policy_mv": 940,
+  "warmup_seconds": 3,
+  "window_seconds": 10,
+  "sample_every": 4,
+  "runs": [
+    {
+      "run": "01",
+      "driver": "installed-2.84",
+      "driver_sha256": "9bb030554bbb20078c348ed65b2885f605588a8d91a277ad85996100896002e7",
+      "measurement_sha256": "8aa9998bc7ad18dd68d5e1daf0364b91e9299960cabfb0798587361bab162010",
+      "runtime_sha256": "b1c3a52fcf24bd17aba0b45fe7b0f68039655da44a2c145246dd41e3fcef3aab",
+      "timer_sha256": "45946d18f94ace28bbb2e24e64e443fd383ef2403b0d7774d36326085625b3aa",
+      "summary": {
+        "n": 195,
+        "mean": 5.843357743589744,
+        "median": 5.84172,
+        "stdev": 0.01122301678150059,
+        "min": 5.82052,
+        "max": 5.90768,
+        "p95": 5.86308
+      },
+      "valid": true,
+      "header": {
+        "published": 2061,
+        "calls": 8242,
+        "sampled": 2061,
+        "skipped_rate": 6181,
+        "full": 0,
+        "errors": 0,
+        "submitted": 2061,
+        "completed": 2061,
+        "cancelled": 0,
+        "unsupported": 0,
+        "unmatched": 0,
+        "worker_active": 1,
+        "enabled": 1
+      },
+      "plugin": {
+        "calls": 8242,
+        "nested": 0,
+        "unsupported": 0,
+        "no_queue": 0,
+        "hook_errors": 0,
+        "mode": 2,
+        "providers": 2,
+        "queue_ready": 1,
+        "initialized": 1
+      }
+    },
+    {
+      "run": "02",
+      "driver": "original-v3-2.82",
+      "driver_sha256": "79018a8d09a279d2ef01af935d0f5fc0459e565e59e73e494c060f2700d205f6",
+      "measurement_sha256": "0425759e79d379a3192bcc3411ae3f5041314e1d9d359b941f09941027aef98a",
+      "runtime_sha256": "337c527d3f3d502d3b5ced1cae351ef2ae681caaa58458519b40c32ec0de61d5",
+      "timer_sha256": "45946d18f94ace28bbb2e24e64e443fd383ef2403b0d7774d36326085625b3aa",
+      "summary": {
+        "n": 166,
+        "mean": 8.017324096385542,
+        "median": 8.01664,
+        "stdev": 0.005067805550644496,
+        "min": 8.0086,
+        "max": 8.05284,
+        "p95": 8.02328
+      },
+      "valid": true,
+      "header": {
+        "published": 1793,
+        "calls": 7173,
+        "sampled": 1794,
+        "skipped_rate": 5379,
+        "full": 0,
+        "errors": 0,
+        "submitted": 1794,
+        "completed": 1793,
+        "cancelled": 0,
+        "unsupported": 0,
+        "unmatched": 0,
+        "worker_active": 1,
+        "enabled": 1
+      },
+      "plugin": {
+        "calls": 7173,
+        "nested": 0,
+        "unsupported": 0,
+        "no_queue": 0,
+        "hook_errors": 0,
+        "mode": 2,
+        "providers": 2,
+        "queue_ready": 1,
+        "initialized": 1
+      }
+    },
+    {
+      "run": "03",
+      "driver": "original-v3-2.82",
+      "driver_sha256": "79018a8d09a279d2ef01af935d0f5fc0459e565e59e73e494c060f2700d205f6",
+      "measurement_sha256": "d2aa7125dc6bea3f141f0be80c1c5ccc4a05712ad5c1a7363c29c5a686be90b6",
+      "runtime_sha256": "24b11c35bd66db2d814291ccaa770f164261bade46e47bfa53c953859783a56d",
+      "timer_sha256": "45946d18f94ace28bbb2e24e64e443fd383ef2403b0d7774d36326085625b3aa",
+      "summary": {
+        "n": 166,
+        "mean": 8.013210361445783,
+        "median": 8.01334,
+        "stdev": 0.003993293005275621,
+        "min": 8.001,
+        "max": 8.02448,
+        "p95": 8.01956
+      },
+      "valid": true,
+      "header": {
+        "published": 2659,
+        "calls": 10636,
+        "sampled": 2659,
+        "skipped_rate": 7977,
+        "full": 0,
+        "errors": 0,
+        "submitted": 2659,
+        "completed": 2659,
+        "cancelled": 0,
+        "unsupported": 0,
+        "unmatched": 0,
+        "worker_active": 1,
+        "enabled": 1
+      },
+      "plugin": {
+        "calls": 10636,
+        "nested": 0,
+        "unsupported": 0,
+        "no_queue": 0,
+        "hook_errors": 0,
+        "mode": 2,
+        "providers": 2,
+        "queue_ready": 1,
+        "initialized": 1
+      }
+    },
+    {
+      "run": "04",
+      "driver": "installed-2.84",
+      "driver_sha256": "9bb030554bbb20078c348ed65b2885f605588a8d91a277ad85996100896002e7",
+      "measurement_sha256": "556d3e0030488388cdc335b54f0005136bc9be267b6ace8920c0292a3c026cbb",
+      "runtime_sha256": "5b55724a25631bd68055d9944e5fb0d71e4b457cd38288ee71f1cf3e91e8385d",
+      "timer_sha256": "45946d18f94ace28bbb2e24e64e443fd383ef2403b0d7774d36326085625b3aa",
+      "summary": {
+        "n": 194,
+        "mean": 5.827575463917526,
+        "median": 5.82588,
+        "stdev": 0.010222614108816324,
+        "min": 5.80848,
+        "max": 5.8686,
+        "p95": 5.8456
+      },
+      "valid": true,
+      "header": {
+        "published": 23570,
+        "calls": 94281,
+        "sampled": 23571,
+        "skipped_rate": 70710,
+        "full": 0,
+        "errors": 0,
+        "submitted": 23571,
+        "completed": 23570,
+        "cancelled": 0,
+        "unsupported": 0,
+        "unmatched": 0,
+        "worker_active": 1,
+        "enabled": 1
+      },
+      "plugin": {
+        "calls": 94281,
+        "nested": 0,
+        "unsupported": 0,
+        "no_queue": 0,
+        "hook_errors": 0,
+        "mode": 2,
+        "providers": 2,
+        "queue_ready": 1,
+        "initialized": 1
+      }
+    }
+  ],
+  "export_sha256": "4fb29097206076085c92ed6ab082e5ece9767911585fac195ecc8522cee498d1"
+}

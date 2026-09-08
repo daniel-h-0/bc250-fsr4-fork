@@ -11,6 +11,12 @@ has recorded [qualification](docs/qualification.md) and
 [FSR-input and DLSS-input gameplay checks](docs/runtime-qualification.md).
 The earlier performance results used the previous integration.
 
+![Estimated FSR4 GPU cost, v3 to v4: 1080p approximately 4.5 to 3.4 ms; 1440p 8.0 to 5.7 ms; 4K 18.0 to 12.9 ms. Historical 1440p v3 timing is measured; other costs are reconstructed.](docs/assets/fsr4-v3-v4-cost.svg)
+
+Reconstructed from a directly timed **8.02 ms FFX pass at 1440p Balanced** and matched
+game GPU savings. [Measurements, assumptions and source data](docs/fsr-cost.md)
+explain the estimates; [exact game results](docs/performance.md) are separate.
+
 ## Start a Steam game
 
 **Already using rc1?** Follow the [rc1 transition guide](docs/upgrading-rc1.md)

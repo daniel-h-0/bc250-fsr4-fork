@@ -1,0 +1,125 @@
+{
+  "scope": "Corroborating historical records, not numerical inputs to the reconstruction",
+  "control_1080p": {
+    "source": "fsr4-timing-20260906/control-final-measurement.jsonl",
+    "source_sha256": "d5e9caa478e9c18bb7e2476b14f18fd18c6ff202fb9d64fd783cccaf144a6c7a",
+    "summary": {
+      "valid": true,
+      "fsr_gpu_ms": {
+        "n": 177,
+        "mean": 4.761666666666667,
+        "median": 4.76248,
+        "stdev": 0.018544177780825295,
+        "min": 4.732,
+        "max": 4.83552,
+        "p95": 4.79132
+      },
+      "configurations": [
+        [
+          4112,
+          1253769280,
+          1280,
+          720,
+          1920,
+          1080,
+          4
+        ]
+      ],
+      "header": {
+        "published": 805,
+        "calls": 3221,
+        "sampled": 806,
+        "skipped_rate": 2415,
+        "full": 0,
+        "errors": 0,
+        "submitted": 806,
+        "completed": 805,
+        "cancelled": 0,
+        "unsupported": 0,
+        "unmatched": 0,
+        "worker_active": 1,
+        "enabled": 1
+      },
+      "plugin": {
+        "calls": 3221,
+        "nested": 0,
+        "unsupported": 0,
+        "no_queue": 0,
+        "hook_errors": 0,
+        "mode": 2,
+        "providers": 3,
+        "queue_ready": 1,
+        "initialized": 1
+      }
+    }
+  },
+  "composed_1440p": {
+    "source": "fsr4-composed-stages-20260906/game-summary.json",
+    "source_sha256": "d239a537d6b8bb700c9f6472ed0781f7f44fab0e888d91418c86615d45c165a6",
+    "summary": {
+      "rows": [
+        {
+          "run": "01",
+          "mode": 0,
+          "gpu_ms": 5.789838153846154,
+          "gpu_sample_stdev_ms": 0.010980132953140343,
+          "gpu_samples": 195,
+          "cpu_frame_ms": 12.65813959132057,
+          "fps": 79.00055081440875,
+          "collector_cpu_seconds": 0.06546136800000002,
+          "measurement_seconds": 10.011547254980542,
+          "measurements_sha256": "084fb644dfc0c40cb8df2c110ddac66bf18688fc2f62260ad642a8515c8de353",
+          "runtime_sha256": "39fd3a8c43db0331b11d2008e13458aff669ee0b88b0cd2222d307b1d102dd94"
+        },
+        {
+          "run": "02",
+          "mode": 3,
+          "gpu_ms": 5.723085918367347,
+          "gpu_sample_stdev_ms": 0.011127460685145512,
+          "gpu_samples": 196,
+          "cpu_frame_ms": 12.61511070063919,
+          "fps": 79.27001385325389,
+          "collector_cpu_seconds": 0.06315142100000004,
+          "measurement_seconds": 10.010256410983857,
+          "measurements_sha256": "ad001d30b096f0c36eef163a9edcadccb51807cc2d4a7d6bf8ad1e2b140a54c4",
+          "runtime_sha256": "9ac173c16cbc21de71a752c7ec44cec7c4e484ab0307613d79737646e41f02a6"
+        },
+        {
+          "run": "03",
+          "mode": 3,
+          "gpu_ms": 5.747898979591837,
+          "gpu_sample_stdev_ms": 0.015334160044322274,
+          "gpu_samples": 196,
+          "cpu_frame_ms": 12.6243794904393,
+          "fps": 79.21181399508154,
+          "collector_cpu_seconds": 0.06613372199999995,
+          "measurement_seconds": 10.009900467004627,
+          "measurements_sha256": "893aace83240744ae324948aed976908b1b17680a04bbed279e675c627b4096b",
+          "runtime_sha256": "319f38119b91c8db6cc5753adc8d38a64223a51e46cea28e6a422cbaaf2fbb69"
+        },
+        {
+          "run": "04",
+          "mode": 0,
+          "gpu_ms": 5.819046974358974,
+          "gpu_sample_stdev_ms": 0.012158647722310218,
+          "gpu_samples": 195,
+          "cpu_frame_ms": 12.702810371311312,
+          "fps": 78.72273699829859,
+          "collector_cpu_seconds": 0.07085433400000002,
+          "measurement_seconds": 10.009634143993026,
+          "measurements_sha256": "5c328d6e891f19719e9d84a64d56a0e28aa2d9b8f432a6b3978b13e894e8d523",
+          "runtime_sha256": "b0a22096d17e1b232e0b822dffbf6061c84c8d209f65627d0c4af08dab6d702b"
+        }
+      ],
+      "baseline_gpu_mean_ms": 5.804442564102564,
+      "candidate_gpu_mean_ms": 5.735492448979592,
+      "difference_ms": -0.06895011512297167,
+      "difference_percent": -1.1878852165648435,
+      "both_candidates_below_both_controls": true,
+      "control_run_spread_ms": 0.029208820512820033,
+      "candidate_run_spread_ms": 0.02481306122449034,
+      "scope": "Real FFX upscale dispatch in the unchanged Deadzone Balanced saved scene; two independent launches per mode.",
+      "caution": "Within-window sample precision does not substitute for launch replication. No broad FPS or image-quality claim."
+    }
+  }
+}
