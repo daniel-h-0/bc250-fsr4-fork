@@ -122,6 +122,8 @@ labels; ordinary 1440p and 2160p can share the middle bucket.
 
 ## Fresh performance addendum
 
+Both driver arms ran on the same **BC250 with 40 compute units active**.
+
 | Game output | v3 FPS | v4 FPS | FPS gain | v3 → v4 whole-frame GPU ms |
 | --- | ---: | ---: | ---: | ---: |
 | 1920×1080 | 80.65 | 92.18 | +14.3% | 10.256 → 9.166 |

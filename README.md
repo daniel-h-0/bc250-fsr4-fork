@@ -164,7 +164,7 @@ The patches provide bounded arithmetic lowerings, selective unrolling and
 reduction, composed image/texture optimizations, resolution-family coverage
 and guarded store repairs. Unknown inputs retain their correctness fallback.
 
-Matched Deadzone trials against upstream v3 measured **+14.3%, +18.9% and
+Matched Deadzone trials on a **40-CU BC250** against upstream v3 measured **+14.3%, +18.9% and
 +17.2% FPS** at 1080p, 1440p and 4K, respectively, with FSR 4.1.1 INT8 Quality
 and hardware ray tracing off. These are scene-specific averages from the
 [recorded campaign](docs/performance.md), not new-runtime measurements.

@@ -1,7 +1,8 @@
 # Fresh v3 versus v4 performance — 2026-09-07
 
 The published v4.0.0-rc1 binary was compared with a verified rebuild of the
-original upstream v3 driver in Deadzone: Rogue at three output resolutions.
+original upstream v3 driver in Deadzone: Rogue at three output resolutions,
+on a **BC250 with 40 compute units (CUs) active** in both driver arms.
 **Lumen hardware ray tracing is off; FSR 4.1.1 INT8 Quality is on.**
 
 These results use the pinned **FSR 4.1.1** provider, not the newer **4.1.1b**
@@ -86,7 +87,9 @@ The two launch averages are listed to show observed repeatability.
 
 CPU stays at 3800 MHz / CO −25. The existing dynamic GPU governor has a
 1850 MHz / 900 mV maximum, with automatic cooling. No clocks, voltages, kernel
-or firmware are changed. The host is CachyOS on kernel 7.2.3-1.83, GFX1013.
+or firmware are changed. The host is CachyOS on kernel 7.2.3-1.83, RADV
+GFX1013, with **40 CUs active** (KFD reports 80 SIMDs). The CU configuration
+is unchanged between the v3 and v4 runs.
 
 ## Resolution and presentation
 
@@ -123,7 +126,7 @@ the data. Proprietary game files, shader dumps, provider DLLs and personal saves
 are not redistributed. Reproducing the scene requires the game and an equivalent
 save position; the public data can independently reproduce the published math.
 
-These are fresh measurements of one stationary scene, one game and one host,
+These are fresh measurements of one stationary scene, one game and one 40-CU host,
 with two launches per driver per resolution. They establish a gain in this
 workload, not a universal game-performance percentage. Earlier development-driver
 on/off results used a different baseline and scene/setup and are not pooled
