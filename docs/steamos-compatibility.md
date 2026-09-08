@@ -81,8 +81,16 @@ published driver; this development branch is not a new published release.
 
 The candidate passes eager ELF loading and BC250 GFX1013 Vulkan initialization
 with the isolated 3.7 and 3.8 package sets, and with Steam Runtime 4 using
-the 3.8 graphics provider. It is also checked against retained FSR compiler
-and GPU-output references. Detailed results are recorded in
+the 3.8 graphics provider. A Windows probe imports the native OptiScaler WinMM
+proxy and creates a D3D12 device successfully through the unchanged RC3 tool;
+its process maps confirm the exact candidate driver. It uses a private virtual
+X display, no game and no swapchain.
+
+All 92 complete shader-program comparisons, 96 tensor-output checks,
+12 image-output checks and 156 tooling tests passed. An isolated real RC3
+installation accepted the explicit replacement driver and rolled back to the
+original. A missing-cache failure also restored both prior selections.
+Detailed results are recorded in
 [`data/steamos-compatibility-20260908.json`](data/steamos-compatibility-20260908.json).
 
 These checks establish specific ABI fixes. They do not qualify a SteamOS

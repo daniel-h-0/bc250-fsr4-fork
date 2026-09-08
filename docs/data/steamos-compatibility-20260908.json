@@ -1,11 +1,67 @@
 {
-  "status": "qualification in progress",
+  "schema": 1,
+  "date": "2026-09-08",
+  "status": "bounded checks passed; unpublished candidate",
+  "source_manifest_sha256": "5f6809df51db8d76adebe450c2ae080100b2f0ad8a0d91fbbf40f94f6f6a212a",
+  "target_definition_sha256": "fb36fe972e393bcb06132c76ccc0ad931dc9a09063e5fa667e621fd38f3f27d2",
+  "host_kernel": "7.2.3-1.83-cachyos-bc250",
   "published_driver_sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
   "candidate_driver_sha256": "420e898549d1bfcfdbb5f02ec4a72d55f71c983722fc4392f4eea4cbf2d6ac95",
-  "userspace_initialization": {
-    "SteamOS 3.7": true,
-    "SteamOS 3.8": true,
-    "Steam Runtime 4 with SteamOS 3.8 graphics provider": true
+  "abi_failures": {
+    "SteamOS 3.7": "Missing libdisplay-info.so.3; after supplying it, missing GLIBC_ABI_GNU2_TLS",
+    "SteamOS 3.8": "Missing GLIBC_ABI_GNU2_TLS; TLS-only rebuild then fails on wl_fixes_interface",
+    "Steam Runtime 4 with SteamOS 3.8 graphics provider": "Published private driver cannot load libdisplay-info.so.3",
+    "SteamOS 3.7 with initial target rebuild": "Old shared libdrm rejects amdgpu_sw_info_address_prt_wa_control_bit"
   },
-  "full_steamos_gameplay_qualified": false
+  "candidate_checks": {
+    "SteamOS 3.7 userspace Vulkan initialization": true,
+    "SteamOS 3.8 userspace Vulkan initialization": true,
+    "Steam Runtime 4 with SteamOS 3.8 graphics provider": true,
+    "d3d12_startup": {
+      "returncode": 0,
+      "result": "D3D12CreateDevice HRESULT=0x00000000",
+      "runtime": "4.0.0-rc3",
+      "proton": "GE-Proton11-6",
+      "native_optiscaler_winmm_mapped": true,
+      "driver_sha256": "420e898549d1bfcfdbb5f02ec4a72d55f71c983722fc4392f4eea4cbf2d6ac95",
+      "probe_source_sha256": "5d50c4fa13034bae428e389c7f429b7eb1eca963251ac9611c27859936d1e906",
+      "probe_binary_sha256": "4505603b398922fb2c702cdd20c6daffa085b02816f96415793ffb4119154d2a",
+      "display": "private Xvfb; no game or swapchain"
+    },
+    "shader_programs": {
+      "comparisons": 92,
+      "all_equal": true,
+      "record_sha256": "a3a03ca6e5bce41289db101a9a351cb73e10c1701da3c02a510ec093e81402bf"
+    },
+    "tensor_outputs": {
+      "comparisons": 96,
+      "all_equal": true,
+      "record_sha256": "789ecde16f895f73e6fdb24a50fd5bbb247700c5effb22185f4be3da136322e9"
+    },
+    "image_outputs": {
+      "comparisons": 12,
+      "all_passed": true,
+      "record_sha256": "e268f654b145399a1e31273e852901419625062c9c7ce5074003b633211664b0"
+    },
+    "unit_tests": {
+      "count": 156,
+      "passed": true
+    },
+    "installation": {
+      "isolated_RC3_install": true,
+      "explicit_driver_replacement": true,
+      "failed_offline_assembly_restored_previous_selections": true,
+      "rollback_restored_original_driver": true
+    }
+  },
+  "limits": {
+    "booted_SteamOS": false,
+    "external_tester_logs_available": false,
+    "external_tester_failure_confirmed": false,
+    "SteamOS_gameplay_qualified": false,
+    "SteamOS_compositor_or_HDR_qualified": false,
+    "new_performance_claim": false,
+    "production_driver_or_runtime_changed": false,
+    "published_release_changed": false
+  }
 }
