@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased — SteamOS driver ABI repair
+
+- Reproduce shared startup failures with Valve's SteamOS 3.7/3.8 libraries.
+  Keep the original driver and runtime release records unchanged.
+- Build a separate SteamOS driver against pinned target headers/libraries,
+  use the original GNU TLS ABI, omit the optional direct-display dependency
+  and statically link the required libdrm/AMDGPU version.
+- Verify and honor an explicit replacement driver archive even when an older
+  source-compatible driver exists; preserve installation and rollback ownership.
+- Record the [candidate's checks and limits](docs/steamos-compatibility.md).
+  This is not a new performance campaign or full SteamOS gameplay acceptance.
+
 ## v4.0.0-rc3 — DX11, Vulkan and mod-chain compatibility
 
 - Route DX11 and Vulkan upscaler inputs to the FSR 4.1.1 INT8 D3D12 bridge,

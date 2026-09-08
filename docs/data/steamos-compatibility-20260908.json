@@ -1,0 +1,11 @@
+{
+  "status": "qualification in progress",
+  "published_driver_sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+  "candidate_driver_sha256": "420e898549d1bfcfdbb5f02ec4a72d55f71c983722fc4392f4eea4cbf2d6ac95",
+  "userspace_initialization": {
+    "SteamOS 3.7": true,
+    "SteamOS 3.8": true,
+    "Steam Runtime 4 with SteamOS 3.8 graphics provider": true
+  },
+  "full_steamos_gameplay_qualified": false
+}

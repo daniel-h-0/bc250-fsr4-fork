@@ -108,6 +108,46 @@ class ToolIdentityTests(unittest.TestCase):
         build.verify_configuration(info.parent, before, check_tools=False)
 
 
+class PortableTlsTests(unittest.TestCase):
+    @unittest.skipUnless(
+        shutil.which("cc") and shutil.which("c++") and shutil.which("readelf"),
+        "C/C++ compilers and readelf are required for the ABI regression check",
+    )
+    def test_default_c_and_cpp_tls_load_on_pre_gnu2_libc(self):
+        # Exercise emitted ELF relocations, not just the spelling of the flags.
+        # This fails with the former defaults on a GNU2-default toolchain.
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / "tls.c"
+            source.write_text("__thread int value; int *address(void) { return &value; }\n")
+            for compiler in ("cc", "c++"):
+                with self.subTest(compiler=compiler):
+                    library = root / "tls.so"
+                    subprocess.run(
+                        [
+                            compiler,
+                            *shlex.split(build.DEFAULT_FLAGS),
+                            "-shared",
+                            "-fPIC",
+                            str(source),
+                            "-o",
+                            str(library),
+                        ],
+                        check=True,
+                        capture_output=True,
+                        text=True,
+                    )
+                    relocations = subprocess.check_output(
+                        ["readelf", "--relocs", "--wide", str(library)], text=True
+                    )
+                    versions = subprocess.check_output(
+                        ["readelf", "--version-info", str(library)], text=True
+                    )
+                    self.assertNotIn("TLSDESC", relocations)
+                    self.assertNotIn("GLIBC_ABI_GNU2_TLS", versions)
+                    self.assertIn("__tls_get_addr", relocations)
+
+
 class BuildFixture(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()

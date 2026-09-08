@@ -46,6 +46,10 @@ SETUP_FILES = {
 def setup_files(files, commit):
     """Keep only installation/recovery inputs; link omitted evidence to the commit."""
     selected = {name: files[name] for name in sorted(SETUP_FILES)}
+    # This guide was added after rc3; old explicit --ref exports do not have it.
+    guide = "docs/steamos-compatibility.md"
+    if guide in files:
+        selected[guide] = files[guide]
     base = "https://github.com/daniel-h-0/bc250-fsr4-fork/blob/" + commit + "/"
     for name, (data, mode) in selected.items():
         if not name.endswith(".md"):

@@ -132,6 +132,17 @@ def check_inputs(root):
             qualification["source_manifest_sha256"] == digest(manifest_path),
             "Qualified source manifest changed without a new version",
         )
+    target = load(root / "v4/build-targets/steamos-3.8.json")
+    require(target["schema"] == 1 and target["id"] == "steamos-3.8-x86_64", "Invalid ABI target")
+    names = set()
+    for package in target["packages"]:
+        require(package["name"] not in names, "Duplicate target package")
+        names.add(package["name"])
+        require(bool(SHA256.fullmatch(package["sha256"])), "Invalid target package hash")
+        require(
+            package["url"].startswith("https://steamdeck-packages.steamos.cloud/archlinux-mirror/"),
+            "Target packages must come from Valve's mirror",
+        )
     return f"{len(inputs)} pinned inputs, {len(touched)} modified Mesa files, runtime/qualification metadata"
 
 

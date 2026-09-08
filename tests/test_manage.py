@@ -178,6 +178,7 @@ class ManageTests(unittest.TestCase):
         return operation
 
     def test_system_driver_reuse_and_rollback_never_modify_driver(self):
+        self.args.driver_archive = None
         self.system = self.root / "system-driver.so"
         self.system.write_bytes(b"externally installed system driver")
         original = self.system.read_bytes()
@@ -194,6 +195,41 @@ class ManageTests(unittest.TestCase):
         self.assertFalse(self.tool.exists())
         self.assertTrue(Path(operation["retired"]).is_dir())
         self.assertEqual(self.system.read_bytes(), original)
+
+    def test_explicit_abi_replacement_rebinds_same_runtime_and_rolls_back(self):
+        self.apply()
+        previous = manage.runtime.selection(self.steam)
+        previous_target = driver.current_target(self.prefix)
+        self.args.driver_archive = self.driver_bundle("corrected-abi", self.source)
+        self.apply()
+        selected = manage.runtime.selection(self.steam)
+        self.assertEqual(selected["id"], previous["id"])
+        self.assertNotEqual(selected["driver"]["sha256"], previous["driver"]["sha256"])
+        self.assertNotEqual(driver.current_target(self.prefix), previous_target)
+        self.rollback()
+        self.assertEqual(manage.runtime.selection(self.steam), previous)
+        self.assertEqual(driver.current_target(self.prefix), previous_target)
+
+    def test_failed_explicit_abi_replacement_restores_both_selections(self):
+        self.apply()
+        previous = manage.runtime.selection(self.steam)
+        previous_target = driver.current_target(self.prefix)
+        self.args.driver_archive = self.driver_bundle("corrected-abi", self.source)
+        with mock.patch.object(
+            manage.runtime, "install", side_effect=RuntimeError("injected failure")
+        ):
+            with self.assertRaisesRegex(RuntimeError, "previous selections restored"):
+                self.apply()
+        self.assertEqual(manage.runtime.selection(self.steam), previous)
+        self.assertEqual(driver.current_target(self.prefix), previous_target)
+
+    def test_corrupt_explicit_archive_cannot_hide_behind_existing_driver(self):
+        self.apply()
+        previous = manage.runtime.selection(self.steam)
+        self.args.driver_archive.write_bytes(b"corrupt replacement")
+        with self.assertRaisesRegex(RuntimeError, "SHA256 mismatch"):
+            self.apply()
+        self.assertEqual(manage.runtime.selection(self.steam), previous)
 
     def test_reused_private_driver_remains_active_after_rollback(self):
         existing = self.existing_driver()

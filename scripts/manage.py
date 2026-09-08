@@ -9,6 +9,7 @@ import os
 import subprocess
 import sys
 import tarfile
+import tempfile
 import time
 import traceback
 import urllib.request
@@ -200,6 +201,10 @@ def status(prefix, root):
 
 def apply(args, prefix, root):
     policy = json.loads((ROOT / "runtime/manifest.json").read_text())
+    if args.driver_archive and args.driver == "system":
+        raise RuntimeError(
+            "--driver-archive installs a private driver; do not combine it with --driver system."
+        )
     with locks(prefix, root) as held:
         recover_pending(prefix, root, held)
         # Recovery can retire a first installation while its old lock remains held.
@@ -207,11 +212,26 @@ def apply(args, prefix, root):
         if driver.pending(prefix):
             raise RuntimeError("An existing driver transaction needs recovery before installation.")
         before = runtime.selection(root)
+        requested_driver = None
+        if args.driver_archive:
+            archive, checksum = driver_archive(args, policy)
+            with tempfile.TemporaryDirectory(prefix=".requested-driver-", dir=prefix) as temporary:
+                _, requested_driver = driver.extract_verified(
+                    archive, Path(temporary), driver.archive_checksum(archive, checksum)
+                )
         try:
-            selected = runtime.select_driver(args.driver, prefix)
+            selected = runtime.select_driver("private" if requested_driver else args.driver, prefix)
         except RuntimeError:
             if args.driver == "system":
                 raise
+            selected = None
+        if (
+            requested_driver is not None
+            and selected is not None
+            and driver.verify_release(prefix / driver.current_target(prefix)) != requested_driver
+        ):
+            # An explicit corrected ABI build must replace an existing build
+            # from the same Mesa source; source compatibility is not identity.
             selected = None
         target = desired_runtime(args, policy)
         if (

@@ -81,7 +81,9 @@ def probe(library, directory):
         message in linked.stdout + linked.stderr for message in ("not found", "undefined symbol")
     ):
         raise RuntimeError(
-            "Binary ABI/dependency check failed. Build on this distribution.\n"
+            "Binary ABI/dependency check failed. Use a driver built for this distribution; "
+            "the original CachyOS rc1 binary is incompatible with SteamOS 3.7/3.8. "
+            "See docs/steamos-compatibility.md. No driver was activated.\n"
             + linked.stdout
             + linked.stderr
         )
@@ -198,19 +200,22 @@ def verify_previous(prefix, journal):
         verify_release(prefix / journal["previous"])
 
 
+def archive_checksum(archive, checksum=None):
+    if checksum is None:
+        fields = Path(str(archive) + ".sha256").read_text().split()
+        if not fields:
+            raise RuntimeError("The adjacent SHA256 file is empty; nothing installed.")
+        checksum = fields[0]
+    return normalize_checksum(checksum)
+
+
 def install(args, prefix):
     if pending(prefix):
         raise RuntimeError(
             "An interrupted transaction needs recovery: run driver.py recover first."
         )
     archive = args.archive.expanduser().resolve()
-    checksum = args.sha256
-    if checksum is None:
-        fields = Path(str(archive) + ".sha256").read_text().split()
-        if not fields:
-            raise RuntimeError("The adjacent SHA256 file is empty; nothing installed.")
-        checksum = fields[0]
-    checksum = normalize_checksum(checksum)
+    checksum = archive_checksum(archive, args.sha256)
     previous = current_target(prefix)
     stable_icd = prefix / "current.json"
     if stable_icd.exists() and json.loads(stable_icd.read_text()) != icd(

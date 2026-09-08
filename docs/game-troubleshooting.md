@@ -7,6 +7,9 @@ to distinguish driver reuse from removal of old game-local hooks.
 
 ## Installation and launch
 
+For failures across all games on SteamOS, start with the
+[confirmed driver ABI incompatibilities and correction](steamos-compatibility.md).
+
 | Symptom | Next step |
 | --- | --- |
 | The tool is missing from Steam | Exit Steam fully, run `./bc250-fsr4 status`, then restart Steam. Select it in the game's Properties → Compatibility. |

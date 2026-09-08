@@ -1,0 +1,259 @@
+{
+  "schema": 1,
+  "id": "steamos-3.8-x86_64",
+  "date": "2026-09-08",
+  "purpose": "Pinned ABI target; package extraction is private and does not install a host OS.",
+  "packages": [
+    {
+      "name": "brotli",
+      "version": "1.1.0-3",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/brotli-1.1.0-3-x86_64.pkg.tar.zst",
+      "sha256": "34d7d1f09eacbac59d5a3aef6bbef4a971859c9789c13c59caa490178e1ee0cc"
+    },
+    {
+      "name": "bzip2",
+      "version": "1.0.8-6",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/bzip2-1.0.8-6-x86_64.pkg.tar.zst",
+      "sha256": "8779003d659c441b952095c19907603a738c1366f25cc51be3fd139fa4e95748"
+    },
+    {
+      "name": "elfutils",
+      "version": "0.193-2",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/elfutils-0.193-2-x86_64.pkg.tar.zst",
+      "sha256": "2babd39c035cc8d96c0dd7d15e42b315a0b12e9835fa894f75527c4e5c4aa794"
+    },
+    {
+      "name": "expat",
+      "version": "2.7.1-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/expat-2.7.1-1-x86_64.pkg.tar.zst",
+      "sha256": "1868255dd1d5a673436887070b4739512529a54af3407ed7d1d0059dadd48d58"
+    },
+    {
+      "name": "gcc",
+      "version": "15.1.1+r7+gf36ec88aa85a-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/gcc-15.1.1+r7+gf36ec88aa85a-1-x86_64.pkg.tar.zst",
+      "sha256": "d8bc5c74e9b58c281c0aca51cc3f6b18cff37cdac5d24ea7f67488eeb6caa27a"
+    },
+    {
+      "name": "gcc-libs",
+      "version": "15.1.1+r7+gf36ec88aa85a-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/gcc-libs-15.1.1+r7+gf36ec88aa85a-1-x86_64.pkg.tar.zst",
+      "sha256": "6eedd2e4afc53e377b5f1772b5d413de3647197e36ce5dc4a409f993668aa5ed"
+    },
+    {
+      "name": "glibc",
+      "version": "2.41+r65+ge7c419a29575-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/glibc-2.41+r65+ge7c419a29575-1-x86_64.pkg.tar.zst",
+      "sha256": "4eeb7ce640fcb5c38a8a89c9015f68979f7f91cc71d715d3bd90f74bd442a107"
+    },
+    {
+      "name": "libcap",
+      "version": "2.76-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/libcap-2.76-1-x86_64.pkg.tar.zst",
+      "sha256": "2b8e51caff26ef7d70aea69b0c079eda5f942010c7f7db88b064228c845a7cbb"
+    },
+    {
+      "name": "libdisplay-info",
+      "version": "0.3.0-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/holo-3.8/os/x86_64/libdisplay-info-0.3.0-1-x86_64.pkg.tar.zst",
+      "sha256": "858599998c434b97a79c997b26ccfed21acf8b12037f7313ef485ca884005b93"
+    },
+    {
+      "name": "libdrm",
+      "version": "2.4.133-1.101",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/holo-3.8/os/x86_64/libdrm-2.4.133-1.101-x86_64.pkg.tar.zst",
+      "sha256": "11b0565438290207e14bfb66102a46cd8bcb733938c69436635670b62e9105cb"
+    },
+    {
+      "name": "libelf",
+      "version": "0.193-2",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/libelf-0.193-2-x86_64.pkg.tar.zst",
+      "sha256": "4de9844fda6589d6ad1c9414dd9cc3ebb6f7f928fc2fb81a309a2a2ce66b1416"
+    },
+    {
+      "name": "libffi",
+      "version": "3.5.1-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/libffi-3.5.1-1-x86_64.pkg.tar.zst",
+      "sha256": "2a5df57eb1ec875b8fd825baf5eb70db2d487d7652532415b4bba38037afbb1e"
+    },
+    {
+      "name": "libgcrypt",
+      "version": "1.11.1-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/libgcrypt-1.11.1-1-x86_64.pkg.tar.zst",
+      "sha256": "ca523c9a80c948953165d23864a89504d36889c47c42d1bc95328c351fd742eb"
+    },
+    {
+      "name": "libgpg-error",
+      "version": "1.55-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/libgpg-error-1.55-1-x86_64.pkg.tar.zst",
+      "sha256": "6e723f8171084613ac37c666e145b0776c389b55071a14b1c404188f78ccd6f9"
+    },
+    {
+      "name": "libpciaccess",
+      "version": "0.18.1-2",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/extra-3.8/os/x86_64/libpciaccess-0.18.1-2-x86_64.pkg.tar.zst",
+      "sha256": "3ead7ee0b85d9be6564e806a6bb52aba10a83bbe417661bbbb98fb302a72c8eb"
+    },
+    {
+      "name": "libx11",
+      "version": "1.8.12-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/extra-3.8/os/x86_64/libx11-1.8.12-1-x86_64.pkg.tar.zst",
+      "sha256": "8fbb5cb33aceafc97d1726c0697626a37b1934b4e43d423785c81cb31daec4d7"
+    },
+    {
+      "name": "libxau",
+      "version": "1.0.12-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/extra-3.8/os/x86_64/libxau-1.0.12-1-x86_64.pkg.tar.zst",
+      "sha256": "605c8b059c36792f4e0cc235acadf39d0762df6c7878825a1be01a00ae7ea21e"
+    },
+    {
+      "name": "libxcb",
+      "version": "1.17.0-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/extra-3.8/os/x86_64/libxcb-1.17.0-1-x86_64.pkg.tar.zst",
+      "sha256": "2b2e7ac64b1d56c08a227c10bcab179605f2773f31db0a8c89f49f4e5b2f1292"
+    },
+    {
+      "name": "libxcrypt",
+      "version": "4.4.38-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/libxcrypt-4.4.38-1-x86_64.pkg.tar.zst",
+      "sha256": "f32f4586778c9df447dc462aa75151935b4d5794fdd8abfec07f4a4bbdafe13c"
+    },
+    {
+      "name": "libxdmcp",
+      "version": "1.1.5-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/extra-3.8/os/x86_64/libxdmcp-1.1.5-1-x86_64.pkg.tar.zst",
+      "sha256": "1c4b370157e4b092334fa5404508c52a8214c072b1ab6e1dc8d3f6eea6db2b0b"
+    },
+    {
+      "name": "libxext",
+      "version": "1.3.6-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/extra-3.8/os/x86_64/libxext-1.3.6-1-x86_64.pkg.tar.zst",
+      "sha256": "a6e51c38f10bf22728091c71fac64c3e02ccb37b847dd953773d23d4657560a3"
+    },
+    {
+      "name": "libxrandr",
+      "version": "1.5.4-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/extra-3.8/os/x86_64/libxrandr-1.5.4-1-x86_64.pkg.tar.zst",
+      "sha256": "f58fbb7db4b6c6a35aa388f28f63ae847a2834f331fa7ed4e18ad1ce6e40f064"
+    },
+    {
+      "name": "libxrender",
+      "version": "0.9.12-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/extra-3.8/os/x86_64/libxrender-0.9.12-1-x86_64.pkg.tar.zst",
+      "sha256": "fed0389073d5b107074eaab48cefcc2716e607865142cde5b579c8ceeefea142"
+    },
+    {
+      "name": "libxshmfence",
+      "version": "1.3.3-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/extra-3.8/os/x86_64/libxshmfence-1.3.3-1-x86_64.pkg.tar.zst",
+      "sha256": "39d0f128e4efc393fcd3b42f20046ec0e854341b601f14b457d67add86036d13"
+    },
+    {
+      "name": "libxxf86vm",
+      "version": "1.1.6-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/extra-3.8/os/x86_64/libxxf86vm-1.1.6-1-x86_64.pkg.tar.zst",
+      "sha256": "fc7a7f6875186a23a77ebf431ad224217977fee353d85633b28fb6f0dc4dcf94"
+    },
+    {
+      "name": "linux-api-headers",
+      "version": "6.15-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/linux-api-headers-6.15-1-x86_64.pkg.tar.zst",
+      "sha256": "b5cdf41804e8e9929e84dbe45ba212abafa70f36374cff88b931d79d373d3efd"
+    },
+    {
+      "name": "lz4",
+      "version": "1:1.10.0-2",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/lz4-1:1.10.0-2-x86_64.pkg.tar.zst",
+      "sha256": "c6200c776440678fe8c26adae6c104194b425d9393a9e3fc09f934363f0c39a6"
+    },
+    {
+      "name": "openssl",
+      "version": "3.5.7-1.1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/holo-3.8/os/x86_64/openssl-3.5.7-1.1-x86_64.pkg.tar.zst",
+      "sha256": "1788b998a258436ba6d3315873ac13e4ab6212e4a0d84afde12d2efcb426d7b7"
+    },
+    {
+      "name": "pcre2",
+      "version": "10.47-1.1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/holo-3.8/os/x86_64/pcre2-10.47-1.1-x86_64.pkg.tar.zst",
+      "sha256": "ba78a4988b5eb7798b79a97548ddddfcba5fd3d9545486fd69976d71faeeba7c"
+    },
+    {
+      "name": "spirv-tools",
+      "version": "1:1.4.321.0-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/extra-3.8/os/x86_64/spirv-tools-1:1.4.321.0-1-x86_64.pkg.tar.zst",
+      "sha256": "2dd84adaf9f799adaf429180438bd59ee99d26a1b37bb4869f454a03f0b78bb1"
+    },
+    {
+      "name": "systemd-libs",
+      "version": "257.7-2.51",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/holo-3.8/os/x86_64/systemd-libs-257.7-2.51-x86_64.pkg.tar.zst",
+      "sha256": "75851e5ee5f6052eac66d8348bf60b69e7d4d7c4eaee5651c3b4cc4ef23ad5cf"
+    },
+    {
+      "name": "util-linux-libs",
+      "version": "2.41.1-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/util-linux-libs-2.41.1-1-x86_64.pkg.tar.zst",
+      "sha256": "3111d6f53d44742f72485df8454cb9d3065b3552d97556bee45e8d07b1ac5d10"
+    },
+    {
+      "name": "vulkan-icd-loader",
+      "version": "1.4.321.0-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/extra-3.8/os/x86_64/vulkan-icd-loader-1.4.321.0-1-x86_64.pkg.tar.zst",
+      "sha256": "5559cd57b8cb72663dac3cf5d9ed8acc6946fc7725c9f601fa369852727237d5"
+    },
+    {
+      "name": "vulkan-radeon",
+      "version": "26.2.0_devel.222131.steamos_26.05.16-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/jupiter-3.8/os/x86_64/vulkan-radeon-26.2.0_devel.222131.steamos_26.05.16-1-x86_64.pkg.tar.zst",
+      "sha256": "60c904236c980cd8221ccca960139b63e37f1e92ccb5cb5807cee66a9c072fdd"
+    },
+    {
+      "name": "vulkan-tools",
+      "version": "1.4.321.0-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/extra-3.8/os/x86_64/vulkan-tools-1.4.321.0-1-x86_64.pkg.tar.zst",
+      "sha256": "cd6b5b8831056ad13a4495c298971af4fcd5ed854cf3904567f9418bbddc411c"
+    },
+    {
+      "name": "wayland",
+      "version": "1.23.1-2",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/extra-3.8/os/x86_64/wayland-1.23.1-2-x86_64.pkg.tar.zst",
+      "sha256": "9ca6bb8b3dea22e3858433817291486961f7d591a6bb91e9991b8cf0c08e7bc6"
+    },
+    {
+      "name": "xcb-util-keysyms",
+      "version": "0.4.1-5",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/extra-3.8/os/x86_64/xcb-util-keysyms-0.4.1-5-x86_64.pkg.tar.zst",
+      "sha256": "312213911881c0742e2a825432feac761e863945b74bb3a6daca97a99778d35e"
+    },
+    {
+      "name": "xorgproto",
+      "version": "2024.1-2",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/extra-3.8/os/x86_64/xorgproto-2024.1-2-any.pkg.tar.zst",
+      "sha256": "4892d1eecc171a523741f6bbd052feec908b1161640155878a7815a073b1f583"
+    },
+    {
+      "name": "xz",
+      "version": "5.8.1-1",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/xz-5.8.1-1-x86_64.pkg.tar.zst",
+      "sha256": "aeecc6315b7b6d6af8d43a375b1e2795e313563bfde8a5df5866952b087eb6ad"
+    },
+    {
+      "name": "zlib",
+      "version": "1:1.3.1-2",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/zlib-1:1.3.1-2-x86_64.pkg.tar.zst",
+      "sha256": "4e44ca417663fbdbadd2aa975cb5f56c2fe771ca76bc1462f63760d813fe2458"
+    },
+    {
+      "name": "zstd",
+      "version": "1.5.7-2",
+      "url": "https://steamdeck-packages.steamos.cloud/archlinux-mirror/core-3.8/os/x86_64/zstd-1.5.7-2-x86_64.pkg.tar.zst",
+      "sha256": "7088eb799005899e24874e2d1af4ef73df1ff9a97ee74179245c64c9c4b0fa3c"
+    }
+  ],
+  "libdrm": {
+    "version": "2.4.133",
+    "url": "https://dri.freedesktop.org/libdrm/libdrm-2.4.133.tar.xz",
+    "sha256": "fc68f9d0ba2ea63c9432a299e14fea09fad7a8a66e8039fcd7802ca59f77b4f5"
+  }
+}

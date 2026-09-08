@@ -14,7 +14,10 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_FLAGS = "-O2 -march=x86-64 -mtune=generic"
+# Newer host toolchains can default to GNU2 TLS and emit a
+# GLIBC_ABI_GNU2_TLS requirement absent from SteamOS 3.7/3.8.
+# Keep the original x86 TLS ABI explicit for both C and C++ objects.
+DEFAULT_FLAGS = "-O2 -march=x86-64 -mtune=generic -mtls-dialect=gnu"
 OPTIONS = [
     "--prefix=/usr",
     "--libdir=lib",
@@ -61,6 +64,12 @@ ENVIRONMENT_KEYS = (
     "PKG_CONFIG_LIBDIR",
     "PKG_CONFIG_SYSROOT_DIR",
 )
+
+
+def build_options(display_info="auto"):
+    if display_info not in ("auto", "enabled", "disabled"):
+        raise RuntimeError("Invalid display-info build policy.")
+    return OPTIONS + ([] if display_info == "auto" else ["-Ddisplay-info=" + display_info])
 
 
 def digest(path):
@@ -238,8 +247,25 @@ def verify_completed_build(work, root=ROOT):
         raise RuntimeError("Source manifest changed since this build.")
     if result["recipe_hashes"] != recipe_hashes(root):
         raise RuntimeError("Build recipe changed since this build.")
-    if result["options"] != OPTIONS:
+    if result["options"] != build_options(result.get("display_info", "auto")):
         raise RuntimeError("Recorded build options do not match the recipe.")
+    if target := result.get("target"):
+        definition = root / "v4/build-targets/steamos-3.8.json"
+        if (
+            target.get("id") != "steamos-3.8-x86_64"
+            or target.get("definition_sha256") != digest(definition)
+            or target.get("builder_sha256") != digest(root / "scripts/build-steamos.py")
+            or target.get("packages") != read_json(definition)["packages"]
+            or result.get("display_info") != "disabled"
+        ):
+            raise RuntimeError("SteamOS build target changed since this build.")
+        drm = read_json(definition)["libdrm"]
+        sources = {"libdrm-" + drm["version"] + ".tar.xz": drm["sha256"]}
+        if target.get("source_archives") != sources:
+            raise RuntimeError("SteamOS static dependency provenance changed.")
+        for name, expected in sources.items():
+            if digest(work / "target-sources" / name) != expected:
+                raise RuntimeError("SteamOS static dependency source changed.")
     if digest(work / "build-inputs.json") != result["build_inputs_sha256"]:
         raise RuntimeError("Build input record changed since this build.")
     if digest(work / "configuration.json") != result["configuration_sha256"]:
@@ -266,10 +292,12 @@ def main():
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--jobs", type=int, default=4)
     parser.add_argument("--arch", choices=["64"], default="64")
+    parser.add_argument("--display-info", choices=["auto", "enabled", "disabled"], default="auto")
     args = parser.parse_args()
     if args.jobs < 1:
         parser.error("--jobs must be positive")
     manifest = verify_inputs()
+    options = build_options(args.display_info)
     archive = (
         (args.mesa_archive or ROOT / ".work/downloads" / manifest["base_archive"]["name"])
         .expanduser()
@@ -345,7 +373,7 @@ def main():
     build_inputs = {
         "environment": {key: env.get(key) for key in ENVIRONMENT_KEYS},
         "toolchain": toolchain,
-        "options": OPTIONS,
+        "options": options,
     }
     if (build / "build.ninja").exists():
         if read_json(work / "build-inputs.json") != build_inputs:
@@ -354,7 +382,7 @@ def main():
         verify_configuration(build, previous)
         verify_dependency_versions(previous, env)
     else:
-        subprocess.run(["meson", "setup", str(build), str(source), *OPTIONS], env=env, check=True)
+        subprocess.run(["meson", "setup", str(build), str(source), *options], env=env, check=True)
         write_json(work / "build-inputs.json", build_inputs)
         write_json(work / "configuration.json", configuration(build))
         # Meson may unpack pinned wrap dependencies into the source tree.
@@ -382,7 +410,8 @@ def main():
             "schema": 2,
             "sha256": digest(library),
             "library": str(library),
-            "options": OPTIONS,
+            "options": options,
+            "display_info": args.display_info,
             "cflags": env["CFLAGS"],
             "cxxflags": env["CXXFLAGS"],
             "compiler": toolchain["c"]["version"],

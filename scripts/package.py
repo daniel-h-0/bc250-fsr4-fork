@@ -90,6 +90,10 @@ def main():
         source_notice = build.source_directory(args.work, manifest) / "LICENSE"
         if source_notice.exists():
             shutil.copy2(source_notice, root / "licenses/Mesa-LICENSE")
+        for name in built.get("target", {}).get("source_archives", {}):
+            # The build verifier checks these pinned sources. Include all
+            # upstream copyright/license notices for statically linked libdrm.
+            shutil.copy2(args.work / "target-sources" / name, root / "licenses" / name)
         # Redact owned source/work/home paths, retaining the effective flags.
         provenance = public_provenance(
             {key: value for key, value in built.items() if key != "library"}, args.work, ROOT

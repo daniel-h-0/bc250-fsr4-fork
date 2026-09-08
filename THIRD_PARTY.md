@@ -20,6 +20,8 @@ does not label the entire repository MIT.
 | Inherited BC250 material | Original Git history and `legacy/`; retain existing notices |
 | Mesa 26.2.2 and patches | Inputs in `v4/manifest.json`; retain original per-file licenses and copyright notices |
 | Wayland protocols 1.41 | Pinned archive under `v4/source-dependencies/`; retain its internal `COPYING` |
+| SteamOS ABI target | Valve package hashes and source URLs in `v4/build-targets/steamos-3.8.json`; packages are extracted privately for building, not redistributed as an OS |
+| Static libdrm 2.4.133 in the SteamOS candidate | Upstream source hash in the target definition; the complete upstream source archive and its notices are retained under `licenses/` in candidate driver archives |
 | Runtime component identities | `runtime/manifest.json` records upstream URLs, hashes and versions; it grants no rights to the artifacts |
 | GE-Proton upscaler source fixture | `tests/fixtures/ge-proton11-6-upscalers.py`, from the pinned GE-Proton11-6 tree; upstream BSD-2-Clause, Copyright (c) 2018 Chris Simons |
 | Archived game profiles and recovery | Former profile metadata and transaction recovery under `legacy/game-setup/` |

@@ -19,6 +19,9 @@ explain the estimates; [exact game results](docs/performance.md) are separate.
 
 ## Start a Steam game
 
+**SteamOS 3.7/3.8:** the published CachyOS driver has confirmed startup ABI
+failures. See the [SteamOS correction and candidate instructions](docs/steamos-compatibility.md).
+
 **Already using rc2?** Follow the [runtime update guide](docs/upgrading-rc2.md).
 
 **Already using rc1?** Follow the [rc1 transition guide](docs/upgrading-rc1.md)
