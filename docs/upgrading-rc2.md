@@ -1,20 +1,23 @@
-# Update an existing rc2, rc3 or rc4 runtime
+# Update an existing rc2–rc5 runtime
 
 RC4 adds a portable driver, automatic repair of the old private driver's ABI
 mismatches, fewer installer prerequisites and host/Steam Runtime diagnostics.
-RC5 adds [installer and recovery corrections](review-rc5.md). It preserves RC3’s DX11/DX12/Vulkan routes, component versions and game preset.
+RC6 fixes [Steam save-folder registration](save-paths-rc6.md), including a
+compatibility alias for existing selections. It includes RC5’s
+[installer and recovery corrections](review-rc5.md). It preserves RC3’s
+DX11/DX12/Vulkan routes, component versions and game preset.
 A verified working system driver can still be reused. A private driver built
 from the original CachyOS binary is upgraded to the portable build.
 
-Download the RC5 setup archive and checksum from the
-[release page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc5).
+Download the RC6 setup archive and checksum from the
+[release page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc6).
 Extract into a new directory and retain the previous installer and recovery
 records. With Steam and games closed, run as your desktop user:
 
 ```sh
-sha256sum -c bc250-fsr4-setup-4.0.0-rc5.tar.gz.sha256
-tar -xzf bc250-fsr4-setup-4.0.0-rc5.tar.gz
-cd bc250-fsr4-setup-4.0.0-rc5
+sha256sum -c bc250-fsr4-setup-4.0.0-rc6.tar.gz.sha256
+tar -xzf bc250-fsr4-setup-4.0.0-rc6.tar.gz
+cd bc250-fsr4-setup-4.0.0-rc6
 ./bc250-fsr4 update
 ./bc250-fsr4 doctor
 ```
@@ -38,3 +41,5 @@ To undo the update, close Steam and games and run `./bc250-fsr4 rollback`
 with the same custom paths. Restart Steam. The preceding managed runtime and driver binding are restored. GE reconciles
 its tracked files on the next launch. Retain runtime versions and transaction
 records until you accept the update. Rollback does not reinstall a retired game-local mod.
+The corrected Steam registration and compatibility alias remain in place
+across runtime rollback. Use the current installer to manage retained runtimes.

@@ -28,6 +28,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SYSTEM_LIBRARY = Path("/usr/lib/libvulkan_radeon.so")
 SYSTEM_METADATA = Path("/usr/share/bc250-fsr4-v4/system.json")
 TOOL = "BC250-FSR4"
+STEAM_TOOL = "proton-bc250-fsr4"
 REQUIRED_FILES = {
     "launch.py",
     "runtime-lock.json",
@@ -38,12 +39,18 @@ REQUIRED_FILES = {
     "ge/upscaler-manifest.json",
     "ge/files/bin/wine",
 }
+LEGACY_REGISTRATION = (
+    '"compatibilitytools"\n{\n  "compat_tools"\n  {\n    "BC250-FSR4"\n    {\n'
+    '      "install_path" "."\n      "display_name" "BC250 FSR4 (4.1.1 INT8)"\n'
+    '      "from_oslist" "windows"\n      "to_oslist" "linux"\n    }\n  }\n}\n'
+)
 STATIC_FILES = {
-    "compatibilitytool.vdf": (
-        '"compatibilitytools"\n{\n  "compat_tools"\n  {\n    "BC250-FSR4"\n    {\n'
-        '      "install_path" "."\n      "display_name" "BC250 FSR4 (4.1.1 INT8)"\n'
-        '      "from_oslist" "windows"\n      "to_oslist" "linux"\n    }\n  }\n}\n'
-    ),
+    # Steam's standard Windows save roots depend on the *internal name*
+    # containing "proton" (case-insensitive), not the launcher or layer name.
+    # The alias preserves existing selections without editing any Steam account.
+    "compatibilitytool.vdf": LEGACY_REGISTRATION.replace(
+        '    "BC250-FSR4"\n', f'    "{STEAM_TOOL}"\n'
+    ).replace('      "install_path"', '      "aliases" "BC250-FSR4"\n      "install_path"'),
     "toolmanifest.vdf": (
         '"manifest"\n{\n  "version" "2"\n  "commandline" "/proton %verb%"\n'
         '  "require_tool_appid" "4183110"\n  "use_sessions" "1"\n'
@@ -395,7 +402,8 @@ def verify_tool(tool):
         )
     for name, data in STATIC_FILES.items():
         path = tool / name
-        if path.is_symlink() or not path.is_file() or path.read_text() != data:
+        allowed = (data, LEGACY_REGISTRATION) if name == "compatibilitytool.vdf" else (data,)
+        if path.is_symlink() or not path.is_file() or path.read_text() not in allowed:
             raise RuntimeError("Managed compatibility-tool file differs; preserving it: " + name)
         if name == "proton" and not path.stat().st_mode & 0o111:
             raise RuntimeError("Managed Proton launcher is no longer executable; preserving it.")
@@ -407,7 +415,54 @@ def verify_tool(tool):
         path = tool / name
         if path.is_symlink() or not path.is_file():
             raise RuntimeError("Managed runtime file differs; preserving it: " + name)
+    registration(tool)
     return current_version(tool)
+
+
+def registration(tool):
+    path = tool / "compatibilitytool.vdf"
+    if path.is_symlink() or not path.is_file():
+        raise RuntimeError("Managed Steam registration differs; preserving it.")
+    text = path.read_text()
+    if text == STATIC_FILES[path.name]:
+        return {"name": STEAM_TOOL, "aliases": [TOOL], "save_paths_supported": True}
+    if text == LEGACY_REGISTRATION:
+        backup = tool / "compatibilitytool.rc5.vdf.backup"
+        if (backup.exists() or backup.is_symlink()) and (
+            backup.is_symlink() or not backup.is_file() or backup.read_text() != text
+        ):
+            raise RuntimeError("Steam registration backup differs; preserving it.")
+        return {"name": TOOL, "aliases": [], "save_paths_supported": False}
+    raise RuntimeError("Managed Steam registration differs; preserving it.")
+
+
+def update_registration(tool):
+    """Repair only the exact old registration; runtime rollback keeps this fix."""
+    if registration(tool)["save_paths_supported"]:
+        return False
+    path = tool / "compatibilitytool.vdf"
+    backup = tool / "compatibilitytool.rc5.vdf.backup"
+    if not backup.exists() and not backup.is_symlink():
+        os.link(path, backup, follow_symlinks=False)
+    if backup.is_symlink() or not backup.is_file() or backup.read_text() != LEGACY_REGISTRATION:
+        raise RuntimeError("Steam registration backup differs; preserving it.")
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w", prefix=".registration-", dir=tool, delete=False
+        ) as stream:
+            temporary = Path(stream.name)
+            stream.write(STATIC_FILES[path.name])
+            stream.flush()
+            os.fsync(stream.fileno())
+        temporary.chmod(0o644)
+        if path.is_symlink() or path.read_text() != LEGACY_REGISTRATION:
+            raise RuntimeError("Steam registration changed during update; preserving it.")
+        os.replace(temporary, path)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+    return True
 
 
 @contextlib.contextmanager
@@ -525,6 +580,7 @@ def install(args, root, *, lock_held=False):
                             or json.loads((tool / "driver.json").read_text()) != selected
                         ):
                             activate(tool, version, selected, "install")
+                        update_registration(tool)
                         return {"tool": str(tool), "version": version, "driver": selected}
             with tempfile.TemporaryDirectory(
                 prefix=".bc250-runtime-stage-", dir=tools
@@ -572,6 +628,7 @@ def install(args, root, *, lock_held=False):
                     promote_runtime(version_root, staged_tool / "versions" / version)
                     (staged_tool / "current").symlink_to("versions/" + version)
                     promote_runtime(staged_tool, tool)
+            update_registration(tool)
     return {"tool": str(tool), "version": version, "driver": selected}
 
 
@@ -631,6 +688,7 @@ def status(root):
         "version": manifest["version"],
         "id": version,
         "driver": selected,
+        "steam_registration": registration(tool),
         "retained_versions": sorted(path.name for path in (tool / "versions").iterdir()),
         "interrupted_transactions": [
             str(path) for path, record in records(tool) if record["state"] == "prepared"

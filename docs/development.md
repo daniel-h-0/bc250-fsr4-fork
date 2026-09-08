@@ -72,6 +72,13 @@ installation outside the active runtime. Steam's Compatibility menu is the
 opt-in mechanism. A new game observation belongs in a compatibility report,
 not an installer allowlist or a new executable-path rule.
 
+Keep `proton` in the internal Steam tool name: the client uses that name to
+initialize standard Windows save-folder mappings. Retain `BC250-FSR4` as an
+alias for existing selections. The layer name alone does not enable those
+defaults. Registration repair is separate from immutable runtime selection;
+rolling back a runtime must keep the repaired registration. See
+[the RC6 diagnosis](save-paths-rc6.md).
+
 `scripts/runtime_bundle.py` supplies the same assembly code to the installer
 and optional offline packager. Public setup bundles contain this project's
 tools, patch, manifest and notices; runtime binaries are fetched separately

@@ -1,5 +1,18 @@
 # Changelog
 
+## 4.0.0-rc6 — 2026-09-08
+
+- Register the Steam tool as `proton-bc250-fsr4`. Steam's Windows save-folder
+  defaults depend on the internal tool name containing `proton`; the old
+  `BC250-FSR4` key left those mappings empty. Keep the old key as an alias so
+  existing game selections work without account or prefix edits.
+- Upgrade only the exact owned registration, preserve its original bytes,
+  and retain the fix across runtime rollback. Report the old registration in
+  `status` and `doctor`; an otherwise unchanged update also repairs it.
+- Include the source-build verification follow-up below. Driver, upstream
+  runtime components and graphics preset are unchanged. See the
+  [save-path diagnosis, upgrade and validation](docs/save-paths-rc6.md).
+
 ## Source-build review follow-up — 2026-09-08
 
 - Reject added or missing materialized source files during resume and packaging.

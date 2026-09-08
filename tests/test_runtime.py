@@ -145,6 +145,68 @@ class RuntimeInstallerTests(unittest.TestCase):
         self.assertEqual((self.tool / "current/ge/proton").stat().st_ino, inode)
         self.assertEqual(runtime.records(self.tool), [])
 
+    def test_registration_satisfies_steam_name_detection_and_preserves_old_selection(self):
+        self.install()
+        # Steam checks the internal key, separately from the display/layer names.
+        text = (self.tool / "compatibilitytool.vdf").read_text()
+        self.assertIn('    "proton-bc250-fsr4"\n', text)
+        self.assertIn('"aliases" "BC250-FSR4"', text)
+        self.assertTrue(runtime.status(self.steam)["steam_registration"]["save_paths_supported"])
+        self.assert_external_unchanged()
+
+    def legacy_registration(self):
+        path = self.tool / "compatibilitytool.vdf"
+        path.write_text(runtime.LEGACY_REGISTRATION)
+        return path
+
+    def test_registration_upgrade_preserves_old_bytes_accounts_and_runtime_rollback(self):
+        self.install()
+        old = runtime.current_version(self.tool)
+        path = self.legacy_registration()
+        self.assertFalse(runtime.status(self.steam)["steam_registration"]["save_paths_supported"])
+        self.install(self.bundle("1.0.0-rc2"))
+        self.assertEqual(path.read_text(), runtime.STATIC_FILES[path.name])
+        self.assertEqual(
+            (self.tool / "compatibilitytool.rc5.vdf.backup").read_text(),
+            runtime.LEGACY_REGISTRATION,
+        )
+        runtime.rollback(self.args, self.steam)
+        self.assertEqual(runtime.current_version(self.tool), old)
+        self.assertTrue(runtime.status(self.steam)["steam_registration"]["save_paths_supported"])
+        self.assert_external_unchanged()
+
+    def test_registration_update_resumes_after_interrupted_publication(self):
+        self.install()
+        path = self.legacy_registration()
+        with mock.patch.object(runtime.os, "replace", side_effect=OSError("interrupted")):
+            with self.assertRaisesRegex(OSError, "interrupted"):
+                runtime.update_registration(self.tool)
+        self.assertEqual(path.read_text(), runtime.LEGACY_REGISTRATION)
+        self.assertTrue(runtime.update_registration(self.tool))
+        self.assertFalse(runtime.update_registration(self.tool))
+        self.assert_external_unchanged()
+
+    def test_registration_repair_preserves_foreign_edits_and_backup_links(self):
+        self.install()
+        path = self.legacy_registration()
+        path.write_text(runtime.LEGACY_REGISTRATION.replace("BC250 FSR4 (4.1.1 INT8)", "Custom"))
+        before = path.read_bytes()
+        with self.assertRaisesRegex(RuntimeError, "preserving"):
+            runtime.update_registration(self.tool)
+        self.assertEqual(path.read_bytes(), before)
+        self.legacy_registration()
+        backup = self.tool / "compatibilitytool.rc5.vdf.backup"
+        backup.symlink_to(self.steam / "config/config.vdf")
+        with self.assertRaisesRegex(RuntimeError, "backup differs"):
+            runtime.update_registration(self.tool)
+        self.assertTrue(backup.is_symlink())
+        self.assertEqual(path.read_text(), runtime.LEGACY_REGISTRATION)
+        previous = runtime.current_version(self.tool)
+        with self.assertRaisesRegex(RuntimeError, "backup differs"):
+            self.install(self.bundle("foreign-backup"))
+        self.assertEqual(runtime.current_version(self.tool), previous)
+        self.assert_external_unchanged()
+
     def test_offline_rebind_reuses_verified_runtime_without_upstream_cache(self):
         self.install()
         retained = self.tool / "current"

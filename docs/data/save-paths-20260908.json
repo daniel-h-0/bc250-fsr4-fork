@@ -1,0 +1,181 @@
+{
+  "scope": "Steam internal-name registration and isolated synthetic-save preservation; no remote-user game acceptance",
+  "steam_client": {
+    "steamclient_sha256": "6e18905cd6677c77f8e6a50bf41e1eefbd4caeffaa95b8cd2c85d5bf11414ce1",
+    "function_offset": "0x1170880",
+    "results": [
+      {
+        "name": "BC250-FSR4",
+        "documents": null,
+        "local_appdata": null,
+        "saved_games": null,
+        "profile": null
+      },
+      {
+        "name": "proton-bc250-fsr4",
+        "documents": "/pfx/drive_c/users/steamuser/My Documents",
+        "local_appdata": "/pfx/drive_c/users/steamuser/Local Settings/Application Data",
+        "saved_games": "/pfx/drive_c/users/steamuser/Saved Games",
+        "profile": "/pfx/drive_c/users/steamuser"
+      },
+      {
+        "name": "BC250-Proton-FSR4",
+        "documents": "/pfx/drive_c/users/steamuser/My Documents",
+        "local_appdata": "/pfx/drive_c/users/steamuser/Local Settings/Application Data",
+        "saved_games": "/pfx/drive_c/users/steamuser/Saved Games",
+        "profile": "/pfx/drive_c/users/steamuser"
+      },
+      {
+        "name": "GE-Proton11-6-x86_64",
+        "documents": "/pfx/drive_c/users/steamuser/My Documents",
+        "local_appdata": "/pfx/drive_c/users/steamuser/Local Settings/Application Data",
+        "saved_games": "/pfx/drive_c/users/steamuser/Saved Games",
+        "profile": "/pfx/drive_c/users/steamuser"
+      }
+    ]
+  },
+  "windows_probe": {
+    "source": "save-paths-20260908/folder-probe.c",
+    "sha256": "61aa5059fafe56edff21934851748d7ba1c5e0066b6e6cdeab1e24007c544662",
+    "checks": [
+      {
+        "route": "stock",
+        "returncode": 0,
+        "folder_results": [
+          "SavedGames=0x00000000|C:\\users\\steamuser\\Saved Games|canary=0xffffffff",
+          "Documents=0x00000000|C:\\users\\steamuser\\Documents|canary=0xffffffff",
+          "LocalAppData=0x00000000|C:\\users\\steamuser\\AppData\\Local|canary=0xffffffff",
+          "RoamingAppData=0x00000000|C:\\users\\steamuser\\AppData\\Roaming|canary=0xffffffff",
+          "Profile=0x00000000|C:\\users\\steamuser|canary=0xffffffff"
+        ],
+        "canaries_found": 0,
+        "canaries_read": 0,
+        "stage": "Initial prefix creation, before synthetic canaries were seeded into the stock prefix"
+      },
+      {
+        "route": "ge",
+        "returncode": 0,
+        "folder_results": [
+          "SavedGames=0x00000000|C:\\users\\steamuser\\Saved Games|canary=0x00000020",
+          "Documents=0x00000000|C:\\users\\steamuser\\Documents|canary=0x00000020",
+          "LocalAppData=0x00000000|C:\\users\\steamuser\\AppData\\Local|canary=0x00000020",
+          "RoamingAppData=0x00000000|C:\\users\\steamuser\\AppData\\Roaming|canary=0x00000020",
+          "Profile=0x00000000|C:\\users\\steamuser|canary=0x00000020"
+        ],
+        "canaries_found": 5,
+        "canaries_read": 0
+      },
+      {
+        "route": "bc250-game",
+        "returncode": 0,
+        "folder_results": [
+          "SavedGames=0x00000000|C:\\users\\steamuser\\Saved Games|canary=0x00000020",
+          "Documents=0x00000000|C:\\users\\steamuser\\Documents|canary=0x00000020",
+          "LocalAppData=0x00000000|C:\\users\\steamuser\\AppData\\Local|canary=0x00000020",
+          "RoamingAppData=0x00000000|C:\\users\\steamuser\\AppData\\Roaming|canary=0x00000020",
+          "Profile=0x00000000|C:\\users\\steamuser|canary=0x00000020"
+        ],
+        "canaries_found": 5,
+        "canaries_read": 0
+      },
+      {
+        "route": "stock-return",
+        "returncode": 0,
+        "folder_results": [
+          "SavedGames=0x00000000|C:\\users\\steamuser\\Saved Games|canary=0x00000020",
+          "Documents=0x00000000|C:\\users\\steamuser\\Documents|canary=0x00000020",
+          "LocalAppData=0x00000000|C:\\users\\steamuser\\AppData\\Local|canary=0x00000020",
+          "RoamingAppData=0x00000000|C:\\users\\steamuser\\AppData\\Roaming|canary=0x00000020",
+          "Profile=0x00000000|C:\\users\\steamuser|canary=0x00000020"
+        ],
+        "canaries_found": 5,
+        "canaries_read": 0
+      },
+      {
+        "route": "stock10",
+        "returncode": 0,
+        "folder_results": [
+          "SavedGames=0x00000000|C:\\users\\steamuser\\Saved Games|canary=0xffffffff|read=missing",
+          "Documents=0x00000000|C:\\users\\steamuser\\Documents|canary=0xffffffff|read=missing",
+          "LocalAppData=0x00000000|C:\\users\\steamuser\\AppData\\Local|canary=0xffffffff|read=missing",
+          "RoamingAppData=0x00000000|C:\\users\\steamuser\\AppData\\Roaming|canary=0xffffffff|read=missing",
+          "Profile=0x00000000|C:\\users\\steamuser|canary=0xffffffff|read=missing"
+        ],
+        "canaries_found": 0,
+        "canaries_read": 0,
+        "stage": "Initial prefix creation, before synthetic canaries were seeded into the stock prefix"
+      },
+      {
+        "route": "bc250-from10",
+        "returncode": 0,
+        "folder_results": [
+          "SavedGames=0x00000000|C:\\users\\steamuser\\Saved Games|canary=0x00000020|read=0x00000001|Synthetic BC250 save-path canary: Saved Games",
+          "Documents=0x00000000|C:\\users\\steamuser\\Documents|canary=0x00000020|read=0x00000001|Synthetic BC250 save-path canary: Documents",
+          "LocalAppData=0x00000000|C:\\users\\steamuser\\AppData\\Local|canary=0x00000020|read=0x00000001|Synthetic BC250 save-path canary: AppData/Local",
+          "RoamingAppData=0x00000000|C:\\users\\steamuser\\AppData\\Roaming|canary=0x00000020|read=0x00000001|Synthetic BC250 save-path canary: AppData/Roaming",
+          "Profile=0x00000000|C:\\users\\steamuser|canary=0x00000020|read=0x00000001|Synthetic BC250 save-path canary: ."
+        ],
+        "canaries_found": 5,
+        "canaries_read": 5
+      },
+      {
+        "route": "stock10-return",
+        "returncode": 0,
+        "folder_results": [
+          "SavedGames=0x00000000|C:\\users\\steamuser\\Saved Games|canary=0x00000020|read=0x00000001|Synthetic BC250 save-path canary: Saved Games",
+          "Documents=0x00000000|C:\\users\\steamuser\\Documents|canary=0x00000020|read=0x00000001|Synthetic BC250 save-path canary: Documents",
+          "LocalAppData=0x00000000|C:\\users\\steamuser\\AppData\\Local|canary=0x00000020|read=0x00000001|Synthetic BC250 save-path canary: AppData/Local",
+          "RoamingAppData=0x00000000|C:\\users\\steamuser\\AppData\\Roaming|canary=0x00000020|read=0x00000001|Synthetic BC250 save-path canary: AppData/Roaming",
+          "Profile=0x00000000|C:\\users\\steamuser|canary=0x00000020|read=0x00000001|Synthetic BC250 save-path canary: ."
+        ],
+        "canaries_found": 5,
+        "canaries_read": 5
+      }
+    ],
+    "scope": "Known-folder checks on every listed route. Canaries seeded after stock-prefix creation; attribute checks on the Proton 11 cycle, with ReadFile checks added for the Proton 10 cycle. Only synthetic save files were used."
+  },
+  "components": "RC5 driver, GE-Proton11-6, provider, OptiScaler, OptiPatcher and preset unchanged",
+  "isolated_upgrade": {
+    "inventory_changed_files": [
+      "runtime-lock.json"
+    ],
+    "upstream_driver_preset_pins_equal": true,
+    "steps": [
+      {
+        "step": "rollback",
+        "returncode": 0,
+        "selected": "versions/bc250-fsr4-runtime-4.0.0-rc5",
+        "manifest": "\"compatibilitytools\"\n{\n  \"compat_tools\"\n  {\n    \"proton-bc250-fsr4\"\n    {\n      \"aliases\" \"BC250-FSR4\"\n      \"install_path\" \".\"\n      \"display_name\" \"BC250 FSR4 (4.1.1 INT8)\"\n      \"from_oslist\" \"windows\"\n      \"to_oslist\" \"linux\"\n    }\n  }\n}\n"
+      },
+      {
+        "step": "offline-reinstall",
+        "returncode": 0,
+        "selected": "versions/bc250-fsr4-runtime-4.0.0-rc6",
+        "manifest": "\"compatibilitytools\"\n{\n  \"compat_tools\"\n  {\n    \"proton-bc250-fsr4\"\n    {\n      \"aliases\" \"BC250-FSR4\"\n      \"install_path\" \".\"\n      \"display_name\" \"BC250 FSR4 (4.1.1 INT8)\"\n      \"from_oslist\" \"windows\"\n      \"to_oslist\" \"linux\"\n    }\n  }\n}\n"
+      },
+      {
+        "step": "doctor",
+        "returncode": 0,
+        "selected": "versions/bc250-fsr4-runtime-4.0.0-rc6",
+        "manifest": "\"compatibilitytools\"\n{\n  \"compat_tools\"\n  {\n    \"proton-bc250-fsr4\"\n    {\n      \"aliases\" \"BC250-FSR4\"\n      \"install_path\" \".\"\n      \"display_name\" \"BC250 FSR4 (4.1.1 INT8)\"\n      \"from_oslist\" \"windows\"\n      \"to_oslist\" \"linux\"\n    }\n  }\n}\n"
+      }
+    ]
+  },
+  "production": {
+    "games_resolving_through_alias": 17,
+    "one_bc250_tool_entry": true,
+    "payload_identities_unchanged": 2377,
+    "changed_missing_added_payloads": 0,
+    "cloud_indexes_retained": 17,
+    "cloud_indexes_updated_by_steam": 2,
+    "cloud_resolution_errors_after_reload": 0,
+    "steam_fields_unchanged": 51,
+    "retired_game_local_paths_unchanged": 51,
+    "system_driver_sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+    "driver_unchanged": true,
+    "remote_users_retested": false
+  },
+  "tests": {
+    "repository_tests_passed": 196
+  }
+}

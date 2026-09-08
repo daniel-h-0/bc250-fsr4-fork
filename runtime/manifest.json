@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "release": {
-    "id": "bc250-fsr4-runtime-4.0.0-rc5",
-    "version": "4.0.0-rc5"
+    "id": "bc250-fsr4-runtime-4.0.0-rc6",
+    "version": "4.0.0-rc6"
   },
   "proton": {
     "schema": 1,

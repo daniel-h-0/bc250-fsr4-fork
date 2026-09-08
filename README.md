@@ -7,8 +7,9 @@ with the original history preserved. Install once, then select
 
 The [v4.0.0-rc1 driver](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc1)
 has recorded [qualification](docs/qualification.md) and
-[performance results](docs/performance.md). The **4.0.0-rc5 unified distribution** fixes
-[installation, recovery and utility launches](docs/review-rc5.md), retaining RC4’s
+[performance results](docs/performance.md). The **4.0.0-rc6 unified distribution** fixes
+[Steam's missing Windows save-folder mappings](docs/save-paths-rc6.md), retaining RC5's
+[installation and recovery fixes](docs/review-rc5.md), RC4’s
 [portable driver and compatibility checks](docs/rc4-compatibility.md) and RC3’s
 [DX11, DX12 and Vulkan runtime qualification](docs/runtime-qualification.md).
 The earlier performance results used the previous integration.
@@ -25,12 +26,12 @@ explain the estimates; [exact game results](docs/performance.md) are separate.
 driver when needed. No manual ABI archive selection or system-library replacement
 is required. See the [tested scope](docs/rc4-compatibility.md).
 
-**Already using rc2, rc3 or rc4?** Follow the [runtime update guide](docs/upgrading-rc2.md).
+**Already using rc2–rc5?** Follow the [runtime update guide](docs/upgrading-rc2.md).
 
 **Already using rc1?** Follow the [rc1 transition guide](docs/upgrading-rc1.md)
 first. It covers driver selection and retiring the old game hooks.
 
-Download `bc250-fsr4-setup-4.0.0-rc5.tar.gz` and its checksum from the
+Download `bc250-fsr4-setup-4.0.0-rc6.tar.gz` and its checksum from the
 [releases page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases), verify
 the checksum and extract it. No Git checkout or Wine compilation is needed.
 Close Steam and games. From the extracted folder, run as your desktop user:

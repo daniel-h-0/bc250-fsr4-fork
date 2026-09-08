@@ -248,6 +248,26 @@ class ManageTests(unittest.TestCase):
         self.assertEqual(list(self.prefix.iterdir()), [])
         self.assertFalse(self.tool.exists())
 
+    def test_doctor_reports_legacy_registration_without_editing_it(self):
+        self.apply()
+        manifest = self.tool / "compatibilitytool.vdf"
+        manifest.write_text(runtime.LEGACY_REGISTRATION)
+        with mock.patch.object(driver, "check_hardware"):
+            report = manage.doctor(self.prefix, self.steam)
+        self.assertFalse(report["healthy"])
+        self.assertIn("Windows save paths", report["diagnostic"])
+        self.assertEqual(manifest.read_text(), runtime.LEGACY_REGISTRATION)
+
+    def test_unchanged_runtime_update_still_repairs_legacy_registration(self):
+        self.apply()
+        manifest = self.tool / "compatibilitytool.vdf"
+        manifest.write_text(runtime.LEGACY_REGISTRATION)
+        self.args.driver_archive = self.args.runtime_archive = None
+        with mock.patch.object(runtime, "ROOT", self.project):
+            self.assertTrue(self.apply()["changed"])
+            self.assertFalse(self.apply()["changed"])
+        self.assertTrue(runtime.registration(self.tool)["save_paths_supported"])
+
     def test_explicit_abi_replacement_rebinds_same_runtime_and_rolls_back(self):
         self.apply()
         previous = manage.runtime.selection(self.steam)

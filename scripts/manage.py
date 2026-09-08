@@ -195,6 +195,7 @@ def status(prefix, root):
             "version": report.get("version"),
             "steam_tool": report["tool"],
             "driver": report.get("driver"),
+            "steam_registration": report.get("steam_registration"),
             "unfinished_runtime_transactions": report.get("interrupted_transactions", []),
         }
         result["unfinished_driver_transactions"] = [str(p) for p, _ in driver.pending(prefix)]
@@ -282,7 +283,8 @@ def apply(args, prefix, root):
             )
             == driver.digest(ROOT / "runtime/manifest.json")
         ):
-            return {**status(prefix, root), "changed": False}
+            changed = runtime.update_registration(root / "compatibilitytools.d" / runtime.TOOL)
+            return {**status(prefix, root), "changed": changed}
         identifier = time.strftime("%Y%m%dT%H%M%S") + "-" + str(time.time_ns())
         path = prefix / "operations" / (identifier + ".json")
         operation = {
@@ -403,6 +405,12 @@ def doctor(prefix, root):
         if not result.get("driver"):
             raise RuntimeError("No verified driver is selected. Run bc250-fsr4 install first.")
         result["checks"] = runtime.probe_driver(result["driver"], root)
+        if result.get("installed") and not result.get("steam_registration", {}).get(
+            "save_paths_supported"
+        ):
+            raise RuntimeError(
+                "Steam registration lacks Windows save paths. Run bc250-fsr4 update, then restart Steam."
+            )
         result["healthy"] = result.get("error") is None and not any(
             result.get(name)
             for name in (

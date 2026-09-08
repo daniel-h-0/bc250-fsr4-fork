@@ -8,14 +8,14 @@ rebuild or repeat of a completed v3 migration is required.
 
 ## 1. Keep your recovery records and obtain the current tools
 
-Download the RC5 setup archive and its checksum from the
-[release page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc5).
+Download the RC6 setup archive and its checksum from the
+[release page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc6).
 In the download directory:
 
 ```sh
-sha256sum -c bc250-fsr4-setup-4.0.0-rc5.tar.gz.sha256
-tar -xzf bc250-fsr4-setup-4.0.0-rc5.tar.gz
-cd bc250-fsr4-setup-4.0.0-rc5
+sha256sum -c bc250-fsr4-setup-4.0.0-rc6.tar.gz.sha256
+tar -xzf bc250-fsr4-setup-4.0.0-rc6.tar.gz
+cd bc250-fsr4-setup-4.0.0-rc6
 ```
 
 Extract into a fresh directory. Keep your previous installer, game-runtime
