@@ -20,9 +20,9 @@ import tempfile
 import urllib.error
 import urllib.request
 
-VERSION = 'v4.0.0-rc1'
+VERSION = 'v4.0.0-rc4'
 REPOSITORY = 'daniel-h-0/bc250-fsr4-fork'
-ASSET = 'bc250-fsr4-' + VERSION + '-cachyos-x86_64.tar.gz'
+ASSET = 'bc250-fsr4-v4.0.0-rc1-linux-glibc236-x86_64.tar.gz'
 args = sys.argv[1:]
 if '--help' in args or '-h' in args:
     print('Usage: install-v4.sh [ARCHIVE.tar.gz] [--upgrade-v3 | --upgrade-v3-icd PATH] [--sha256 DIGEST]')
@@ -30,8 +30,8 @@ if '--help' in args or '-h' in args:
     print('BC250_FSR4_PREFIX selects a dedicated private installation directory.')
     print('Runtime: pinned FSR 4.1.1 INT8. Do not co-install the newer 4.1.1b mod with this setup.')
     raise SystemExit(0)
-if sys.version_info < (3,12):
-    raise SystemExit('Python 3.12 or newer is required. No installation changed.')
+if sys.version_info < (3,11):
+    raise SystemExit('Python 3.11 or newer is required. No installation changed.')
 archive = Path(args.pop(0)).expanduser().resolve() if args and not args[0].startswith('-') else None
 if '--upgrade-v3' in args:
     index = args.index('--upgrade-v3')
@@ -74,7 +74,11 @@ try:
                     path=Path(member.name)
                     if not (member.isfile() or member.isdir()) or path.is_absolute() or '..' in path.parts:
                         raise RuntimeError('Unsafe archive member.')
-                bundle.extractall(unpack,filter='data')
+                if hasattr(tarfile,'data_filter'):
+                    bundle.extractall(unpack,filter='data')
+                else:
+                    # Members above permit only confined regular files/directories.
+                    bundle.extractall(unpack)
             roots=list(unpack.iterdir())
             if len(roots)!=1 or not (roots[0]/'scripts/driver.py').is_file():
                 raise RuntimeError('Release installer was not found in archive.')

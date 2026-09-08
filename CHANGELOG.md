@@ -1,16 +1,22 @@
 # Changelog
 
-## Unreleased — SteamOS driver ABI repair
+## v4.0.0-rc4 — portable installation and startup checks
 
-- Reproduce shared startup failures with Valve's SteamOS 3.7/3.8 libraries.
-  Keep the original driver and runtime release records unchanged.
-- Build a separate SteamOS driver against pinned target headers/libraries,
-  use the original GNU TLS ABI, omit the optional direct-display dependency
-  and statically link the required libdrm/AMDGPU version.
-- Verify and honor an explicit replacement driver archive even when an older
-  source-compatible driver exists; preserve installation and rollback ownership.
-- Record the [candidate's checks and limits](docs/steamos-compatibility.md).
-  This is not a new performance campaign or full SteamOS gameplay acceptance.
+- Make an older-library driver build the default private download. Pin Debian 12
+  compiler/headers/libraries, retain the original GNU TLS ABI, statically link
+  current libdrm/AMDGPU and omit optional display-info and SPIRV-Tools dependencies.
+- Automatically replace incompatible/superseded private drivers while preserving
+  coordinated rollback and reuse of qualified working system drivers.
+- Support maintained Python 3.11; remove normal installation's `patch`, `ldd`
+  and `vulkaninfo` requirements. Download a pinned static extractor if needed.
+- Check the selected driver on the host and inside available Steam Runtime 4;
+  discover the runtime on secondary libraries. Add `bc250-fsr4 doctor` and retain
+  pre-Proton launch failures in a small user-state log.
+- Reuse verified retained runtime files for offline driver rebinding, and honor
+  explicit local replacement archives even when their Mesa source matches.
+- Keep RC3’s components and game preset unchanged. See the separate
+  [RC4 compatibility qualification](docs/rc4-compatibility.md); earlier game
+  performance results and release assets retain their original scope and identity.
 
 ## v4.0.0-rc3 — DX11, Vulkan and mod-chain compatibility
 

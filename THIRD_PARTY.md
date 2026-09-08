@@ -21,7 +21,8 @@ does not label the entire repository MIT.
 | Mesa 26.2.2 and patches | Inputs in `v4/manifest.json`; retain original per-file licenses and copyright notices |
 | Wayland protocols 1.41 | Pinned archive under `v4/source-dependencies/`; retain its internal `COPYING` |
 | SteamOS ABI target | Valve package hashes and source URLs in `v4/build-targets/steamos-3.8.json`; packages are extracted privately for building, not redistributed as an OS |
-| Static libdrm 2.4.133 in the SteamOS candidate | Upstream source hash in the target definition; the complete upstream source archive and its notices are retained under `licenses/` in candidate driver archives |
+| Portable ABI target | Debian package hashes and official URLs in `v4/build-targets/linux-glibc236.json`; packages are extracted privately for building, not redistributed as an OS |
+| Static libdrm 2.4.133 in portable/SteamOS builds | Upstream source hash in the target definition; the complete upstream source archive and its notices are retained under `licenses/` in driver archives |
 | Runtime component identities | `runtime/manifest.json` records upstream URLs, hashes and versions; it grants no rights to the artifacts |
 | GE-Proton upscaler source fixture | `tests/fixtures/ge-proton11-6-upscalers.py`, from the pinned GE-Proton11-6 tree; upstream BSD-2-Clause, Copyright (c) 2018 Chris Simons |
 | Archived game profiles and recovery | Former profile metadata and transaction recovery under `legacy/game-setup/` |
@@ -66,3 +67,10 @@ remains the selected rendering backend. Its pinned URL and hash are in
 `runtime/manifest.json`. The [NVIDIA RTX SDKs license](runtime/licenses/NVIDIA-DLSS.txt)
 is retained with the assembled runtime; this project's MIT grant does not
 apply to that component.
+
+If libarchive’s `bsdtar` is absent, installation downloads the official static
+[7-Zip 26.03 Linux extractor](https://github.com/ip7z/7zip/releases/tag/26.03).
+Its archive and executable hashes are pinned in `runtime/manifest.json`.
+The complete upstream archive, including `License.txt` and manual notices,
+remains in the download cache. The executable is used in temporary staging;
+it is not redistributed in the public setup bundle or installed system-wide.

@@ -66,10 +66,16 @@ ENVIRONMENT_KEYS = (
 )
 
 
-def build_options(display_info="auto"):
+def build_options(display_info="auto", spirv_tools="auto"):
     if display_info not in ("auto", "enabled", "disabled"):
         raise RuntimeError("Invalid display-info build policy.")
-    return OPTIONS + ([] if display_info == "auto" else ["-Ddisplay-info=" + display_info])
+    if spirv_tools not in ("auto", "enabled", "disabled"):
+        raise RuntimeError("Invalid SPIRV-Tools build policy.")
+    return (
+        OPTIONS
+        + ([] if display_info == "auto" else ["-Ddisplay-info=" + display_info])
+        + ([] if spirv_tools == "auto" else ["-Dspirv-tools=" + spirv_tools])
+    )
 
 
 def digest(path):
@@ -247,14 +253,24 @@ def verify_completed_build(work, root=ROOT):
         raise RuntimeError("Source manifest changed since this build.")
     if result["recipe_hashes"] != recipe_hashes(root):
         raise RuntimeError("Build recipe changed since this build.")
-    if result["options"] != build_options(result.get("display_info", "auto")):
+    if result["options"] != build_options(
+        result.get("display_info", "auto"), result.get("spirv_tools", "auto")
+    ):
         raise RuntimeError("Recorded build options do not match the recipe.")
     if target := result.get("target"):
-        definition = root / "v4/build-targets/steamos-3.8.json"
+        portable = target.get("id") == "linux-glibc236-x86_64"
+        definition = root / (
+            "v4/build-targets/linux-glibc236.json"
+            if portable
+            else "v4/build-targets/steamos-3.8.json"
+        )
         if (
-            target.get("id") != "steamos-3.8-x86_64"
+            target.get("id") not in ("steamos-3.8-x86_64", "linux-glibc236-x86_64")
             or target.get("definition_sha256") != digest(definition)
-            or target.get("builder_sha256") != digest(root / "scripts/build-steamos.py")
+            or target.get("builder_sha256")
+            != digest(
+                root / ("scripts/build-compat.py" if portable else "scripts/build-steamos.py")
+            )
             or target.get("packages") != read_json(definition)["packages"]
             or result.get("display_info") != "disabled"
         ):
@@ -293,11 +309,12 @@ def main():
     parser.add_argument("--jobs", type=int, default=4)
     parser.add_argument("--arch", choices=["64"], default="64")
     parser.add_argument("--display-info", choices=["auto", "enabled", "disabled"], default="auto")
+    parser.add_argument("--spirv-tools", choices=["auto", "enabled", "disabled"], default="auto")
     args = parser.parse_args()
     if args.jobs < 1:
         parser.error("--jobs must be positive")
     manifest = verify_inputs()
-    options = build_options(args.display_info)
+    options = build_options(args.display_info, args.spirv_tools)
     archive = (
         (args.mesa_archive or ROOT / ".work/downloads" / manifest["base_archive"]["name"])
         .expanduser()
@@ -412,6 +429,7 @@ def main():
             "library": str(library),
             "options": options,
             "display_info": args.display_info,
+            "spirv_tools": args.spirv_tools,
             "cflags": env["CFLAGS"],
             "cxxflags": env["CXXFLAGS"],
             "compiler": toolchain["c"]["version"],

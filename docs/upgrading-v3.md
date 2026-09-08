@@ -39,7 +39,7 @@ does not require the eager loading checks now used by v4.
 | --- | --- |
 | Driver | Private Mesa 26.2.2 archive with a successful host probe. System Mesa need not match for this route. |
 | Optional system package | An exact original Mesa 26.2.2 `vulkan-radeon` package from the target distribution; see [system installation](system-install.md). |
-| Python / loader tools | Python 3.12+, `vulkan-tools` and a coherent Vulkan loader, including the distribution's 32-bit components. |
+| Python / loader tools | Python 3.11+ and a coherent Vulkan loader, including the distribution's 32-bit components. |
 | LLVM | No LLVM dependency in the v4 archive. Do not change LLVM solely for v4; other applications may need it. |
 | C/C++ runtime | The published v4 ELF directly requires GLIBC 2.38, GLIBCXX 3.4.29 and CXXABI 1.3.9 symbols. These are symbol floors, not a complete distribution guarantee. |
 | Display / SPIR-V | `libdisplay-info.so.3` and `libSPIRV-Tools.so`, also required by the original prebuilt v3. |

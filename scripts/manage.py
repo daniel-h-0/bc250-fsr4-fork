@@ -56,9 +56,19 @@ def driver_archive(args, policy):
     if args.driver_archive:
         archive = args.driver_archive.expanduser().resolve()
         return archive, args.driver_sha256
-    tag = "v" + policy["driver"]["version"]
-    asset = "bc250-fsr4-" + tag + "-cachyos-x86_64.tar.gz"
-    url = "https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/" + tag + "/" + asset
+    if "archive_sha256" in policy["driver"]:
+        component = policy["driver"]
+        checksum = driver.normalize_checksum(component["archive_sha256"])
+        return runtime_bundle.download(
+            component["archive_url"], checksum, args.cache / "drivers", args.offline
+        ), checksum
+    if "archive_url" in policy["driver"]:
+        url = policy["driver"]["archive_url"]
+        asset = url.rsplit("/", 1)[-1]
+    else:
+        tag = "v" + policy["driver"]["version"]
+        asset = "bc250-fsr4-" + tag + "-cachyos-x86_64.tar.gz"
+        url = "https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/" + tag + "/" + asset
     cache = args.cache / "drivers"
     if cache.is_symlink():
         raise RuntimeError("Driver download cache is a symlink; preserving it.")
@@ -233,6 +243,22 @@ def apply(args, prefix, root):
             # An explicit corrected ABI build must replace an existing build
             # from the same Mesa source; source compatibility is not identity.
             selected = None
+        if selected is not None:
+            if (
+                requested_driver is None
+                and selected["mode"] == "private"
+                and selected["sha256"] in policy["driver"].get("superseded_private_sha256", [])
+            ):
+                selected = None
+            else:
+                try:
+                    runtime.probe_driver(selected, root)
+                except RuntimeError:
+                    if args.driver == "system" or requested_driver is not None:
+                        raise
+                    # A matching source hash does not establish distro ABI compatibility.
+                    # Let the ordinary transaction install and qualify the portable asset.
+                    selected = None
         target = desired_runtime(args, policy)
         if (
             selected is not None
@@ -263,6 +289,21 @@ def apply(args, prefix, root):
             if selected is None:
                 print("Installing the compatible BC250 driver…", flush=True)
                 archive, checksum = driver_archive(args, policy)
+                if not args.driver_archive and "archive_url" in policy["driver"]:
+                    with tempfile.TemporaryDirectory(
+                        prefix=".default-driver-", dir=prefix
+                    ) as temporary:
+                        _, release = driver.extract_verified(
+                            archive, Path(temporary), driver.archive_checksum(archive, checksum)
+                        )
+                        if (
+                            release["driver_sha256"] != policy["driver"]["sha256"]
+                            or release["source_manifest_sha256"]
+                            != policy["driver"]["source_manifest_sha256"]
+                        ):
+                            raise RuntimeError(
+                                "Default driver archive differs from the release's binary/source pins."
+                            )
                 migrations = list(args.upgrade_v3_icd)
                 if args.upgrade_v3:
                     migrations.append(prefix / "v3/radv-bc250-fsr4-v3.json")
@@ -341,10 +382,24 @@ def rollback(prefix, root):
     return {**status(prefix, root), "rolled_back": str(path), **result}
 
 
+def doctor(prefix, root):
+    result = status(prefix, root)
+    try:
+        driver.check_hardware()
+        result["hardware"] = "BC250 1002:13fe"
+        if not result.get("driver"):
+            raise RuntimeError("No verified driver is selected. Run bc250-fsr4 install first.")
+        result["checks"] = runtime.probe_driver(result["driver"], root)
+        result["healthy"] = result.get("error") is None and not result["unfinished_operations"]
+    except (OSError, ValueError, KeyError, RuntimeError, subprocess.SubprocessError) as error:
+        result.update(healthy=False, diagnostic=str(error))
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(prog="bc250-fsr4", description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
-    for name in ("install", "update", "status", "rollback"):
+    for name in ("install", "update", "status", "doctor", "rollback"):
         command = commands.add_parser(name)
         command.add_argument("--steam-root", type=Path)
         command.add_argument(
@@ -377,8 +432,8 @@ def main():
             )
             command.add_argument("--upgrade-v3-icd", type=Path, action="append", default=[])
     args = parser.parse_args()
-    if sys.version_info < (3, 12):
-        raise RuntimeError("Python 3.12 or newer is required.")
+    if sys.version_info < (3, 11):
+        raise RuntimeError("Python 3.11 or newer is required.")
     if os.geteuid() == 0:
         raise RuntimeError("Run BC250 FSR4 as your desktop user, without sudo.")
     requested = args.prefix.expanduser().absolute()
@@ -407,6 +462,8 @@ def main():
     else:
         result = globals()[args.command](prefix, root)
     print(json.dumps(result, indent=2))
+    if args.command == "doctor" and not result["healthy"]:
+        raise SystemExit(1)
     if args.command in ("install", "update"):
         print(
             "Restart Steam and select BC250 FSR4 (4.1.1 INT8) in the game's Compatibility settings."

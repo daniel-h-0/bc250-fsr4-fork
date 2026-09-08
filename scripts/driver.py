@@ -19,6 +19,8 @@ import tempfile
 import time
 from pathlib import Path
 
+import safe_archive
+
 
 def digest(path):
     h = hashlib.sha256()
@@ -74,46 +76,35 @@ def probe(library, directory):
     header = library.read_bytes()[:20]
     if header[:5] != b"\x7fELF\x02" or header[18:20] != b"\x3e\x00":
         raise RuntimeError("Driver is not an x86_64 ELF shared library.")
-    if not shutil.which("vulkaninfo"):
-        raise RuntimeError("Install vulkan-tools (vulkaninfo) before activating a release.")
-    linked = subprocess.run(["ldd", "-r", str(library)], capture_output=True, text=True, timeout=30)
-    if linked.returncode or any(
-        message in linked.stdout + linked.stderr for message in ("not found", "undefined symbol")
-    ):
-        raise RuntimeError(
-            "Binary ABI/dependency check failed. Use a driver built for this distribution; "
-            "the original CachyOS rc1 binary is incompatible with SteamOS 3.7/3.8. "
-            "See docs/steamos-compatibility.md. No driver was activated.\n"
-            + linked.stdout
-            + linked.stderr
-        )
     path = directory / "probe.json"
     write_json(path, icd(library))
     env = os.environ.copy()
-    for key in ("VK_ICD_FILENAMES", "VK_ADD_DRIVER_FILES"):
-        env.pop(key, None)
-    env["VK_DRIVER_FILES"] = str(path)
     env["LD_BIND_NOW"] = "1"
     result = subprocess.run(
-        ["vulkaninfo", "--summary"], env=env, capture_output=True, text=True, timeout=60
+        [
+            sys.executable,
+            "-I",
+            str(Path(__file__).with_name("vulkan_probe.py")),
+            "--library",
+            str(library),
+            "--icd",
+            str(path),
+        ],
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=60,
     )
     (directory / "probe.log").write_text(result.stdout + result.stderr)
-    if (
-        result.returncode
-        or "radv" not in result.stdout.lower()
-        or "gfx1013" not in result.stdout.lower()
-    ):
+    if result.returncode:
         raise RuntimeError(
-            "BC250 RADV initialization failed. Current release is unchanged.\n"
-            + result.stdout
-            + result.stderr
+            "BC250 driver ABI/dependency or Vulkan initialization check failed. "
+            "Current release is unchanged.\n" + result.stdout + result.stderr
         )
-    return {
-        "loader": "vulkaninfo --summary (LD_BIND_NOW=1)",
-        "success": True,
-        "dependencies": linked.stdout,
-        "vulkaninfo": result.stdout,
-    }
+    report = json.loads(result.stdout)
+    if report.get("success") is not True:
+        raise RuntimeError("BC250 driver probe did not report success.")
+    return report
 
 
 def verify_release(root):
@@ -158,7 +149,7 @@ def extract_verified(archive, destination, checksum):
                 )
             if Path(member.name).is_absolute() or ".." in Path(member.name).parts:
                 raise RuntimeError("Unsafe archive member.")
-        bundle.extractall(destination, filter="data")
+        safe_archive.extractall(bundle, destination)
     roots = list(destination.iterdir())
     if len(roots) != 1 or not roots[0].is_dir():
         raise RuntimeError("Expected exactly one release directory.")

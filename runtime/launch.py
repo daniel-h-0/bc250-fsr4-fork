@@ -2,11 +2,13 @@
 # SPDX-License-Identifier: MIT
 """Launch the selected immutable runtime using GE-Proton's own prefix manager."""
 
+import ctypes
 import fcntl
 import hashlib
 import json
 import os
 import sys
+import time
 from pathlib import Path
 
 HOST = Path("/run/host")
@@ -119,6 +121,19 @@ def main():
         selected = json.loads((tool / "driver.json").read_text())
         game = bool(os.environ.get("SteamAppId") or os.environ.get("SteamGameId"))
         env = environment(version, selected, os.environ, game=game)
+        if game:
+            library = Path(selected["library"])
+            exported = HOST / library.as_posix().lstrip("/")
+            if selected.get("mode") == "system" and exported.is_file():
+                library = exported
+            try:
+                ctypes.CDLL(str(library), mode=os.RTLD_NOW | os.RTLD_LOCAL)
+            except OSError as error:
+                raise RuntimeError(
+                    "Driver cannot load inside Steam's runtime: "
+                    + str(error)
+                    + ". Run bc250-fsr4 update, then bc250-fsr4 doctor."
+                ) from error
         # Replace the wrapper so Steam keeps its original process and inherited
         # descriptors. Proton holds the shared version lock until it exits.
         os.set_inheritable(lock.fileno(), True)
@@ -126,8 +141,28 @@ def main():
         os.execve(proton, [proton, *sys.argv[1:]], env)
 
 
+def failure(error):
+    message = "BC250 runtime: " + str(error)
+    try:
+        directory = (
+            Path(os.environ.get("XDG_STATE_HOME", str(Path.home() / ".local/state"))) / "bc250-fsr4"
+        )
+        directory.mkdir(parents=True, exist_ok=True)
+        path = directory / "last-launch-error.json"
+        # A launch may fail before Proton has an opportunity to create its log.
+        # O_NOFOLLOW avoids following a replaced log path outside this directory.
+        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC | os.O_NOFOLLOW, 0o600)
+        with os.fdopen(fd, "w") as stream:
+            json.dump({"time": time.time(), "error": str(error)}, stream, indent=2)
+            stream.write("\n")
+        message += "\nDetails: " + str(path)
+    except OSError:
+        pass
+    return message
+
+
 if __name__ == "__main__":
     try:
         raise SystemExit(main())
     except (OSError, ValueError, KeyError, RuntimeError) as error:
-        raise SystemExit("BC250 runtime: " + str(error))
+        raise SystemExit(failure(error))

@@ -7,7 +7,8 @@ with the original history preserved. Install once, then select
 
 The [v4.0.0-rc1 driver](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc1)
 has recorded [qualification](docs/qualification.md) and
-[performance results](docs/performance.md). The **4.0.0-rc3 unified distribution** passed separate
+[performance results](docs/performance.md). The **4.0.0-rc4 unified distribution** adds a portable driver and automatic
+[installation compatibility checks](docs/rc4-compatibility.md), building on RC3’s
 [DX11, DX12 and Vulkan runtime qualification](docs/runtime-qualification.md).
 The earlier performance results used the previous integration.
 
@@ -19,15 +20,16 @@ explain the estimates; [exact game results](docs/performance.md) are separate.
 
 ## Start a Steam game
 
-**SteamOS 3.7/3.8:** the published CachyOS driver has confirmed startup ABI
-failures. See the [SteamOS correction and candidate instructions](docs/steamos-compatibility.md).
+**SteamOS 3.7/3.8 and Debian 12:** RC4 automatically installs the portable
+driver when needed. No manual ABI archive selection or system-library replacement
+is required. See the [tested scope](docs/rc4-compatibility.md).
 
-**Already using rc2?** Follow the [runtime update guide](docs/upgrading-rc2.md).
+**Already using rc2 or rc3?** Follow the [runtime update guide](docs/upgrading-rc2.md).
 
 **Already using rc1?** Follow the [rc1 transition guide](docs/upgrading-rc1.md)
 first. It preserves the existing driver and covers retiring the old game hooks.
 
-Download `bc250-fsr4-setup-4.0.0-rc3.tar.gz` and its checksum from the
+Download `bc250-fsr4-setup-4.0.0-rc4.tar.gz` and its checksum from the
 [releases page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases), verify
 the checksum and extract it. No Git checkout or Wine compilation is needed.
 Close Steam and games. From the extracted folder, run as your desktop user:
@@ -44,6 +46,7 @@ through the same interface:
 ```sh
 ./bc250-fsr4 update
 ./bc250-fsr4 status
+./bc250-fsr4 doctor
 ./bc250-fsr4 rollback
 ```
 
@@ -63,14 +66,14 @@ remain available.
 
 - A functioning Linux BC250 graphics setup: x86_64, PCI `1002:13fe`, RADV
   GFX1013. Firmware, kernel and clock configuration are separate.
-- Python **3.12+**, `binutils`, glibc's `ldd`, `vulkan-tools` and a working
-  Vulkan loader. The driver must pass eager dependency and device checks.
-- Runtime installation also needs `patch`, `bsdtar` from libarchive and
-  internet access for the initial pinned downloads. [Offline options](docs/game-troubleshooting.md)
-  are available.
-- The driver archive must match your distribution's libraries, including
-  `libdisplay-info.so.3` and `libSPIRV-Tools.so`. It has **no LLVM
-  dependency**. Use the source route if the binary's checks fail.
+- Python **3.11+** and a working Vulkan loader (`libvulkan.so.1`).
+- Internet access for the initial pinned downloads. The installer applies its
+  small integration patch itself and obtains a verified static 7-Zip extractor
+  if `bsdtar` is absent. No root access or extra OS packages are needed for these
+  installation steps. [Offline options](docs/game-troubleshooting.md) are available.
+- RC4’s private driver targets Debian 12’s glibc 2.36 / GCC 12 / Wayland 1.21
+  library baseline. It has no shared LLVM, libdrm, display-info or SPIRV-Tools
+  dependency. Host and available Steam Runtime 4 checks run before activation.
 - Native Linux Steam is the initial target. Steam Flatpak and other sandboxes
   are not qualified.
 
@@ -83,6 +86,7 @@ only x86_64; never export its private ICD globally. See the
 | Route | Purpose |
 | --- | --- |
 | [Private archive](#private-archive-install-or-v3-upgrade) | Checked user installation and v3 migration; easiest rollback |
+| [Portable source build](docs/rc4-compatibility.md#reproduce-the-portable-driver) | Reproduce RC4’s older library baseline without changing the host OS |
 | [Native source build](#build-from-source) | Build the pinned driver for your distribution |
 | [Container build](#container-build) | Build the same source using Docker or Podman |
 | [System packages](docs/system-install.md) | Optional Arch/CachyOS integration with package-owned RADV |

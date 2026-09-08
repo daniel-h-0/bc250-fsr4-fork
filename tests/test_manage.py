@@ -223,6 +223,44 @@ class ManageTests(unittest.TestCase):
         self.assertEqual(manage.runtime.selection(self.steam), previous)
         self.assertEqual(driver.current_target(self.prefix), previous_target)
 
+    def test_automatic_update_replaces_incompatible_private_driver_and_rolls_back(self):
+        self.apply()
+        previous = runtime.selection(self.steam)
+        old_target = driver.current_target(self.prefix)
+        corrected = self.driver_bundle("portable", self.source)
+        self.args.driver_archive = None
+        original_probe = runtime.probe_driver
+
+        def check(selected, root):
+            if selected["sha256"] == previous["driver"]["sha256"]:
+                raise RuntimeError("Old distribution ABI")
+            return original_probe(selected, root)
+
+        with (
+            mock.patch.object(runtime, "probe_driver", side_effect=check),
+            mock.patch.object(manage, "driver_archive", return_value=(corrected, None)),
+        ):
+            self.apply()
+        self.assertNotEqual(runtime.selection(self.steam)["driver"], previous["driver"])
+        self.rollback()
+        self.assertEqual(runtime.selection(self.steam), previous)
+        self.assertEqual(driver.current_target(self.prefix), old_target)
+
+    def test_default_driver_download_uses_pinned_archive_without_sidecar_lookup(self):
+        self.args.driver_archive = None
+        self.policy["driver"].update(
+            archive_url="https://example.invalid/portable.tar.gz", archive_sha256="f" * 64
+        )
+        with mock.patch.object(
+            manage.runtime_bundle, "download", return_value=Path("verified")
+        ) as download:
+            self.assertEqual(
+                manage.driver_archive(self.args, self.policy), (Path("verified"), "f" * 64)
+            )
+        download.assert_called_once_with(
+            "https://example.invalid/portable.tar.gz", "f" * 64, self.args.cache / "drivers", True
+        )
+
     def test_corrupt_explicit_archive_cannot_hide_behind_existing_driver(self):
         self.apply()
         previous = manage.runtime.selection(self.steam)

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "release": {
-    "id": "bc250-fsr4-runtime-4.0.0-rc3",
-    "version": "4.0.0-rc3"
+    "id": "bc250-fsr4-runtime-4.0.0-rc4",
+    "version": "4.0.0-rc4"
   },
   "proton": {
     "schema": 1,
@@ -53,9 +53,16 @@
   },
   "driver": {
     "version": "4.0.0-rc1",
-    "sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+    "sha256": "13163d1350d346f54d58b82863e5fc2f31ddfab0a0dd6495886c3fec286315d2",
     "source_manifest_sha256": "5f6809df51db8d76adebe450c2ae080100b2f0ad8a0d91fbbf40f94f6f6a212a",
-    "mesa": "26.2.2"
+    "mesa": "26.2.2",
+    "qualified_system_sha256": [
+      "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5"
+    ],
+    "superseded_private_sha256": [
+      "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5"
+    ],
+    "archive_url": "https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc4/bc250-fsr4-v4.0.0-rc1-linux-glibc236-x86_64.tar.gz"
   },
   "preset": {
     "Upscalers.Dx12Upscaler": "ffx",
@@ -83,11 +90,12 @@
     "Hotfix.CreateD3D12DeviceForLuma": "false"
   },
   "integration": {
-    "runtime/launch.py": "3f738e095eb1cdf05ba97fb6978e107300dd9fcac3a2c907b8ce51a471442bdb",
+    "runtime/launch.py": "362e485f8123805822a45ea8f41af62c5338bde31784c751b53b8492aafdd4e8",
     "runtime/patches/0001-pinned-upscaler-manifest.patch": "815241b3ca44c8c5236cfa7eb3c3d325ae21c12d712122578699e992c737ecec",
-    "scripts/runtime_bundle.py": "70d4ca10c54a766e59ecb6576756ab724f4419bcd86b2cb08a5e36960b49155e",
+    "scripts/runtime_bundle.py": "bfb2be3dbc2441c4ccc75147e7d6f2fd03531ebd9271b8dad51415d1f1b949b9",
     "runtime/licenses/FidelityFX-SDK-4.0.2.txt": "be05d8cd5489deff924dbe91e0c5b8c0ff034d43cd11749bf9a67a0c38252b7b",
-    "runtime/licenses/NVIDIA-DLSS.txt": "21b5daec892b12bea692e66bc8fe45cf5902ccaf3a7b831e78050d8859881c37"
+    "runtime/licenses/NVIDIA-DLSS.txt": "21b5daec892b12bea692e66bc8fe45cf5902ccaf3a7b831e78050d8859881c37",
+    "scripts/safe_archive.py": "fed3ae937a850bba81dc38e066f88eaa9ce75b14006deb53407e4a9977c31a6d"
   },
   "sdk": {
     "version": "4.0.2",
@@ -104,5 +112,11 @@
     "size": 58977904,
     "sha256": "be6e434a94ca32499515eb62ca0e6c274526055d568d0426e4c652dcdfb6ee6e",
     "license_url": "https://raw.githubusercontent.com/NVIDIA/DLSS/a291cc7d2cc642a51566f3dfd5376f635cd1b284/LICENSE.txt"
+  },
+  "extractor": {
+    "version": "26.03",
+    "url": "https://github.com/ip7z/7zip/releases/download/26.03/7z2603-linux-x64.tar.xz",
+    "sha256": "dc99eff5008f1ab79bd7084c68513701547a808a89502bf4133683535ab3c695",
+    "binary_sha256": "eab4c8d7f193e3d6d3237370bbcaa879a160a3f1dc82202207e27baeab79b6ac"
   }
 }

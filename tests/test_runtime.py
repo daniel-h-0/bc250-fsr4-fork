@@ -145,6 +145,48 @@ class RuntimeInstallerTests(unittest.TestCase):
         self.assertEqual((self.tool / "current/ge/proton").stat().st_ino, inode)
         self.assertEqual(runtime.records(self.tool), [])
 
+    def test_offline_rebind_reuses_verified_runtime_without_upstream_cache(self):
+        self.install()
+        retained = self.tool / "current"
+        inode = (retained / "ge/proton").stat().st_ino
+        policy = json.loads((retained / "runtime-lock.json").read_text())
+        policy["release"] = {"id": retained.resolve().name, "version": "1.0.0-rc1"}
+        (retained / "runtime-lock.json").write_text(json.dumps(policy))
+        self.inventory(retained.resolve(), "1.0.0-rc1")
+        project = self.root / "project"
+        (project / "runtime").mkdir(parents=True)
+        shutil.copy2(retained / "runtime-lock.json", project / "runtime/manifest.json")
+        replacement = self.root / "replacement.so"
+        replacement.write_bytes(b"corrected driver ABI")
+        self.selected.update(library=str(replacement), sha256=runtime.driver.digest(replacement))
+        self.args.archive = None
+        import runtime_bundle
+
+        with (
+            mock.patch.object(runtime, "ROOT", project),
+            mock.patch.object(
+                runtime_bundle, "assemble", side_effect=AssertionError("must stay offline")
+            ),
+        ):
+            runtime.install(self.args, self.steam)
+        self.assertEqual((retained / "ge/proton").stat().st_ino, inode)
+        self.assertEqual(runtime.selection(self.steam)["driver"], self.selected)
+        self.assertFalse(self.args.cache.exists())
+
+    def test_runtime_discovery_reads_secondary_library_with_spaces_and_escapes(self):
+        library = self.root / 'secondary "disk"'
+        container = library / "steamapps/common/SteamLinuxRuntime_4"
+        container.mkdir(parents=True)
+        (container / "run").touch()
+        escaped = str(library).replace('"', '\\"')
+        (self.steam / "config/libraryfolders.vdf").write_text('"path" "' + escaped + '"\n')
+        self.assertEqual(runtime.steam_runtime(self.steam), container)
+
+    def test_missing_steam_runtime_is_reported_as_pending(self):
+        result = runtime.probe_driver(self.selected, self.steam)
+        self.assertTrue(result["host"]["success"])
+        self.assertEqual(result["steam_runtime"]["state"], "pending")
+
     def test_upgrade_and_rollback_preserve_both_versions_and_stock(self):
         self.install()
         first = runtime.current_version(self.tool)

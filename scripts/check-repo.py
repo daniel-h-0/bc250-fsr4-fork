@@ -143,6 +143,22 @@ def check_inputs(root):
             package["url"].startswith("https://steamdeck-packages.steamos.cloud/archlinux-mirror/"),
             "Target packages must come from Valve's mirror",
         )
+    portable = load(root / "v4/build-targets/linux-glibc236.json")
+    require(
+        portable["schema"] == 1 and portable["id"] == "linux-glibc236-x86_64",
+        "Invalid portable ABI target",
+    )
+    require(
+        len({p["name"] for p in portable["packages"]}) == len(portable["packages"]),
+        "Duplicate portable package",
+    )
+    for package in portable["packages"]:
+        require(bool(SHA256.fullmatch(package["sha256"])), "Invalid portable package hash")
+        require(
+            package["url"].startswith("https://deb.debian.org/debian/pool/"),
+            "Portable packages must come from Debian",
+        )
+    require(portable["libdrm"] == target["libdrm"], "Static DRM source differs between ABI targets")
     return f"{len(inputs)} pinned inputs, {len(touched)} modified Mesa files, runtime/qualification metadata"
 
 

@@ -22,6 +22,7 @@ from pathlib import Path, PurePosixPath
 
 sys.dont_write_bytecode = True
 import driver
+import safe_archive
 
 ROOT = Path(__file__).resolve().parents[1]
 SYSTEM_LIBRARY = Path("/usr/lib/libvulkan_radeon.so")
@@ -198,7 +199,7 @@ def extract_verified(archive, destination, checksum):
         members, expanded = archive_members(bundle, name)
         if shutil.disk_usage(destination).free < expanded:
             raise RuntimeError("Not enough space for the complete BC250 FSR4 runtime.")
-        bundle.extractall(destination, members=members, filter="data")
+        safe_archive.extractall(bundle, destination, members=members)
     root = destination / name
     if set(destination.iterdir()) != {root}:
         raise RuntimeError("Expected exactly one runtime bundle directory.")
@@ -214,6 +215,7 @@ def steam_root(explicit=None):
     roots = {
         path.resolve()
         for path in (
+            Path(os.environ.get("XDG_DATA_HOME", str(Path.home() / ".local/share"))) / "Steam",
             Path.home() / ".local/share/Steam",
             Path.home() / ".steam/root",
             Path.home() / ".steam/steam",
@@ -221,8 +223,95 @@ def steam_root(explicit=None):
         if path.is_dir()
     }
     if len(roots) != 1:
+        if not roots and (Path.home() / ".var/app/com.valvesoftware.Steam").is_dir():
+            raise RuntimeError(
+                "Only Flatpak Steam was found. RC4 currently requires native Steam; "
+                "its host driver binding is not qualified for the Flatpak sandbox."
+            )
         raise RuntimeError("Select one native Steam installation with --steam-root PATH.")
     return roots.pop()
+
+
+def steam_runtime(root):
+    """Find Runtime 4 in Steam's library metadata, including secondary disks."""
+    libraries = {root}
+    for metadata in (root / "steamapps/libraryfolders.vdf", root / "config/libraryfolders.vdf"):
+        if metadata.is_file():
+            for raw in re.findall(r'"path"\s+"((?:\\.|[^"\\])*)"', metadata.read_text()):
+                decoded = re.sub(r'\\(["\\])', r"\1", raw)
+                path = Path(decoded)
+                if path.is_absolute():
+                    libraries.add(path)
+    for library in sorted(
+        libraries,
+        key=lambda path: (not (path / "steamapps/appmanifest_4183110.acf").is_file(), str(path)),
+    ):
+        candidate = library / "steamapps/common/SteamLinuxRuntime_4"
+        if (candidate / "run").is_file():
+            return candidate.resolve()
+    return None
+
+
+def probe_driver(selected, root):
+    """Check the host and, when downloaded, Steam's actual launch container."""
+    container = steam_runtime(root)
+    # Pressure-vessel prepares a small mutable view of its runtime. Staying on
+    # the runtime's filesystem permits hardlinks instead of copying its payload.
+    staging_parent = (
+        container.parent if container and os.access(container.parent, os.W_OK) else None
+    )
+    with tempfile.TemporaryDirectory(
+        prefix=".bc250-driver-check-", dir=staging_parent
+    ) as temporary:
+        directory = Path(temporary)
+        library = Path(selected["library"])
+        report = {"host": driver.probe(library, directory)}
+        if container is None:
+            report["steam_runtime"] = {
+                "state": "pending",
+                "app_id": 4183110,
+                "detail": "Steam Linux Runtime 4 is not downloaded yet. Steam installs it when this tool is selected.",
+            }
+            return report
+        script = directory / "vulkan_probe.py"
+        shutil.copy2(ROOT / "scripts/vulkan_probe.py", script)
+        exported = library
+        if library.is_relative_to("/usr") or library.is_relative_to("/lib"):
+            exported = Path("/run/host") / library.relative_to("/")
+        icd = directory / "container-icd.json"
+        driver.write_json(icd, driver.icd(exported))
+        command = [
+            str(container / "run"),
+            "--batch",
+            "--no-gc-runtimes",
+            "--no-copy-runtime",
+            "--variable-dir=" + str(directory / "pressure-vessel"),
+            "--filesystem=" + str(directory),
+        ]
+        if exported == library:
+            command.append("--filesystem=" + str(library.parent) + ":ro")
+        command += [
+            "--",
+            "python3",
+            "-I",
+            str(script),
+            "--library",
+            str(exported),
+            "--icd",
+            str(icd),
+        ]
+        result = subprocess.run(command, capture_output=True, text=True, timeout=60)
+        if result.returncode:
+            raise RuntimeError(
+                "Steam Linux Runtime 4 driver check failed:\n"
+                + (result.stdout + result.stderr)[-8000:]
+            )
+        report["steam_runtime"] = {
+            "state": "passed",
+            "path": str(container),
+            "probe": json.loads(result.stdout),
+        }
+        return report
 
 
 def select_driver(mode, prefix):
@@ -231,7 +320,7 @@ def select_driver(mode, prefix):
     expected = source["sha256"]
     if mode != "private" and SYSTEM_LIBRARY.is_file():
         checksum = driver.digest(SYSTEM_LIBRARY)
-        known = checksum == expected
+        known = checksum in [expected, *source.get("qualified_system_sha256", [])]
         if SYSTEM_METADATA.is_file():
             metadata = json.loads(SYSTEM_METADATA.read_text())
             known = known or (
@@ -398,8 +487,7 @@ def archive_source(args):
 def install(args, root, *, lock_held=False):
     selected = select_driver(args.driver, args.driver_prefix.expanduser().resolve())
     # Probe before downloading a large runtime or creating the Steam entry.
-    with tempfile.TemporaryDirectory(prefix="bc250-runtime-probe-") as temporary:
-        driver.probe(Path(selected["library"]), Path(temporary))
+    probe_driver(selected, root)
     tools = root / "compatibilitytools.d"
     if tools.is_symlink():
         raise RuntimeError("Steam compatibilitytools.d is a symlink; preserving it.")
@@ -420,6 +508,23 @@ def install(args, root, *, lock_held=False):
         ):
             if exists:
                 finish_interrupted(tool)
+                if not args.archive:
+                    policy = json.loads((ROOT / "runtime/manifest.json").read_text())
+                    version = safe_id(policy["release"]["id"])
+                    retained = tool / "versions" / version
+                    if retained.exists() or retained.is_symlink():
+                        verify_version(retained)
+                        if driver.digest(retained / "runtime-lock.json") != driver.digest(
+                            ROOT / "runtime/manifest.json"
+                        ):
+                            raise RuntimeError("Existing immutable runtime policy differs.")
+                        verify_binding(retained, selected)
+                        if (
+                            current_version(tool) != version
+                            or json.loads((tool / "driver.json").read_text()) != selected
+                        ):
+                            activate(tool, version, selected, "install")
+                        return {"tool": str(tool), "version": version, "driver": selected}
             with tempfile.TemporaryDirectory(
                 prefix=".bc250-runtime-stage-", dir=tools
             ) as temporary:
@@ -591,8 +696,8 @@ def main():
     args = parser.parse_args()
     if args.command == "install" and args.sha256 and not args.archive:
         parser.error("--sha256 applies only to --archive")
-    if sys.version_info < (3, 12):
-        raise RuntimeError("Python 3.12 or newer is required.")
+    if sys.version_info < (3, 11):
+        raise RuntimeError("Python 3.11 or newer is required.")
     if os.geteuid() == 0:
         raise RuntimeError("Run the runtime installer as your desktop user, without sudo.")
     root = steam_root(args.steam_root)

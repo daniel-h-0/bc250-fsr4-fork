@@ -6,7 +6,7 @@ and [source contracts](docs/development.md) are separate.
 
 ## Set up and check
 
-Use Python 3.12 or newer:
+Use Python 3.11 or newer:
 
 ```sh
 python3 -m venv .venv

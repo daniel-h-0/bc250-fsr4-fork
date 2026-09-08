@@ -5,10 +5,11 @@ reproducible incompatibilities with SteamOS 3.7 and 3.8. These failures occur
 before game code runs. The earlier CachyOS gameplay qualification did not
 establish SteamOS compatibility.
 
-This branch adds an **unpublished SteamOS driver candidate**. The published
-rc1 driver and rc3 runtime remain unchanged. The runtime can use this new
-driver because its pinned Mesa/FSR source contract is unchanged; the new ELF
-has a separate hash and build label. Full SteamOS gameplay is not qualified.
+**RC4 supersedes the initial candidate below.** Its default portable driver
+also targets older Debian 12 libraries and is selected automatically. Use the
+[RC4 compatibility guide](rc4-compatibility.md) for installation, updates,
+diagnostics and the final driver identity. This page preserves the initial
+failure investigation and its separate candidate evidence.
 
 ## Confirmed failures and correction
 
@@ -32,7 +33,7 @@ the compositor's driver. Its static DRM components do not replace host
 libraries. No game preset, OptiScaler component, kernel or clock setting was
 changed for this repair.
 
-## Build the candidate
+## Reproduce the initial SteamOS-only candidate
 
 Use a full source checkout and the normal
 [build prerequisites](../README.md#build-from-source), plus `bsdtar`.
@@ -56,30 +57,16 @@ source archive, including its copyright and license notices. Packaging
 rejects changed target definitions, builder code or retained libdrm source.
 It also retains the normal Mesa source, build provenance and license records.
 
-## Try the corrected driver
+## Install the correction
 
-Use the **corrected installer from this branch or the candidate driver
-archive**, since the published rc3 installer can ignore an explicit archive.
-Close Steam and games, then run as the desktop user:
+Use the [current setup and update instructions](rc4-compatibility.md).
+The original RC3 installer could ignore an explicit replacement archive; use
+RC4's tools for both automatic upgrades and explicit local candidate testing.
+Do not replace libc, Wayland or libdrm system libraries by hand.
 
-```sh
-./bc250-fsr4 update --driver private --driver-archive /path/to/STEAMOS-DRIVER.tar.gz
-./bc250-fsr4 status
-```
+## Initial candidate evidence and limits
 
-Keep the archive's adjacent `.sha256` file, or provide `--driver-sha256`.
-The installer binds the existing RC3 runtime to the new private driver and
-retains the previous selection. On first installation, use `install` with
-the same arguments. Restart Steam afterward.
-
-With Steam and games closed, `./bc250-fsr4 rollback` reverses the coordinated
-change. Do not replace libc, Wayland, libdrm or other system libraries by hand.
-An ordinary install without an explicit candidate archive still selects the
-published driver; this development branch is not a new published release.
-
-## Evidence and limits
-
-The candidate passes eager ELF loading and BC250 GFX1013 Vulkan initialization
+The initial SteamOS-only candidate passed eager ELF loading and BC250 GFX1013 Vulkan initialization
 with the isolated 3.7 and 3.8 package sets, and with Steam Runtime 4 using
 the 3.8 graphics provider. A Windows probe imports the native OptiScaler WinMM
 proxy and creates a D3D12 device successfully through the unchanged RC3 tool;

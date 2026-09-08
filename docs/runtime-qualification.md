@@ -1,5 +1,8 @@
 # Shared runtime qualification — v4.0.0-rc3
 
+RC4’s portable driver and installer have a [separate compatibility record](rc4-compatibility.md).
+The gameplay results below remain the RC3 qualification with the original driver.
+
 The initial six scene checks below passed. A later quiet Roboquest/Luma check
 was interrupted by an unexplained host freeze requiring a manual reboot. The
 journal contained no identifying GPU fault, panic or OOM record. This incident

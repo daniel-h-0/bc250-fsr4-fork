@@ -3,6 +3,7 @@ import argparse
 import io
 import json
 import os
+import shutil
 import subprocess
 import sys
 import tarfile
@@ -244,20 +245,17 @@ class RecoveryAndAbiTests(unittest.TestCase):
     legacy = InstallerTests.legacy
 
     def test_undefined_lazy_symbol_is_rejected(self):
-        from types import SimpleNamespace
-
-        self.library.write_bytes(b"\x7fELF\x02" + b"\0" * 13 + b"\x3e\x00")
-        result = SimpleNamespace(
-            returncode=0, stdout="undefined symbol: old_llvm_symbol", stderr=""
+        if not shutil.which("cc"):
+            self.skipTest("A C compiler is needed for the broken-library fixture")
+        source = self.root / "broken.c"
+        source.write_text(
+            "extern int missing_symbol(void); int probe(void) { return missing_symbol(); }\n"
         )
-        with (
-            patch.object(driver, "check_hardware"),
-            patch.object(driver.shutil, "which", return_value="/usr/bin/vulkaninfo"),
-            patch.object(driver.subprocess, "run", return_value=result) as run,
-        ):
+        subprocess.run(["cc", "-shared", "-fPIC", str(source), "-o", str(self.library)], check=True)
+        with patch.object(driver, "check_hardware"):
             with self.assertRaisesRegex(RuntimeError, "ABI/dependency"):
                 driver.probe(self.library, self.root)
-        self.assertEqual(run.call_args[0][0][:2], ["ldd", "-r"])
+        self.assertIn("missing_symbol", (self.root / "probe.log").read_text())
 
     def test_interrupted_install_can_be_recovered(self):
         path, before = self.legacy()

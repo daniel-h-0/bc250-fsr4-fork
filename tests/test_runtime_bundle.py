@@ -2,6 +2,7 @@
 import hashlib
 import json
 import os
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -55,6 +56,36 @@ class RuntimeBundleTests(unittest.TestCase):
                 bundle.assemble(self.root, self.root / "cache", policy)
         download.assert_not_called()
         self.assertEqual(list(self.root.iterdir()), [])
+
+    def test_python_patch_matches_gnu_patch_on_complete_upstream_source(self):
+        source = self.root / "protonfixes/upscalers.py"
+        source.parent.mkdir()
+        original = (bundle.ROOT / "tests/fixtures/ge-proton11-6-upscalers.py").read_bytes()
+        source.write_bytes(original)
+        patch = bundle.ROOT / "runtime/patches/0001-pinned-upscaler-manifest.patch"
+        bundle.apply_upscaler_patch(source, patch)
+        actual = source.read_bytes()
+        source.write_bytes(original)
+        subprocess.run(
+            ["patch", "--batch", "--fuzz=0", "-p1", "-i", str(patch)],
+            cwd=self.root,
+            check=True,
+            stdout=subprocess.DEVNULL,
+        )
+        self.assertEqual(actual, source.read_bytes())
+
+    def test_context_drift_does_not_partially_patch_upstream_source(self):
+        source = self.root / "upscalers.py"
+        original = (bundle.ROOT / "tests/fixtures/ge-proton11-6-upscalers.py").read_text()
+        source.write_text(
+            original.replace("enabled = check_optiscaler(", "changed = check_optiscaler(")
+        )
+        before = source.read_bytes()
+        with self.assertRaisesRegex(RuntimeError, "context differs"):
+            bundle.apply_upscaler_patch(
+                source, bundle.ROOT / "runtime/patches/0001-pinned-upscaler-manifest.patch"
+            )
+        self.assertEqual(source.read_bytes(), before)
 
 
 if __name__ == "__main__":

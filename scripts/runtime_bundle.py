@@ -8,12 +8,15 @@ import hashlib
 import json
 import lzma
 import os
+import re
 import shutil
 import subprocess
 import tarfile
 import tempfile
 import urllib.request
 from pathlib import Path
+
+import safe_archive
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -85,21 +88,79 @@ def tar_tree(root, output, mode="gz"):
                 )
 
 
-def optiscaler_artifact(archive, patcher, sdk, ngx_signature, staging, policy):
-    extracted = staging / "opti"
-    extracted.mkdir()
-    subprocess.run(
-        [
-            "bsdtar",
+def apply_upscaler_patch(source, patch):
+    """Apply the pinned single-file unified diff, with exact positions and context."""
+    original = source.read_text().splitlines(keepends=True)
+    lines = patch.read_text().splitlines(keepends=True)
+    header = lines.index("--- a/protonfixes/upscalers.py\n")
+    if lines[header + 1] != "+++ b/protonfixes/upscalers.py\n":
+        raise RuntimeError("Unexpected upscaler patch target.")
+    output, cursor, i = [], 0, header + 2
+    while i < len(lines):
+        match = re.fullmatch(r"@@ -(\d+),(\d+) \+(\d+),(\d+) @@.*\n", lines[i])
+        if not match:
+            raise RuntimeError("Malformed upscaler patch hunk.")
+        old_start, old_count, new_start, new_count = map(int, match.groups())
+        start = old_start - 1
+        if start < cursor or start > len(original):
+            raise RuntimeError("Overlapping or out-of-range upscaler patch.")
+        output.extend(original[cursor:start])
+        cursor = start
+        if len(output) != new_start - 1:
+            raise RuntimeError("Upscaler patch output position differs.")
+        removed = added = 0
+        i += 1
+        while i < len(lines) and not lines[i].startswith("@@ "):
+            line = lines[i]
+            if line[:1] not in (" ", "+", "-"):
+                raise RuntimeError("Unsupported upscaler patch line.")
+            if line[0] in " -":
+                if cursor >= len(original) or original[cursor] != line[1:]:
+                    raise RuntimeError("Upscaler patch context differs; refusing partial patch.")
+                cursor += 1
+                removed += 1
+            if line[0] in " +":
+                output.append(line[1:])
+                added += 1
+            i += 1
+        if (removed, added) != (old_count, new_count):
+            raise RuntimeError("Upscaler patch hunk length differs.")
+    output.extend(original[cursor:])
+    source.write_text("".join(output))
+
+
+def extract_optiscaler(archive, extracted, staging, policy, cache, offline):
+    if executable := shutil.which("bsdtar"):
+        command = [
+            executable,
             "-xf",
             str(archive),
             "--no-same-owner",
             "--no-same-permissions",
             "-C",
             str(extracted),
-        ],
-        check=True,
-    )
+        ]
+    else:
+        # A pinned static upstream extractor works on immutable systems too.
+        # It stays in temporary staging; the cache retains its full license archive.
+        component = policy["extractor"]
+        package = download(component["url"], component["sha256"], cache, offline)
+        directory = staging / "extractor"
+        directory.mkdir()
+        with tarfile.open(package) as bundle:
+            safe_archive.extractall(bundle, directory)
+        executable = directory / "7zzs"
+        if executable.is_symlink() or digest(executable) != component["binary_sha256"]:
+            raise RuntimeError("7-Zip extractor differs from its pin.")
+        executable.chmod(0o700)
+        command = [str(executable), "x", "-y", "-o" + str(extracted), str(archive)]
+    subprocess.run(command, check=True, stdout=subprocess.DEVNULL)
+
+
+def optiscaler_artifact(archive, patcher, sdk, ngx_signature, staging, policy, cache, offline):
+    extracted = staging / "opti"
+    extracted.mkdir()
+    extract_optiscaler(archive, extracted, staging, policy, cache, offline)
     if any(p.is_symlink() or not (p.is_dir() or p.is_file()) for p in extracted.rglob("*")):
         raise RuntimeError("Unexpected nonregular OptiScaler payload.")
     dll = extracted / "OptiScaler.dll"
@@ -153,9 +214,6 @@ def assemble(destination, cache, policy=None, offline=False):
     for name, expected in policy["integration"].items():
         if digest(ROOT / name) != expected:
             raise RuntimeError("Runtime integration changed without updating its pin: " + name)
-    for executable in ("bsdtar", "patch"):
-        if not shutil.which(executable):
-            raise RuntimeError("Install " + executable + " before installing the runtime.")
     if any(destination.iterdir()):
         raise RuntimeError("Runtime assembly requires an empty staging directory.")
     ge = policy["proton"]
@@ -183,20 +241,16 @@ def assemble(destination, cache, policy=None, offline=False):
         # The complete official archive was SHA256-verified above. The Python data
         # filter rejects paths and links leaving this extraction directory.
         with tarfile.open(ge_archive, "r:gz") as archive:
-            archive.extractall(staging, filter="data")
+            safe_archive.extractall(archive, staging)
         source = staging / ge["name"]
         for name, expected in ge["files"].items():
             if digest(source / name) != expected["sha256"]:
                 raise RuntimeError("GE-Proton input changed: " + name)
         source.rename(version / "ge")
         patch = ROOT / "runtime/patches/0001-pinned-upscaler-manifest.patch"
-        subprocess.run(
-            ["patch", "--batch", "--fuzz=0", "-p1", "-i", str(patch)],
-            cwd=version / "ge",
-            check=True,
-        )
+        apply_upscaler_patch(version / "ge/protonfixes/upscalers.py", patch)
         opti_archive, opti_item = optiscaler_artifact(
-            opti, patcher, sdk, ngx_signature, staging, policy
+            opti, patcher, sdk, ngx_signature, staging, policy, cache, offline
         )
         artifacts = version / "ge/artifacts"
         artifacts.mkdir()

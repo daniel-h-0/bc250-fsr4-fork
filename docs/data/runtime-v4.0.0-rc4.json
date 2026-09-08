@@ -1,0 +1,142 @@
+{
+  "schema": 1,
+  "date": "2026-09-08",
+  "distribution": "4.0.0-rc4",
+  "status": "driver qualification passed; installation qualification in progress",
+  "driver": {
+    "sha256": "13163d1350d346f54d58b82863e5fc2f31ddfab0a0dd6495886c3fec286315d2",
+    "source_manifest_sha256": "5f6809df51db8d76adebe450c2ae080100b2f0ad8a0d91fbbf40f94f6f6a212a",
+    "build_label": "linux-glibc236-x86_64",
+    "target_definition_sha256": "4ffdbdff1afdce142ee50c39eb1bc11b855b4bd429e041c39313d28c9985ac3b",
+    "needed_libraries": [
+      "libelf.so.1",
+      "libxcb-dri3.so.0",
+      "libwayland-client.so.0",
+      "libz.so.1",
+      "libzstd.so.1",
+      "libxcb.so.1",
+      "libX11-xcb.so.1",
+      "libxcb-present.so.0",
+      "libxcb-xfixes.so.0",
+      "libxcb-sync.so.1",
+      "libxcb-randr.so.0",
+      "libxcb-shm.so.0",
+      "libxshmfence.so.1",
+      "libxcb-keysyms.so.1",
+      "libudev.so.1",
+      "libexpat.so.1",
+      "libstdc++.so.6",
+      "libm.so.6",
+      "libgcc_s.so.1",
+      "libc.so.6",
+      "ld-linux-x86-64.so.2"
+    ],
+    "glibc_versions": [
+      "GLIBC_2.2.5",
+      "GLIBC_2.3",
+      "GLIBC_2.3.2",
+      "GLIBC_2.3.4",
+      "GLIBC_2.4",
+      "GLIBC_2.6",
+      "GLIBC_2.7",
+      "GLIBC_2.8",
+      "GLIBC_2.9",
+      "GLIBC_2.11",
+      "GLIBC_2.14",
+      "GLIBC_2.17",
+      "GLIBC_2.25",
+      "GLIBC_2.27",
+      "GLIBC_2.28",
+      "GLIBC_2.29",
+      "GLIBC_2.32",
+      "GLIBC_2.33",
+      "GLIBC_2.34"
+    ]
+  },
+  "checks": {
+    "isolated_userspaces": {
+      "Debian-12": {
+        "returncode": 0,
+        "gfx1013": true,
+        "log_sha256": "dabf5c0040bb60ad7222d1808efdaf4834e8d799613a1e29e7ab76e76394011d"
+      },
+      "SteamOS-3.7": {
+        "returncode": 0,
+        "gfx1013": true,
+        "log_sha256": "596f6d3c83a0c412d22a6b28f13584e19c80f0b1ee3ff203a3c4c0ae46ed38c3"
+      },
+      "SteamOS-3.8": {
+        "returncode": 0,
+        "gfx1013": true,
+        "log_sha256": "9e4822f697b75d9f4c1fc567a2ebaeae26b45c23b12be469f4074c77801f487f"
+      }
+    },
+    "steam_runtime_4": {
+      "SteamOS-3.7": {
+        "returncode": 0,
+        "probe": {
+          "success": true,
+          "loader": "libvulkan.so.1",
+          "relocations": "RTLD_NOW",
+          "devices": [
+            {
+              "vendor_id": "0x1002",
+              "device_id": "0x13fe",
+              "name": "AMD BC-250 (RADV GFX1013)"
+            }
+          ]
+        }
+      },
+      "SteamOS-3.8": {
+        "returncode": 0,
+        "probe": {
+          "success": true,
+          "loader": "libvulkan.so.1",
+          "relocations": "RTLD_NOW",
+          "devices": [
+            {
+              "vendor_id": "0x1002",
+              "device_id": "0x13fe",
+              "name": "AMD BC-250 (RADV GFX1013)"
+            }
+          ]
+        }
+      }
+    },
+    "shader_programs": {
+      "count": 92,
+      "exact": true,
+      "record_sha256": "65321aad1626538e98671d551caeea0b405e81974194f2e6b3ac6178e1c33a8b"
+    },
+    "tensor_outputs": {
+      "count": 96,
+      "exact": true,
+      "record_sha256": "309a01a9df64e52b413a4f1b0a58e338b5f21917f153be2cea9c102cf10e817c"
+    },
+    "image_outputs": {
+      "count": 12,
+      "passed": true,
+      "record_sha256": "e6c63c3c68c895f8290a4854ff3bd009e82201489a1356c6133f0c96087fca64"
+    },
+    "python311_tests": {
+      "count": 170,
+      "passed": true,
+      "python": "Debian 3.11.2-6+deb12u8",
+      "safe_tar_compatibility_path_used": true
+    },
+    "assembly_without_installer_utilities": {
+      "passed": true,
+      "path": "/nonexistent",
+      "python": "3.14"
+    }
+  },
+  "limits": {
+    "booted_other_distributions": false,
+    "fresh_gameplay_qualification": false,
+    "flatpak_qualified": false,
+    "host_kernel": "7.2.3-1.83-cachyos-bc250",
+    "host_gpu": "BC250 1002:13fe",
+    "prior_gameplay_results": "RC3 and original rc1 driver retain their separate identity"
+  },
+  "upstream_runtime_components": "Unchanged from RC3; new launcher performs eager driver loading and retains pre-Proton errors."
+}

@@ -8,7 +8,8 @@ old gameplay evidence.
 | Artifact | Identity and purpose |
 | --- | --- |
 | Driver `v4.0.0-rc1` | The published Mesa 26.2.2 ELF and its [qualification](qualification.md); source tag `362c4c4a74456002e4697ca0e1d1bb3aaff1539d` |
-| Distribution `4.0.0-rc3` | The component/preset lock in `runtime/manifest.json`; [DX11, DX12 and Vulkan qualification](runtime-qualification.md) |
+| Portable driver `4.0.0-rc1-linux-glibc236-x86_64` | RC4’s separate ELF build from the unchanged source; [ABI and correctness qualification](rc4-compatibility.md) |
+| Distribution `4.0.0-rc4` | The component/preset lock in `runtime/manifest.json`; portable installation and diagnostics, retaining RC3’s [renderer qualification](runtime-qualification.md) |
 | Source snapshot | An exact Git commit with file hashes and modes, for development or auditing |
 
 The later [performance campaign](performance.md) used the unchanged rc1 driver
@@ -18,14 +19,14 @@ it is distinct from both project versions and the newer 4.1.1b mod.
 
 ## End-user setup bundle
 
-The distribution release tag is `v4.0.0-rc3`. Its small
-`bc250-fsr4-setup-4.0.0-rc3.tar.gz` bundle contains the installer tools,
+The distribution release tag is `v4.0.0-rc4`. Its small
+`bc250-fsr4-setup-4.0.0-rc4.tar.gz` bundle contains the installer tools,
 runtime manifest, integration patch and essential documentation/notices,
 with an adjacent SHA256 checksum. Users extract it and follow the
 [quickstart](../README.md#start-a-steam-game); Git is optional.
 Existing rc1 users should first read the [transition guide](upgrading-rc1.md).
 The original rc1 archive installs the driver component; it cannot update itself
-into the unified tools. Obtain the rc3 setup archive in a separate directory.
+into the unified tools. Obtain the rc4 setup archive in a separate directory.
 
 Normal `./bc250-fsr4 install` downloads the pinned GE-Proton,
 OptiScaler, OptiPatcher, AMD SDK bridge, signed NVIDIA DLSS helper and FSR provider components, verifies them and assembles
@@ -50,6 +51,12 @@ python3 scripts/source-release.py --setup --output dist/setup
 ```
 
 ## Driver artifacts
+
+The default RC4 private artifact is
+`bc250-fsr4-v4.0.0-rc1-linux-glibc236-x86_64.tar.gz`, attached to the RC4
+release. Its source version is unchanged, but its ABI/build identity and ELF
+hash are distinct from the original. The RC4 setup pins the default archive
+and verifies its driver/source identity before activation.
 
 The original installable driver is
 `bc250-fsr4-v4.0.0-rc1-cachyos-x86_64.tar.gz`, with an adjacent checksum.
