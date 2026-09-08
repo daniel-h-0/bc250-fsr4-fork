@@ -47,3 +47,9 @@ does not grant new redistribution rights to those components.
 
 Game files, proprietary shader dumps, saves, keys and Steam account
 configuration are excluded from distributions.
+
+The runtime uses AMD FidelityFX SDK 4.0.2 as the API bridge to the pinned
+4.1.1 driver provider. The unmodified DLL comes from AMD SDK v2.0.0 commit
+`f4c1da8e92f3fe563b5c28c44e6267ce6b6b8eb2`; its URL and hash are in
+`runtime/manifest.json`. The [AMD MIT license](runtime/licenses/FidelityFX-SDK-4.0.2.txt)
+is retained in the setup bundle and installed alongside the runtime.

@@ -9,20 +9,21 @@ The migration does not require a new kernel, firmware flash or LLVM upgrade.
    If Arch/CachyOS packages need updating, use a coherent full-system update
    and preserve the normal recovery path. Do not cherry-pick core libraries
    or invent compatibility symlinks.
-2. From the current installer bundle, run `./install-v4.sh --upgrade-v3`.
-   For a source-built or custom v3 ICD, use `--upgrade-v3-icd PATH` instead.
-   The installer validates driver loading before activation and preserves the
-   old ICD bytes for rollback.
-3. Undo the previous game's OptiScaler or other runtime integration using its
-   own recovery procedure. For this project's retired wizard, use
+2. Undo the game's previous OptiScaler integration using its own recovery
+   procedure. For this project's retired wizard, use
    [legacy recovery](game-troubleshooting.md#recover-the-retired-game-wizard).
-4. Close Steam and games, run `./install-runtime.sh install`, then restart
-   Steam and select **BC250 FSR4 (4.1.1 INT8)** under the game's
+3. Close Steam and games. From the current distribution, run
+   `./bc250-fsr4 install --upgrade-v3`. For a custom v3 ICD, use
+   `--upgrade-v3-icd PATH` instead. The installer preserves migrated ICD bytes
+   and reuses a compatible verified driver when available.
+4. Restart Steam and select **BC250 FSR4 (4.1.1 INT8)** under the game's
    Properties → Compatibility. Follow [the game guide](games.md).
 
-The new compatibility tool's native FSR and DLSS gameplay qualification is
-pending. It uses FSR **4.1.1 INT8**, not the newer **4.1.1b** mod; do not
-combine them.
+Use `./bc250-fsr4 status` to inspect both components and
+`./bc250-fsr4 rollback` to undo the managed installation.
+
+The shared runtime has [recorded gameplay checks](runtime-qualification.md).
+It uses FSR **4.1.1 INT8**; do not combine it with the newer **4.1.1b** mod.
 
 ## What changes
 
@@ -42,7 +43,7 @@ does not require the eager loading checks now used by v4.
 | Display / SPIR-V | `libdisplay-info.so.3` and `libSPIRV-Tools.so`, also required by the original prebuilt v3. |
 | Source builds | Pinned Mesa 26.2.2 requires libdrm/libdrm_amdgpu ≥2.4.133, libdisplay-info ≥0.1.1 and SPIRV-Tools ≥2024.1 when enabled. |
 | Kernel / firmware | Keep the working BC250 setup. The recorded 7.2.3-1.83 kernel is a test reference, not an established minimum. |
-| Game runtime | Install the independent BC250 FSR4 compatibility tool; Steam's Compatibility menu controls each game's opt-in. |
+| Game runtime | The same installer manages the BC250 FSR4 compatibility tool; Steam's Compatibility menu controls each game's opt-in. |
 
 The v3 and published v4 ELFs have the same direct GLIBC/C++ symbol floors;
 v3 additionally links LLVM. Dependencies can impose further requirements,

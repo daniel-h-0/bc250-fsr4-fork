@@ -1,13 +1,15 @@
 # Changelog
 
-## Unreleased — maintenance on v4
+## v4.0.0-rc2 — unified distribution
 
-- Add the independently versioned BC250 FSR4 Steam compatibility tool.
+- Add one `bc250-fsr4 install/update/status/rollback` interface for the driver
+  and Steam runtime, reusing a compatible verified driver and supporting v3 upgrades.
+- Add the BC250 FSR4 Steam compatibility tool.
   Users opt in through Steam's Compatibility menu; the active runtime has no
   game allowlist, executable scan or Steam-account configuration writer.
 - Use pinned GE-Proton loader/prefix management with a narrow local-manifest
   patch, FSR 4.1.1 INT8 model 2, OptiScaler nightly 20260904 and OptiPatcher 0.41.
-  The new native FSR and DLSS gameplay qualification is pending.
+  Both FSR and DLSS input routes passed [runtime gameplay checks](docs/runtime-qualification.md).
 - Distribute a small setup bundle. Assemble pinned upstream components locally,
   support cached offline installation and optional private complete bundles,
   and retain immutable runtime versions for rollback.

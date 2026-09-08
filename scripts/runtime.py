@@ -395,7 +395,7 @@ def archive_source(args):
     return archive, driver.normalize_checksum(checksum)
 
 
-def install(args, root):
+def install(args, root, *, lock_held=False):
     selected = select_driver(args.driver, args.driver_prefix.expanduser().resolve())
     # Probe before downloading a large runtime or creating the Steam entry.
     with tempfile.TemporaryDirectory(prefix="bc250-runtime-probe-") as temporary:
@@ -405,11 +405,19 @@ def install(args, root):
         raise RuntimeError("Steam compatibilitytools.d is a symlink; preserving it.")
     tools.mkdir(exist_ok=True)
     tool = tools / TOOL
-    with exclusive_lock(tools / ".bc250-fsr4-install.lock"):
+    with (
+        contextlib.nullcontext()
+        if lock_held
+        else exclusive_lock(tools / ".bc250-fsr4-install.lock")
+    ):
         exists = tool.exists() or tool.is_symlink()
         if exists:
             verify_tool(tool)
-        with exclusive_lock(tool / ".runtime.lock") if exists else contextlib.nullcontext():
+        with (
+            exclusive_lock(tool / ".runtime.lock")
+            if exists and not lock_held
+            else contextlib.nullcontext()
+        ):
             if exists:
                 finish_interrupted(tool)
             with tempfile.TemporaryDirectory(
@@ -459,6 +467,48 @@ def install(args, root):
                     (staged_tool / "current").symlink_to("versions/" + version)
                     promote_runtime(staged_tool, tool)
     return {"tool": str(tool), "version": version, "driver": selected}
+
+
+def selection(root):
+    """Return the owned selection without changing it or requiring its driver to be active."""
+    tool = root / "compatibilitytools.d" / TOOL
+    if not tool.exists() and not tool.is_symlink():
+        return None
+    version = verify_tool(tool)
+    verify_version(tool / "versions" / version)
+    return {"id": version, "driver": json.loads((tool / "driver.json").read_text())}
+
+
+def restore(root, previous, *, expected, retired, lock_held=False):
+    """Undo an owned operation, preserving its payload and any independent changes."""
+    tool = root / "compatibilitytools.d" / TOOL
+    with (
+        exclusive_lock(tool / ".runtime.lock")
+        if tool.exists() and not lock_held
+        else contextlib.nullcontext()
+    ):
+        if tool.exists():
+            finish_interrupted(tool)
+        current = selection(root)
+        if current == previous:
+            return {"installed": current is not None, "selection": current}
+        if current != expected:
+            raise RuntimeError("Runtime selection changed independently; preserving it.")
+        if previous is not None:
+            version = previous["id"]
+            safe_id(version)
+            verify_version(tool / "versions" / version)
+            verify_binding(tool / "versions" / version, previous["driver"])
+            activate(tool, version, previous["driver"], "restore")
+            return {"installed": True, "selection": previous}
+        retired = Path(retired)
+        if retired.parent != root / ".bc250-fsr4-retired":
+            raise RuntimeError("Retired runtime must stay in this Steam root's recovery directory.")
+        if retired.parent.is_symlink():
+            raise RuntimeError("Runtime recovery directory is a symlink; preserving it.")
+        retired.parent.mkdir(exist_ok=True)
+        promote_runtime(tool, retired)
+        return {"installed": False, "retired": str(retired)}
 
 
 def status(root):

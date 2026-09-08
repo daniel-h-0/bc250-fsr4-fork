@@ -1,13 +1,14 @@
 # Releases and distribution
 
-The driver and Steam compatibility tool are separate products. Updating the
-runtime does not replace the qualified driver or extend its old gameplay
-evidence.
+BC250 FSR4 is one distribution with one install/update/status/rollback
+interface. Driver and Steam runtime identities are recorded internally;
+changing the installer does not change the qualified driver or extend its
+old gameplay evidence.
 
 | Artifact | Identity and purpose |
 | --- | --- |
 | Driver `v4.0.0-rc1` | The published Mesa 26.2.2 ELF and its [qualification](qualification.md); source tag `362c4c4a74456002e4697ca0e1d1bb3aaff1539d` |
-| Runtime `1.0.0-rc1` | The independent component/preset lock in `runtime/manifest.json`; new native FSR and DLSS gameplay qualification is pending |
+| Distribution `4.0.0-rc2` | The component/preset lock in `runtime/manifest.json`; [FSR and DLSS input checks](runtime-qualification.md) passed |
 | Source snapshot | An exact Git commit with file hashes and modes, for development or auditing |
 
 The later [performance campaign](performance.md) used the unchanged rc1 driver
@@ -17,27 +18,33 @@ it is distinct from both project versions and the newer 4.1.1b mod.
 
 ## End-user setup bundle
 
-The runtime release tag is `runtime-v1.0.0-rc1`. Its small
-`bc250-fsr4-setup-1.0.0-rc1.tar.gz` bundle contains the installer tools,
+The distribution release tag is `v4.0.0-rc2`. Its small
+`bc250-fsr4-setup-4.0.0-rc2.tar.gz` bundle contains the installer tools,
 runtime manifest, integration patch and essential documentation/notices,
 with an adjacent SHA256 checksum. Users extract it and follow the
 [quickstart](../README.md#start-a-steam-game); Git is optional.
 
-Normal `./install-runtime.sh install` downloads the pinned GE-Proton,
-OptiScaler, OptiPatcher and FSR provider components, verifies them and assembles
+Normal `./bc250-fsr4 install` downloads the pinned GE-Proton,
+OptiScaler, OptiPatcher, AMD SDK bridge and FSR provider components, verifies them and assembles
 the tool locally. It uses the original GE loader and prefix manager with the
 recorded narrow patch. No Wine compilation is required.
 
 The public setup bundle does not redistribute those upstream runtime binaries.
 Users can retain downloaded components for offline reinstallation with
 `--cache PATH --offline`. The shared assembly/packaging tool can also create
-a complete private offline bundle, accepted by `install --archive PATH`.
+a complete private offline bundle, accepted by `./bc250-fsr4 install --runtime-archive PATH`.
 Preserve its checksum and upstream notices; that private artifact is separate
 from the public setup distribution.
 
 Obtain archives and checksums from the intended
 [release page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases).
 An adjacent checksum detects corruption; it is not an independent signature.
+
+Build the small distribution from a clean reviewed checkout:
+
+```sh
+python3 scripts/source-release.py --setup --output dist/setup
+```
 
 ## Driver artifacts
 
@@ -77,7 +84,7 @@ original attached source archive.
 
 ## Publishing changes
 
-Give runtime component, patch or preset changes a new runtime version.
+Give component, patch or preset changes a new distribution version.
 Validate installation and both gameplay routes, publish a matching setup
 bundle/checksum and record the scope in the changelog. Reuse an unchanged
 qualified driver by its exact hash.

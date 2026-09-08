@@ -2,33 +2,35 @@
 
 Optimized Mesa 26.2.2 RADV for the AMD BC250, continuing
 [dmoraza's BC250 FSR4 project](https://github.com/dmorazasanchez/bc250-fsr4)
-with the original history preserved. Install the driver once, then select
+with the original history preserved. Install once, then select
 **BC250 FSR4 (4.1.1 INT8)** in Steam for a compatible DX12 game.
 
 The [v4.0.0-rc1 driver](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc1)
 has recorded [qualification](docs/qualification.md) and
-[performance results](docs/performance.md). **The new 1.0.0-rc1 compatibility
-tool is pending gameplay qualification through native FSR and DLSS routes.**
-Those earlier results used the previous integration.
+[performance results](docs/performance.md). The **4.0.0-rc2 unified distribution** passed separate
+[FSR-input and DLSS-input gameplay checks](docs/runtime-qualification.md).
+The earlier performance results used the previous integration.
 
 ## Start a Steam game
 
-Download `bc250-fsr4-setup-1.0.0-rc1.tar.gz` and its checksum from the
+Download `bc250-fsr4-setup-4.0.0-rc2.tar.gz` and its checksum from the
 [releases page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases), verify
 the checksum and extract it. No Git checkout or Wine compilation is needed.
-From the extracted folder, run as your desktop user:
+Close Steam and games. From the extracted folder, run as your desktop user:
 
 ```sh
-./install-v4.sh
+./bc250-fsr4 install
 ```
 
-For a standard v3 installation, use `./install-v4.sh --upgrade-v3` instead.
-If a verified v4 private or system installation already exists, keep it.
-
-Close Steam and games, then install the compatibility tool:
+For a standard v3 installation, use `./bc250-fsr4 install --upgrade-v3`.
+The installer reuses a compatible verified driver, or installs a private one
+when needed, then installs the Steam runtime. It manages both components
+through the same interface:
 
 ```sh
-./install-runtime.sh install
+./bc250-fsr4 update
+./bc250-fsr4 status
+./bc250-fsr4 rollback
 ```
 
 Restart Steam. In the game's **Properties → Compatibility**, enable the
@@ -61,7 +63,7 @@ Keep distribution libraries coherent and retain working 32-bit RADV. v4 ships
 only x86_64; never export its private ICD globally. See the
 [v3 upgrade notes](docs/upgrading-v3.md) for the actual dependency changes.
 
-## Choose an installation
+## Advanced driver builds and installation
 
 | Route | Purpose |
 | --- | --- |
@@ -72,7 +74,10 @@ only x86_64; never export its private ICD globally. See the
 
 ## Private archive install or v3 upgrade
 
-The installer obtains the published driver archive, checks its checksum and
+The unified installer already handles this. These component commands are
+for driver development and recovery.
+
+The internal driver installer obtains the published archive, checks its checksum and
 probes the host before activation. A local archive and adjacent checksum work
 without network access:
 
@@ -100,7 +105,8 @@ Before driver rollback, switch games using BC250 FSR4 back to their previous
 Steam compatibility tool. Rollback restores the previous driver selection and
 migrated ICD bytes, while preserving later user edits. If status reports an
 interrupted transaction, run `python3 scripts/driver.py recover`.
-Runtime updates and rollback are [separate](docs/games.md#update-or-undo).
+The [unified interface](docs/games.md#update-or-undo) coordinates the components.
+Commands in this advanced driver section operate on the driver alone.
 
 ## Build from source
 

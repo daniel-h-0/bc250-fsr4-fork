@@ -17,6 +17,8 @@ from pathlib import Path, PurePosixPath
 ROOT = Path(__file__).resolve().parents[1]
 SETUP_FILES = {
     "README.md",
+    "bc250-fsr4",
+    "scripts/manage.py",
     "THIRD_PARTY.md",
     "LICENSE.new-code",
     "install-v4.sh",
@@ -28,6 +30,7 @@ SETUP_FILES = {
     "scripts/runtime_bundle.py",
     "runtime/manifest.json",
     "runtime/launch.py",
+    "runtime/licenses/FidelityFX-SDK-4.0.2.txt",
     "runtime/patches/0001-pinned-upscaler-manifest.patch",
     "legacy/game-setup/recover.py",
     "legacy/game-setup/steam_config.py",
@@ -102,8 +105,11 @@ def create_archive(root, output, ref=None, *, setup=False):
             )
         ref = "HEAD"
     commit, files = snapshot(root, ref)
-    manifest = json.loads(files["v4/manifest.json"][0])
-    version = manifest["version"]
+    version = (
+        json.loads(files["runtime/manifest.json"][0])["release"]["version"]
+        if "runtime/manifest.json" in files
+        else json.loads(files["v4/manifest.json"][0])["version"]
+    )
     if not version or any(
         c not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-" for c in version
     ):

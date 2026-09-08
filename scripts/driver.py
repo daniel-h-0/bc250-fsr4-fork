@@ -284,9 +284,12 @@ def install(args, prefix):
         }
         transactions = prefix / "transactions"
         transactions.mkdir(exist_ok=True)
-        record = transactions / (
+        record = getattr(args, "record", None) or transactions / (
             time.strftime("%Y%m%dT%H%M%S") + "-" + str(time.time_ns()) + ".json"
         )
+        record = Path(record)
+        if record.parent != transactions or record.exists() or record.is_symlink():
+            raise RuntimeError("Driver transaction path is not an unused managed record.")
         write_json(record, journal)
         changed = []
         try:
@@ -309,13 +312,15 @@ def install(args, prefix):
             journal["state"] = "aborted"
             write_json(record, journal)
             raise
-    print("Installed and validated " + release_id)
-    print(
-        "Steam launch option: VK_DRIVER_FILES="
-        + shlex.quote(str(prefix / "current.json"))
-        + " %command%"
-    )
-    print("Existing explicitly migrated v3 launch paths now select v4. Restart the game.")
+    if not getattr(args, "quiet", False):
+        print("Installed and validated " + release_id)
+        print(
+            "Steam launch option: VK_DRIVER_FILES="
+            + shlex.quote(str(prefix / "current.json"))
+            + " %command%"
+        )
+        print("Existing explicitly migrated v3 launch paths now select v4. Restart the game.")
+    return record
 
 
 def rollback(prefix):

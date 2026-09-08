@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "distribution": "4.0.0-rc2",
+  "runtime_lock_sha256": "4af64d4764ad5b0b2c4150cb0a68b5738dbad502547b011a15b23e098d42d2d6",
+  "assembly_inventory_sha256": "e3c46467d135e3f51731c7de4acbf398b5db9675c222c2c9fc09d8ef0f6cbfc1",
+  "host": {
+    "os": "CachyOS",
+    "kernel": "7.2.3-1.83-cachyos-bc250",
+    "gpu": "AMD BC-250 / RADV GFX1013",
+    "steam": "native Linux Steam with Steam Linux Runtime 4",
+    "driver_mode": "verified system v4.0.0-rc1"
+  },
+  "games": [
+    {
+      "game": "Deadzone Rogue",
+      "appid": "3228590",
+      "api": "D3D12",
+      "input": "FSR API via OptiScaler",
+      "quality": "Balanced",
+      "output_resolution": "2560x1440",
+      "pid": 184907,
+      "observed_utc": "2026-09-08T02:17:05.312888+00:00",
+      "watermark": {
+        "upscaler": "FSR4-I8",
+        "version": "4.1.1",
+        "source": "DRIVER",
+        "provider_commit": "143E11E",
+        "colorspace": "LINEAR"
+      },
+      "frame_generation": false,
+      "mapped_components": [
+        {
+          "component": "provider",
+          "sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e"
+        },
+        {
+          "component": "optipatcher",
+          "sha256": "fb12735bfcc0d47f534f2206d57ec34129dc3d22b6405a1c2ef86745ab48b2eb"
+        },
+        {
+          "component": "sdk_bridge",
+          "sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0"
+        },
+        {
+          "component": "optiscaler",
+          "sha256": "469bcfe59108f04f8b8cf45953e515f0a0cd24b00717be62b7dcf5c20430410d"
+        },
+        {
+          "component": "driver",
+          "sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5"
+        }
+      ],
+      "screenshot": "native.png",
+      "screenshot_sha256": "970eee5687ea85415d1ab99e699e2e8805b4218af14fd86380c6bb1d88d5cbf2",
+      "log_sha256": "1dc5c8051c9079cf012c3470176c1189015458bb4dfc992a9e0941fefc210eb1",
+      "log_excerpt_sha256": "01a328c2bec4447fc3bced1b68489834ec475576571ca5b88923d2ce8eb7b7f4",
+      "game_directory_injection": false
+    },
+    {
+      "game": "Control Ultimate Edition",
+      "appid": "870780",
+      "api": "D3D12",
+      "input": "DLSS via OptiScaler",
+      "quality": "Quality",
+      "output_resolution": "1920x1080",
+      "pid": 183312,
+      "observed_utc": "2026-09-08T02:14:46.741295+00:00",
+      "watermark": {
+        "upscaler": "FSR4-I8",
+        "version": "4.1.1",
+        "source": "DRIVER",
+        "provider_commit": "143E11E",
+        "colorspace": "LINEAR"
+      },
+      "frame_generation": false,
+      "mapped_components": [
+        {
+          "component": "provider",
+          "sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e"
+        },
+        {
+          "component": "optipatcher",
+          "sha256": "fb12735bfcc0d47f534f2206d57ec34129dc3d22b6405a1c2ef86745ab48b2eb"
+        },
+        {
+          "component": "sdk_bridge",
+          "sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0"
+        },
+        {
+          "component": "optiscaler",
+          "sha256": "469bcfe59108f04f8b8cf45953e515f0a0cd24b00717be62b7dcf5c20430410d"
+        },
+        {
+          "component": "driver",
+          "sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5"
+        }
+      ],
+      "screenshot": "dlss.png",
+      "screenshot_sha256": "9b8100232361506bdac8edd1d04bac5805750f25902f813d4539a3a8441f9f2f",
+      "log_sha256": "ab769964bac18eb70eb7c7a0a62334ee766740d978fc8601882fb1f503830965",
+      "log_excerpt_sha256": "dc6406c52e1c8326f5f979e50608f6550116a875620b332dfebc972670ba9b66",
+      "game_directory_injection": false
+    }
+  ],
+  "scope": "Bounded loaded-save gameplay and clean-exit checks; not a performance campaign, endurance test, or universal game compatibility claim.",
+  "restoration": {
+    "restored_epoch": 1788834041.9539154,
+    "checked_files": 134,
+    "checked_steam_fields": 6,
+    "driver_sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+    "steam_restarted": true
+  }
+}

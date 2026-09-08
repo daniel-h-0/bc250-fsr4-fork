@@ -9,8 +9,9 @@ The maintained `v4` branch preserves upstream v3 history at
 | Path | Responsibility |
 | --- | --- |
 | `v4/manifest.json`, `v4/patches/`, `v4/source-dependencies/` | Pinned Mesa source, ordered changes and build inputs |
-| `runtime/manifest.json` | Independent runtime version, upstream component hashes, driver compatibility and preset |
+| `runtime/manifest.json` | Distribution version, upstream component hashes, driver compatibility and preset |
 | `runtime/launch.py`, `runtime/patches/` | Steam entry point and narrow GE-Proton integration |
+| `bc250-fsr4`, `scripts/manage.py` | Unified component installation, update, status and rollback |
 | `scripts/runtime.py`, `scripts/runtime_bundle.py` | Runtime installation, status, rollback and shared assembly/packaging |
 | `scripts/driver.py`, build and package tools | Driver preparation, verification, installation and recovery |
 | `tests/`, `.github/workflows/` | GPU-free checks and CI |
@@ -18,7 +19,7 @@ The maintained `v4` branch preserves upstream v3 history at
 | `legacy/game-setup/` | Recovery for retired game-local transactions |
 | `legacy/v3/` | Archived upstream tools and experiments |
 
-Driver and runtime releases have independent identities. A runtime update
+One distribution records its driver and runtime component identities. An update
 does not require rebuilding an unchanged driver; a new driver ELF does require
 its own qualification. See [release contracts](releases.md).
 
@@ -46,7 +47,9 @@ and test it against the exact recorded upstream source. The fixture is
 `tests/fixtures/ge-proton11-6-upscalers.py`; retain its upstream notices.
 
 `runtime/manifest.json` selects FSR 4.1.1 INT8 model 2, OptiScaler nightly
-20260904 and OptiPatcher 0.41. Hash changes require a new runtime identity and
+20260904, OptiPatcher 0.41 and AMD SDK 4.0.2 as an API bridge.
+The bridge must be older than the driver provider: the SDK hides an equally
+versioned driver provider and would silently select its own model. Hash changes require a new distribution identity and
 review of the actual artifacts. The assembled release retains its components
 and inventory so upgrades and rollback select complete versions.
 
@@ -85,9 +88,9 @@ patch must accept the pinned source, reject drift and retain ordinary upstream
 behavior when its opt-in manifest is absent. Active tools must not scan games
 or edit Steam VDF files.
 
-**Native FSR and translated DLSS gameplay qualification for the new runtime
-is pending.** Before changing that status, record current mapped driver/provider
-identities, INT8 behavior and a correct rendered frame through both routes.
+The initial [runtime qualification](runtime-qualification.md) passed both inputs.
+For a new component set, record current mapped driver/provider identities,
+INT8 behavior and a correct rendered frame through both routes.
 Keep compatibility reports separate from the old driver/performance record.
 Use existing logs and bounded checks; do not enable game GPU tracing.
 

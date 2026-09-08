@@ -61,6 +61,7 @@ def environment(version, driver, inherited, *, game=True):
     ):
         env.pop(name, None)
     env.update(driver["environment"])
+    env["PYTHONDONTWRITEBYTECODE"] = "1"
     if not game:
         # Steam also invokes the tool for installers, path conversion and GPU
         # queries. These calls have no Steam game identity and need ordinary GE.
@@ -75,10 +76,11 @@ def environment(version, driver, inherited, *, game=True):
             "PROTON_USE_OPTISCALER": lock["optiscaler"]["version"],
             "PROTON_FSR4_UPGRADE": lock["provider"]["version"],
             "PROTON_MLFG_UPGRADE": "0",
+            # Xalia inherits the global proxy and can keep a closed game alive.
+            "PROTON_USE_XALIA": "0",
             "PROTON_OPTISCALER_CONFIG": ";".join(
                 key + "=" + value for key, value in preset.items()
             ),
-            "PYTHONDONTWRITEBYTECODE": "1",
         }
     )
     return env

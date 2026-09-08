@@ -30,6 +30,7 @@ SOURCE_FILES = {
     "setup.sh",
     "setup-game.sh",
     "install-runtime.sh",
+    "bc250-fsr4",
 }
 GENERATED_ROOTS = {
     ".git",

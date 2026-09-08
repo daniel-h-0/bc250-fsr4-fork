@@ -114,7 +114,13 @@ def check_inputs(root):
     require(runtime["preset"]["FSR.Fsr4ForceModel"] == "2", "Runtime must select INT8 model 2")
     require(runtime["preset"]["FrameGen.Enabled"] == "false", "Frame generation is not qualified")
     proton = runtime["proton"]
-    for component in (proton, runtime["optiscaler"], runtime["optipatcher"], runtime["provider"]):
+    for component in (
+        proton,
+        runtime["optiscaler"],
+        runtime["optipatcher"],
+        runtime["provider"],
+        runtime["sdk"],
+    ):
         require(bool(SHA256.fullmatch(component["sha256"])), "Invalid runtime artifact SHA256")
         require(component["url"].startswith("https://"), "Runtime downloads require HTTPS")
     for relative, metadata in proton["files"].items():

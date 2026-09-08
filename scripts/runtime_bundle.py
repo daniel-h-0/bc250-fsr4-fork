@@ -85,7 +85,7 @@ def tar_tree(root, output, mode="gz"):
                 )
 
 
-def optiscaler_artifact(archive, patcher, staging, policy):
+def optiscaler_artifact(archive, patcher, sdk, staging, policy):
     extracted = staging / "opti"
     extracted.mkdir()
     subprocess.run(
@@ -106,6 +106,13 @@ def optiscaler_artifact(archive, patcher, staging, policy):
     if digest(dll) != policy["optiscaler"]["dll_sha256"]:
         raise RuntimeError("OptiScaler DLL differs from its pin.")
     dll.rename(extracted / "dxgi.dll")
+    # A bundled 4.1.1 SDK hides the equally versioned driver provider. Use the
+    # pinned older SDK bridge so the qualified 4.1.1 driver provider wins.
+    shutil.copy2(sdk, extracted / "OptiScaler/amd_fidelityfx_upscaler_dx12.dll")
+    shutil.copy2(
+        ROOT / "runtime/licenses/FidelityFX-SDK-4.0.2.txt",
+        extracted / "Licenses/FidelityFX-SDK-4.0.2.txt",
+    )
     plugins = extracted / "OptiScaler/plugins"
     plugins.mkdir(parents=True, exist_ok=True)
     shutil.copy2(patcher, plugins / "OptiPatcher.asi")
@@ -153,6 +160,7 @@ def assemble(destination, cache, policy=None, offline=False):
     provider = download(
         policy["provider"]["url"], policy["provider"]["archive_sha256"], cache, offline
     )
+    sdk = download(policy["sdk"]["url"], policy["sdk"]["sha256"], cache, offline)
     if (
         hashlib.sha256(lzma.decompress(provider.read_bytes())).hexdigest()
         != policy["provider"]["sha256"]
@@ -177,7 +185,7 @@ def assemble(destination, cache, policy=None, offline=False):
             cwd=version / "ge",
             check=True,
         )
-        opti_archive, opti_item = optiscaler_artifact(opti, patcher, staging, policy)
+        opti_archive, opti_item = optiscaler_artifact(opti, patcher, sdk, staging, policy)
         artifacts = version / "ge/artifacts"
         artifacts.mkdir()
         shutil.copy2(opti_archive, artifacts / Path(opti_item["download_url"]).name)

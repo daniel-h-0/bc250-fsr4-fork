@@ -60,10 +60,12 @@ jobs:
           sha256sum -c *.sha256
           tar -xzf *.tar.gz
           cd bc250-fsr4-setup-*/
+          ./bc250-fsr4 --help
+          ./bc250-fsr4 install --help
           ./install-v4.sh --help
           ./install-runtime.sh --help
           ./setup-game.sh --help
-          python3 -B -c 'import sys; sys.path.insert(0, "scripts"); import driver, runtime, runtime_bundle'
+          python3 -B -c 'import sys; sys.path.insert(0, "scripts"); import driver, runtime, runtime_bundle, manage'
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: setup-bundle

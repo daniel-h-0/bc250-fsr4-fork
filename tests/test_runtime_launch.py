@@ -40,6 +40,11 @@ class LaunchTests(unittest.TestCase):
             )
             self.assertEqual(env["SteamAppId"], appid)
             self.assertEqual(env["CUSTOM"], "preserve")
+            self.assertEqual(env["PROTON_USE_XALIA"], "0")
+            self.assertIn(
+                r"Libraries.OptiDllPath=C:\windows\system32\umu\OptiScaler",
+                env["PROTON_OPTISCALER_CONFIG"],
+            )
             self.assertEqual(env["PROTON_FSR4_UPGRADE"], "4.1.1")
             self.assertIn("FSR.Fsr4ForceModel=2", env["PROTON_OPTISCALER_CONFIG"])
             self.assertEqual(
@@ -77,6 +82,7 @@ class LaunchTests(unittest.TestCase):
         self.assertEqual(env["STEAM_COMPAT_APP_ID"], "999999")
         self.assertNotIn("PROTON_USE_OPTISCALER", env)
         self.assertNotIn("PROTON_UPSCALER_MANIFEST", env)
+        self.assertEqual(env["PYTHONDONTWRITEBYTECODE"], "1")
 
     def test_different_runtime_driver_contract_refuses_launch(self):
         self.driver["source_manifest_sha256"] = "0" * 64

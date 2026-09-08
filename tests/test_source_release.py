@@ -122,6 +122,8 @@ class SourceReleaseTests(unittest.TestCase):
             self.root, Path(self.temporary.name) / "setup", setup=True
         )
         self.assertEqual(output.name, "bc250-fsr4-setup-1.0.0-test.tar.gz")
+        full = self.export("full-distribution")
+        self.assertTrue(full.name.startswith("bc250-fsr4-v1.0.0-test-source-"))
         with tarfile.open(output) as bundle:
             names = {name.split("/", 1)[1] for name in bundle.getnames()}
             self.assertEqual(names, source_release.SETUP_FILES | {"source-snapshot.json"})

@@ -7,9 +7,9 @@ driver loading; it cannot establish that a game's current frame uses FSR4.
 
 | Symptom | Next step |
 | --- | --- |
-| The tool is missing from Steam | Exit Steam fully, run `./install-runtime.sh status`, then restart Steam. Select it in the game's Properties → Compatibility. |
-| A custom native Steam installation is not found | Pass `--steam-root PATH` to `./install-runtime.sh install`. Steam Flatpak and other sandboxes are not qualified. |
-| No verified driver is found | Install v4 with `./install-v4.sh`. Use `--driver private --driver-prefix PATH` for a custom private installation, or `--driver system` for the verified system route. |
+| The tool is missing from Steam | Exit Steam fully, run `./bc250-fsr4 status`, then restart Steam. Select it in the game's Properties → Compatibility. |
+| A custom native Steam installation is not found | Pass `--steam-root PATH` to `./bc250-fsr4 install`. Steam Flatpak and other sandboxes are not qualified. |
+| No verified driver is found | Run `./bc250-fsr4 install`. Use `--driver private --driver-prefix PATH` for a custom private installation, or `--driver system` for the verified system route. |
 | A download or archive check fails | Keep the previous installation. Retry with the pinned archive or report the error; do not bypass its checksum. |
 | The game has another upscaler mod | Undo that integration using its own records before selecting BC250 FSR4. Do not combine it with 4.1.1b. |
 | The game starts but FSR4 is unclear | Confirm DX12 and the in-game upscaler choice, then collect the evidence below. Switching compatibility tools is not proof of INT8 engagement. |
@@ -17,8 +17,8 @@ driver loading; it cannot establish that a game's current frame uses FSR4.
 For offline reinstallation, retain the cache from a connected install:
 
 ```sh
-./install-runtime.sh install --cache /path/to/runtime-cache
-./install-runtime.sh install --cache /path/to/runtime-cache --offline
+./bc250-fsr4 install --cache /path/to/runtime-cache
+./bc250-fsr4 install --cache /path/to/runtime-cache --offline
 ```
 
 The second command uses that cache and fails if a required component is missing.
@@ -26,23 +26,44 @@ An optional privately built complete bundle can also be installed with its
 SHA256:
 
 ```sh
-./install-runtime.sh install --archive /path/to/RUNTIME.tar.gz --sha256 EXPECTED_SHA256
+./bc250-fsr4 install --runtime-archive /path/to/RUNTIME.tar.gz --runtime-sha256 EXPECTED_SHA256
 ```
 
 The public setup bundle contains the installer, patch, manifest and notices;
-upstream runtime binaries are downloaded separately. Neither bundle supplies
-a driver installation or game payloads. Use `./install-runtime.sh --help` for
-the current command options.
+upstream runtime binaries are downloaded separately. The unified installer
+also obtains the driver if needed; for offline use, retain its cache or pass
+`--driver-archive PATH` with the adjacent checksum. Game payloads are never
+included. Use `./bc250-fsr4 install --help` for the current command options.
 
 ## Verify a real game
 
-The new native FSR and translated DLSS launch paths need their own gameplay
-qualification. For the current launch, establish:
+The shared runtime has [recorded gameplay checks](runtime-qualification.md).
+To verify another game or component set, establish:
 
 - The process maps the intended v4 driver and pinned FSR 4.1.1 provider.
 - The runtime selects INT8 model 2, with frame generation off.
 - A current frame renders correctly, and route-appropriate initialization
   evidence or a temporary watermark confirms FSR4 engagement.
+
+For a temporary diagnostic launch, add `BC250_RUNTIME_DEBUG=1` before
+`%command%` in the game's Steam launch options, preserving other options.
+With no existing options, use:
+
+```sh
+BC250_RUNTIME_DEBUG=1 %command%
+```
+
+This enables the provider watermark, the prefix's `OptiScaler.log`, and Proton
+logging. Remove it after collecting evidence. OptiScaler's bundled files live
+under `pfx/drive_c/windows/system32/umu/` in the game's Steam compatibility
+prefix. The runtime disables Proton's Xalia helper because it inherits the
+proxy and can keep the game session alive after exit; Xalia's controller-based
+Windows UI accessibility is unavailable with this tool.
+
+FSR and DLSS are inputs to this runtime's OptiScaler path. An engine can report
+the intercepted SDK's version (for example 3.1.5) while the actual provider
+renders FSR4. The old `scripts/prove-game.py` checks the earlier native-direct
+route; its initialization-log requirement is not suitable for this runtime.
 
 Use current logs and screenshots; stale log lines, a generic OptiScaler panel
 or a successful desktop `vulkaninfo` are insufficient. Do not enable game GPU

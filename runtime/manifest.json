@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "release": {
-    "id": "bc250-fsr4-runtime-1.0.0-rc1",
-    "version": "1.0.0-rc1"
+    "id": "bc250-fsr4-runtime-4.0.0-rc2",
+    "version": "4.0.0-rc2"
   },
   "proton": {
     "schema": 1,
@@ -72,11 +72,20 @@
     "Hotfix.RestoreGraphicSignature": "false",
     "Hotfix.ExtendedStateRestore": "false",
     "Menu.DisableSplash": "true",
-    "Log.LogToFile": "false"
+    "Log.LogToFile": "false",
+    "Libraries.OptiDllPath": "C:\\windows\\system32\\umu\\OptiScaler",
+    "Plugins.Path": "C:\\windows\\system32\\umu\\OptiScaler\\plugins"
   },
   "integration": {
-    "runtime/launch.py": "2bcf62fcea47190eef3277c494f25845cb8f77ff313406f265f5c7e7666f3f41",
+    "runtime/launch.py": "3fcef1f11f57762a28bc7d98b32ad56a8508d1f001b6f42afbcfc9eaf4679ded",
     "runtime/patches/0001-pinned-upscaler-manifest.patch": "815241b3ca44c8c5236cfa7eb3c3d325ae21c12d712122578699e992c737ecec",
-    "scripts/runtime_bundle.py": "f3fafb3de50a5c404674c5d0410ac812cc153f5b2e0160e8f2e9d42c5c0ec327"
+    "scripts/runtime_bundle.py": "300299dcb11d51fa909dc3dd31507b00dcb66aa9b53d47220222019fcec9e0cc",
+    "runtime/licenses/FidelityFX-SDK-4.0.2.txt": "be05d8cd5489deff924dbe91e0c5b8c0ff034d43cd11749bf9a67a0c38252b7b"
+  },
+  "sdk": {
+    "version": "4.0.2",
+    "url": "https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/f4c1da8e92f3fe563b5c28c44e6267ce6b6b8eb2/Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_dx12.dll",
+    "sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+    "license_url": "https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/f4c1da8e92f3fe563b5c28c44e6267ce6b6b8eb2/docs/license.md"
   }
 }
