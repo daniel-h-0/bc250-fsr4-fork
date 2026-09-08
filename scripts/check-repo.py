@@ -96,33 +96,36 @@ def check_inputs(root):
     require(touched == set(manifest["sources"]), "Patched files/final source hashes mismatch")
     for relative, expected in manifest["sources"].items():
         require(bool(SHA256.fullmatch(expected)), "Invalid final source hash: " + relative)
-    games = load(root / "v4/games.json")
+    runtime = load(root / "runtime/manifest.json")
+    require(runtime["schema"] == 1, "Unsupported runtime schema")
+    for name, expected in runtime["integration"].items():
+        require(
+            digest(relative_file(root, name)) == expected,
+            "Runtime integration pin changed: " + name,
+        )
     require(
-        games["provider_sha256"] == manifest["provider_sha256"], "Source/game provider mismatch"
+        runtime["provider"]["sha256"] == manifest["provider_sha256"],
+        "Driver/runtime provider mismatch",
     )
-    proton = load(root / "v4/proton.json")
-    require(proton["schema"] == 1, "Unsupported Proton pin schema")
-    require(proton["name"] == games["proton"], "Proton/game profile version mismatch")
-    require(bool(SHA256.fullmatch(proton["sha256"])), "Invalid Proton archive SHA256")
-    require(proton["url"].startswith("https://"), "Proton archive URL must use HTTPS")
     require(
-        proton["provider"]["sha256"] == games["provider_sha256"]
-        and proton["provider"]["version"] == games["fsr4"],
-        "Proton/game provider pin mismatch",
+        runtime["driver"]["source_manifest_sha256"] == digest(manifest_path),
+        "Runtime targets another driver source",
     )
-    require(bool(proton["files"]), "Missing Proton runtime file pins")
+    require(runtime["preset"]["FSR.Fsr4ForceModel"] == "2", "Runtime must select INT8 model 2")
+    require(runtime["preset"]["FrameGen.Enabled"] == "false", "Frame generation is not qualified")
+    proton = runtime["proton"]
+    for component in (proton, runtime["optiscaler"], runtime["optipatcher"], runtime["provider"]):
+        require(bool(SHA256.fullmatch(component["sha256"])), "Invalid runtime artifact SHA256")
+        require(component["url"].startswith("https://"), "Runtime downloads require HTTPS")
     for relative, metadata in proton["files"].items():
         require(bool(SHA256.fullmatch(metadata["sha256"])), "Invalid Proton file pin: " + relative)
-    for field in ("id", "appid"):
-        values = [profile[field] for profile in games["profiles"]]
-        require(len(set(values)) == len(values), "Duplicate game profile " + field)
     qualification = load(root / "docs/qualification.json")
     if qualification["version"] == manifest["version"]:
         require(
             qualification["source_manifest_sha256"] == digest(manifest_path),
             "Qualified source manifest changed without a new version",
         )
-    return f"{len(inputs)} pinned inputs, {len(touched)} modified Mesa files, game/qualification metadata"
+    return f"{len(inputs)} pinned inputs, {len(touched)} modified Mesa files, runtime/qualification metadata"
 
 
 def markdown_anchors(text):
@@ -226,13 +229,22 @@ def check_performance(root):
 
 
 def check_syntax(root):
-    python_files = [*(root / "scripts").glob("*.py"), *(root / "tests").glob("*.py")]
+    python_files = [
+        *(root / "scripts").glob("*.py"),
+        *(root / "tests").glob("*.py"),
+        *(root / "runtime").glob("*.py"),
+        *(root / "legacy/game-setup").glob("*.py"),
+    ]
     for path in python_files:
         compile(path.read_bytes(), str(path), "exec")
     shell_files = [*root.glob("*.sh"), *(root / "scripts").glob("*.sh")]
     for path in shell_files:
         subprocess.run(["bash", "-n", str(path)], check=True)
-    for path in [*(root / "v4").glob("*.json"), *(root / "docs").rglob("*.json")]:
+    for path in [
+        *(root / "v4").glob("*.json"),
+        *(root / "runtime").glob("*.json"),
+        *(root / "docs").rglob("*.json"),
+    ]:
         load(path)
     return f"{len(python_files)} Python and {len(shell_files)} shell entry points, JSON documents"
 

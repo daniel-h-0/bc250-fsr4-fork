@@ -1,47 +1,68 @@
-# Development and release process
+# Development
 
-The v4 branch starts at upstream v3 commit
-`6173651fa3a5a557cba2c2ff802e2d6f49881bc1`. `upstream` should remain
-`https://github.com/dmorazasanchez/bc250-fsr4.git`; `origin` targets
-`https://github.com/daniel-h-0/bc250-fsr4-fork.git`. Do not squash away the original
-history or mix experimental upstream branches into the accepted source.
+The maintained `v4` branch preserves upstream v3 history at
+`6173651fa3a5a557cba2c2ff802e2d6f49881bc1`. Keep `upstream` pointed at
+`https://github.com/dmorazasanchez/bc250-fsr4.git` and `origin` at the fork.
 
-## Repository map
+## Ownership
 
 | Path | Responsibility |
 | --- | --- |
-| `v4/manifest.json`, `v4/patches/` | Pinned driver source identity and ordered Mesa changes |
-| `v4/source-dependencies/` | Hash-pinned build input |
-| `v4/games.json` | Pinned provider/runtime identities and explicit game profiles |
-| `v4/proton.json` | Guided setup's pinned GE-Proton archive and installation checks |
-| `scripts/`, top-level shell entry points | Source preparation, build, packaging, installation, recovery and game setup |
-| `tests/`, `.github/workflows/` | Active checks and CI |
-| `docs/qualification.*`, `docs/performance.md`, `docs/data/`, `docs/assets/` | Recorded rc1 qualification and later performance evidence |
-| `legacy/` | Archived upstream scripts, patches, documentation and disabled workflow; see its index |
-| `.work/`, `dist/`, `.venv/` | Ignored local build, release and Python environment outputs |
+| `v4/manifest.json`, `v4/patches/`, `v4/source-dependencies/` | Pinned Mesa source, ordered changes and build inputs |
+| `runtime/manifest.json` | Independent runtime version, upstream component hashes, driver compatibility and preset |
+| `runtime/launch.py`, `runtime/patches/` | Steam entry point and narrow GE-Proton integration |
+| `scripts/runtime.py`, `scripts/runtime_bundle.py` | Runtime installation, status, rollback and shared assembly/packaging |
+| `scripts/driver.py`, build and package tools | Driver preparation, verification, installation and recovery |
+| `tests/`, `.github/workflows/` | GPU-free checks and CI |
+| `docs/qualification.*`, `docs/performance.md`, `docs/data/`, `docs/assets/` | Immutable driver qualification and later performance evidence |
+| `legacy/game-setup/` | Recovery for retired game-local transactions |
+| `legacy/v3/` | Archived upstream tools and experiments |
 
-The `v4` branch may improve tooling without changing the qualified Mesa source.
-Keep that distinction visible in reviews and the [changelog](../CHANGELOG.md).
-The [release guide](releases.md) identifies the immutable rc1 artifacts and
-explains how to distribute a later source snapshot. Historical qualification
-records describe the binaries actually tested, even after the tools change.
+Driver and runtime releases have independent identities. A runtime update
+does not require rebuilding an unchanged driver; a new driver ELF does require
+its own qualification. See [release contracts](releases.md).
 
-## Source inputs
+## Driver changes
 
-`v4/manifest.json` pins the Mesa archive, three ordered patches, Wayland
-protocols archive, fifteen final source hashes, lineage and provider identity.
-The patches are a complete route from stock Mesa 26.2.2:
+The source manifest pins Mesa 26.2.2, three ordered patches and fifteen
+resulting file hashes. Changes cover the v3 arithmetic checkpoint, resolution
+families and store guards, and default-on selection/cache identity.
 
-1. The accepted v3-derived arithmetic/composed optimization checkpoint.
-2. Resolution family coverage and the independent large-bucket store guard.
-3. Default-on production selection and cache identity.
+Rebase onto a new Mesa version explicitly. Apply patches without fuzz, update
+the final source hashes and qualify the resulting compiler output. Unknown
+shader, weight, interface and subgroup inputs must retain their fallback.
+`BC250_FSR4_DISABLE=1` disables the optimization while preserving the
+independent store repair; the internal `v3` cache marker is a generation ID.
 
-Rebase patches onto a new Mesa source version explicitly; update all final
-source hashes and qualify the resulting compiler programs and runtime. Never
-apply patches with fuzz or present a fresh compiler binary as an old qualified
-binary merely because the source file hashes match.
+Use the [native or container build commands](../README.md#build-from-source).
+Build provenance records materialized source, recipe, compiler, dependencies
+and flags. Matching source hashes alone do not establish identical binaries.
 
-## Checks
+## Runtime changes
+
+The runtime uses GE-Proton11-6's existing loader and prefix manager. Its one
+upstream patch adds a strict local component manifest; keep that patch bounded
+and test it against the exact recorded upstream source. The fixture is
+`tests/fixtures/ge-proton11-6-upscalers.py`; retain its upstream notices.
+
+`runtime/manifest.json` selects FSR 4.1.1 INT8 model 2, OptiScaler nightly
+20260904 and OptiPatcher 0.41. Hash changes require a new runtime identity and
+review of the actual artifacts. The assembled release retains its components
+and inventory so upgrades and rollback select complete versions.
+
+Keep Steam configuration, accounts, game discovery and game-directory proxy
+installation outside the active runtime. Steam's Compatibility menu is the
+opt-in mechanism. A new game observation belongs in a compatibility report,
+not an installer allowlist or a new executable-path rule.
+
+`scripts/runtime_bundle.py` supplies the same assembly code to the installer
+and optional offline packager. Public setup bundles contain this project's
+tools, patch, manifest and notices; runtime binaries are fetched separately
+from the pinned upstream locations. See [distribution](releases.md).
+
+## Checks and acceptance
+
+Follow [contributor setup](../CONTRIBUTING.md), then run:
 
 ```sh
 python3 scripts/check-repo.py
@@ -49,79 +70,31 @@ python3 scripts/check-repo.py
 .venv/bin/ruff format --check .
 ```
 
-The repository check validates pinned hashes, active documentation links,
-published performance arithmetic, syntax and tooling tests. These checks run
-without a GPU and do not install a driver or launch a game.
-See [contributor setup](../CONTRIBUTING.md) for the development dependencies.
-CI runs the checks on pushes and PRs. A manually dispatched workflow also
-builds the source in the container, packages it, checks the extracted bundle
-and uploads an **unqualified** build artifact. CI does not automatically
-publish, install, flash or run GPU tests.
+CI checks source hashes, documentation links, recorded performance arithmetic
+and tooling tests. It exports and checks source snapshots; a manual workflow
+also builds and packages an **unqualified** driver.
 
-Release qualification should establish:
+Driver qualification covers complete compiler programs and GPU outputs,
+guarded/fallback cases, loader checks, installation, v3 migration and rollback.
+Some numerical inputs are locally obtained game artifacts and cannot be
+redistributed; identify them by hash and state that reproduction limit.
 
-- Clean source materialization and exact changed-file hashes.
-- Complete allocated-program comparisons against the last accepted checkpoint,
-  including unrecognized shader/weight/interface and optimization-off cases.
-- Complete GPU tensor/image outputs, buffer integrity and guarded store cases.
-- Private install, migrated v3 launch, exact rollback and reinstall.
-- The package route against an actual original package, including rollback.
-- A real game rendering with mapped driver/provider identities, INT8 model
-  selection and native FSR4 initialization; restore test settings and saves.
+Runtime acceptance covers clean install, reuse, upgrade, rollback, offline
+cache use, failed assembly and preservation of unrelated data. The upstream
+patch must accept the pinned source, reject drift and retain ordinary upstream
+behavior when its opt-in manifest is absent. Active tools must not scan games
+or edit Steam VDF files.
 
-Do not enable game GPU tracing to obtain proof. It was implicated (not proven)
-in an earlier hard-reset incident. Source builds explicitly disable RADV
-u_trace. Existing engine logs, mapped identities, a visible frame, and bounded
-isolated correctness harnesses provide the relevant evidence here.
+**Native FSR and translated DLSS gameplay qualification for the new runtime
+is pending.** Before changing that status, record current mapped driver/provider
+identities, INT8 behavior and a correct rendered frame through both routes.
+Keep compatibility reports separate from the old driver/performance record.
+Use existing logs and bounded checks; do not enable game GPU tracing.
 
-The public repository contains no proprietary game shader corpus or provider
-DLLs. Some complete-program/output qualification uses locally obtained game
-artifacts and therefore cannot be reproduced from this repository alone.
-Reports must state that limitation and identify tested inputs by hash.
+## Preserve the evidence
 
-## Packaging and publication
-
-The two artifact types have different purposes:
-
-- `scripts/package.py` creates an installable binary archive from a completed
-  pinned build and includes its source/tooling records.
-- `scripts/source-release.py` exports all tracked files at a reviewed Git
-  revision, with a commit/file manifest and an adjacent checksum. It does not
-  build a driver or include ignored local artifacts.
-
-After committing and reviewing a clean checkout:
-
-```sh
-python3 scripts/source-release.py --output dist/source
-```
-
-Use `--ref TAG` to export a specific recorded revision. A default HEAD export
-requires a clean working tree; an explicit ref exports Git object contents,
-including when the working tree has unrelated edits. See [release guidance](releases.md)
-for filenames, verification and publication boundaries.
-
-Generate archives only after source checks; `scripts/package.py` records
-compiler/flags, shared-library dependencies, ELF symbol-version requirements,
-source manifest SHA256 and every archive file's SHA256. The packaging step
-strips a copy of the driver; the unstripped build evidence stays unchanged.
-Qualify the exact stripped release artifact before publication.
-
-Current build provenance uses schema 2. Work directories created by the
-original rc1 tooling need a fresh build directory; they cannot be resumed or
-repackaged with these stronger checks. The original qualified archives remain
-installable. Binary packaging requires a clean Git checkout, so newly added
-helpers cannot be silently omitted from the tracked source inventory. Commit
-reviewed changes first, or build from a verified source snapshot. Provenance
-records the available source revision; GitHub-generated source downloads have
-no Git metadata and report that limitation explicitly.
-
-Before a GitHub release, update the qualification report, review notices,
-run the documented installation on a v3-style baseline, and attach the tested
-archive plus checksum. A checksum fetched beside its archive is an integrity
-check, not an independent signature. Tag the reviewed commit and retain the
-original source/package evidence for rollback and future compiler comparisons.
-
-Never move the `v4.0.0-rc1` tag, replace its original attached archives, or copy
-its accepted-binary claim onto a new build. Later tooling validation belongs
-in its own report and commit. A future binary release needs a new reviewed
-release identity and qualification of the exact distributed ELF.
+The original rc1 tag, assets and recorded qualification remain unchanged.
+Package from a clean checkout or intact source snapshot; current build
+provenance uses schema 2 and old rc1 build directories need a fresh build.
+For artifact naming, source exports and publication, use the
+[release guide](releases.md).

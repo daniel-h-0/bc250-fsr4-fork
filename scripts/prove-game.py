@@ -101,11 +101,11 @@ def main():
     p.add_argument("--pid", type=int, required=True)
     p.add_argument("--release-manifest", type=Path, required=True)
     p.add_argument("--engine-log", type=Path, required=True)
-    p.add_argument("--config", type=Path, required=True, help="The game-side OptiScaler.ini")
+    p.add_argument("--config", type=Path, required=True, help="The active prefix OptiScaler.ini")
     args = p.parse_args()
     process = process_identity(args.pid)
     release = json.loads(args.release_manifest.read_text())
-    policy = json.loads((Path(__file__).resolve().parents[1] / "v4/games.json").read_text())
+    policy = json.loads((Path(__file__).resolve().parents[1] / "runtime/manifest.json").read_text())
     environment = dict(
         item.split(b"=", 1)
         for item in Path(f"/proc/{args.pid}/environ").read_bytes().split(b"\0")
@@ -133,7 +133,7 @@ def main():
     if library["sha256"] != release["driver_sha256"]:
         raise RuntimeError("The game is not using the selected v4 release binary.")
     if (
-        provider["sha256"] != policy["provider_sha256"]
+        provider["sha256"] != policy["provider"]["sha256"]
         or opti["sha256"] != policy["optiscaler"]["dll_sha256"]
     ):
         raise RuntimeError("FSR provider or model-hook binary differs from the qualified input.")

@@ -8,7 +8,7 @@ from pathlib import Path
 
 from build import digest
 
-SOURCE_DIRECTORIES = {".github", "scripts", "v4", "docs", "tests", "legacy", "v2-patches"}
+SOURCE_DIRECTORIES = {".github", "scripts", "v4", "docs", "tests", "legacy", "runtime"}
 SOURCE_FILES = {
     ".dockerignore",
     ".gitignore",
@@ -28,6 +28,8 @@ SOURCE_FILES = {
     "install-v4.sh",
     "run-bc250-fsr4.sh",
     "setup.sh",
+    "setup-game.sh",
+    "install-runtime.sh",
 }
 GENERATED_ROOTS = {
     ".git",

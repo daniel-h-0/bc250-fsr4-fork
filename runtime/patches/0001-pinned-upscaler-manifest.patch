@@ -1,0 +1,282 @@
+From: BC250 FSR4 maintainers
+Subject: [PATCH] upscalers: opt-in pinned local manifest with strict integrity
+
+Base: GE-Proton11-6 protonfixes/upscalers.py
+Base-SHA256: 4128896c4134d865a290e2e8e62279d07157131b207f4bc7d29e8c873fe85645
+
+PROTON_UPSCALER_MANIFEST selects an absolute local JSON manifest using the
+existing schema plus mandatory archive and critical-file SHA256 checksums.
+Local archives are read directly, with relative paths confined to the manifest
+directory. Requested artifacts are validated before prefix payload writes. Exact requests
+never select another version, and local-mode failures stop the launch.
+Stock behavior is retained when the variable is absent.
+
+--- a/protonfixes/upscalers.py
++++ b/protonfixes/upscalers.py
+@@ -20,11 +20,71 @@
+ 
+ __manifest_url = 'https://loathingkernel.github.io/proton-upscalers/manifest.json'
+ __manifest_json: Union[dict, None] = None
++__manifest_path: Union[Path, None] = None
++
++
++def __sha256_matches(path: Path, checksum: str) -> bool:
++    if path.is_symlink() or not path.is_file():
++        return False
++    with path.open('rb') as file_fd:
++        return hashlib.file_digest(file_fd, 'sha256').hexdigest() == checksum.lower()
++
++
++def __valid_sha256(checksum: str) -> bool:
++    return (isinstance(checksum, str) and len(checksum) == 64
++            and all(c in '0123456789abcdefABCDEF' for c in checksum))
++
++
++def __pinned_item(item: dict, upscaler: str) -> dict:
++    item = item.copy()
++    hashes = item.get('sha256_hash')
++    if upscaler == 'optiscaler':
++        if not isinstance(hashes, dict) or not hashes:
++            raise RuntimeError('Pinned OptiScaler requires critical-file SHA256 hashes')
++        for name in item['md5_hash']:
++            if not name.endswith('.ini') and name not in hashes:
++                raise RuntimeError(f'Missing pinned SHA256 for {name}')
++        for name in hashes:
++            if Path(name).is_absolute() or '..' in Path(name).parts:
++                raise RuntimeError(f'Unsafe pinned filename: {name}')
++        checksums = list(hashes.values())
++    else:
++        checksums = [hashes]
++    checksums.append(item.get('zip_sha256_hash'))
++    if not all(__valid_sha256(value) for value in checksums):
++        raise RuntimeError(f'Invalid or missing pinned SHA256 for {upscaler}')
++
++    url = urlparse(item['download_url'])
++    if not url.scheme:
++        relative = Path(unquote(url.path))
++        if relative.is_absolute() or '..' in relative.parts or url.netloc or url.query or url.fragment:
++            raise RuntimeError('Pinned artifact must stay inside the manifest directory')
++        base = __manifest_path.parent.resolve()
++        artifact = (base / relative).resolve(strict=True)
++        if not artifact.is_relative_to(base):
++            raise RuntimeError('Pinned artifact escapes the manifest directory')
++        item['download_url'] = artifact.as_uri()
++    url = urlparse(item['download_url'])
++    artifact = Path(unquote(url.path))
++    if (url.scheme != 'file' or url.netloc not in {'', 'localhost'}
++            or url.query or url.fragment or not artifact.is_absolute()):
++        raise RuntimeError('Pinned artifacts require local file URLs or relative paths')
++    if not __sha256_matches(artifact, item['zip_sha256_hash']):
++        raise RuntimeError(f'Pinned archive SHA256 mismatch or missing file: {artifact.name}')
++    return item
+ 
+ 
+ def __get_manifest() -> dict:
+     global __manifest_json
+     if __manifest_json is not None:
++        return __manifest_json
++
++    if __manifest_path is not None:
++        with __manifest_path.open(encoding='utf-8') as manifest_fd:
++            manifest = json.load(manifest_fd)
++        if not isinstance(manifest, dict):
++            raise RuntimeError('Pinned upscaler manifest must be a JSON object')
++        __manifest_json = manifest
+         return __manifest_json
+ 
+     cache_dir = config.path.cache_dir.joinpath('upscalers')
+@@ -55,6 +115,13 @@
+ 
+ def __get_dll_manifest(upscaler: str, version: str = 'default') -> dict:
+     dlls = __get_manifest()[upscaler]
++    if __manifest_path is not None:
++        matches = [dll for dll in dlls if dll['version'] == version]
++        if version == 'default' and len(dlls) == 1:
++            matches = dlls
++        if len(matches) != 1:
++            raise RuntimeError(f'Pinned {upscaler} version {version!r} is missing or ambiguous')
++        return __pinned_item(matches[0], upscaler)
+     dlls = tuple(filter(lambda dll: not dll['is_dev_file'], dlls))
+     for dll in reversed(dlls):
+         if version in dll['version']:
+@@ -202,6 +269,11 @@
+     prefix_dir: str, dst: str, remote_item: dict, tracked_item: dict, ignore_version: bool
+ ) -> bool:
+     target = os.path.join(prefix_dir, dst)
++    if __manifest_path is not None:
++        ignore_version = False
++        if not __sha256_matches(Path(target), remote_item['sha256_hash']):
++            log.warn(f'Pinned SHA256 mismatch or missing file: {dst}')
++            return False
+ 
+     # Before everything, check if target is a symlink
+     # or the file size is unreasonably small and remove it
+@@ -301,6 +373,8 @@
+     version: the version of the optiscaler to download
+     ignore_version: ignore version mismatch but still check if the files are present
+     """
++    if __manifest_path is not None:
++        ignore_version = False
+     try:
+         path, item = __get_opti_files(version)
+     except Exception as e:
+@@ -316,6 +390,12 @@
+     except Exception as e:
+         log.warn(str(e))
+         return False
++
++    if __manifest_path is not None:
++        for name, checksum in item['sha256_hash'].items():
++            if not __sha256_matches(Path(prefix_dir, path, name), checksum):
++                log.warn(f'Pinned SHA256 mismatch or missing file: {name}')
++                return False
+ 
+     dst_hashes = {}
+     for dst in tracked_items:
+@@ -420,7 +500,12 @@
+         raise e
+ 
+ 
+-def __cached_download(item: dict, cached_file: Path) -> None:
++def __cached_download(item: dict, cached_file: Path) -> Path:
++    if __manifest_path is not None:
++        artifact = Path(unquote(urlparse(item['download_url']).path))
++        if not __sha256_matches(artifact, item['zip_sha256_hash']):
++            raise RuntimeError(f'Pinned archive SHA256 mismatch: {artifact.name}')
++        return artifact
+     item_md5 = item.get('zip_md5_hash', '')
+ 
+     if cached_file.exists():
+@@ -433,11 +518,13 @@
+     if not cached_file.exists():
+         __download_file(item['download_url'], cached_file, checksum=item_md5)
+ 
++    return cached_file
++
+ 
+ def __download_extract_zip(item: dict, cache: Path, dst: Path) -> None:
+     url_path = Path(unquote(urlparse(item['download_url']).path))
+     cached_file = cache.joinpath(url_path.name)
+-    __cached_download(item, cached_file)
++    cached_file = __cached_download(item, cached_file)
+     dst.parent.mkdir(parents=True, exist_ok=True)
+     if cached_file.suffix == '.zip':
+         with zipfile.ZipFile(cached_file) as zip_fd:
+@@ -447,6 +534,8 @@
+             # this also sets the target filename
+             with cached_file.open('rb') as cached_fd:
+                 dst_fd.write(lzma.decompress(cached_fd.read()))
++    if __manifest_path is not None and not __sha256_matches(dst, item['sha256_hash']):
++        raise RuntimeError(f'Pinned extracted-file SHA256 mismatch: {dst.name}')
+ 
+ 
+ def download_upscaler(
+@@ -501,7 +590,7 @@
+         cache_dir = config.path.cache_dir.joinpath('upscalers')
+         cache_dir.mkdir(parents=True, exist_ok=True)
+         cached_file = cache_dir.joinpath(url_path.name)
+-        __cached_download(item, cached_file)
++        cached_file = __cached_download(item, cached_file)
+ 
+         for target in tracked_items:
+             # do not remove .ini files
+@@ -543,6 +632,8 @@
+     log.info(f'Setting up {name.upper()} version {version}.')
+     download_upscaler(name, compat_dir, prefix_dir, version)
+     enabled = check_upscaler(name, compat_dir, prefix_dir, version, ignore_version=True)
++    if __manifest_path is not None and not enabled:
++        raise RuntimeError(f'Pinned {name} {version} failed validation; refusing launch')
+     return enabled
+ 
+ 
+@@ -555,6 +646,8 @@
+     log.info(f'Setting up OptiScaler version "{version}".')
+     download_optiscaler(compat_dir, prefix_dir, version)
+     enabled = check_optiscaler(compat_dir, prefix_dir, version, ignore_version=True)
++    if __manifest_path is not None and not enabled:
++        raise RuntimeError(f'Pinned OptiScaler {version} failed validation; refusing launch')
+ 
+     if enabled and (env_config := env.get('PROTON_OPTISCALER_CONFIG', '')):
+         path, _ = __get_opti_files(version)
+@@ -571,11 +664,15 @@
+             except Exception as e:
+                 log.crit(f'Malformed config "{part}"')
+                 log.debug(str(e))
++                if __manifest_path is not None:
++                    raise RuntimeError(f'Malformed pinned OptiScaler config: {part}') from e
+                 continue
+             if section in parser and option in parser[section]:
+                 parser[section][option] = value
+             else:
+                 log.warn(f'Ignoring unknown option "{f"{section}.{option}"}"')
++                if __manifest_path is not None:
++                    raise RuntimeError(f'Unknown pinned OptiScaler option: {section}.{option}')
+ 
+         with open(ini, 'w') as ini_fd:
+             parser.write(ini_fd)
+@@ -622,6 +719,22 @@
+ 
+     usage: setup_upscalers(g_session.compat_config, g_session.env, g_compatdata.base_dir, g_compatdata.prefix_dir)
+     """
++    global __manifest_path, __manifest_json
++    manifest_path = env.get('PROTON_UPSCALER_MANIFEST')
++    selected_path = Path(manifest_path) if manifest_path is not None else None
++    if selected_path != __manifest_path or selected_path is not None:
++        __manifest_json = None
++    __manifest_path = selected_path
++    if __manifest_path is not None:
++        if not __manifest_path.is_absolute():
++            raise RuntimeError('PROTON_UPSCALER_MANIFEST must be an absolute local path')
++        __get_manifest()  # Fail before setup; never fall back to the remote manifest.
++
++    implicit_upgrades = 'optiscaler' in compat_config and __manifest_path is None
++    implicit_ffx4 = __manifest_path is None or all(
++        name in __get_manifest()
++        for name in ('fsr_40_fg_dx12', 'fsr_40_ldr_dx12', 'fsr_40_up_dx12')
++    )
+     dlss_version = get_version(env, 'PROTON_DLSS_UPGRADE', 'default')
+     xess_version = get_version(env, 'PROTON_XESS_UPGRADE', 'default')
+ 
+@@ -637,14 +750,28 @@
+ 
+     upscaler_replace = set()
+     upscalers = (
+-        ('dlss', dlss_version, 'dlss' in compat_config or 'optiscaler' in compat_config),
+-        ('xess', xess_version, 'xess' in compat_config or 'optiscaler' in compat_config),
++        ('dlss', dlss_version, 'dlss' in compat_config or implicit_upgrades),
++        ('xess', xess_version, 'xess' in compat_config or implicit_upgrades),
+         # amdxcffx64 4.1.1
+         ('fsr4', fsr4_version, 'fsr4' in compat_config),
+         # fidelityfx sdk
+-        ('ffx3', ffx3_version, 'ffx3' in compat_config or 'optiscaler' in compat_config),
++        ('ffx3', ffx3_version, 'ffx3' in compat_config or implicit_upgrades),
+         ('ffx4', ffx4_version, 'ffx4' in compat_config),
+     )
++    if __manifest_path is not None:
++        requested = [(name, version) for name, version, enabled in upscalers if enabled]
++        if 'optiscaler' in compat_config:
++            requested.append(('OptiScaler', optiscaler_version))
++            if 'fsr4' in compat_config and implicit_ffx4:
++                requested.append(('ffx4', ffx4_version))
++        for name, version in requested:
++            try:
++                if name == 'OptiScaler':
++                    __get_opti_files(version)
++                else:
++                    __get_upscaler_items(name, version)
++            except Exception as e:
++                raise RuntimeError(f'Pinned {name} {version} failed validation; refusing launch: {e}') from e
+     for upscaler in upscalers:
+         name, version, enabled = upscaler
+         if enabled and setup_upscaler(name, compat_dir, prefix_dir, version):
+@@ -654,8 +781,8 @@
+     if 'optiscaler' in compat_config:
+         if setup_optiscaler(env, compat_dir, prefix_dir, optiscaler_version):
+             log.info('OptiScaler enabled.')
+-            if 'fsr4' in compat_config:
+-                if ffx4_version in {'4.0.0', '4.0.1'}:
++            if 'fsr4' in compat_config and implicit_ffx4:
++                if __manifest_path is None and ffx4_version in {'4.0.0', '4.0.1'}:
+                     clean_upscaler('ffx4', compat_dir, prefix_dir)
+                 else:
+                     setup_upscaler('ffx4', compat_dir, prefix_dir, ffx4_version)

@@ -53,6 +53,23 @@ jobs:
           path: |
             dist/source/*.tar.gz
             dist/source/*.sha256
+      - name: Verify the small end-user setup distribution
+        run: |
+          python3 scripts/source-release.py --setup --output dist/setup
+          cd dist/setup
+          sha256sum -c *.sha256
+          tar -xzf *.tar.gz
+          cd bc250-fsr4-setup-*/
+          ./install-v4.sh --help
+          ./install-runtime.sh --help
+          ./setup-game.sh --help
+          python3 -B -c 'import sys; sys.path.insert(0, "scripts"); import driver, runtime, runtime_bundle'
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: setup-bundle
+          path: |
+            dist/setup/*.tar.gz
+            dist/setup/*.sha256
 
   source-build:
     if: github.event_name == 'workflow_dispatch'

@@ -1,104 +1,88 @@
-# Release identities and distribution
+# Releases and distribution
 
-The published prerelease is
-[v4.0.0-rc1](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc1).
-The maintained `v4` branch includes later work. These identities answer
-different questions:
+The driver and Steam compatibility tool are separate products. Updating the
+runtime does not replace the qualified driver or extend its old gameplay
+evidence.
 
-| Identity | What it identifies |
+| Artifact | Identity and purpose |
 | --- | --- |
-| `v4.0.0-rc1` tag → `362c4c4a74456002e4697ca0e1d1bb3aaff1539d` | Original reviewed source/tooling revision |
-| `v4/manifest.json` and its SHA256 | Mesa archive, patch order, resulting source hashes and provider checkpoint |
-| `release.json` and `build-provenance.json` inside a binary archive | Exact packaged driver/files, build inputs, toolchain and library requirements |
-| Native driver SHA256 `6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5` | Exact published rc1 ELF qualified for real gameplay |
-| `f7d59b030af519059b06ce3953c2c91e5bd6e1c5` | Later performance evidence for that same ELF |
-| Current `v4` commit | Maintained tooling and documentation; not a new binary qualification |
-| FSR `4.1.1` INT8 and the pinned provider SHA256 | Qualified game runtime; the newer `4.1.1b` mod is outside this release |
+| Driver `v4.0.0-rc1` | The published Mesa 26.2.2 ELF and its [qualification](qualification.md); source tag `362c4c4a74456002e4697ca0e1d1bb3aaff1539d` |
+| Runtime `1.0.0-rc1` | The independent component/preset lock in `runtime/manifest.json`; new native FSR and DLSS gameplay qualification is pending |
+| Source snapshot | An exact Git commit with file hashes and modes, for development or auditing |
 
-**Do not co-install the newer FSR 4.1.1b mod with this release's game setup.**
-This fork uses the pinned 4.1.1 provider and does not incorporate or qualify
-4.1.1b. Follow the [runtime compatibility and switching guidance](games.md#runtime-compatibility)
-before changing integrations. The Mesa fork's `4.0.0-rc1` version does not
-identify an AMD FSR version.
+The later [performance campaign](performance.md) used the unchanged rc1 driver
+through the earlier integration. A source version label does not prove that
+a rebuilt ELF is the same binary. FSR **4.1.1 INT8** identifies the provider;
+it is distinct from both project versions and the newer 4.1.1b mod.
 
-The [qualification report](qualification.md) records scope and limits. The
-[performance addendum](performance.md) supplies later measurements without
-changing the original tag or binary/source release assets. The manifest's
-release version alone does not prove that a locally rebuilt ELF is the
-published binary.
+## End-user setup bundle
 
-## Choose the right archive
+The runtime release tag is `runtime-v1.0.0-rc1`. Its small
+`bc250-fsr4-setup-1.0.0-rc1.tar.gz` bundle contains the installer tools,
+runtime manifest, integration patch and essential documentation/notices,
+with an adjacent SHA256 checksum. Users extract it and follow the
+[quickstart](../README.md#start-a-steam-game); Git is optional.
 
-The original prerelease contains separate binary, source and performance
-assets. The installable CachyOS archive is
-`bc250-fsr4-v4.0.0-rc1-cachyos-x86_64.tar.gz`, with an adjacent
-`.tar.gz.sha256` file. Verify the checksum before using it:
+Normal `./install-runtime.sh install` downloads the pinned GE-Proton,
+OptiScaler, OptiPatcher and FSR provider components, verifies them and assembles
+the tool locally. It uses the original GE loader and prefix manager with the
+recorded narrow patch. No Wine compilation is required.
 
-```sh
-sha256sum -c bc250-fsr4-v4.0.0-rc1-cachyos-x86_64.tar.gz.sha256
-```
+The public setup bundle does not redistribute those upstream runtime binaries.
+Users can retain downloaded components for offline reinstallation with
+`--cache PATH --offline`. The shared assembly/packaging tool can also create
+a complete private offline bundle, accepted by `install --archive PATH`.
+Preserve its checksum and upstream notices; that private artifact is separate
+from the public setup distribution.
 
-A checksum downloaded beside an archive detects corruption; it is not an
-independent publisher signature. Use the intended fork's release page and
-retain the downloaded archive and checksum when testing or reporting a bug.
-Source-only and performance archives cannot be installed as drivers.
+Obtain archives and checksums from the intended
+[release page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases).
+An adjacent checksum detects corruption; it is not an independent signature.
 
-The current checkout's `install-v4.sh` uses its adjacent `scripts/driver.py`.
-When downloaded alone, the bootstrap uses the installer bundled in the chosen
-binary archive. Installing the original binary from a maintained checkout
-therefore uses current tooling while keeping the driver identity unchanged.
-Installing standalone preserves the original bundled tool revision. See the
-[installation guide](../README.md#private-archive-install-or-v3-upgrade).
+## Driver artifacts
 
-## Export maintained source
+The original installable driver is
+`bc250-fsr4-v4.0.0-rc1-cachyos-x86_64.tar.gz`, with an adjacent checksum.
+Source and performance archives are not drivers. Its exact ELF hash and
+environment are in [qualification](qualification.md#exact-driver-and-source).
 
-Commit and review the changes, then run from a clean Git checkout:
+A current installer bundle can install that unchanged driver with maintained
+tooling. The original rc1 archive retains its older bundled tools. Keep both
+identities explicit; never replace the rc1 assets or move its tag.
+
+For a new driver, build with `scripts/build.py` and package with
+`scripts/package.py`. Packaging records source/provenance, dependencies,
+symbol requirements and file hashes, and strips a copy of the built library.
+Qualify the exact distributed ELF before publishing a new driver release.
+Review [notices](../THIRD_PARTY.md) and the [acceptance requirements](development.md#checks-and-acceptance).
+
+## Source snapshots
+
+From a clean reviewed checkout:
 
 ```sh
 python3 scripts/source-release.py --output dist/source
 ```
 
-The exporter creates a deterministic archive named
-`bc250-fsr4-vVERSION-source-SHORTCOMMIT.tar.gz`, an adjacent SHA256 checksum,
-and a `source-snapshot.json` inside the archive. That manifest records the
-exact commit, tracked files, hashes and modes. The export contains tracked
-documentation, tests, CI, source inputs and archived upstream material.
-Ignored local outputs such as `.work/`, `dist/` and `.venv/` are excluded.
-Archive timestamps, modes, order and gzip settings are fixed; byte-for-byte
-repeatability is tested with the same Python/zlib toolchain. The extracted
-snapshot's file hashes and executable modes are checked by `check-repo.py`.
+The deterministic `bc250-fsr4-vVERSION-source-SHORTCOMMIT.tar.gz` export
+contains tracked source, tests, documentation and historical material, plus
+`source-snapshot.json` with the exact commit, file hashes and modes. Ignored
+build outputs and personal state are excluded. The extracted snapshot can
+run `python3 scripts/check-repo.py` without Git metadata.
 
-For a specific recorded revision:
+Use `--ref TAG` to export a recorded revision. This reads that revision's
+Git objects even if the working tree has unrelated edits; the exporter itself
+needs a Git checkout. A new export of an old tag is not a replacement for its
+original attached source archive.
 
-```sh
-python3 scripts/source-release.py --ref v4.0.0-rc1 --output dist/source
-```
+## Publishing changes
 
-An explicit ref reads only that revision's Git objects, even if the current
-working tree contains edits. The resulting snapshot is a new export of the
-recorded source; it does not replace or claim byte identity with the original
-attached rc1 source archive. The exporter needs a Git checkout, since an
-extracted archive has no Git object database.
+Give runtime component, patch or preset changes a new runtime version.
+Validate installation and both gameplay routes, publish a matching setup
+bundle/checksum and record the scope in the changelog. Reuse an unchanged
+qualified driver by its exact hash.
 
-## Prepare a future binary release
-
-Run the [development checks and qualification steps](development.md), build
-the native or container archive, and qualify its exact stripped ELF. Record
-the source commit, source manifest hash, full toolchain/ABI requirements,
-driver hash and observed runtime scope. A successful build or tooling test
-suite does not transfer the old binary's gameplay acceptance to a new one.
-
-Binary packaging requires a clean Git checkout or an intact extracted source
-distribution. Commit reviewed source changes and new helper files before
-packaging; untracked local helpers are never silently added to a release.
-
-Review [provenance and licenses](../THIRD_PARTY.md) before distribution. Keep
-the complete source/tooling records, dependency notices and file manifest
-with the archive. Preserve the original base packages needed for system
-rollback on each target distribution; those packages are specific to the
-installation and are not a universal release artifact.
-
-Give any future binary release its own reviewed identity and qualification.
-Keep the rc1 tag and original attached assets immutable. Publish later reports
-or source snapshots with distinct names and explicit scope, and describe the
-change in the [changelog](../CHANGELOG.md).
+Give a new driver ELF its own build identity and qualification. Keep prior
+runtime versions, source records and distribution-specific base packages
+available for recovery. Documentation or tooling changes alone must not be
+presented as new driver or runtime gameplay acceptance.

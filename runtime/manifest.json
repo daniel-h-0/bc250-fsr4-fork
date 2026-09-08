@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "release": {
+    "id": "bc250-fsr4-runtime-1.0.0-rc1",
+    "version": "1.0.0-rc1"
+  },
+  "proton": {
+    "schema": 1,
+    "name": "GE-Proton11-6-x86_64",
+    "version": "GE-Proton11-6",
+    "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton11-6/GE-Proton11-6-x86_64.tar.gz",
+    "sha256": "659f8d71f2f78659340120b20c1c5a1464aa138939332a1376dea22f6d2dc2e4",
+    "size": 533700853,
+    "files": {
+      "compatibilitytool.vdf": {
+        "sha256": "542e338a501561305cc864f0fba8196a143cf162404c33b850589ac500ab5ff9",
+        "executable": false
+      },
+      "version": {
+        "sha256": "c2c85dcdaaae9bc16148da375ee723c69c565b13bdd85a4e529888ac0cab2922",
+        "executable": false
+      },
+      "proton": {
+        "sha256": "95a41f83184ab574d118fdd20f8647d5db0c350eb571314b475f0d25087311cf",
+        "executable": true
+      },
+      "files/bin/wine": {
+        "sha256": "7b0ca4538f365d8a225afdfe5f872715bb5f7c1908dbdcb522c9519cac7c8714",
+        "executable": true
+      },
+      "protonfixes/upscalers.py": {
+        "sha256": "4128896c4134d865a290e2e8e62279d07157131b207f4bc7d29e8c873fe85645",
+        "executable": false
+      }
+    }
+  },
+  "provider": {
+    "version": "4.1.1",
+    "sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+    "url": "https://loathingKernel.github.io/proton-upscalers/amdxcffx64_v4.1.1_398EA93C15D554EFB7ECE1F4CD057554.xz",
+    "archive_sha256": "5de9b6d9f5475a0f2622e4cbce88cde46c68929d9bd0bbc353c70056997bb771"
+  },
+  "optiscaler": {
+    "version": "10.0.0-pre1-20260904",
+    "url": "https://github.com/optiscaler/OptiScaler-nightly/releases/download/nightly-20260904/OptiScaler_v10.0.0-pre1_20260904.7z",
+    "sha256": "730d5057338cf68adc3bf38a358985a04629ad00fae305bd717694a392216a53",
+    "dll_sha256": "469bcfe59108f04f8b8cf45953e515f0a0cd24b00717be62b7dcf5c20430410d"
+  },
+  "optipatcher": {
+    "version": "0.41",
+    "url": "https://github.com/optiscaler/OptiPatcher/releases/download/v0.41/OptiPatcher_v0.41.asi",
+    "sha256": "fb12735bfcc0d47f534f2206d57ec34129dc3d22b6405a1c2ef86745ab48b2eb"
+  },
+  "driver": {
+    "version": "4.0.0-rc1",
+    "sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+    "source_manifest_sha256": "5f6809df51db8d76adebe450c2ae080100b2f0ad8a0d91fbbf40f94f6f6a212a",
+    "mesa": "26.2.2"
+  },
+  "preset": {
+    "Upscalers.Dx12Upscaler": "ffx",
+    "FrameGen.Enabled": "false",
+    "FSR.UpscalerIndex": "0",
+    "FSR.Fsr4ForceModel": "2",
+    "FSR.Fsr4EnableWatermark": "auto",
+    "FSR.FsrNonLinearColorSpace": "false",
+    "FSR.FsrNonLinearSRGB": "auto",
+    "FSR.FsrNonLinearPQ": "auto",
+    "Plugins.LoadAsiPlugins": "true",
+    "Spoofing.Dxgi": "false",
+    "Hotfix.RestoreComputeSignature": "false",
+    "Hotfix.RestoreGraphicSignature": "false",
+    "Hotfix.ExtendedStateRestore": "false",
+    "Menu.DisableSplash": "true",
+    "Log.LogToFile": "false"
+  },
+  "integration": {
+    "runtime/launch.py": "2bcf62fcea47190eef3277c494f25845cb8f77ff313406f265f5c7e7666f3f41",
+    "runtime/patches/0001-pinned-upscaler-manifest.patch": "815241b3ca44c8c5236cfa7eb3c3d325ae21c12d712122578699e992c737ecec",
+    "scripts/runtime_bundle.py": "f3fafb3de50a5c404674c5d0410ac812cc153f5b2e0160e8f2e9d42c5c0ec327"
+  }
+}

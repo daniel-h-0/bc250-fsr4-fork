@@ -2,44 +2,29 @@
 
 ## Unreleased — maintenance on v4
 
-- Add guided game setup: detect supported Steam games and accounts, fetch
-  pinned runtime dependencies, merge launch options and select Proton with
-  one rollback record. Preview without changes using `--dry-run`.
-- Separate the short end-user game guide from manual integration and
-  troubleshooting, and document a working v3 user's actual upgrade needs.
-- Clarify that the qualified runtime is pinned FSR 4.1.1 INT8 and should not
-  be co-installed with the newer 4.1.1b mod; document switching between setups.
-- Recover interrupted game setup and rollback transactions, preserve later
-  user edits, and support verified upgrades of helper-managed runtimes.
-- Verify retained driver/runtime payloads before rollback or reuse, reject
-  symlinks and special files, and accept normalized SHA256 input.
-- Resolve game mappings through the process namespace, reject stale log files,
-  and report the limits of associating initialization lines with a launch.
-- Bind new build provenance to the full materialized source, toolchain,
-  dependency versions, recipe and Meson configuration. Refuse stale builds
-  during packaging and resume; retain package metadata and complete archives.
-- Keep inactive system status valid JSON for scripts and integrations.
-- Clarify installation routes, repository layout, source distribution,
-  contribution checks and the scope of the inherited archive.
-- Add a deterministic source exporter with exact commit, file hashes, modes
-  and an adjacent archive checksum. Exported snapshots retain all tracked
-  source, documentation, tests, CI and historical material.
-- Add a GPU-free repository check for pinned inputs, active documentation
-  links, all 360 published performance samples, syntax and tooling tests.
-- Check Python 3.12 and 3.14 plus Ruff in CI. Verify source snapshots after
-  extraction without Git metadata and prepare their pinned Mesa source on
-  pushes and pull requests. Manual container builds also package and check
-  the extracted binary distribution; these artifacts remain unqualified.
-- Pin maintained GitHub Actions releases using Node.js 24, removing the
-  deprecated action-runtime dependency.
-- Include the full Mesa license-text directory in newly generated binary
-  archives alongside the existing summary and scoped project notices.
-- Keep current tooling development separate from the immutable rc1 driver,
-  tag, release assets and recorded qualification.
+- Add the independently versioned BC250 FSR4 Steam compatibility tool.
+  Users opt in through Steam's Compatibility menu; the active runtime has no
+  game allowlist, executable scan or Steam-account configuration writer.
+- Use pinned GE-Proton loader/prefix management with a narrow local-manifest
+  patch, FSR 4.1.1 INT8 model 2, OptiScaler nightly 20260904 and OptiPatcher 0.41.
+  The new native FSR and DLSS gameplay qualification is pending.
+- Distribute a small setup bundle. Assemble pinned upstream components locally,
+  support cached offline installation and optional private complete bundles,
+  and retain immutable runtime versions for rollback.
+- Retire the per-game wizard and keep its rollback/recovery entry point for
+  existing installations. Consolidate user guidance around the new runtime.
+- Strengthen driver build provenance, payload verification, v3 migration,
+  interrupted-transaction recovery and preservation of later user edits.
+- Export deterministic source snapshots with exact commit/file manifests.
+  Check source inputs, documentation, all 360 performance samples and tooling
+  tests without a GPU; verify extracted distributions in CI.
+- Check Python 3.12/3.14 and Ruff, and pin maintained GitHub Actions revisions.
+  Manual container builds produce explicitly unqualified artifacts.
+- Include Mesa's license texts in new driver archives and preserve upstream
+  notices for runtime source fixtures and downloaded components.
 
-This section describes branch maintenance. It does not announce a new driver
-release or qualify binaries built with later toolchains. See
-[release identities and distribution](docs/releases.md).
+These changes preserve the original rc1 driver, tag, release assets and
+qualification. See [release identities](docs/releases.md).
 
 ## 2026-09-07 — performance qualification addendum
 

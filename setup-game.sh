@@ -2,4 +2,4 @@
 # SPDX-License-Identifier: MIT
 set -euo pipefail
 root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
-exec python3 -B "$root/scripts/setup-game.py" "$@"
+exec python3 -B "$root/legacy/game-setup/recover.py" "$@"

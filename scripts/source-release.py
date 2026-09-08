@@ -7,12 +7,59 @@ import gzip
 import hashlib
 import io
 import json
+import posixpath
+import re
 import subprocess
 import tarfile
 import tempfile
 from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[1]
+SETUP_FILES = {
+    "README.md",
+    "THIRD_PARTY.md",
+    "LICENSE.new-code",
+    "install-v4.sh",
+    "install-runtime.sh",
+    "run-bc250-fsr4.sh",
+    "setup-game.sh",
+    "scripts/driver.py",
+    "scripts/runtime.py",
+    "scripts/runtime_bundle.py",
+    "runtime/manifest.json",
+    "runtime/launch.py",
+    "runtime/patches/0001-pinned-upscaler-manifest.patch",
+    "legacy/game-setup/recover.py",
+    "legacy/game-setup/steam_config.py",
+    "docs/games.md",
+    "docs/game-troubleshooting.md",
+    "docs/upgrading-v3.md",
+}
+
+
+def setup_files(files, commit):
+    """Keep only installation/recovery inputs; link omitted evidence to the commit."""
+    selected = {name: files[name] for name in sorted(SETUP_FILES)}
+    base = "https://github.com/daniel-h-0/bc250-fsr4-fork/blob/" + commit + "/"
+    for name, (data, mode) in selected.items():
+        if not name.endswith(".md"):
+            continue
+
+        def link(match):
+            label, target = match.groups()
+            if "://" in target or target.startswith("#"):
+                return match[0]
+            path, _, anchor = target.partition("#")
+            relative = posixpath.normpath(posixpath.join(posixpath.dirname(name), path))
+            if relative in selected:
+                return match[0]
+            return "[" + label + "](" + base + relative + ("#" + anchor if anchor else "") + ")"
+
+        selected[name] = (
+            re.sub(r"\[([^\]\n]*)\]\(([^)\n]+)\)", link, data.decode()).encode(),
+            mode,
+        )
+    return selected
 
 
 def git(root, *args):
@@ -47,7 +94,7 @@ def snapshot(root, ref):
     return commit, files
 
 
-def create_archive(root, output, ref=None):
+def create_archive(root, output, ref=None, *, setup=False):
     if ref is None:
         if git(root, "status", "--porcelain", "--untracked-files=normal").strip():
             raise RuntimeError(
@@ -62,6 +109,12 @@ def create_archive(root, output, ref=None):
     ):
         raise RuntimeError("Invalid source version in manifest.")
     name = f"bc250-fsr4-v{version}-source-{commit[:12]}"
+    if setup:
+        version = json.loads(files["runtime/manifest.json"][0])["release"]["version"]
+        if not re.fullmatch(r"[A-Za-z0-9.-]+", version):
+            raise RuntimeError("Invalid runtime version.")
+        name = "bc250-fsr4-setup-" + version
+        files = setup_files(files, commit)
     metadata = {
         "schema": 1,
         "commit": commit,
@@ -118,8 +171,11 @@ def main():
         "--ref", help="Exact commit/tag to export; otherwise requires a clean checkout of HEAD"
     )
     parser.add_argument("--output", type=Path, default=ROOT / "dist/source")
+    parser.add_argument(
+        "--setup", action="store_true", help="Export the small end-user setup bundle"
+    )
     args = parser.parse_args()
-    print(create_archive(ROOT, args.output.expanduser().resolve(), args.ref))
+    print(create_archive(ROOT, args.output.expanduser().resolve(), args.ref, setup=args.setup))
 
 
 if __name__ == "__main__":

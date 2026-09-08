@@ -1,190 +1,124 @@
 # BC250 FSR4 v4
 
-A continuation of [dmoraza's BC250 FSR4 project](https://github.com/dmorazasanchez/bc250-fsr4),
-based on its v3 branch with the original history preserved. v4 brings the
-qualified FSR 4.1.1 INT8 optimizations into a default-on Mesa 26.2.2 RADV build,
-and adds checked installation, v3 migration, package integration and rollback.
+Optimized Mesa 26.2.2 RADV for the AMD BC250, continuing
+[dmoraza's BC250 FSR4 project](https://github.com/dmorazasanchez/bc250-fsr4)
+with the original history preserved. Install the driver once, then select
+**BC250 FSR4 (4.1.1 INT8)** in Steam for a compatible DX12 game.
 
-**Published prerelease: [v4.0.0-rc1](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc1),
-x86_64 / AMD BC250 (GFX1013).** The `v4` branch contains later documentation and
-tooling maintenance. The tag and original release assets remain unchanged;
-fresh builds require their own qualification. See [release identities](docs/releases.md)
-and [qualification](docs/qualification.md) for the exact tested artifacts and limits.
+The [v4.0.0-rc1 driver](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc1)
+has recorded [qualification](docs/qualification.md) and
+[performance results](docs/performance.md). **The new 1.0.0-rc1 compatibility
+tool is pending gameplay qualification through native FSR and DLSS routes.**
+Those earlier results used the previous integration.
 
-**FSR version: this setup uses the pinned FSR 4.1.1 INT8 provider, not the
-newer 4.1.1b mod. Do not co-install 4.1.1b with this setup or mix its DLLs
-with this runtime.** Restore the original game files and undo the competing
-integration before switching; see [runtime compatibility](docs/games.md#runtime-compatibility).
-The project's `v4` / `4.0.0-rc1` name identifies this Mesa fork's release,
-not the FSR provider version.
+## Start a Steam game
 
-Install the driver once, then use guided setup to configure a supported game.
-The driver alone does not enable FSR4 in every game.
-
-## Start a supported Steam game
-
-On your working Linux BC250 installation, check the
-[prerequisites](#prerequisites), then obtain the maintained tools:
+Download `bc250-fsr4-setup-1.0.0-rc1.tar.gz` and its checksum from the
+[releases page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases), verify
+the checksum and extract it. No Git checkout or Wine compilation is needed.
+From the extracted folder, run as your desktop user:
 
 ```sh
-git clone --branch v4 https://github.com/daniel-h-0/bc250-fsr4-fork.git
-cd bc250-fsr4-fork
 ./install-v4.sh
 ```
 
-For an existing standard v3 installation, use `./install-v4.sh --upgrade-v3`
-instead. If you already have a verified v4 private or system installation,
-keep it and continue below.
+For a standard v3 installation, use `./install-v4.sh --upgrade-v3` instead.
+If a verified v4 private or system installation already exists, keep it.
 
-Close Steam and all games, then run:
+Close Steam and games, then install the compatibility tool:
 
 ```sh
-./setup-game.sh
+./install-runtime.sh install
 ```
 
-Choose your installed game and Steam account. Setup downloads the pinned
-runtime, selects the required Proton version and configures launch options
-with backups. Restart Steam, launch the game and select **FSR** in Deadzone or
-Kingdom Come: Deliverance II, or **DLSS** in Control. See the short
-[game setup guide](docs/games.md) for prerequisites, supported scope and undo.
+Restart Steam. In the game's **Properties → Compatibility**, enable the
+specific compatibility tool option and choose **BC250 FSR4 (4.1.1 INT8)**.
+Launch its DX12 version and select the upscaler in the game's graphics menu.
+Repeat that Steam selection for each compatible game you want to opt in.
 
-## Choose an installation
-
-| Route | What changes | Best fit |
-| --- | --- | --- |
-| [Private archive](#private-archive-install-or-v3-upgrade) | A versioned user directory and explicitly selected v3 ICD files | Existing v3 users; easiest rollback |
-| [Native source build](#build-from-source) | Same installable archive, built for your distribution | Missing binary dependencies or local development |
-| [Docker / Podman](#container-build) | Same pinned source build in an Arch container | A build environment without host compiler dependencies |
-| [System packages](docs/system-install.md) | Package-owned 64-bit `vulkan-radeon`, plus status/rollback helper | Arch/CachyOS users wanting normal system Vulkan launches to use v4 |
-
-No v4 32-bit binary is shipped. Keep your distribution's working
-`lib32-vulkan-radeon`. Never set a 64-bit-only `VK_DRIVER_FILES` globally in
-`/etc/environment`, Steam's service, or a desktop startup file: it can break
-32-bit applications. System packages avoid that override.
+**Do not combine this with the newer 4.1.1b mod or another OptiScaler
+deployment.** Undo an existing integration first. The [game guide](docs/games.md)
+covers switching, runtime updates and undo. The former three-game wizard is
+retired; its [recovery commands](docs/game-troubleshooting.md#recover-the-retired-game-wizard)
+remain available.
 
 ## Prerequisites
 
-- A functioning Linux BC250 graphics setup (PCI `1002:13fe`, RADV GFX1013).
-  v4 does not flash firmware, install a kernel or change clocks/voltages.
-- Python **3.12+**, `binutils` (`readelf`; `strip` for packaging), glibc's `ldd`, `vulkan-tools`, and your
-  usual working Vulkan loader. The private installer requires a successful
-  `vulkaninfo --summary`; a missing tool is an error, not a skipped check.
-- Use the archive built for your distribution. The native CachyOS build does
-  **not require LLVM 22**, but still depends on system libraries, including
-  `libdisplay-info.so.3` and `libSPIRV-Tools.so`. It is not a universal Linux
-  binary. An ABI failure leaves the selected installation unchanged; use the
-  source route on a different distribution.
-- For Windows games, use a compatible Proton build and follow
-  [the game guide](docs/games.md). Guided setup also needs `bsdtar` from
-  libarchive to unpack the pinned runtime. Steam Flatpak and unusual runtime sandboxes
-  need additional path/library exposure and are not yet qualified.
+- A functioning Linux BC250 graphics setup: x86_64, PCI `1002:13fe`, RADV
+  GFX1013. Firmware, kernel and clock configuration are separate.
+- Python **3.12+**, `binutils`, glibc's `ldd`, `vulkan-tools` and a working
+  Vulkan loader. The driver must pass eager dependency and device checks.
+- Runtime installation also needs `patch`, `bsdtar` from libarchive and
+  internet access for the initial pinned downloads. [Offline options](docs/game-troubleshooting.md)
+  are available.
+- The driver archive must match your distribution's libraries, including
+  `libdisplay-info.so.3` and `libSPIRV-Tools.so`. It has **no LLVM
+  dependency**. Use the source route if the binary's checks fail.
+- Native Linux Steam is the initial target. Steam Flatpak and other sandboxes
+  are not qualified.
+
+Keep distribution libraries coherent and retain working 32-bit RADV. v4 ships
+only x86_64; never export its private ICD globally. See the
+[v3 upgrade notes](docs/upgrading-v3.md) for the actual dependency changes.
+
+## Choose an installation
+
+| Route | Purpose |
+| --- | --- |
+| [Private archive](#private-archive-install-or-v3-upgrade) | Checked user installation and v3 migration; easiest rollback |
+| [Native source build](#build-from-source) | Build the pinned driver for your distribution |
+| [Container build](#container-build) | Build the same source using Docker or Podman |
+| [System packages](docs/system-install.md) | Optional Arch/CachyOS integration with package-owned RADV |
 
 ## Private archive install or v3 upgrade
 
-**Coming from v3? Read the [v3 upgrade checklist](docs/upgrading-v3.md) first.**
-Use Python 3.12+ and install `vulkan-tools`; keep distribution libraries
-coherent. Guided game setup selects the tested GE-Proton11-6 and pinned
-runtime for the documented profiles. A working
-prebuilt v3 already needs most of the same libraries as v4; a new kernel,
-firmware flash or LLVM upgrade is not an automatic prerequisite.
-
-Obtain the matching binary `.tar.gz` and adjacent `.tar.gz.sha256` from the
-[v4.0.0-rc1 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc1),
-or create them with the source instructions below. Source and performance
-archives are separate assets and cannot be installed as drivers.
-The checksum detects corruption; obtain both files from the trusted release.
-
-For the maintained installer, first [obtain the v4 checkout](#obtain-the-source)
-and run `./install-v4.sh --upgrade-v3` there. This uses the checkout's tooling
-with the unchanged published driver archive.
-
-The standalone script can also download the release without a checkout.
-Download it into an empty directory, inspect it, then run it as your desktop user:
+The installer obtains the published driver archive, checks its checksum and
+probes the host before activation. A local archive and adjacent checksum work
+without network access:
 
 ```sh
-curl -fLO https://raw.githubusercontent.com/daniel-h-0/bc250-fsr4-fork/v4/install-v4.sh
-bash install-v4.sh --upgrade-v3
+./install-v4.sh /path/to/DRIVER.tar.gz
 ```
 
-The standalone route executes the installer bundled in the selected release;
-later `v4` tooling fixes are available through the checkout route above.
-`--upgrade-v3` migrates the standard v3 ICD path. Omit it for a new install,
-or use `--upgrade-v3-icd PATH` for a custom v3 installation. This standalone
-route downloads the named release and its checksum, verifies the archive,
-and runs its bundled installer. A local archive works without network access:
-`bash install-v4.sh /path/to/ARCHIVE.tar.gz --upgrade-v3`.
+For a custom v3 ICD, append `--upgrade-v3-icd PATH`; repeat it for multiple
+installations. Only the named manifests are migrated, and their original bytes
+are retained for rollback. The standard `--upgrade-v3` option selects
+`~/.local/share/bc250-fsr4/v3/radv-bc250-fsr4-v3.json`.
 
-From this checkout, with the archive under `dist/`:
+The default private root is `~/.local/share/bc250-fsr4/`, with retained
+releases and a stable `current.json`. For a custom root, use
+`python3 scripts/driver.py --prefix PATH install ARCHIVE` and pass the same
+prefix to subsequent commands.
 
 ```sh
-./install-v4.sh dist/bc250-fsr4-v4.0.0-rc1-cachyos-x86_64.tar.gz
-./run-bc250-fsr4.sh vulkaninfo --summary
 python3 scripts/driver.py status
-```
-
-For supported games, run `./setup-game.sh` after installation to configure
-Steam automatically. The driver installer also prints a launch option for
-[manual setup](docs/game-troubleshooting.md). For a
-standard v3 installation, preserve your existing Steam launch string by
-migrating the exact old ICD instead:
-
-```sh
-./install-v4.sh dist/bc250-fsr4-v4.0.0-rc1-cachyos-x86_64.tar.gz \
-  --upgrade-v3-icd "$HOME/.local/share/bc250-fsr4/v3/radv-bc250-fsr4-v3.json"
-```
-
-For a source-built v3, pass the actual old `radv-bc250-fsr4-v3.json` or
-`radv-bc250-fsr4.json` path. Repeat `--upgrade-v3-icd` for multiple installs.
-Only those explicitly named manifests are migrated. Their original driver
-files stay in place and their JSON bytes are recorded for rollback. Close the
-game before upgrading and relaunch it afterward; a running process keeps its
-previously loaded driver. These driver-migration commands leave Steam settings
-unchanged; guided game setup configures those separately.
-
-By default v4 lives under `~/.local/share/bc250-fsr4/`, with immutable
-`releases/`, a `current` link, stable `current.json`, and transaction records.
-For a custom root use:
-
-```sh
-python3 scripts/driver.py --prefix /your/dedicated/path install ARCHIVE
-```
-
-Use the same prefix for `status`, `run`, `rollback` and `recover`.
-Do not run the private installer with sudo.
-
-Rollback the most recent private installation:
-
-If guided setup configured a game to use this installation, first use its
-[game rollback command](docs/games.md#undo-game-setup) to restore Steam settings.
-
-```sh
+./run-bc250-fsr4.sh vulkaninfo --summary
 python3 scripts/driver.py rollback
 ```
 
-This restores the previous v4 selection and any migrated v3 manifests. It
-refuses to overwrite an ICD you edited after installation. An interrupted transaction is reported by `status`; use
-`python3 scripts/driver.py recover` to restore its recorded prior selection.
-Payloads remain available for inspection; no automatic directory deletion occurs. If this was
-your first private install without a v3 migration, remove its printed launch
-option when returning to system RADV.
+Before driver rollback, switch games using BC250 FSR4 back to their previous
+Steam compatibility tool. Rollback restores the previous driver selection and
+migrated ICD bytes, while preserving later user edits. If status reports an
+interrupted transaction, run `python3 scripts/driver.py recover`.
+Runtime updates and rollback are [separate](docs/games.md#update-or-undo).
 
 ## Build from source
 
 ### Obtain the source
 
+Contributors can use an exported source snapshot or the maintained branch:
+
 ```sh
 git clone --branch v4 https://github.com/daniel-h-0/bc250-fsr4-fork.git
 cd bc250-fsr4-fork
 ```
 
-The `v4` branch is maintained. To inspect the original release source, use a
-separate checkout of tag `v4.0.0-rc1`; its tooling predates the current branch.
-See [development](docs/development.md) for repository layout and
-[contributing](CONTRIBUTING.md) for changes and checks.
+The original `v4.0.0-rc1` tag and assets remain immutable. See
+[release identities](docs/releases.md) before rebuilding or distributing.
 
 ### Native build
 
-On an up-to-date Arch/CachyOS host, the build dependencies are:
+On a coherent Arch/CachyOS installation:
 
 ```sh
 sudo pacman -S --needed base-devel python python-pip ninja git \
@@ -195,70 +129,38 @@ sudo pacman -S --needed base-devel python python-pip ninja git \
 python3 scripts/package.py --label cachyos-x86_64
 ```
 
-Use normal distribution update practices before installing build dependencies;
-do not force a partial Mesa/LLVM/glibc update. Python build tools live in a
-repository-local virtual environment. The builder downloads the SHA256-pinned
-Mesa 26.2.2 archive, verifies every patch input, applies the three patches with
-zero fuzz, and checks all fifteen modified source files against the qualified
-manifest. It builds only 64-bit RADV with ACO, without LLVM or game tracing.
-
-For offline/repeated work, pass `--mesa-archive /path/to/mesa-26.2.2.tar.xz`.
-Use `--prepare-only` to verify the source without compiling, `--work PATH` for
-another build directory, and `--resume` to resume an interrupted build with
-matching inputs. Do not reuse a work directory for different inputs. Build
-artifacts are under `.work/native`; archive outputs are under `dist/`.
-
-Build directories from the original rc1 tooling predate the current provenance
-checks. Use a new `--work PATH` for those builds; `--resume` cannot upgrade their
-old records. Existing qualified release archives remain installable.
-
-Compiler and dependency versions are recorded; these are reproducible *source*
-inputs, not a claim of bit-identical binaries across different toolchains.
-A locally built archive receives the same ABI/device/loader checks on install.
-New compiler output still needs appropriate GPU/game qualification before
-being advertised as an accepted release.
+The builder verifies the pinned Mesa archive, ordered patches and final source
+hashes. It builds 64-bit RADV using ACO, with LLVM and game tracing disabled.
+Use `--mesa-archive PATH` for a local Mesa archive, `--prepare-only` to check
+inputs without compiling, or `--work PATH` for a separate build directory.
+Resume requires matching inputs; old rc1 build directories need a fresh build.
 
 ## Container build
 
-Install and start Docker or configure rootless Podman, then:
+With Docker or rootless Podman available:
 
 ```sh
 ./build-anywhere.sh --jobs 4
 python3 scripts/package.py --work .work/container --label arch-container-x86_64
 ```
 
-Podman is preferred when both are present; select explicitly with
-`BC250_CONTAINER_ENGINE=docker`. The container uses the supplied Dockerfile,
-compiles the same pinned Mesa sources, and writes output as your user. The
-Arch base image and dependency repositories can advance: the resulting ABI
-is recorded and still checked on the destination host. A container build does
-not make an Arch binary compatible with every distribution. No GPU device is
-passed into the build container. ARM builders require working x86_64 emulation;
-that configuration is untested.
+Podman is preferred; select Docker with `BC250_CONTAINER_ENGINE=docker`.
+No GPU is needed for building. The resulting binary retains its distribution
+ABI requirements and must pass the destination host's checks. A new build
+needs qualification of its exact ELF before release.
 
 ## What's in v4
 
-- Exact bounded arithmetic lowerings and selective unrolling/reduction.
-- Composed image-preparation and texture optimizations.
-- Matching arithmetic coverage for the small, middle and large resolution
-  buckets of the qualified FSR 4.1.1 INT8 shader family.
-- Independent masked-store repair for the eight guarded large-bucket shaders.
-- Default-on selection with exact shader, weight, interface and subgroup
-  checks. Unknown inputs retain their correctness fallback.
-- `BC250_FSR4_DISABLE=1` disables the optimization while keeping the independent
-  store repair. The driver's internal cache marker `v3` is a cache generation,
-  not the project's public release version.
+The patches provide bounded arithmetic lowerings, selective unrolling and
+reduction, composed image/texture optimizations, resolution-family coverage
+and guarded store repairs. Unknown inputs retain their correctness fallback.
 
-Fresh matched Deadzone trials against upstream v3 measured **+14.3%,
-+18.9% and +17.2% FPS** at 1080p, 1440p and 4K respectively, using
-High/custom graphics, FSR 4.1.1 INT8 Quality and hardware ray tracing off. These
-are scene-specific averages from two launches per driver at each resolution.
-See the [performance data and method](docs/performance.md) and
-[qualification limits](docs/qualification.md).
+Matched Deadzone trials against upstream v3 measured **+14.3%, +18.9% and
++17.2% FPS** at 1080p, 1440p and 4K, respectively, with FSR 4.1.1 INT8 Quality
+and hardware ray tracing off. These are scene-specific averages from the
+[recorded campaign](docs/performance.md), not new-runtime measurements.
 
-Inherited v2/v3 documentation, scripts and experiments are archived under
-`legacy/v3/` as historical material; read the [archive guide](legacy/README.md)
-before using them. The active v4 source is `v4/manifest.json` plus its ordered
-patches. Experimental upstream Linux 7.3/native-DOT/SDWA work is outside this
-qualified release. See [provenance and licenses](THIRD_PARTY.md),
-[development](docs/development.md) and the [changelog](CHANGELOG.md).
+For project work, see [contributing](CONTRIBUTING.md),
+[development](docs/development.md), [releases](docs/releases.md) and
+[provenance and licenses](THIRD_PARTY.md). Historical upstream experiments
+remain under [legacy](legacy/README.md).

@@ -1,245 +1,81 @@
-# Game setup troubleshooting and manual controls
+# Runtime troubleshooting and legacy recovery
 
-For normal setup, use [the guided game setup](games.md). This page is for
-custom installations, investigating a failed setup, and collecting technical
-proof. You do not need to follow it before playing a supported game.
+Start with [the Steam game guide](games.md). Installation can verify files and
+driver loading; it cannot establish that a game's current frame uses FSR4.
 
-## Choose the right recovery command
+## Installation and launch
 
-`setup-game.sh` manages the complete guided setup, including Steam settings.
-Use the rollback or recovery command printed by that guide for its transaction.
-The lower-level `scripts/game-setup.py` commands below manage game files only;
-their records cannot restore Steam settings changed by the guided setup.
+| Symptom | Next step |
+| --- | --- |
+| The tool is missing from Steam | Exit Steam fully, run `./install-runtime.sh status`, then restart Steam. Select it in the game's Properties → Compatibility. |
+| A custom native Steam installation is not found | Pass `--steam-root PATH` to `./install-runtime.sh install`. Steam Flatpak and other sandboxes are not qualified. |
+| No verified driver is found | Install v4 with `./install-v4.sh`. Use `--driver private --driver-prefix PATH` for a custom private installation, or `--driver system` for the verified system route. |
+| A download or archive check fails | Keep the previous installation. Retry with the pinned archive or report the error; do not bypass its checksum. |
+| The game has another upscaler mod | Undo that integration using its own records before selecting BC250 FSR4. Do not combine it with 4.1.1b. |
+| The game starts but FSR4 is unclear | Confirm DX12 and the in-game upscaler choice, then collect the evidence below. Switching compatibility tools is not proof of INT8 engagement. |
 
-## Guided setup checks
-
-- **The game is not listed:** confirm that it is installed in native Linux
-  Steam, then run `./setup-game.sh --list`. The helper supports the three
-  profiles listed below. Use `--steam-root PATH` for a custom native Steam
-  installation; Flatpak and other sandboxes are not qualified.
-- **No Steam account was found:** start Steam, sign in to the account you
-  intend to use, then exit Steam completely so it saves the account's local
-  configuration. Run setup again and choose that account.
-- **Steam must be closed:** exit Steam completely before applying or undoing
-  setup. `--list` and `--dry-run` work while Steam is open; the latter validates
-  the proposed setup without downloading or writing anything.
-- **A different driver was selected:** automatic selection prefers a verified
-  system v4 installation, then a verified private installation. Use
-  `--driver private --driver-prefix PATH` or `--driver system` when deliberately
-  selecting another valid installation. Missing drivers need the separate
-  driver installer.
-- **Another account's Proton changed:** Steam stores a game's Proton mapping
-  across accounts. Only the selected account's launch options are edited, but
-  the Proton mapping affects every account playing that game.
-- **Setup passed but FSR4 is unclear:** setup prepares the files and Steam
-  settings. Proton obtains the provider at first launch when needed; successful
-  setup alone cannot prove in-game engagement. Use the current-launch checks
-  under [Verify a real game](#verify-a-real-game).
-
-## Manual setup requirements
-
-There are two separate requirements: v4 RADV must be the driver the game loads,
-and the game must actually request the supported FSR4 INT8 model. Driver
-installation and the game's launch configuration address the first. A
-game-compatible FSR4 provider/model hook handles
-the second. Native FSR4 availability alone is insufficient on GFX1013: a tested
-Proton-only upgrade without the model hook fell back to FSR 3.1.5.
-
-## Runtime compatibility
-
-**This guide uses the pinned FSR 4.1.1 INT8 runtime. It does not use the
-newer 4.1.1b mod, and the two setups should not be co-installed.** Do not
-copy 4.1.1b DLLs into a game configured by this guide, replace files inside
-the managed runtime, or combine their proxy DLLs and launch overrides.
-The tested provider SHA256 is
-`4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e`;
-version labels alone do not establish the same binary or shader family.
-
-To switch setups, close Steam and the game, undo the existing integration
-with its own rollback procedure, and restore any original game DLLs it
-replaced. For this helper, use [Undo manual game setup](#undo-manual-game-setup). Remove
-the outgoing integration's launch overrides before following the other
-guide. Preserve backups and unrelated mods; this helper does not uninstall
-an unknown 4.1.1b deployment for you.
-
-4.1.1b and mixed-runtime configurations have not been qualified here.
-The correctness and performance results in this repository apply only to
-the recorded provider and driver hashes. The project's `v4` release name
-is separate from the FSR provider's `4.1.1` version.
-
-## Known profiles
-
-The optional helper currently covers these explicit game routes. It does not
-automatically inject the whole Steam library or choose unsupported online /
-anti-cheat games. These are the known integration paths from the predecessor
-host deployment; the fresh v4 release's actual test scope is recorded in
-[qualification](qualification.md).
-
-Use the maintained `v4` checkout for current game tooling. The original rc1
-archive retains its bundled tool revision; later recovery and validation
-changes do not extend the original driver/game qualification. See
-[release identities](releases.md).
-
-| Profile | Game | In-game selection | Route |
-| --- | --- | --- | --- |
-| `deadzone` | Deadzone: Rogue | FSR, choose your quality level | Native FSR4 context with INT8 model hook; FFX and DLSS interception off |
-| `kcd2` | Kingdom Come: Deliverance II | FSR | Native FSR4 context with INT8 model hook; FFX interception off |
-| `control` | Control Ultimate Edition, DX12 | DLSS | OptiScaler replacement upscaler |
-
-The native profiles hash-check the shipped FSR SDK before changing files.
-A game update that changes it stops setup and needs requalification. Other
-games can use their own correctly configured OptiScaler integration; the
-underlying driver optimizations are shader-based, not restricted to these
-three game names. DLL presence is only a candidate for support, not proof.
-
-## Prepare the runtime
-
-Upgrading an existing v3 game? The [v3 upgrade checklist](upgrading-v3.md)
-distinguishes driver/library requirements from per-game runtime changes.
-Selecting a newer system driver does not update the game's Proton selection
-or provider DLLs.
-
-The qualified combination is
-[GE-Proton11-6](https://github.com/GloriousEggroll/proton-ge-custom/releases/tag/GE-Proton11-6),
-FSR 4.1.1, and
-[OptiScaler nightly 20260904](https://github.com/optiscaler/OptiScaler-nightly/releases/tag/nightly-20260904).
-Install the appropriate GE-Proton archive into Steam's `compatibilitytools.d`
-as documented by its author, restart Steam, and select
-`GE-Proton11-6-x86_64` in the game's Properties → Compatibility. Changing the
-system driver does not itself change the selected Proton version.
-
-The helper uses the named OptiPatcher **v0.41** release, not a mutable rolling
-asset. The original host used an older rolling artifact whose URL was later
-replaced; the new helper intentionally refuses such checksum changes.
-It downloads the pinned OptiScaler and OptiPatcher artifacts directly
-from their authors and checks SHA256. You need `bsdtar`/libarchive for the 7z
-archive. It does not run the archive's Windows setup scripts. Runtime files
-are kept under `~/.local/share/bc250-fsr4/game-runtime/` by default; driver
-archives do not redistribute these third-party binaries.
+For offline reinstallation, retain the cache from a connected install:
 
 ```sh
-python3 scripts/game-setup.py fetch
+./install-runtime.sh install --cache /path/to/runtime-cache
+./install-runtime.sh install --cache /path/to/runtime-cache --offline
 ```
 
-Close Steam and games, then pass the **game installation directory**, not the
-Wine prefix and not the nested executable directory:
+The second command uses that cache and fails if a required component is missing.
+An optional privately built complete bundle can also be installed with its
+SHA256:
 
 ```sh
-python3 scripts/game-setup.py install --profile deadzone \
-  --game "/your/SteamLibrary/steamapps/common/Deadzone Rogue"
+./install-runtime.sh install --archive /path/to/RUNTIME.tar.gz --sha256 EXPECTED_SHA256
 ```
 
-It validates the known executable/SDK, installs links to the pinned runtime,
-merges the important settings into `OptiScaler.ini`, and records exact original
-files and symlinks. Existing unrelated proxy DLLs or real runtime directories
-are preserved and require manual reconciliation. The helper prints a Steam
-launch fragment; merge it with your existing options rather than discarding
-them. For the Deadzone native route, the essential runtime fragment is:
-
-```text
-PROTON_FSR4_UPGRADE=4.1.1 WINEDLLOVERRIDES=dxgi=n,b %command%
-```
-
-An existing installation managed by this helper can be updated only while its
-recorded links and retained runtime still pass verification. Unrelated runtime
-files remain outside that operation. Keep the printed transaction records:
-repeated changes to the same game must be rolled back newest first.
-
-Keep the private driver's printed `VK_DRIVER_FILES=...` assignment as well if
-using the private route. With the system package route, do not add a private
-ICD override. Preserve unrelated launcher variables, Wine overrides and game
-arguments. Do not add `PROTON_USE_OPTISCALER` on top of this game-local proxy;
-that introduces another deployment path which this profile does not manage.
-
-Launch the game and select the in-game upscaler listed above. Quality,
-Balanced, Performance and Native AA have different costs; the helper leaves
-your resolution and quality preferences alone. Frame generation stays off.
-
-## Important configuration details
-
-- `FSR.Fsr4ForceModel=2` selects INT8 for the pinned OptiScaler version.
-- The tested linear-input paths use `FsrNonLinearColorSpace=false`, while
-  **both** `FsrNonLinearSRGB` and `FsrNonLinearPQ` are `auto`. In this pinned
-  version, explicitly assigning either optional child, even `false`, can
-  activate the nonlinear flag and damage reconstruction. Do not bulk-copy
-  that old false/false configuration.
-- Production uses `Fsr4EnableWatermark=auto` and `LogToFile=false`. Add
-  `--watermark` only for a temporary visual check, then roll back that
-  transaction or reinstall the quiet configuration. The provider tests the
-  watermark environment variable's presence: setting it to `0` is not a
-  reliable way to turn the watermark off.
-- The Deadzone/KCD2 native route intentionally bypasses OptiScaler's own
-  replacement context. Its generic “select DLSS or XeSS” or “no FSR hooks”
-  panel can therefore be empty while the game's native FSR4 works. Do not
-  enable FFX interception just to populate that panel.
+The public setup bundle contains the installer, patch, manifest and notices;
+upstream runtime binaries are downloaded separately. Neither bundle supplies
+a driver installation or game payloads. Use `./install-runtime.sh --help` for
+the current command options.
 
 ## Verify a real game
 
-For a native profile, check all of the following in the current launch:
+The new native FSR and translated DLSS launch paths need their own gameplay
+qualification. For the current launch, establish:
 
-1. A game-owned log records successful FSR Upscaling provider **4.1.1**
-   initialization, with FSR selected in the game.
-2. The game process maps the release's exact `libvulkan_radeon.so`, the
-   qualified `amdxcffx64.dll` provider and the intended OptiScaler model hook.
-3. INT8 model 2 is selected and frame generation is disabled.
-4. A current rendered frame looks correct; an optional temporary watermark
-   identifies FSR 4.1.1 INT8 and its render/output dimensions.
+- The process maps the intended v4 driver and pinned FSR 4.1.1 provider.
+- The runtime selects INT8 model 2, with frame generation off.
+- A current frame renders correctly, and route-appropriate initialization
+  evidence or a temporary watermark confirms FSR4 engagement.
 
-The helper below checks the namespace-resolved file identity, mapped inode and
-SHA256, the model configuration and supplied native initialization evidence.
-It adds no tracing. Btrfs can report different devices in `maps` and `stat`;
-the helper verifies the actual file through the game process's mount namespace
-instead of rejecting that normal difference.
-For the installed private release, use its `current/release.json`; for a system
-install use `release.json` extracted from the exact installed archive.
+Use current logs and screenshots; stale log lines, a generic OptiScaler panel
+or a successful desktop `vulkaninfo` are insufficient. Do not enable game GPU
+tracing to collect this evidence. Include the runtime version, driver hash,
+game/API and upscaler selection in a report; omit game files and personal data.
 
-```sh
-python3 scripts/prove-game.py --pid GAME_PID \
-  --release-manifest /path/to/release.json \
-  --engine-log /path/to/current/game.log \
-  --config /path/to/game/OptiScaler.ini
-```
+Earlier observations remain in [driver qualification](qualification.md) and
+[performance](performance.md). Deadzone supplied the original release's
+native-FSR gameplay proof. KCD2 and Control supplied earlier native-FSR and
+DLSS integration observations, respectively. Those titles are evidence,
+not an installation allowlist, and their previous results do not qualify the
+new compatibility tool.
 
-For Deadzone, the engine log is ordinarily under its Proton prefix at
-`drive_c/users/steamuser/AppData/Local/Valhalla/Saved/Logs/`. Its Linux process
-is ordinarily named `GameThread`. Check that the PID and log belong to the
-current launch. The maintained helper records the process start and log
-modification time, rejects a log older than the process, and checks that the
-PID did not change during capture. A recently appended log can still contain
-old initialization lines: select this launch's log and check its timestamps.
-Save the JSON output and a current screenshot. This native-log
-helper is not an engagement detector for the different Control/DLSS route.
+## Recover the retired game wizard
 
-A clean desktop `vulkaninfo`, a library file existing on disk, or a generic
-OptiScaler banner alone is not sufficient game proof. A new provider version,
-different shader family, sandbox-hidden library or stale v3 override needs
-separate investigation.
-
-## Undo manual game setup
-
-With Steam and games closed, use the exact record printed during install:
+Keep the original transaction directory and retained payloads. Close Steam
+and games, then undo completed transactions newest first:
 
 ```sh
-python3 scripts/game-setup.py rollback /path/to/transactions/RECORD.json
+./setup-game.sh rollback /path/to/transactions/RECORD.json
 ```
 
-Rollback restores original file bytes and symlink targets. It refuses to
-clobber files edited after setup; inspect those differences before restoring
-manually. Undo any launch-option/Proton changes you made in Steam separately.
-Game saves, graphics preferences and Steam account files are not written by
-this helper.
-
-If setup or rollback was interrupted, the maintained helper refuses another
-install or rollback while recovery is pending. Close Steam and games and use
-the original transaction record:
+If setup or rollback was interrupted:
 
 ```sh
-python3 scripts/game-setup.py recover /path/to/transactions/RECORD.json
+./setup-game.sh recover /path/to/transactions/RECORD.json
 ```
 
-Recovery restores the pretransaction files only when every current file still
-matches a recorded before or after state. Independent edits are preserved and
-need manual reconciliation. Rollback and recovery derive the state directory
-from the record; an explicitly supplied `--state` must match it. These commands
-recover file changes managed by the helper, not manual Steam launch-option or
-Proton selections.
+These commands forward to `legacy/game-setup/recover.py`. They restore the
+game files and, when present in the record, the Steam settings owned by that
+transaction. Changes made afterward are preserved and require reconciliation.
+Manually changed launch options or Proton selections must be restored manually.
+
+New per-game installs, scans and profile updates are retired. Recover the old
+integration before selecting BC250 FSR4; never run both integration methods on
+the same game. Shared GE-Proton installations remain available for other games.

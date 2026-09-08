@@ -106,6 +106,36 @@ class SourceReleaseTests(unittest.TestCase):
                 self.root / "v4", Path(self.temporary.name) / "nested", "HEAD"
             )
 
+    def test_setup_export_has_installation_closure_and_commit_evidence_links(self):
+        for name in source_release.SETUP_FILES:
+            path = self.root / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("fixture\n")
+        (self.root / "runtime/manifest.json").write_text('{"release":{"version":"1.0.0-test"}}')
+        (self.root / "README.md").write_text(
+            "[Use](docs/games.md) [Evidence](docs/qualification.md#proof)\n"
+        )
+        self.git("add", ".")
+        self.git("commit", "-qm", "Setup fixture")
+        commit = self.git("rev-parse", "HEAD").decode().strip()
+        output = source_release.create_archive(
+            self.root, Path(self.temporary.name) / "setup", setup=True
+        )
+        self.assertEqual(output.name, "bc250-fsr4-setup-1.0.0-test.tar.gz")
+        with tarfile.open(output) as bundle:
+            names = {name.split("/", 1)[1] for name in bundle.getnames()}
+            self.assertEqual(names, source_release.SETUP_FILES | {"source-snapshot.json"})
+            readme = bundle.extractfile("bc250-fsr4-setup-1.0.0-test/README.md").read().decode()
+            self.assertIn("[Use](docs/games.md)", readme)
+            self.assertIn("/blob/" + commit + "/docs/qualification.md#proof", readme)
+            snapshot = json.load(
+                bundle.extractfile("bc250-fsr4-setup-1.0.0-test/source-snapshot.json")
+            )
+            self.assertEqual(
+                snapshot["files"]["README.md"]["sha256"],
+                hashlib.sha256(readme.encode()).hexdigest(),
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

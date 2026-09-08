@@ -1,4 +1,4 @@
-# Archived upstream v2/v3 material
+# Legacy material and recovery
 
 This directory preserves the earlier BC250 FSR4 project as historical
 reference. Active v4 installation, build and recovery instructions are in the
@@ -8,20 +8,21 @@ The original upstream history remains in Git; the imported v3 checkpoint is
 
 | Archived path | Contents |
 | --- | --- |
+| `game-setup/` | Recovery only for this fork's retired per-game wizard; use `../setup-game.sh rollback RECORD` or `recover RECORD` |
 | `v3/README.md`, `v3/V2.md`, `v3/V3.md`, `v3/release-notes-v3.md` | Original documentation, measurements and release instructions |
 | `v3/*.patch`, `v3/v2-patches/` | Earlier Mesa patches, including the former root-level v2 fragments |
 | `v3/*.sh`, `v3/Dockerfile.cts`, `v3/cts/`, `v3/bench/` | Earlier install/build/conformance/benchmark scripts |
 | `v3/tools/` | Historical relay tools and their instructions |
 | `v3/workflows/upstream-linux-73-workflow.yml.disabled` | Inactive experimental upstream kernel workflow |
 
-The archived files retain their original bytes. Some commands assume their
+The archived `v3/` files retain their original bytes. Some commands assume their
 original repository layout or external files, use old URLs, or describe
 hardware and dependencies from the earlier investigation. Their benchmarks,
 license status and qualification claims remain those of the original project.
 Relocating them here does not make them active v4 instructions.
 
 Reproduce historical behavior from a separate checkout of the original
-revision with its documented inputs. Do not run archived installers, repair
+revision with its documented inputs. Do not run the v3 installers, repair
 scripts or kernel workflows as part of a normal v4 build or upgrade. In
 particular, the disabled kernel workflow refers to an absent experimental
 kernel tree and is not a supported v4 build target.

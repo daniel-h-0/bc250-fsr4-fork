@@ -1,49 +1,49 @@
 # Provenance and licenses
 
-This fork preserves dmorazasanchez/bc250-fsr4 history. Its v3 baseline is
-`6173651fa3a5a557cba2c2ff802e2d6f49881bc1`. Credit for the original BC250
-FSR4 compatibility work belongs to that project and its contributors.
+This fork preserves [dmorazasanchez/bc250-fsr4](https://github.com/dmorazasanchez/bc250-fsr4)
+history at v3 baseline `6173651fa3a5a557cba2c2ff802e2d6f49881bc1`.
+Credit for the original BC250 FSR4 compatibility work belongs to that project
+and its contributors.
 
-The imported repository has no top-level license grant at that revision.
-This fork does not claim to relicense those inherited files. A repository-wide
-license grant for that original material remains a maintainer handoff item.
-New v4 Python/shell tooling explicitly marked SPDX MIT uses LICENSE.new-code.
-This limited grant does not label the whole repository MIT. Files without
-that marker are not automatically covered by it. Preserve the original
-notices and clarify the applicable grant before relicensing or incorporating
-inherited material into another distribution.
+The imported repository had no top-level license grant at that revision.
+This fork does not relicense inherited files. New Python/shell tools explicitly
+marked SPDX MIT use [LICENSE.new-code](LICENSE.new-code); that limited grant
+does not label the entire repository MIT.
 
-Mesa code retains its per-file licenses and copyright notices. Mesa's license
-summary is included in binary archives as `licenses/Mesa-license.rst`; current
-packaging also includes its full license-text directory as `licenses/Mesa/`.
-The original rc1 bundle contained the summary; this later addition does not
-replace that published archive. Full source is reproducible from the pinned
-archive and ordered patches. The patches
-modify existing Mesa files; inspect those files' original notices. Mesa is
-predominantly MIT, with additional permissive licenses listed in its summary.
-The bundled Wayland protocols source archive retains its internal COPYING.
+## Source inventory
 
-## Inventory and distribution boundaries
-
-| Material | Source and treatment |
+| Material | Provenance and notices |
 | --- | --- |
-| New SPDX-marked v4 tooling | [LICENSE.new-code](LICENSE.new-code); preserve its copyright and permission notice |
-| Inherited BC250 patches, scripts and documentation | Original Git history and `legacy/`; no repository-wide upstream license grant is asserted |
-| Mesa 26.2.2 | Archive URL/hash and modifications in `v4/manifest.json`; original per-file notices remain authoritative |
-| Wayland protocols 1.41 | Vendored archive in `v4/source-dependencies/`, hash pinned in the manifest; retain its internal `COPYING` |
-| Game profiles | `v4/games.json` records upstream artifact URLs, versions and hashes; it does not grant rights to those artifacts |
-| GE-Proton | `v4/proton.json` pins an upstream download for guided setup; Proton binaries are not redistributed in this repository or its driver archives |
+| New SPDX-marked tools | MIT under `LICENSE.new-code` |
+| Inherited BC250 material | Original Git history and `legacy/`; retain existing notices |
+| Mesa 26.2.2 and patches | Inputs in `v4/manifest.json`; retain original per-file licenses and copyright notices |
+| Wayland protocols 1.41 | Pinned archive under `v4/source-dependencies/`; retain its internal `COPYING` |
+| Runtime component identities | `runtime/manifest.json` records upstream URLs, hashes and versions; it grants no rights to the artifacts |
+| GE-Proton upscaler source fixture | `tests/fixtures/ge-proton11-6-upscalers.py`, from the pinned GE-Proton11-6 tree; upstream BSD-2-Clause, Copyright (c) 2018 Chris Simons |
+| Archived game profiles and recovery | Former profile metadata and transaction recovery under `legacy/game-setup/` |
 
-The source exporter preserves tracked provenance and notices. A newly packaged
-binary includes the pinned source recipe, Mesa license summary and license texts; review
-the licenses and notices of its actual source/dependencies when distributing
-a rebuilt binary. A source hash or an archive's inclusion here is an identity
-record, not a new license grant. The original rc1 release remains unchanged;
-later packaging maintenance cannot retroactively alter its contents.
+The upstream fixture derives from umu-protonfixes commit
+`d13333be729b3018f9f9bc6790944901319b425b` with GE's downloader changes.
+Its [upstream license](https://github.com/Open-Wine-Components/umu-protonfixes/blob/d13333be729b3018f9f9bc6790944901319b425b/LICENSE)
+and accompanying fixture notices apply. Changes to that upstream source retain
+its attribution and license.
 
-## Separately obtained runtimes
+New driver archives include Mesa's license summary and full license-text
+directory under `licenses/`. The original rc1 archive contained the summary;
+later packaging does not replace its published contents. Source exports retain
+tracked provenance and notices.
 
-AMD FSR provider DLLs, game files, OptiScaler, OptiPatcher, Luma and Proton are
-not included in the driver release. Obtain them from their respective authors;
-their own licenses and game distribution terms apply. No game shader dumps,
-saves, keys, account configuration or proprietary game payloads are bundled.
+## Runtime distribution
+
+The public `bc250-fsr4-setup-VERSION.tar.gz` bundle contains installer code,
+the integration patch, component manifest and essential documentation/notices.
+It does not redistribute GE-Proton, OptiScaler, OptiPatcher or AMD provider
+binaries. Installation obtains the pinned components separately and retains
+the licenses supplied with the upstream archives.
+
+An optional complete offline bundle is assembled locally for private use.
+Keep its component provenance and notices with it; the public source bundle
+does not grant new redistribution rights to those components.
+
+Game files, proprietary shader dumps, saves, keys and Steam account
+configuration are excluded from distributions.
