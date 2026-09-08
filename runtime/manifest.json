@@ -62,7 +62,8 @@
     "superseded_private_sha256": [
       "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5"
     ],
-    "archive_url": "https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc4/bc250-fsr4-v4.0.0-rc1-linux-glibc236-x86_64.tar.gz"
+    "archive_url": "https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc4/bc250-fsr4-v4.0.0-rc1-linux-glibc236-x86_64.tar.gz",
+    "archive_sha256": "00fadb904d9f47fd4488b56756e8bc224d6f04603ff11b90416d574f720a0fc4"
   },
   "preset": {
     "Upscalers.Dx12Upscaler": "ffx",

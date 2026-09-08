@@ -51,7 +51,10 @@
       "GLIBC_2.32",
       "GLIBC_2.33",
       "GLIBC_2.34"
-    ]
+    ],
+    "archive": "bc250-fsr4-v4.0.0-rc1-linux-glibc236-x86_64.tar.gz",
+    "archive_sha256": "00fadb904d9f47fd4488b56756e8bc224d6f04603ff11b90416d574f720a0fc4",
+    "archive_source_commit": "be770df"
   },
   "checks": {
     "isolated_userspaces": {
