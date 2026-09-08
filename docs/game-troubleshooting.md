@@ -2,6 +2,8 @@
 
 Start with [the Steam game guide](games.md). Installation can verify files and
 driver loading; it cannot establish that a game's current frame uses FSR4.
+For an existing rc1 installation, use the [transition guide](upgrading-rc1.md)
+to distinguish driver reuse from removal of old game-local hooks.
 
 ## Installation and launch
 
@@ -78,6 +80,10 @@ not an installation allowlist, and their previous results do not qualify the
 new compatibility tool.
 
 ## Recover the retired game wizard
+
+The [rc1 transition guide](upgrading-rc1.md#2-retire-the-old-integration-for-each-game-you-are-moving)
+explains default record locations, transaction states, manual launch-option
+cleanup and what to retain for a return to the old setup.
 
 Keep the original transaction directory and retained payloads. Close Steam
 and games, then undo completed transactions newest first:

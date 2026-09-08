@@ -13,6 +13,9 @@ The earlier performance results used the previous integration.
 
 ## Start a Steam game
 
+**Already using rc1?** Follow the [rc1 transition guide](docs/upgrading-rc1.md)
+first. It preserves the existing driver and covers retiring the old game hooks.
+
 Download `bc250-fsr4-setup-4.0.0-rc2.tar.gz` and its checksum from the
 [releases page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases), verify
 the checksum and extract it. No Git checkout or Wine compilation is needed.
@@ -170,3 +173,27 @@ For project work, see [contributing](CONTRIBUTING.md),
 [development](docs/development.md), [releases](docs/releases.md) and
 [provenance and licenses](THIRD_PARTY.md). Historical upstream experiments
 remain under [legacy](legacy/README.md).
+
+## Special thanks
+
+This project builds on substantial work by these projects and their contributors:
+
+- [dmoraza's BC250 FSR4](https://github.com/dmorazasanchez/bc250-fsr4), for the
+  original BC250 compatibility work and the history this fork continues.
+- [Mesa](https://gitlab.freedesktop.org/mesa/mesa), for RADV and the ACO compiler
+  that our driver changes build on.
+- [GE-Proton](https://github.com/GloriousEggroll/proton-ge-custom), for the
+  compatibility runtime and upscaler integration underneath our Steam tool;
+  and [Valve's Proton](https://github.com/ValveSoftware/Proton), with its Wine,
+  DXVK and vkd3d-proton foundations.
+- [OptiScaler](https://github.com/optiscaler/OptiScaler) and
+  [OptiPatcher](https://github.com/optiscaler/OptiPatcher), for upscaler
+  interception, replacement and exposing supported games' DLSS inputs.
+- [umu-protonfixes](https://github.com/Open-Wine-Components/umu-protonfixes)
+  and [proton-upscalers](https://github.com/loathingKernel/proton-upscalers),
+  for the upstream prefix/upscaler tooling and component distribution we reuse.
+- [AMD FidelityFX SDK](https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK),
+  for the FSR implementation and API bridge.
+
+Their authors retain credit for their work; [provenance and licenses](THIRD_PARTY.md)
+record the component identities and applicable notices.

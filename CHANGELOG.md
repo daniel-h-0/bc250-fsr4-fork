@@ -1,5 +1,15 @@
 # Changelog
 
+## Documentation follow-up — rc1 transition
+
+- Document rc1 driver reuse, legacy hook recovery, custom paths, launch-option
+  cleanup and the limits of undoing the transition to the unified runtime.
+- Distinguish the unified command from the older system-package helper and
+  include the transition guide in future setup exports.
+- Acknowledge the principal upstream projects in the README's special thanks.
+
+Driver/runtime pins, the rc2 release tag and published assets are unchanged.
+
 ## v4.0.0-rc2 — unified distribution
 
 - Add one `bc250-fsr4 install/update/status/rollback` interface for the driver

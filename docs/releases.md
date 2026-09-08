@@ -23,6 +23,9 @@ The distribution release tag is `v4.0.0-rc2`. Its small
 runtime manifest, integration patch and essential documentation/notices,
 with an adjacent SHA256 checksum. Users extract it and follow the
 [quickstart](../README.md#start-a-steam-game); Git is optional.
+Existing rc1 users should first read the [transition guide](upgrading-rc1.md).
+The original rc1 archive installs the driver component; it cannot update itself
+into the unified tools. Obtain the rc2 setup archive in a separate directory.
 
 Normal `./bc250-fsr4 install` downloads the pinned GE-Proton,
 OptiScaler, OptiPatcher, AMD SDK bridge and FSR provider components, verifies them and assembles

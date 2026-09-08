@@ -2,6 +2,8 @@
 
 A working v3 setup already has most libraries required by the v4 driver.
 The migration does not require a new kernel, firmware flash or LLVM upgrade.
+If you already completed the move to rc1, follow the
+[rc1 transition guide](upgrading-rc1.md) instead; do not repeat the v3 migration.
 
 ## Upgrade sequence
 
@@ -9,10 +11,10 @@ The migration does not require a new kernel, firmware flash or LLVM upgrade.
    If Arch/CachyOS packages need updating, use a coherent full-system update
    and preserve the normal recovery path. Do not cherry-pick core libraries
    or invent compatibility symlinks.
-2. Undo the game's previous OptiScaler integration using its own recovery
-   procedure. For this project's retired wizard, use
+2. Close Steam and games, then undo the game's previous OptiScaler integration
+   using its own recovery procedure. For this project's retired wizard, use
    [legacy recovery](game-troubleshooting.md#recover-the-retired-game-wizard).
-3. Close Steam and games. From the current distribution, run
+3. From the current distribution, run
    `./bc250-fsr4 install --upgrade-v3`. For a custom v3 ICD, use
    `--upgrade-v3-icd PATH` instead. The installer preserves migrated ICD bytes
    and reuses a compatible verified driver when available.

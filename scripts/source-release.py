@@ -37,6 +37,7 @@ SETUP_FILES = {
     "docs/games.md",
     "docs/game-troubleshooting.md",
     "docs/upgrading-v3.md",
+    "docs/upgrading-rc1.md",
 }
 
 

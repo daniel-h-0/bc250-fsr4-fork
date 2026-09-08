@@ -9,6 +9,10 @@ establish compatibility with every game.
 
 ## Install once
 
+For an existing rc1 driver or per-game setup, follow
+[the rc1 transition guide](upgrading-rc1.md) before proceeding. Retain a
+compatible driver and retire the outgoing game-local hooks first.
+
 Use `bc250-fsr4-setup-4.0.0-rc2.tar.gz` and its checksum from the
 [releases page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases), or the
 [maintained source checkout](../README.md#obtain-the-source). The original
@@ -21,6 +25,7 @@ then close Steam and games and run as your desktop user:
 
 For a standard v3 installation, use `./bc250-fsr4 install --upgrade-v3`.
 See the [v3 upgrade notes](upgrading-v3.md) for custom paths.
+If v3 was already migrated to rc1, use the ordinary install command instead.
 
 The installer reuses a compatible verified system or private driver. If one
 is needed, it installs a private driver after checking its dependencies and
@@ -69,12 +74,6 @@ options it changed. Preserve unrelated mods and backups.
 
 ## Undo game setup
 
-If you used this project's retired per-game wizard, close Steam and games and
-undo its transactions before selecting the new tool:
-
-```sh
-./setup-game.sh rollback /path/to/transactions/RECORD.json
-```
-
-For an interrupted transaction, use `recover` instead of `rollback`. The old
-entry point supports recovery only. See [legacy recovery and troubleshooting](game-troubleshooting.md).
+For the retired wizard, use [legacy recovery](game-troubleshooting.md#recover-the-retired-game-wizard).
+Unified rollback does not reinstall an outgoing game-local mod or restore
+manually edited launch options; see [undoing the rc1 transition](upgrading-rc1.md#undo-this-transition).

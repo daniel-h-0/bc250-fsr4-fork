@@ -1,5 +1,13 @@
 # System installation on Arch / CachyOS
 
+**Already running the rc1 system packages?** The rc2 shared runtime reuses
+that compatible driver; follow the [rc1 transition guide](upgrading-rc1.md).
+There is no system-package replacement needed for that transition.
+
+This page describes advanced driver-only operations. Here, `bc250-fsr4`
+means the installed system-package helper; **`./bc250-fsr4` in a current
+setup directory** is the separate unified driver/runtime interface.
+
 This route packages the v4 library as `vulkan-radeon`, preserving the exact
 base package's dependencies and other files. A second package,
 `bc250-fsr4-v4`, installs `bc250-fsr4 status`, a post-update identity check and
@@ -65,6 +73,9 @@ its exact driver/helper archives and remove that old helper during a deliberate
 migration. This does not apply to ordinary upstream v3 private installations.
 
 ## Updates and rollback
+
+The package replacement procedure below applies when changing the driver ELF,
+not when adding or updating the shared Steam runtime with an unchanged driver.
 
 `bc250-fsr4 status` checks the installed driver's SHA256, rather than assuming
 that a package name proves v4 is active. The pacman hook reports when a later
