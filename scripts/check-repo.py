@@ -120,6 +120,7 @@ def check_inputs(root):
         runtime["optipatcher"],
         runtime["provider"],
         runtime["sdk"],
+        runtime["ngx_signature"],
     ):
         require(bool(SHA256.fullmatch(component["sha256"])), "Invalid runtime artifact SHA256")
         require(component["url"].startswith("https://"), "Runtime downloads require HTTPS")

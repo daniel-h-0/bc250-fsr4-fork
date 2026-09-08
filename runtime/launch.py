@@ -67,6 +67,14 @@ def environment(version, driver, inherited, *, game=True):
         # queries. These calls have no Steam game identity and need ordinary GE.
         return env
     preset = lock["preset"].copy()
+    # OptiScaler advertises NVX extensions to unlock a game's DLSS input.
+    # BC250 cannot use them in vkd3d's separate D3D12 device. Its creation
+    # otherwise fails when Vulkan extension spoofing is enabled independently
+    # of vendor spoofing. Preserve any additional caller exclusions.
+    disabled = env.get("VKD3D_DISABLE_EXTENSIONS", "")
+    env["VKD3D_DISABLE_EXTENSIONS"] = ";".join(
+        part for part in (disabled, "VK_NVX_binary_import", "VK_NVX_image_view_handle") if part
+    )
     if env.get("BC250_RUNTIME_DEBUG") == "1":
         preset.update({"Log.LogToFile": "true", "FSR.Fsr4EnableWatermark": "true"})
         env["PROTON_LOG"] = "1"
@@ -74,6 +82,7 @@ def environment(version, driver, inherited, *, game=True):
         {
             "PROTON_UPSCALER_MANIFEST": str(version / "ge/upscaler-manifest.json"),
             "PROTON_USE_OPTISCALER": lock["optiscaler"]["version"],
+            "PROTON_OPTISCALER_NAME": lock["loader"]["proxy"],
             "PROTON_FSR4_UPGRADE": lock["provider"]["version"],
             "PROTON_MLFG_UPGRADE": "0",
             # Xalia inherits the global proxy and can keep a closed game alive.

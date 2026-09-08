@@ -3,12 +3,12 @@
 Optimized Mesa 26.2.2 RADV for the AMD BC250, continuing
 [dmoraza's BC250 FSR4 project](https://github.com/dmorazasanchez/bc250-fsr4)
 with the original history preserved. Install once, then select
-**BC250 FSR4 (4.1.1 INT8)** in Steam for a compatible DX12 game.
+**BC250 FSR4 (4.1.1 INT8)** in Steam for a compatible DX11, DX12 or Vulkan game.
 
 The [v4.0.0-rc1 driver](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc1)
 has recorded [qualification](docs/qualification.md) and
-[performance results](docs/performance.md). The **4.0.0-rc2 unified distribution** passed separate
-[FSR-input and DLSS-input gameplay checks](docs/runtime-qualification.md).
+[performance results](docs/performance.md). The **4.0.0-rc3 unified distribution** passed separate
+[DX11, DX12 and Vulkan runtime qualification](docs/runtime-qualification.md).
 The earlier performance results used the previous integration.
 
 ![Estimated FSR4 GPU cost, v3 to v4: 1080p approximately 4.5 to 3.4 ms; 1440p 8.0 to 5.7 ms; 4K 18.0 to 12.9 ms. Historical 1440p v3 timing is measured; other costs are reconstructed.](docs/assets/fsr4-v3-v4-cost.svg)
@@ -19,10 +19,12 @@ explain the estimates; [exact game results](docs/performance.md) are separate.
 
 ## Start a Steam game
 
+**Already using rc2?** Follow the [runtime update guide](docs/upgrading-rc2.md).
+
 **Already using rc1?** Follow the [rc1 transition guide](docs/upgrading-rc1.md)
 first. It preserves the existing driver and covers retiring the old game hooks.
 
-Download `bc250-fsr4-setup-4.0.0-rc2.tar.gz` and its checksum from the
+Download `bc250-fsr4-setup-4.0.0-rc3.tar.gz` and its checksum from the
 [releases page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases), verify
 the checksum and extract it. No Git checkout or Wine compilation is needed.
 Close Steam and games. From the extracted folder, run as your desktop user:
@@ -44,7 +46,8 @@ through the same interface:
 
 Restart Steam. In the game's **Properties → Compatibility**, enable the
 specific compatibility tool option and choose **BC250 FSR4 (4.1.1 INT8)**.
-Launch its DX12 version and select the upscaler in the game's graphics menu.
+Launch the game and select its FSR or DLSS input in the graphics menu.
+Keep its established renderer; DX11 and Vulkan use a D3D12 interop path.
 Repeat that Steam selection for each compatible game you want to opt in.
 
 **Do not combine this with the newer 4.1.1b mod or another OptiScaler

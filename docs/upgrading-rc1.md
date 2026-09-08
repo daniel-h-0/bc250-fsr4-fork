@@ -1,20 +1,20 @@
 # Move from rc1 to the shared Steam runtime
 
-rc2 uses the **same qualified rc1 driver**. Keep a working rc1 private or
+rc3 uses the **same qualified rc1 driver**. Keep a working rc1 private or
 system-package installation; the unified installer can reuse it. The change
 is how games receive the upscaler integration. You do not need to roll back
 the driver, rebuild Mesa, or repeat a completed v3 migration.
 
 ## 1. Keep your recovery records and obtain the current tools
 
-Download the rc2 setup archive and its checksum from the
-[release page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc2).
+Download the rc3 setup archive and its checksum from the
+[release page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc3).
 In the download directory:
 
 ```sh
-sha256sum -c bc250-fsr4-setup-4.0.0-rc2.tar.gz.sha256
-tar -xzf bc250-fsr4-setup-4.0.0-rc2.tar.gz
-cd bc250-fsr4-setup-4.0.0-rc2
+sha256sum -c bc250-fsr4-setup-4.0.0-rc3.tar.gz.sha256
+tar -xzf bc250-fsr4-setup-4.0.0-rc3.tar.gz
+cd bc250-fsr4-setup-4.0.0-rc3
 ```
 
 Extract into a fresh directory. Keep your previous installer, game-runtime
@@ -114,7 +114,7 @@ integration's entries: for example its `VK_DRIVER_FILES=...`,
 part rather than discarding unrelated launcher behavior.
 
 With no other options needed, leave Launch Options empty. The new tool owns
-the provider, model and driver selection. Launch the DX12 game and select
+the provider, model and driver selection. Keep the established game renderer and select
 its FSR or DLSS input; use the [game verification guide](game-troubleshooting.md#verify-a-real-game)
 if engagement is unclear. Do not combine it with the newer 4.1.1b mod.
 

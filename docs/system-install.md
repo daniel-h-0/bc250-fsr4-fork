@@ -1,6 +1,6 @@
 # System installation on Arch / CachyOS
 
-**Already running the rc1 system packages?** The rc2 shared runtime reuses
+**Already running the rc1 system packages?** The rc3 shared runtime reuses
 that compatible driver; follow the [rc1 transition guide](upgrading-rc1.md).
 There is no system-package replacement needed for that transition.
 

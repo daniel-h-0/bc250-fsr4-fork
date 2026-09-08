@@ -8,7 +8,7 @@ old gameplay evidence.
 | Artifact | Identity and purpose |
 | --- | --- |
 | Driver `v4.0.0-rc1` | The published Mesa 26.2.2 ELF and its [qualification](qualification.md); source tag `362c4c4a74456002e4697ca0e1d1bb3aaff1539d` |
-| Distribution `4.0.0-rc2` | The component/preset lock in `runtime/manifest.json`; [FSR and DLSS input checks](runtime-qualification.md) passed |
+| Distribution `4.0.0-rc3` | The component/preset lock in `runtime/manifest.json`; [DX11, DX12 and Vulkan qualification](runtime-qualification.md) |
 | Source snapshot | An exact Git commit with file hashes and modes, for development or auditing |
 
 The later [performance campaign](performance.md) used the unchanged rc1 driver
@@ -18,17 +18,17 @@ it is distinct from both project versions and the newer 4.1.1b mod.
 
 ## End-user setup bundle
 
-The distribution release tag is `v4.0.0-rc2`. Its small
-`bc250-fsr4-setup-4.0.0-rc2.tar.gz` bundle contains the installer tools,
+The distribution release tag is `v4.0.0-rc3`. Its small
+`bc250-fsr4-setup-4.0.0-rc3.tar.gz` bundle contains the installer tools,
 runtime manifest, integration patch and essential documentation/notices,
 with an adjacent SHA256 checksum. Users extract it and follow the
 [quickstart](../README.md#start-a-steam-game); Git is optional.
 Existing rc1 users should first read the [transition guide](upgrading-rc1.md).
 The original rc1 archive installs the driver component; it cannot update itself
-into the unified tools. Obtain the rc2 setup archive in a separate directory.
+into the unified tools. Obtain the rc3 setup archive in a separate directory.
 
 Normal `./bc250-fsr4 install` downloads the pinned GE-Proton,
-OptiScaler, OptiPatcher, AMD SDK bridge and FSR provider components, verifies them and assembles
+OptiScaler, OptiPatcher, AMD SDK bridge, signed NVIDIA DLSS helper and FSR provider components, verifies them and assembles
 the tool locally. It uses the original GE loader and prefix manager with the
 recorded narrow patch. No Wine compilation is required.
 
@@ -88,7 +88,7 @@ original attached source archive.
 ## Publishing changes
 
 Give component, patch or preset changes a new distribution version.
-Validate installation and both gameplay routes, publish a matching setup
+Validate installation and the affected renderer/input routes, publish a matching setup
 bundle/checksum and record the scope in the changelog. Reuse an unchanged
 qualified driver by its exact hash.
 

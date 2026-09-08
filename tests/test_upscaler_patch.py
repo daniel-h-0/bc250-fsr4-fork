@@ -209,6 +209,48 @@ class UpscalerPatchTests(unittest.TestCase):
         self.assertEqual(self.env["WINE_OPTISCALER_NAME"], "dxgi.dll")
         self.assertFalse((self.prefix / OPTI_PATH / "OptiScaler.ini.old").exists())
 
+    def test_same_upstream_version_proxy_upgrade_and_rollback(self):
+        self.setup_runtime()
+        original = dict(self.files)
+        unrelated = self.prefix / OPTI_PATH / "unrelated.txt"
+        unrelated.write_text("preserve")
+        # RC3 changes the packaged proxy while retaining the exact OptiScaler
+        # version. GE must replace its tracked files, then undo that on rollback.
+        for source, target in (("dxgi.dll", "winmm.dll"), ("winmm.dll", "dxgi.dll")):
+            self.files[target] = self.files.pop(source)
+            helper = "nvngx_dlss.dll"
+            license_file = "Licenses/NVIDIA-DLSS.txt"
+            if target == "winmm.dll":
+                self.files[helper] = b"signed NGX helper fixture"
+                self.files[license_file] = b"NGX helper license fixture"
+            else:
+                del self.files[helper]
+                del self.files[license_file]
+            self.write_opti_archive()
+            item = self.manifest["optiscaler"][0]
+            item["zip_sha256_hash"] = sha256(self.opti_archive.read_bytes())
+            item["md5_hash"] = {
+                name: "" if name.endswith(".ini") else hashlib.md5(data).hexdigest()
+                for name, data in self.files.items()
+            }
+            item["sha256_hash"] = {
+                name: sha256(data) for name, data in self.files.items() if not name.endswith(".ini")
+            }
+            self.env["PROTON_OPTISCALER_NAME"] = target
+            self.setup_runtime()
+            self.assertFalse((self.prefix / OPTI_PATH / source).exists())
+            self.assertEqual((self.prefix / OPTI_PATH / target).read_bytes(), original["dxgi.dll"])
+            self.assertEqual(self.env["WINE_OPTISCALER_NAME"], target)
+            self.assertEqual(unrelated.read_text(), "preserve")
+            for name in (helper, license_file):
+                path = self.prefix / OPTI_PATH / name
+                if target == "winmm.dll":
+                    self.assertEqual(path.read_bytes(), self.files[name])
+                else:
+                    self.assertFalse(path.exists())
+            self.setup_runtime()
+            self.assertEqual(self.env["WINE_OPTISCALER_NAME"], target)
+
     def test_cached_archives_repair_deleted_prefix_without_network(self):
         self.setup_runtime()
         (self.prefix / PROVIDER_PATH).unlink()

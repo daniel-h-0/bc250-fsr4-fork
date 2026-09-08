@@ -39,7 +39,7 @@ tracked provenance and notices.
 
 The public `bc250-fsr4-setup-VERSION.tar.gz` bundle contains installer code,
 the integration patch, component manifest and essential documentation/notices.
-It does not redistribute GE-Proton, OptiScaler, OptiPatcher or AMD provider
+It does not redistribute GE-Proton, OptiScaler, OptiPatcher, NVIDIA DLSS or AMD provider
 binaries. Installation obtains the pinned components separately and retains
 the licenses supplied with the upstream archives.
 
@@ -55,3 +55,12 @@ The runtime uses AMD FidelityFX SDK 4.0.2 as the API bridge to the pinned
 `f4c1da8e92f3fe563b5c28c44e6267ce6b6b8eb2`; its URL and hash are in
 `runtime/manifest.json`. The [AMD MIT license](runtime/licenses/FidelityFX-SDK-4.0.2.txt)
 is retained in the setup bundle and installed alongside the runtime.
+
+The runtime also obtains an unmodified, NVIDIA-signed DLSS 310.7.0 library
+from NVIDIA's DLSS repository at commit
+`a291cc7d2cc642a51566f3dfd5376f635cd1b284`. OptiScaler uses it beside the
+prefix proxy to satisfy older NGX input file/signature checks; FSR 4.1.1 INT8
+remains the selected rendering backend. Its pinned URL and hash are in
+`runtime/manifest.json`. The [NVIDIA RTX SDKs license](runtime/licenses/NVIDIA-DLSS.txt)
+is retained with the assembled runtime; this project's MIT grant does not
+apply to that component.

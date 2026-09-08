@@ -31,6 +31,7 @@ SETUP_FILES = {
     "runtime/manifest.json",
     "runtime/launch.py",
     "runtime/licenses/FidelityFX-SDK-4.0.2.txt",
+    "runtime/licenses/NVIDIA-DLSS.txt",
     "runtime/patches/0001-pinned-upscaler-manifest.patch",
     "legacy/game-setup/recover.py",
     "legacy/game-setup/steam_config.py",
@@ -38,6 +39,7 @@ SETUP_FILES = {
     "docs/game-troubleshooting.md",
     "docs/upgrading-v3.md",
     "docs/upgrading-rc1.md",
+    "docs/upgrading-rc2.md",
 }
 
 

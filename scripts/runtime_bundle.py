@@ -85,7 +85,7 @@ def tar_tree(root, output, mode="gz"):
                 )
 
 
-def optiscaler_artifact(archive, patcher, sdk, staging, policy):
+def optiscaler_artifact(archive, patcher, sdk, ngx_signature, staging, policy):
     extracted = staging / "opti"
     extracted.mkdir()
     subprocess.run(
@@ -105,7 +105,14 @@ def optiscaler_artifact(archive, patcher, sdk, staging, policy):
     dll = extracted / "OptiScaler.dll"
     if digest(dll) != policy["optiscaler"]["dll_sha256"]:
         raise RuntimeError("OptiScaler DLL differs from its pin.")
-    dll.rename(extracted / "dxgi.dll")
+    # WINMM is imported by Vulkan games that never request DXGI. GE redirects
+    # this one proxy from its owned prefix; no game-directory files are needed.
+    dll.rename(extracted / policy["loader"]["proxy"])
+    # Older NGX inputs check for an NVIDIA-signed library before calling the
+    # intercepted API. OptiScaler searches beside its proxy for this surrogate.
+    # Keep a pinned shared copy here; never discover or copy a game's DLL.
+    shutil.copy2(ngx_signature, extracted / "nvngx_dlss.dll")
+    shutil.copy2(ROOT / "runtime/licenses/NVIDIA-DLSS.txt", extracted / "Licenses/NVIDIA-DLSS.txt")
     # A bundled 4.1.1 SDK hides the equally versioned driver provider. Use the
     # pinned older SDK bridge so the qualified 4.1.1 driver provider wins.
     shutil.copy2(sdk, extracted / "OptiScaler/amd_fidelityfx_upscaler_dx12.dll")
@@ -161,6 +168,9 @@ def assemble(destination, cache, policy=None, offline=False):
         policy["provider"]["url"], policy["provider"]["archive_sha256"], cache, offline
     )
     sdk = download(policy["sdk"]["url"], policy["sdk"]["sha256"], cache, offline)
+    ngx_signature = download(
+        policy["ngx_signature"]["url"], policy["ngx_signature"]["sha256"], cache, offline
+    )
     if (
         hashlib.sha256(lzma.decompress(provider.read_bytes())).hexdigest()
         != policy["provider"]["sha256"]
@@ -185,7 +195,9 @@ def assemble(destination, cache, policy=None, offline=False):
             cwd=version / "ge",
             check=True,
         )
-        opti_archive, opti_item = optiscaler_artifact(opti, patcher, sdk, staging, policy)
+        opti_archive, opti_item = optiscaler_artifact(
+            opti, patcher, sdk, ngx_signature, staging, policy
+        )
         artifacts = version / "ge/artifacts"
         artifacts.mkdir()
         shutil.copy2(opti_archive, artifacts / Path(opti_item["download_url"]).name)

@@ -1,19 +1,23 @@
 # Use BC250 FSR4 in Steam
 
 Install the v4 driver and compatibility tool once. Then choose **BC250 FSR4
-(4.1.1 INT8)** in Steam for each compatible DX12 game you want to use it with.
+(4.1.1 INT8)** in Steam for each compatible DX11, DX12 or Vulkan game you want to use it with.
 
 The shared runtime passed [FSR-input and DLSS-input gameplay checks](runtime-qualification.md).
+DX11 and Vulkan inputs use a D3D12 interop backend. Games without a native
+upscaler input still need a separately maintained input mod, such as Luma;
+the runtime preserves ReShade loading but does not install these mods.
 There is no game allowlist or automatic library scan; these checks do not
 establish compatibility with every game.
 
 ## Install once
 
+Existing rc2 users can [update the shared runtime](upgrading-rc2.md) directly.
 For an existing rc1 driver or per-game setup, follow
 [the rc1 transition guide](upgrading-rc1.md) before proceeding. Retain a
 compatible driver and retire the outgoing game-local hooks first.
 
-Use `bc250-fsr4-setup-4.0.0-rc2.tar.gz` and its checksum from the
+Use `bc250-fsr4-setup-4.0.0-rc3.tar.gz` and its checksum from the
 [releases page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases), or the
 [maintained source checkout](../README.md#obtain-the-source). The original
 driver rc1 archive predates this tool. Check the [prerequisites](../README.md#prerequisites),
@@ -38,7 +42,7 @@ account settings or copy proxies into game directories.
 1. Restart Steam and open the game's **Properties → Compatibility**.
 2. Enable **Force the use of a specific Steam Play compatibility tool** and
    select **BC250 FSR4 (4.1.1 INT8)**.
-3. Launch the game's DX12 version. Select **FSR** or **DLSS** as the input through OptiScaler, in the game's graphics menu.
+3. Keep the game's established renderer. Select **FSR** or **DLSS** as the input through OptiScaler, in the game's graphics menu.
 
 Your resolution and quality settings remain yours to choose. This runtime
 selects FSR 4.1.1 INT8 model 2 and disables frame generation. A compatibility

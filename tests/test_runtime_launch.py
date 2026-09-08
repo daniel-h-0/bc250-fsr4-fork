@@ -46,7 +46,12 @@ class LaunchTests(unittest.TestCase):
                 env["PROTON_OPTISCALER_CONFIG"],
             )
             self.assertEqual(env["PROTON_FSR4_UPGRADE"], "4.1.1")
+            self.assertEqual(env["PROTON_OPTISCALER_NAME"], "winmm.dll")
             self.assertIn("FSR.Fsr4ForceModel=2", env["PROTON_OPTISCALER_CONFIG"])
+            for api, backend in (("Dx11", "ffx_12"), ("Dx12", "ffx"), ("Vulkan", "ffx_12")):
+                self.assertIn(f"Upscalers.{api}Upscaler={backend}", env["PROTON_OPTISCALER_CONFIG"])
+            self.assertIn("Plugins.LoadReShade=true", env["PROTON_OPTISCALER_CONFIG"])
+            self.assertIn("Hotfix.CreateD3D12DeviceForLuma=false", env["PROTON_OPTISCALER_CONFIG"])
             self.assertEqual(
                 env["PROTON_UPSCALER_MANIFEST"], str(self.root / "ge/upscaler-manifest.json")
             )
@@ -60,17 +65,32 @@ class LaunchTests(unittest.TestCase):
                 "PROTON_USE_OPTISCALER": "0.9.4",
                 "VK_DRIVER_FILES": "/old/v3.json",
                 "PROTON_DLSS_UPGRADE": "latest",
+                "PROTON_OPTISCALER_NAME": "dxgi.dll",
+                "WINE_OPTISCALER_NAME": "dbghelp.dll",
             },
         )
         self.assertEqual(env["PROTON_FSR4_UPGRADE"], "4.1.1")
         self.assertEqual(env["PROTON_USE_OPTISCALER"], "10.0.0-pre1-20260904")
         self.assertNotIn("VK_DRIVER_FILES", env)
         self.assertNotIn("PROTON_DLSS_UPGRADE", env)
+        self.assertEqual(env["PROTON_OPTISCALER_NAME"], "winmm.dll")
+        self.assertNotIn("WINE_OPTISCALER_NAME", env)
 
     def test_changed_driver_fails_before_proton(self):
         self.library.write_bytes(b"distribution replacement")
         with self.assertRaisesRegex(RuntimeError, "driver changed"):
             launch.environment(self.root, self.driver, {})
+
+    def test_bridge_rejects_spoofed_nvx_and_preserves_caller_exclusions(self):
+        env = launch.environment(
+            self.root, self.driver, {"VKD3D_DISABLE_EXTENSIONS": "VK_EXT_example"}
+        )
+        self.assertEqual(
+            env["VKD3D_DISABLE_EXTENSIONS"].split(";"),
+            ["VK_EXT_example", "VK_NVX_binary_import", "VK_NVX_image_view_handle"],
+        )
+        utility = launch.environment(self.root, self.driver, {}, game=False)
+        self.assertNotIn("VKD3D_DISABLE_EXTENSIONS", utility)
 
     def test_steam_utility_does_not_receive_game_injection(self):
         env = launch.environment(
@@ -82,6 +102,7 @@ class LaunchTests(unittest.TestCase):
         self.assertEqual(env["STEAM_COMPAT_APP_ID"], "999999")
         self.assertNotIn("PROTON_USE_OPTISCALER", env)
         self.assertNotIn("PROTON_UPSCALER_MANIFEST", env)
+        self.assertNotIn("PROTON_OPTISCALER_NAME", env)
         self.assertEqual(env["PYTHONDONTWRITEBYTECODE"], "1")
 
     def test_different_runtime_driver_contract_refuses_launch(self):

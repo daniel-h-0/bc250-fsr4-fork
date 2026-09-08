@@ -14,7 +14,8 @@ to distinguish driver reuse from removal of old game-local hooks.
 | No verified driver is found | Run `./bc250-fsr4 install`. Use `--driver private --driver-prefix PATH` for a custom private installation, or `--driver system` for the verified system route. |
 | A download or archive check fails | Keep the previous installation. Retry with the pinned archive or report the error; do not bypass its checksum. |
 | The game has another upscaler mod | Undo that integration using its own records before selecting BC250 FSR4. Do not combine it with 4.1.1b. |
-| The game starts but FSR4 is unclear | Confirm DX12 and the in-game upscaler choice, then collect the evidence below. Switching compatibility tools is not proof of INT8 engagement. |
+| The game starts but FSR4 is unclear | Confirm the established renderer and in-game upscaler choice, then collect the evidence below. Switching compatibility tools is not proof of INT8 engagement. |
+| An existing ReShade/Luma setup captures menu input | Open and close its overlay (usually Home), then retry. Keep its configuration backed up; RC3 does not manage ReShade preferences. |
 
 For offline reinstallation, retain the cache from a connected install:
 

@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "release": {
-    "id": "bc250-fsr4-runtime-4.0.0-rc2",
-    "version": "4.0.0-rc2"
+    "id": "bc250-fsr4-runtime-4.0.0-rc3",
+    "version": "4.0.0-rc3"
   },
   "proton": {
     "schema": 1,
@@ -67,25 +67,42 @@
     "FSR.FsrNonLinearSRGB": "auto",
     "FSR.FsrNonLinearPQ": "auto",
     "Plugins.LoadAsiPlugins": "true",
-    "Spoofing.Dxgi": "false",
+    "Spoofing.Dxgi": "auto",
     "Hotfix.RestoreComputeSignature": "false",
     "Hotfix.RestoreGraphicSignature": "false",
     "Hotfix.ExtendedStateRestore": "false",
     "Menu.DisableSplash": "true",
     "Log.LogToFile": "false",
     "Libraries.OptiDllPath": "C:\\windows\\system32\\umu\\OptiScaler",
-    "Plugins.Path": "C:\\windows\\system32\\umu\\OptiScaler\\plugins"
+    "Plugins.Path": "C:\\windows\\system32\\umu\\OptiScaler\\plugins",
+    "Upscalers.Dx11Upscaler": "ffx_12",
+    "Upscalers.VulkanUpscaler": "ffx_12",
+    "Plugins.LoadReShade": "true",
+    "Spoofing.Vulkan": "auto",
+    "Spoofing.VulkanExtensionSpoofing": "true",
+    "Hotfix.CreateD3D12DeviceForLuma": "false"
   },
   "integration": {
-    "runtime/launch.py": "3fcef1f11f57762a28bc7d98b32ad56a8508d1f001b6f42afbcfc9eaf4679ded",
+    "runtime/launch.py": "3f738e095eb1cdf05ba97fb6978e107300dd9fcac3a2c907b8ce51a471442bdb",
     "runtime/patches/0001-pinned-upscaler-manifest.patch": "815241b3ca44c8c5236cfa7eb3c3d325ae21c12d712122578699e992c737ecec",
-    "scripts/runtime_bundle.py": "300299dcb11d51fa909dc3dd31507b00dcb66aa9b53d47220222019fcec9e0cc",
-    "runtime/licenses/FidelityFX-SDK-4.0.2.txt": "be05d8cd5489deff924dbe91e0c5b8c0ff034d43cd11749bf9a67a0c38252b7b"
+    "scripts/runtime_bundle.py": "70d4ca10c54a766e59ecb6576756ab724f4419bcd86b2cb08a5e36960b49155e",
+    "runtime/licenses/FidelityFX-SDK-4.0.2.txt": "be05d8cd5489deff924dbe91e0c5b8c0ff034d43cd11749bf9a67a0c38252b7b",
+    "runtime/licenses/NVIDIA-DLSS.txt": "21b5daec892b12bea692e66bc8fe45cf5902ccaf3a7b831e78050d8859881c37"
   },
   "sdk": {
     "version": "4.0.2",
     "url": "https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/f4c1da8e92f3fe563b5c28c44e6267ce6b6b8eb2/Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_dx12.dll",
     "sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
     "license_url": "https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/f4c1da8e92f3fe563b5c28c44e6267ce6b6b8eb2/docs/license.md"
+  },
+  "loader": {
+    "proxy": "winmm.dll"
+  },
+  "ngx_signature": {
+    "version": "310.7.0",
+    "url": "https://raw.githubusercontent.com/NVIDIA/DLSS/a291cc7d2cc642a51566f3dfd5376f635cd1b284/lib/Windows_x86_64/rel/nvngx_dlss.dll",
+    "size": 58977904,
+    "sha256": "be6e434a94ca32499515eb62ca0e6c274526055d568d0426e4c652dcdfb6ee6e",
+    "license_url": "https://raw.githubusercontent.com/NVIDIA/DLSS/a291cc7d2cc642a51566f3dfd5376f635cd1b284/LICENSE.txt"
   }
 }

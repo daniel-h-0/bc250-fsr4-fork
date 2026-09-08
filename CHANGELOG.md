@@ -1,5 +1,20 @@
 # Changelog
 
+## v4.0.0-rc3 — DX11, Vulkan and mod-chain compatibility
+
+- Route DX11 and Vulkan upscaler inputs to the FSR 4.1.1 INT8 D3D12 bridge,
+  alongside the existing DX12 route; retain the qualified rc1 driver unchanged.
+- Use a prefix-local WinMM proxy and enable existing ReShade/Luma chaining.
+  Defer early Luma device creation, which failed during Roboquest startup.
+- Supply a pinned signed NVIDIA NGX helper for signature validation and retain
+  its license. Rendering continues through AMD FSR, independent of that helper.
+- Advertise Vulkan DLSS input capabilities while excluding unsupported NVX
+  extensions from vkd3d's D3D12 bridge. Preserve upstream vendor detection.
+- Qualify six loaded-save scenes across DX11, DX12 and Vulkan, including Luma;
+  document the [evidence and limits](docs/runtime-qualification.md).
+- Verify RC2 → RC3 → RC2 → RC3 prefix reconciliation, tracked-file removal,
+  offline reuse and [the existing-user update route](docs/upgrading-rc2.md).
+
 ## Documentation follow-up — rc1 transition
 
 - Document rc1 driver reuse, legacy hook recovery, custom paths, launch-option
@@ -19,7 +34,7 @@ Driver/runtime pins, the rc2 release tag and published assets are unchanged.
   game allowlist, executable scan or Steam-account configuration writer.
 - Use pinned GE-Proton loader/prefix management with a narrow local-manifest
   patch, FSR 4.1.1 INT8 model 2, OptiScaler nightly 20260904 and OptiPatcher 0.41.
-  Both FSR and DLSS input routes passed [runtime gameplay checks](docs/runtime-qualification.md).
+  Both FSR and DLSS input routes passed [runtime gameplay checks](docs/runtime-qualification-rc2.md).
 - Distribute a small setup bundle. Assemble pinned upstream components locally,
   support cached offline installation and optional private complete bundles,
   and retain immutable runtime versions for rollback.

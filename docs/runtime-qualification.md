@@ -1,65 +1,97 @@
-# Unified distribution qualification — v4.0.0-rc2
+# Shared runtime qualification — v4.0.0-rc3
 
-The shared Steam runtime rendered loaded-save gameplay in **Deadzone Rogue**
-through an FSR input and **Control Ultimate Edition** through a DLSS input on
-September 7, 2026 (EDT). Both showed **FSR4-I8 4.1.1, SOURCE: DRIVER,
-commit 143E11E, COLORSPACE: LINEAR** in the actual rendered frame.
-Frame generation was disabled. Both games exited and released their Proton
-sessions normally.
+The initial six scene checks below passed. A later quiet Roboquest/Luma check
+was interrupted by an unexplained host freeze requiring a manual reboot. The
+journal contained no identifying GPU fault, panic or OOM record. This incident
+is retained in the evidence; it is not proof of a specific runtime or hardware
+cause. Post-reboot quiet gameplay and normal exits passed in Roboquest/Luma and DOOM
+without recurrence during those checks.
 
-These two titles exercise the input routes; they are not an installation
-allowlist. This is a bounded functionality check, not broad compatibility,
-endurance or new performance qualification. The [older performance results](performance.md)
-used the previous integration and remain unchanged.
+RC3 extends the shared Steam runtime to DX11 and Vulkan inputs while retaining
+DX12 support and the **unchanged v4.0.0-rc1 driver**. On September 8, 2026 (EDT),
+six loaded-save scenes showed **FSR4-I8 4.1.1, SOURCE: DRIVER, commit 143E11E,
+COLORSPACE: LINEAR** in the actual rendered frame. Frame generation was off.
+
+| Game | Renderer / input | Observed output | Observed mode |
+| --- | --- | --- | --- |
+| Control Ultimate Edition | DX12 / DLSS | 1920×1080 | Quality, 1.50× |
+| Deadzone Rogue | DX12 / FSR | 2560×1440 | Balanced, 1.70× |
+| System Shock | DX11 / DLSS | 2560×1440 | Watermark says Native-AA, 1.30× |
+| Roboquest with existing Luma | DX11 / Luma DLSS | 2560×1440 | Native-AA, 1.00× |
+| No Man's Sky | Vulkan / DLSS | 1920×1080 | Balanced, 1.69× |
+| DOOM: The Dark Ages | Vulkan / FSR | 2560×1440 | Balanced, 1.74× |
+
+System Shock actually rendered at 1969×1108 before reconstruction; its
+Native-AA watermark label does **not** establish a 1:1 input resolution.
+Roboquest used the existing separately installed Luma/ReShade chain. RC3 does
+not install Luma. All six checks loaded existing saves and exited normally.
+
+This is bounded functionality and exit evidence, not an installation allowlist,
+universal game compatibility, endurance qualification or a performance result.
+The [RC2 record](runtime-qualification-rc2.md) and
+[earlier driver performance campaign](performance.md) remain historical evidence.
 
 ## Exact components and evidence
 
-[Machine-readable evidence](data/runtime-v4.0.0-rc2.json) records the runtime
-lock, independently reproduced assembly inventory, observed process IDs,
-component and screenshot hashes. The [release evidence archive](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc2/bc250-fsr4-v4.0.0-rc2-runtime-proof.tar.gz)
-contains the unedited screenshots and focused log excerpts.
+The [machine-readable record](data/runtime-v4.0.0-rc3.json) identifies the frozen
+runtime lock, assembly inventory, each observed process, mapped component
+hashes, screenshots and focused log excerpts. The
+[release evidence archive](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc3/bc250-fsr4-v4.0.0-rc3-runtime-proof.tar.gz)
+contains the unedited screenshots and excerpts.
 
-The game processes mapped the exact v4.0.0-rc1 system driver, FSR 4.1.1 provider,
-OptiScaler nightly 20260904, OptiPatcher 0.41 and AMD SDK 4.0.2 bridge pinned in
-`runtime/manifest.json`. Each mapping was checked against the process's file
-namespace and inode before hashing. The provider watermark distinguishes
-actual driver-backed rendering from merely loading its DLL.
+Every scene mapped the pinned system driver, FSR 4.1.1 provider, OptiScaler
+nightly 20260904, OptiPatcher 0.41 and AMD SDK 4.0.2 bridge. Files were resolved
+inside the game process's namespace and checked against the mapped inode before
+hashing. The watermark establishes driver-backed rendering in addition to DLL
+loading. The signed NVIDIA DLSS 310.7.0 helper is checked separately: it enables
+NGX signature validation; the rendering implementation remains AMD FSR INT8.
 
-The test host used CachyOS, kernel 7.2.3-1.83, GFX1013 and native Steam with
-Steam Linux Runtime 4. Deadzone used 2560×1440/Balanced; Control used
-1920×1080/Quality. Existing game-local proxy deployments were temporarily
-removed and preserved so the shared runtime supplied the integration.
+The host used CachyOS, kernel 7.2.3-1.83, RADV GFX1013 and native Linux Steam
+with Steam Linux Runtime 4. The physical display was 2560×1440/120 throughout.
+Game output sizes in the table are independent of that physical mode.
+Existing owned game-local OptiScaler files were backed up and removed before
+testing; unrelated Luma/ReShade and game-shipped SDK files were retained.
+
+## Compatibility fixes
+
+- A prefix-local WinMM proxy leaves existing DXGI mod chains available.
+- DX11 and Vulkan inputs use OptiScaler's D3D12 FFX bridge. Existing ReShade
+  loading is enabled; early Luma D3D12 device creation is disabled because it
+  caused Roboquest to fail during startup.
+- A pinned, licensed NVIDIA helper satisfies games that validate NGX signatures.
+  System Shock passed through its established DX11 renderer.
+- Vulkan extension advertising enables No Man's Sky's DLSS selector. Vendor
+  spoofing stays on upstream automatic detection: forcing it globally crashed
+  DOOM at startup. Unsupported NVX extensions are excluded specifically from
+  vkd3d's D3D12 device using `VKD3D_DISABLE_EXTENSIONS`; otherwise the Vulkan
+  bridge failed with `VK_ERROR_EXTENSION_NOT_PRESENT`. Existing caller
+  exclusions are preserved.
+
+These settings apply to the selected runtime. The installer contains no AppID
+catalog, does not change game renderers, and does not edit Steam account fields.
+Upstream OptiScaler still has its own detection rules. Xalia remains disabled
+for the session-exit reason documented in the RC2 record.
 
 ## Installation and recovery
 
-- Real system-driver reuse: install, unchanged update, first-install rollback
-  and reinstall passed. The system driver hash stayed unchanged.
-- Isolated v3 upgrade: a source-verified Mesa 26.2.0 v3 library was migrated
-  through the unified command using the real rc1 driver archive and full
-  runtime. Private-driver reuse passed; rollback restored the original v3 ICD
-  bytes and removed the new Steam entry, retaining recovery payloads.
-- Two complete assemblies produced identical inventory bytes. Real GE prefix
-  installation and a second offline invocation passed, with no network calls
-  and unchanged DLL bytes/mtimes on reuse.
-- Automated checks cover driver/runtime failure recovery, interrupted commits,
-  first-install undo, independent-edit conflicts and game-session locking.
+Two complete assemblies produced identical inventory and lock bytes. Real GE
+prefix installation completed RC2 → RC3 → RC2 → RC3 offline, including cold
+installation and a warm invocation at every stage. DLL bytes and mtimes stayed
+unchanged on reuse; old proxies and RC3-only signature-helper/license files were
+removed when appropriate. Unrelated prefix content was retained, and the INI
+configuration matched the previous state after rollback and reinstall.
 
-After testing, 134 original files and six owned Steam fields passed restoration
-checks. Steam was restarted, with the system driver unchanged. The new tool
-remains available; the games retain their previous production selections.
+The unified update route reuses the verified system driver. Its update,
+rollback and reinstall checks and local automated results are recorded in the
+machine-readable evidence. The extracted setup and source are checked again
+during release packaging. Existing v3 migration
+and first-install recovery remain covered by the RC2 evidence and current tests.
+See the [RC2 update guide](upgrading-rc2.md) for the exact commands and distinction
+between runtime rollback and restoring a separately retired manual deployment.
 
-The setup retains upstream licensing and downloads binaries from their pinned
-origins. It does not scan the game library or edit Steam account configuration.
-
-## Issues resolved during qualification
-
-Steam utility calls now skip upscaler injection and all calls disable Python
-bytecode writes into the immutable runtime. Explicit prefix paths make the
-SDK and plugin available without game-local files. Xalia is disabled because
-its inherited proxy kept closed game sessions alive; its Windows UI
-accessibility is unavailable with this runtime.
-
-AMD's bundled 4.1.1 SDK initially selected its own local implementation.
-The older, unmodified AMD SDK 4.0.2 bridge lets the pinned 4.1.1 driver provider
-win. Both final gameplay checks confirmed `SOURCE: DRIVER`; earlier fallback
-runs are excluded from acceptance.
+Debug launch options were removed, and 1,022 original save/settings files were
+verified after restoration from the fresh qualification snapshot. Test-created
+files were quarantined.
+The host's separately managed migration
+adds the four newly qualified titles to its shared-runtime selection; that local
+library policy is not shipped in this distribution.

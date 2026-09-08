@@ -1,0 +1,544 @@
+{
+  "schema": 1,
+  "distribution": "4.0.0-rc3",
+  "runtime_lock_sha256": "8706846859994f0c3e484c52cafad402d3f5c57fc533e93c4d5a2f0444c955cc",
+  "assembly_inventory_sha256": "8a8d95b731f4f46cc4ce413ffa5e3b9669660d7a74b5903fca62d5e40e798c73",
+  "independent_assembly_matches": true,
+  "host": {
+    "os": "CachyOS",
+    "kernel": "7.2.3-1.83-cachyos-bc250",
+    "gpu": "AMD BC-250 / RADV GFX1013",
+    "steam": "native Linux Steam with Steam Linux Runtime 4",
+    "driver_mode": "verified unchanged system v4.0.0-rc1",
+    "physical_display": "2560x1440/120"
+  },
+  "games": [
+    {
+      "game": "Control Ultimate Edition",
+      "appid": "870780",
+      "api": "D3D12",
+      "input": "DLSS",
+      "quality": "Quality",
+      "output_resolution": "1920x1080",
+      "render_resolution": "1280x720",
+      "watermark_ratio": 1.5,
+      "pid": 268344,
+      "observed_utc": "2026-09-08T06:20:07.191714+00:00",
+      "scene": "existing save, Executive / Central Executive",
+      "watermark": {
+        "upscaler": "FSR4-I8",
+        "version": "4.1.1",
+        "source": "DRIVER",
+        "provider_commit": "143E11E",
+        "colorspace": "LINEAR"
+      },
+      "frame_generation": false,
+      "mapped_components": [
+        {
+          "component": "provider",
+          "sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+          "inode": 4866967
+        },
+        {
+          "component": "optipatcher",
+          "sha256": "fb12735bfcc0d47f534f2206d57ec34129dc3d22b6405a1c2ef86745ab48b2eb",
+          "inode": 5119037
+        },
+        {
+          "component": "sdk_bridge",
+          "sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+          "inode": 5119029
+        },
+        {
+          "component": "optiscaler",
+          "sha256": "469bcfe59108f04f8b8cf45953e515f0a0cd24b00717be62b7dcf5c20430410d",
+          "inode": 5119039
+        },
+        {
+          "component": "driver",
+          "sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+          "inode": 455551
+        }
+      ],
+      "signed_ngx_helper_sha256": "be6e434a94ca32499515eb62ca0e6c274526055d568d0426e4c652dcdfb6ee6e",
+      "screenshot": "870780.png",
+      "screenshot_sha256": "73551904a6e3140c18b616d834fb5aafc7903bce984922de46b095ccdaf790e1",
+      "full_log_sha256": "a8784131a6f3802037c55ffa63ff6e36a4686d055969d3abfde220d230365fa6",
+      "log_excerpt": "870780-OptiScaler-excerpt.txt",
+      "log_excerpt_sha256": "bbf3d0982066303f46c02c21691977c463fb0a87298e823e6e7cc4e4bb11d8fd",
+      "game_directory_optiscaler_injection": false,
+      "steam_launcher_exit": "[2026-09-08 02:20:26] AppID 870780 no longer tracking PID 268106, exit code 0",
+      "all_game_processes_released": true
+    },
+    {
+      "game": "Deadzone Rogue",
+      "appid": "3228590",
+      "api": "D3D12",
+      "input": "FSR",
+      "quality": "Balanced",
+      "output_resolution": "2560x1440",
+      "render_resolution": "1506x848",
+      "watermark_ratio": 1.7,
+      "pid": 271591,
+      "observed_utc": "2026-09-08T06:24:27.623528+00:00",
+      "scene": "existing save, Zone 1 / Uniform Chaos",
+      "watermark": {
+        "upscaler": "FSR4-I8",
+        "version": "4.1.1",
+        "source": "DRIVER",
+        "provider_commit": "143E11E",
+        "colorspace": "LINEAR"
+      },
+      "frame_generation": false,
+      "mapped_components": [
+        {
+          "component": "provider",
+          "sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+          "inode": 4866937
+        },
+        {
+          "component": "optipatcher",
+          "sha256": "fb12735bfcc0d47f534f2206d57ec34129dc3d22b6405a1c2ef86745ab48b2eb",
+          "inode": 5125245
+        },
+        {
+          "component": "sdk_bridge",
+          "sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+          "inode": 5125238
+        },
+        {
+          "component": "optiscaler",
+          "sha256": "469bcfe59108f04f8b8cf45953e515f0a0cd24b00717be62b7dcf5c20430410d",
+          "inode": 5125248
+        },
+        {
+          "component": "driver",
+          "sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+          "inode": 455551
+        }
+      ],
+      "signed_ngx_helper_sha256": "be6e434a94ca32499515eb62ca0e6c274526055d568d0426e4c652dcdfb6ee6e",
+      "screenshot": "3228590.png",
+      "screenshot_sha256": "0ecd59fcd34c831a3cec04e2ca38410c423689a070e4a290e7f162129d97d344",
+      "full_log_sha256": "50274376323c12a3fd19d0ef2247a5ae6ba7707633d6dc5eaad46f0e383fbda7",
+      "log_excerpt": "3228590-OptiScaler-excerpt.txt",
+      "log_excerpt_sha256": "dfb212f2a2cc7a835a49677d9cec511c793678e2428c5aaf5a545b7f5dd918aa",
+      "game_directory_optiscaler_injection": false,
+      "steam_launcher_exit": "[2026-09-08 02:24:45] AppID 3228590 no longer tracking PID 271392, exit code 0",
+      "all_game_processes_released": true
+    },
+    {
+      "game": "System Shock",
+      "appid": "482400",
+      "api": "D3D11",
+      "input": "DLSS",
+      "quality": "Native-AA watermark; scaled input",
+      "output_resolution": "2560x1440",
+      "render_resolution": "1969x1108",
+      "watermark_ratio": 1.3,
+      "pid": 267059,
+      "observed_utc": "2026-09-08T06:15:20.675156+00:00",
+      "scene": "Continued existing save in station room",
+      "watermark": {
+        "upscaler": "FSR4-I8",
+        "version": "4.1.1",
+        "source": "DRIVER",
+        "provider_commit": "143E11E",
+        "colorspace": "LINEAR"
+      },
+      "frame_generation": false,
+      "mapped_components": [
+        {
+          "component": "provider",
+          "sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+          "inode": 3838516
+        },
+        {
+          "component": "optipatcher",
+          "sha256": "fb12735bfcc0d47f534f2206d57ec34129dc3d22b6405a1c2ef86745ab48b2eb",
+          "inode": 5114990
+        },
+        {
+          "component": "sdk_bridge",
+          "sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+          "inode": 5114983
+        },
+        {
+          "component": "optiscaler",
+          "sha256": "469bcfe59108f04f8b8cf45953e515f0a0cd24b00717be62b7dcf5c20430410d",
+          "inode": 5114992
+        },
+        {
+          "component": "driver",
+          "sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+          "inode": 455551
+        }
+      ],
+      "signed_ngx_helper_sha256": "be6e434a94ca32499515eb62ca0e6c274526055d568d0426e4c652dcdfb6ee6e",
+      "screenshot": "482400.png",
+      "screenshot_sha256": "4fd4753bf5d44a0dc17b4e94a5088790d6c6743180a40513982f0fa9e94f5fd6",
+      "full_log_sha256": "4c93142a7fbe43523bfd70f764a7bc3bdff96b116eef41574cbc27560222c62c",
+      "log_excerpt": "482400-OptiScaler-excerpt.txt",
+      "log_excerpt_sha256": "b768a835a53e03833a315711055bf7ee6638e075ad831be8e07383a58d885587",
+      "game_directory_optiscaler_injection": false,
+      "steam_launcher_exit": "[2026-09-08 02:15:25] AppID 482400 no longer tracking PID 266755, exit code 0",
+      "all_game_processes_released": true
+    },
+    {
+      "game": "Roboquest with Luma",
+      "appid": "692890",
+      "api": "D3D11",
+      "input": "Luma DLSS",
+      "quality": "Native-AA",
+      "output_resolution": "2560x1440",
+      "render_resolution": "2560x1440",
+      "watermark_ratio": 1.0,
+      "pid": 265396,
+      "observed_utc": "2026-09-08T06:10:41.663946+00:00",
+      "scene": "Existing base camp",
+      "watermark": {
+        "upscaler": "FSR4-I8",
+        "version": "4.1.1",
+        "source": "DRIVER",
+        "provider_commit": "143E11E",
+        "colorspace": "LINEAR"
+      },
+      "frame_generation": false,
+      "mapped_components": [
+        {
+          "component": "provider",
+          "sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+          "inode": 2419943
+        },
+        {
+          "component": "optipatcher",
+          "sha256": "fb12735bfcc0d47f534f2206d57ec34129dc3d22b6405a1c2ef86745ab48b2eb",
+          "inode": 5022622
+        },
+        {
+          "component": "sdk_bridge",
+          "sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+          "inode": 5022614
+        },
+        {
+          "component": "optiscaler",
+          "sha256": "469bcfe59108f04f8b8cf45953e515f0a0cd24b00717be62b7dcf5c20430410d",
+          "inode": 5022625
+        },
+        {
+          "component": "driver",
+          "sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+          "inode": 455551
+        }
+      ],
+      "signed_ngx_helper_sha256": "be6e434a94ca32499515eb62ca0e6c274526055d568d0426e4c652dcdfb6ee6e",
+      "screenshot": "692890.png",
+      "screenshot_sha256": "f846e47be1db5eaf1dbb1214783d6972988b522647c0baae890dc9aedff4d560",
+      "full_log_sha256": "9dd5fc0fcf121a7d2f55243511b3e9a500a90ed3d84ebad38932d8d3111a8640",
+      "log_excerpt": "692890-OptiScaler-excerpt.txt",
+      "log_excerpt_sha256": "d093f95a3d5417c34fdaddca43b60c8d8ee95de04d82da8bdd50a9236d00dd77",
+      "game_directory_optiscaler_injection": false,
+      "steam_launcher_exit": "[2026-09-08 02:10:46] AppID 692890 no longer tracking PID 265185, exit code 0",
+      "all_game_processes_released": true,
+      "existing_mods": [
+        {
+          "name": "d3dcompiler_47.dll",
+          "sha256": "c8e25abd3d45dfb55966a74613258c39b4a83ea2ac77f2f80903499f4d5c03f0",
+          "inode": 2401993
+        },
+        {
+          "name": "Luma-Unreal Engine.addon",
+          "sha256": "cee6b0e72d14673281cafae65b18803935b92d6121abaa5791e410a4e2b79583",
+          "inode": 2402043
+        },
+        {
+          "name": "dxgi.dll",
+          "sha256": "29ba792da16d63683513032a379ebdee9e75a21335db07650ca94fd78a46a525",
+          "inode": 2402042
+        }
+      ]
+    },
+    {
+      "game": "No Man's Sky",
+      "appid": "275850",
+      "api": "Vulkan",
+      "input": "DLSS",
+      "quality": "Balanced",
+      "output_resolution": "1920x1080",
+      "render_resolution": "1129x635",
+      "watermark_ratio": 1.69,
+      "pid": 263884,
+      "observed_utc": "2026-09-08T06:05:46.626084+00:00",
+      "scene": "Loaded Creative save on Noic 79/V6",
+      "watermark": {
+        "upscaler": "FSR4-I8",
+        "version": "4.1.1",
+        "source": "DRIVER",
+        "provider_commit": "143E11E",
+        "colorspace": "LINEAR"
+      },
+      "frame_generation": false,
+      "mapped_components": [
+        {
+          "component": "provider",
+          "sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+          "inode": 4995903
+        },
+        {
+          "component": "optipatcher",
+          "sha256": "fb12735bfcc0d47f534f2206d57ec34129dc3d22b6405a1c2ef86745ab48b2eb",
+          "inode": 5016339
+        },
+        {
+          "component": "sdk_bridge",
+          "sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+          "inode": 5016332
+        },
+        {
+          "component": "optiscaler",
+          "sha256": "469bcfe59108f04f8b8cf45953e515f0a0cd24b00717be62b7dcf5c20430410d",
+          "inode": 5016341
+        },
+        {
+          "component": "driver",
+          "sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+          "inode": 455551
+        }
+      ],
+      "signed_ngx_helper_sha256": "be6e434a94ca32499515eb62ca0e6c274526055d568d0426e4c652dcdfb6ee6e",
+      "screenshot": "275850.png",
+      "screenshot_sha256": "87e5c6247c69043a01651ea8c4722ee78771078a2d5e766dec3121d9735dae2b",
+      "full_log_sha256": "da2d0ae184241ae1975b9730123a7b1b4959d3a2a05b1e02ffe27fee7b71f57c",
+      "log_excerpt": "275850-OptiScaler-excerpt.txt",
+      "log_excerpt_sha256": "ab6f5cbb01c452e8e18f6d81f326aa1d0c4e922839d32eff7bbf8715d833d861",
+      "game_directory_optiscaler_injection": false,
+      "steam_launcher_exit": "[2026-09-08 02:05:52] AppID 275850 no longer tracking PID 263684, exit code 0",
+      "all_game_processes_released": true
+    },
+    {
+      "game": "DOOM: The Dark Ages",
+      "appid": "3017860",
+      "api": "Vulkan",
+      "input": "FSR",
+      "quality": "Balanced",
+      "output_resolution": "2560x1440",
+      "render_resolution": "1471x828",
+      "watermark_ratio": 1.74,
+      "pid": 272781,
+      "observed_utc": "2026-09-08T06:33:11.458490+00:00",
+      "scene": "Village of Khalim, existing campaign slot",
+      "watermark": {
+        "upscaler": "FSR4-I8",
+        "version": "4.1.1",
+        "source": "DRIVER",
+        "provider_commit": "143E11E",
+        "colorspace": "LINEAR"
+      },
+      "frame_generation": false,
+      "mapped_components": [
+        {
+          "component": "provider",
+          "sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+          "inode": 5047748
+        },
+        {
+          "component": "optipatcher",
+          "sha256": "fb12735bfcc0d47f534f2206d57ec34129dc3d22b6405a1c2ef86745ab48b2eb",
+          "inode": 5047771
+        },
+        {
+          "component": "sdk_bridge",
+          "sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+          "inode": 5047763
+        },
+        {
+          "component": "optiscaler",
+          "sha256": "469bcfe59108f04f8b8cf45953e515f0a0cd24b00717be62b7dcf5c20430410d",
+          "inode": 5047774
+        },
+        {
+          "component": "driver",
+          "sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+          "inode": 455551
+        }
+      ],
+      "signed_ngx_helper_sha256": "be6e434a94ca32499515eb62ca0e6c274526055d568d0426e4c652dcdfb6ee6e",
+      "screenshot": "3017860.png",
+      "screenshot_sha256": "ec70c26bea981a17df4cdef6e83621e396738f16a70d0720a672aea7372d7f83",
+      "full_log_sha256": "d011a10ae6c86669b857982d6b613376e4e2bfdd1323fb236e282ff02b6489d3",
+      "log_excerpt": "3017860-OptiScaler-excerpt.txt",
+      "log_excerpt_sha256": "d879507e73e1113256f6309335dfec4116f409ce89875240cf01b63813a32c42",
+      "game_directory_optiscaler_injection": false,
+      "steam_launcher_exit": "[2026-09-08 02:33:59] AppID 3017860 no longer tracking PID 272542, exit code 0",
+      "all_game_processes_released": true
+    }
+  ],
+  "real_prefix_cycle": [
+    {
+      "stage": 0,
+      "version": {
+        "id": "bc250-fsr4-runtime-4.0.0-rc2",
+        "version": "4.0.0-rc2"
+      },
+      "runtime_lock_sha256": "4af64d4764ad5b0b2c4150cb0a68b5738dbad502547b011a15b23e098d42d2d6",
+      "network_calls": 0,
+      "warm_dll_bytes_and_mtimes_unchanged": true,
+      "seconds": 8.380181108994293,
+      "config_values_checked": 17
+    },
+    {
+      "stage": 1,
+      "version": {
+        "id": "bc250-fsr4-runtime-4.0.0-rc3",
+        "version": "4.0.0-rc3"
+      },
+      "runtime_lock_sha256": "8706846859994f0c3e484c52cafad402d3f5c57fc533e93c4d5a2f0444c955cc",
+      "network_calls": 0,
+      "warm_dll_bytes_and_mtimes_unchanged": true,
+      "seconds": 9.849289956000575,
+      "config_values_checked": 23
+    },
+    {
+      "stage": 2,
+      "version": {
+        "id": "bc250-fsr4-runtime-4.0.0-rc2",
+        "version": "4.0.0-rc2"
+      },
+      "runtime_lock_sha256": "4af64d4764ad5b0b2c4150cb0a68b5738dbad502547b011a15b23e098d42d2d6",
+      "network_calls": 0,
+      "warm_dll_bytes_and_mtimes_unchanged": true,
+      "seconds": 7.6080530649996945,
+      "config_values_checked": 17
+    },
+    {
+      "stage": 3,
+      "version": {
+        "id": "bc250-fsr4-runtime-4.0.0-rc3",
+        "version": "4.0.0-rc3"
+      },
+      "runtime_lock_sha256": "8706846859994f0c3e484c52cafad402d3f5c57fc533e93c4d5a2f0444c955cc",
+      "network_calls": 0,
+      "warm_dll_bytes_and_mtimes_unchanged": true,
+      "seconds": 9.763103011006024,
+      "config_values_checked": 23
+    }
+  ],
+  "prefix_recovery": {
+    "rc2_and_rc3_ini_values_restored": true,
+    "old_proxy_removed_on_upgrade": true,
+    "rc3_only_helper_and_license_removed_on_rollback": true,
+    "unrelated_file_preserved": true,
+    "full_cycle_result_sha256": "20b9139e67a11ef19ac4805c653b99ed25a6b0f4729004bfea2dcbb9d6df88e4"
+  },
+  "scope": "Loaded-save functionality and normal exit only; no performance, endurance, anti-cheat or universal compatibility claim.",
+  "unified_production_cycle": {
+    "versions": [
+      "4.0.0-rc2",
+      "4.0.0-rc3",
+      "4.0.0-rc2",
+      "4.0.0-rc3"
+    ],
+    "all_status_checks_verified": true,
+    "driver_unchanged": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+    "production_inventory_matches_qualified_trial": true,
+    "offline_runtime_archive_sha256": "48ccb8958dfc0714bc4739cfafc068be8315200e083f5855d307da19f5795ce4"
+  },
+  "restoration": {
+    "original_settings_and_save_files_verified": 1022,
+    "test_created_files_quarantined": 59,
+    "debug_launch_options_removed": true
+  },
+  "automated_checks": {
+    "tests_passed": 149,
+    "ruff_check": "passed",
+    "ruff_format": "passed",
+    "local_check_log_sha256": "bc44bccc849e34b0bacffdbd66c58b50755f3fc5944b57018c79f882933f37a2"
+  },
+  "host_incident": {
+    "description": "One unexplained whole-host freeze during a later quiet Roboquest/Luma session; manual reboot required.",
+    "last_journal_local": "2026-09-08T02:45:40-04:00",
+    "last_temperatures_c": {
+      "cpu": 67.5,
+      "gpu": 65.0
+    },
+    "recorded_gpu_fault_panic_or_oom": false,
+    "pstore_and_relevant_coredumps": "empty",
+    "cause": "unresolved",
+    "qualification": "No endurance or general stability claim."
+  },
+  "post_reboot_quiet_checks": {
+    "checks": [
+      {
+        "appid": "692890",
+        "pid": 6656,
+        "runtime_lock_sha256": "8706846859994f0c3e484c52cafad402d3f5c57fc533e93c4d5a2f0444c955cc",
+        "mapped_components": [
+          {
+            "component": "provider",
+            "sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e"
+          },
+          {
+            "component": "optipatcher",
+            "sha256": "fb12735bfcc0d47f534f2206d57ec34129dc3d22b6405a1c2ef86745ab48b2eb"
+          },
+          {
+            "component": "sdk_bridge",
+            "sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0"
+          },
+          {
+            "component": "optiscaler",
+            "sha256": "469bcfe59108f04f8b8cf45953e515f0a0cd24b00717be62b7dcf5c20430410d"
+          },
+          {
+            "component": "driver",
+            "sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5"
+          }
+        ],
+        "scene": "existing base camp",
+        "screenshot": "692890-quiet.png",
+        "screenshot_sha256": "109fb70afdf0aad225c93920017b709cbec8808d4c6eae9d20c2eccbe145d1f0",
+        "watermark_visible": false,
+        "trace_logging": false,
+        "normal_exit": "[2026-09-08 03:04:21] AppID 692890 no longer tracking PID 6353, exit code 0",
+        "all_game_processes_released": true
+      },
+      {
+        "appid": "3017860",
+        "pid": 9583,
+        "runtime_lock_sha256": "8706846859994f0c3e484c52cafad402d3f5c57fc533e93c4d5a2f0444c955cc",
+        "mapped_components": [
+          {
+            "component": "provider",
+            "sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e"
+          },
+          {
+            "component": "optipatcher",
+            "sha256": "fb12735bfcc0d47f534f2206d57ec34129dc3d22b6405a1c2ef86745ab48b2eb"
+          },
+          {
+            "component": "sdk_bridge",
+            "sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0"
+          },
+          {
+            "component": "optiscaler",
+            "sha256": "469bcfe59108f04f8b8cf45953e515f0a0cd24b00717be62b7dcf5c20430410d"
+          },
+          {
+            "component": "driver",
+            "sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5"
+          }
+        ],
+        "scene": "Village of Khalim, existing campaign slot",
+        "screenshot": "3017860-quiet.png",
+        "screenshot_sha256": "40b43bc11cc86d35ef0ff13c104caf2ed21caca0744fd00f3da3921563518a8c",
+        "watermark_visible": false,
+        "trace_logging": false,
+        "normal_exit": "[2026-09-08 03:13:38] AppID 3017860 no longer tracking PID 9340, exit code 0",
+        "all_game_processes_released": true
+      }
+    ],
+    "host_freeze_recurred": false,
+    "current_boot": "b527ef3b-04a1-439d-8f9b-cc8655dfe835",
+    "completed_epoch": 1788851660.3541021
+  }
+}
