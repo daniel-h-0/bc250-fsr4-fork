@@ -1,0 +1,111 @@
+{
+  "canvas_inches": [
+    15,
+    8.5
+  ],
+  "png_pixels": [
+    3600,
+    2040
+  ],
+  "y_axis_min_ms": 0,
+  "y_axis_max_ms": 30,
+  "bars": [
+    {
+      "resolution": "1080p",
+      "variant": "fsr411",
+      "x": -0.43199999999999994,
+      "height_ms": 7.13325,
+      "width": 0.244,
+      "label": "7.13"
+    },
+    {
+      "resolution": "1080p",
+      "variant": "fsr411b",
+      "x": -0.144,
+      "height_ms": 7.1331299999999995,
+      "width": 0.244,
+      "label": "7.13"
+    },
+    {
+      "resolution": "1080p",
+      "variant": "v3",
+      "x": 0.144,
+      "height_ms": 5.18084,
+      "width": 0.244,
+      "label": "5.18"
+    },
+    {
+      "resolution": "1080p",
+      "variant": "v4r7",
+      "x": 0.43199999999999994,
+      "height_ms": 3.84438,
+      "width": 0.244,
+      "label": "3.84"
+    },
+    {
+      "resolution": "1440p",
+      "variant": "fsr411",
+      "x": 1.568,
+      "height_ms": 11.51012,
+      "width": 0.244,
+      "label": "11.51"
+    },
+    {
+      "resolution": "1440p",
+      "variant": "fsr411b",
+      "x": 1.856,
+      "height_ms": 11.77481,
+      "width": 0.244,
+      "label": "11.77"
+    },
+    {
+      "resolution": "1440p",
+      "variant": "v3",
+      "x": 2.144,
+      "height_ms": 8.24238,
+      "width": 0.244,
+      "label": "8.24"
+    },
+    {
+      "resolution": "1440p",
+      "variant": "v4r7",
+      "x": 2.432,
+      "height_ms": 6.60897,
+      "width": 0.244,
+      "label": "6.61"
+    },
+    {
+      "resolution": "4k",
+      "variant": "fsr411",
+      "x": 3.568,
+      "height_ms": 25.72044,
+      "width": 0.244,
+      "label": "25.72"
+    },
+    {
+      "resolution": "4k",
+      "variant": "fsr411b",
+      "x": 3.856,
+      "height_ms": 25.707790000000003,
+      "width": 0.244,
+      "label": "25.71"
+    },
+    {
+      "resolution": "4k",
+      "variant": "v3",
+      "x": 4.144,
+      "height_ms": 18.395490000000002,
+      "width": 0.244,
+      "label": "18.40"
+    },
+    {
+      "resolution": "4k",
+      "variant": "v4r7",
+      "x": 4.432,
+      "height_ms": 13.94103,
+      "width": 0.244,
+      "label": "13.94"
+    }
+  ],
+  "numeric_label_overlap": false
+}

@@ -1,0 +1,392 @@
+{
+  "schema": 1,
+  "complete": true,
+  "date": "2026-09-10",
+  "metric": "Whole-upscaler GPU milliseconds",
+  "statistic": "Median of four independent run medians",
+  "frames_total": 28800,
+  "frames_scored": 14400,
+  "full_images_byte_identical_per_resolution": true,
+  "cells": [
+    {
+      "resolution": "1080p",
+      "output": [
+        1920,
+        1080
+      ],
+      "render": [
+        1280,
+        720
+      ],
+      "variant": "fsr411",
+      "gpu_ms": 7.13325,
+      "run_min_ms": 7.10854,
+      "run_max_ms": 7.15158,
+      "run_medians_ms": [
+        7.13694,
+        7.10854,
+        7.12956,
+        7.15158
+      ],
+      "runs": [
+        "measure-1080p-r1-p1-fsr411",
+        "measure-1080p-r2-p3-fsr411",
+        "measure-1080p-r3-p4-fsr411",
+        "measure-1080p-r4-p2-fsr411"
+      ],
+      "run_range_percent": 0.6033715347141964
+    },
+    {
+      "resolution": "1080p",
+      "output": [
+        1920,
+        1080
+      ],
+      "render": [
+        1280,
+        720
+      ],
+      "variant": "fsr411b",
+      "gpu_ms": 7.1331299999999995,
+      "run_min_ms": 7.11332,
+      "run_max_ms": 7.147740000000001,
+      "run_medians_ms": [
+        7.147740000000001,
+        7.13736,
+        7.11332,
+        7.1289
+      ],
+      "runs": [
+        "measure-1080p-r1-p2-fsr411b",
+        "measure-1080p-r2-p1-fsr411b",
+        "measure-1080p-r3-p3-fsr411b",
+        "measure-1080p-r4-p4-fsr411b"
+      ],
+      "run_range_percent": 0.48253711904873153
+    },
+    {
+      "resolution": "1080p",
+      "output": [
+        1920,
+        1080
+      ],
+      "render": [
+        1280,
+        720
+      ],
+      "variant": "v3",
+      "gpu_ms": 5.18084,
+      "run_min_ms": 5.1654800000000005,
+      "run_max_ms": 5.19956,
+      "run_medians_ms": [
+        5.1749600000000004,
+        5.19956,
+        5.1654800000000005,
+        5.18672
+      ],
+      "runs": [
+        "measure-1080p-r1-p4-v3",
+        "measure-1080p-r2-p2-v3",
+        "measure-1080p-r3-p1-v3",
+        "measure-1080p-r4-p3-v3"
+      ],
+      "run_range_percent": 0.6578083862848388
+    },
+    {
+      "resolution": "1080p",
+      "output": [
+        1920,
+        1080
+      ],
+      "render": [
+        1280,
+        720
+      ],
+      "variant": "v4r7",
+      "gpu_ms": 3.84438,
+      "run_min_ms": 3.75992,
+      "run_max_ms": 3.9274,
+      "run_medians_ms": [
+        3.7897600000000002,
+        3.899,
+        3.9274,
+        3.75992
+      ],
+      "runs": [
+        "measure-1080p-r1-p3-v4r7",
+        "measure-1080p-r2-p4-v4r7",
+        "measure-1080p-r3-p2-v4r7",
+        "measure-1080p-r4-p1-v4r7"
+      ],
+      "run_range_percent": 4.356489212824951
+    },
+    {
+      "resolution": "1440p",
+      "output": [
+        2560,
+        1440
+      ],
+      "render": [
+        1706,
+        960
+      ],
+      "variant": "fsr411",
+      "gpu_ms": 11.51012,
+      "run_min_ms": 11.44568,
+      "run_max_ms": 11.78796,
+      "run_medians_ms": [
+        11.50864,
+        11.5116,
+        11.78796,
+        11.44568
+      ],
+      "runs": [
+        "measure-1440p-r1-p1-fsr411",
+        "measure-1440p-r2-p3-fsr411",
+        "measure-1440p-r3-p4-fsr411",
+        "measure-1440p-r4-p2-fsr411"
+      ],
+      "run_range_percent": 2.9737309428572467
+    },
+    {
+      "resolution": "1440p",
+      "output": [
+        2560,
+        1440
+      ],
+      "render": [
+        1706,
+        960
+      ],
+      "variant": "fsr411b",
+      "gpu_ms": 11.77481,
+      "run_min_ms": 11.567260000000001,
+      "run_max_ms": 11.7797,
+      "run_medians_ms": [
+        11.77684,
+        11.7797,
+        11.772780000000001,
+        11.567260000000001
+      ],
+      "runs": [
+        "measure-1440p-r1-p2-fsr411b",
+        "measure-1440p-r2-p1-fsr411b",
+        "measure-1440p-r3-p3-fsr411b",
+        "measure-1440p-r4-p4-fsr411b"
+      ],
+      "run_range_percent": 1.8041904710139618
+    },
+    {
+      "resolution": "1440p",
+      "output": [
+        2560,
+        1440
+      ],
+      "render": [
+        1706,
+        960
+      ],
+      "variant": "v3",
+      "gpu_ms": 8.24238,
+      "run_min_ms": 8.17004,
+      "run_max_ms": 8.53612,
+      "run_medians_ms": [
+        8.19508,
+        8.53612,
+        8.28968,
+        8.17004
+      ],
+      "runs": [
+        "measure-1440p-r1-p4-v3",
+        "measure-1440p-r2-p2-v3",
+        "measure-1440p-r3-p1-v3",
+        "measure-1440p-r4-p3-v3"
+      ],
+      "run_range_percent": 4.441435604764645
+    },
+    {
+      "resolution": "1440p",
+      "output": [
+        2560,
+        1440
+      ],
+      "render": [
+        1706,
+        960
+      ],
+      "variant": "v4r7",
+      "gpu_ms": 6.60897,
+      "run_min_ms": 6.58592,
+      "run_max_ms": 6.61374,
+      "run_medians_ms": [
+        6.60642,
+        6.6115200000000005,
+        6.58592,
+        6.61374
+      ],
+      "runs": [
+        "measure-1440p-r1-p3-v4r7",
+        "measure-1440p-r2-p4-v4r7",
+        "measure-1440p-r3-p2-v4r7",
+        "measure-1440p-r4-p1-v4r7"
+      ],
+      "run_range_percent": 0.42094305164042467
+    },
+    {
+      "resolution": "4k",
+      "output": [
+        3840,
+        2160
+      ],
+      "render": [
+        2560,
+        1440
+      ],
+      "variant": "fsr411",
+      "gpu_ms": 25.72044,
+      "run_min_ms": 25.70048,
+      "run_max_ms": 25.7334,
+      "run_medians_ms": [
+        25.7334,
+        25.70048,
+        25.7197,
+        25.72118
+      ],
+      "runs": [
+        "measure-4k-r1-p1-fsr411",
+        "measure-4k-r2-p3-fsr411",
+        "measure-4k-r3-p4-fsr411",
+        "measure-4k-r4-p2-fsr411"
+      ],
+      "run_range_percent": 0.127991589568455
+    },
+    {
+      "resolution": "4k",
+      "output": [
+        3840,
+        2160
+      ],
+      "render": [
+        2560,
+        1440
+      ],
+      "variant": "fsr411b",
+      "gpu_ms": 25.707790000000003,
+      "run_min_ms": 25.69004,
+      "run_max_ms": 25.72036,
+      "run_medians_ms": [
+        25.69004,
+        25.72036,
+        25.69948,
+        25.7161
+      ],
+      "runs": [
+        "measure-4k-r1-p2-fsr411b",
+        "measure-4k-r2-p1-fsr411b",
+        "measure-4k-r3-p3-fsr411b",
+        "measure-4k-r4-p4-fsr411b"
+      ],
+      "run_range_percent": 0.11794090429398901
+    },
+    {
+      "resolution": "4k",
+      "output": [
+        3840,
+        2160
+      ],
+      "render": [
+        2560,
+        1440
+      ],
+      "variant": "v3",
+      "gpu_ms": 18.395490000000002,
+      "run_min_ms": 18.14,
+      "run_max_ms": 18.41864,
+      "run_medians_ms": [
+        18.3946,
+        18.14,
+        18.41864,
+        18.39638
+      ],
+      "runs": [
+        "measure-4k-r1-p4-v3",
+        "measure-4k-r2-p2-v3",
+        "measure-4k-r3-p1-v3",
+        "measure-4k-r4-p3-v3"
+      ],
+      "run_range_percent": 1.5147190969090756
+    },
+    {
+      "resolution": "4k",
+      "output": [
+        3840,
+        2160
+      ],
+      "render": [
+        2560,
+        1440
+      ],
+      "variant": "v4r7",
+      "gpu_ms": 13.94103,
+      "run_min_ms": 13.68254,
+      "run_max_ms": 14.048960000000001,
+      "run_medians_ms": [
+        14.04738,
+        13.68254,
+        13.834679999999999,
+        14.048960000000001
+      ],
+      "runs": [
+        "measure-4k-r1-p3-v4r7",
+        "measure-4k-r2-p4-v4r7",
+        "measure-4k-r3-p2-v4r7",
+        "measure-4k-r4-p1-v4r7"
+      ],
+      "run_range_percent": 2.628356728304878
+    }
+  ],
+  "rc7_savings": {
+    "1080p": {
+      "fsr411": {
+        "saved_ms": 3.28887,
+        "reduction_percent": 46.106192829355486
+      },
+      "fsr411b": {
+        "saved_ms": 3.2887499999999994,
+        "reduction_percent": 46.105286178718174
+      },
+      "v3": {
+        "saved_ms": 1.3364599999999998,
+        "reduction_percent": 25.796202932343014
+      }
+    },
+    "1440p": {
+      "fsr411": {
+        "saved_ms": 4.90115,
+        "reduction_percent": 42.5812241749
+      },
+      "fsr411b": {
+        "saved_ms": 5.16584,
+        "reduction_percent": 43.871960566667326
+      },
+      "v3": {
+        "saved_ms": 1.6334100000000005,
+        "reduction_percent": 19.81721298945208
+      }
+    },
+    "4k": {
+      "fsr411": {
+        "saved_ms": 11.77941,
+        "reduction_percent": 45.79785571319931
+      },
+      "fsr411b": {
+        "saved_ms": 11.766760000000003,
+        "reduction_percent": 45.77118453200373
+      },
+      "v3": {
+        "saved_ms": 4.454460000000003,
+        "reduction_percent": 24.21495703566473
+      }
+    }
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "schema": 1,
+  "sizes": {
+    "1080p": {
+      "render": [
+        1280,
+        720
+      ],
+      "output": [
+        1920,
+        1080
+      ]
+    },
+    "1440p": {
+      "render": [
+        1706,
+        960
+      ],
+      "output": [
+        2560,
+        1440
+      ]
+    },
+    "4k": {
+      "render": [
+        2560,
+        1440
+      ],
+      "output": [
+        3840,
+        2160
+      ]
+    }
+  },
+  "quality": "Quality, nominal 1.5x per axis",
+  "scenario": "static linear color; HDR-capable context with auto exposure; fixed depth, zero motion; sharpening off",
+  "frames_per_run": 600,
+  "discard_first_frames": 300,
+  "runs_per_cell": 4,
+  "orders": [
+    [
+      "fsr411",
+      "fsr411b",
+      "v4r7",
+      "v3"
+    ],
+    [
+      "fsr411b",
+      "v3",
+      "fsr411",
+      "v4r7"
+    ],
+    [
+      "v3",
+      "v4r7",
+      "fsr411b",
+      "fsr411"
+    ],
+    [
+      "v4r7",
+      "fsr411",
+      "v3",
+      "fsr411b"
+    ]
+  ],
+  "timing": "Completed D3D12 GPU timestamps immediately around the full FFX dispatch; uploads, readback, CPU time and compilation excluded from the interval",
+  "primary_statistic": "Median of the four independent per-launch medians of frames 300-599",
+  "whiskers": "Minimum and maximum of the four per-launch medians",
+  "comparability": "v3 retains its original Mesa implementation; other three use the same standard Mesa 26.2.1. Measures the four supplied implementations, not a single compiler-patch ablation.",
+  "date": "2026-09-10",
+  "hardware": "AMD BC250 / RADV GFX1013 / 40 CUs",
+  "gpu_clock_policy": "Existing dynamic governor; 1850 MHz target at 900 mV",
+  "runtime": "GE-Proton 11-6 (1787951532), Steam Linux Runtime 4",
+  "operating_system": "CachyOS Linux, kernel 7.2.3-1.83-cachyos-bc250",
+  "probe_revision": 3,
+  "probe_sha256": "1ea66d09b2ca8863fbabf18adf0ebf10423a8e1f66bc22399e44ec7f76749d76",
+  "probe_source_sha256": "bd6d9b6c579c64a7f5f9de77e028a1d5768b26581a8961fab1397209975513ed",
+  "proton_sha256": "95a41f83184ab574d118fdd20f8647d5db0c350eb571314b475f0d25087311cf",
+  "gpu_timestamps": true,
+  "per_pass_tracing": false,
+  "scored_shader_dumping": false,
+  "preflight_frames": 64,
+  "variants": {
+    "fsr411": {
+      "label": "FSR 4.1.1",
+      "detail": "Original shaders; INT8 eligibility bypass only",
+      "dll_sha256": "7f96c60af6e5b0218d07dd938cc1be23ff127259fdd3b18144bff69be68455ea",
+      "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+      "mesa_version": "26.2.1 standard CachyOS package"
+    },
+    "fsr411b": {
+      "label": "FSR 4.1.1b",
+      "detail": "Exact previously supplied 4.1.1b DLL",
+      "dll_sha256": "0dd77d9c78d1ef9bc330cf4697ab3ffe24bc1aa7850e4130263dc922107fbd75",
+      "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+      "mesa_version": "26.2.1 standard CachyOS package"
+    },
+    "v3": {
+      "label": "BC250 v3",
+      "detail": "Exact upstream v3 source rebuilt for the host ABI, Mesa 26.2.0; original SDK shaders",
+      "dll_sha256": "7f96c60af6e5b0218d07dd938cc1be23ff127259fdd3b18144bff69be68455ea",
+      "driver_sha256": "88214d555c1887f14478368c55dab081d2462365e2dc5f0f239d9884c808a6cd",
+      "mesa_version": "26.2.0 + original upstream v3 patch"
+    },
+    "v4r7": {
+      "label": "BC250 v4r7",
+      "detail": "Exact published RC7 DLL; standard Mesa",
+      "dll_sha256": "730c175a38b0f0271ffaa201ca531825c6440a95fb71729d34566c66af8e4893",
+      "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+      "mesa_version": "26.2.1 standard CachyOS package"
+    }
+  },
+  "v3_source": {
+    "inputs": {
+      "mesa-26.2.0.tar.xz": {
+        "url": "https://archive.mesa3d.org/mesa-26.2.0.tar.xz",
+        "sha256": "efd4bb08cdb7c365a812cd4e6c9202ab55b2f22cdcd13c7d6c4f9647b799a4ef"
+      },
+      "mesa-26.2.0.tar.xz.sig": {
+        "url": "https://archive.mesa3d.org/mesa-26.2.0.tar.xz.sig",
+        "sha256": "d07bd4a2d90dd2668ad474ced311ee6c05faaa3993dd5caf09d1e7512253b201"
+      },
+      "bc250-fsr4-v3.patch": {
+        "url": "https://raw.githubusercontent.com/dmorazasanchez/bc250-fsr4/v3/bc250-fsr4-v3.patch",
+        "sha256": "7fde37fad572b4ba4dcac6052792d10d8d3df65982b01236c63a3eff0a25d225"
+      }
+    },
+    "note": "Exact upstream Mesa 26.2.0 + V3 patch, recompiled against current toolchain because released ELF requires an unavailable LLVM-versioned C++ symbol. Not the published ELF.",
+    "sha256": "88214d555c1887f14478368c55dab081d2462365e2dc5f0f239d9884c808a6cd",
+    "meson_options": [
+      "--buildtype=release",
+      "--wrap-mode=nodownload",
+      "-Dvulkan-drivers=amd",
+      "-Dgallium-drivers=",
+      "-Dllvm=enabled",
+      "-Dplatforms=x11,wayland",
+      "-Dglx=disabled",
+      "-Degl=disabled",
+      "-Dgbm=disabled",
+      "-Dgles1=disabled",
+      "-Dgles2=disabled",
+      "-Dopengl=false",
+      "-Dvideo-codecs=",
+      "-Dvalgrind=disabled",
+      "-Dbuild-tests=false",
+      "-Dglvnd=disabled",
+      "-Dradv-u_trace=false"
+    ],
+    "upstream_commit": "6173651fa3a5a557cba2c2ff802e2d6f49881bc1",
+    "signature_note": "The downloaded source signature is retained by hash; this campaign does not claim independent cryptographic signature verification.",
+    "fresh_source_audit": {
+      "archive_source_files_checked": 12803,
+      "expected_patch_files": 8,
+      "mismatches": []
+    },
+    "extra_source_audit": {
+      "epoch": 1788818757.4957461,
+      "archive_links": [
+        {
+          "path": "bin/ci/pipeline_message.py",
+          "matches": true,
+          "kind": "symlink"
+        },
+        {
+          "path": "include/android_stub/sync/sync.h",
+          "matches": true,
+          "kind": "symlink"
+        },
+        {
+          "path": "src/compiler/isaspec/README.rst",
+          "matches": true,
+          "kind": "symlink"
+        },
+        {
+          "path": "src/gallium/drivers/asahi/.clang-format",
+          "matches": true,
+          "kind": "symlink"
+        },
+        {
+          "path": "src/gallium/drivers/freedreno/.clang-format",
+          "matches": true,
+          "kind": "symlink"
+        },
+        {
+          "path": "src/gallium/drivers/panfrost/.clang-format",
+          "matches": true,
+          "kind": "symlink"
+        },
+        {
+          "path": "src/gallium/winsys/asahi/drm/.clang-format",
+          "matches": true,
+          "kind": "symlink"
+        },
+        {
+          "path": "src/gallium/winsys/panfrost/drm/.clang-format",
+          "matches": true,
+          "kind": "symlink"
+        }
+      ],
+      "vendored_wayland_regular_files": 125,
+      "vendored_wayland_all_match": true,
+      "remaining_generated_or_package_cache": [
+        "src/amd/compiler/__pycache__/aco_opcodes.cpython-314.pyc",
+        "src/amd/registers/__pycache__/regdb.cpython-314.pyc",
+        "src/compiler/__pycache__/builtin_types.cpython-314.pyc",
+        "src/compiler/nir/__pycache__/nir_algebraic.cpython-314.pyc",
+        "src/compiler/nir/__pycache__/nir_intrinsics.cpython-314.pyc",
+        "src/compiler/nir/__pycache__/nir_opcodes.cpython-314.pyc",
+        "src/util/__pycache__/drirc_gen.cpython-314.pyc",
+        "src/util/format/__pycache__/u_format_pack.cpython-314.pyc",
+        "src/util/format/__pycache__/u_format_parse.cpython-314.pyc",
+        "src/util/perf/__pycache__/u_trace.cpython-314.pyc",
+        "src/vulkan/util/__pycache__/vk_entrypoints.cpython-314.pyc",
+        "src/vulkan/util/__pycache__/vk_extensions.cpython-314.pyc",
+        "src/vulkan/util/__pycache__/vk_physical_device_features_gen.cpython-314.pyc",
+        "subprojects/.wraplock",
+        "subprojects/packagecache/wayland-protocols-1.41.tar.xz",
+        "subprojects/wayland-protocols-1.41/.meson-subproject-wrap-hash.txt"
+      ],
+      "unexpected_extras": []
+    }
+  }
+}

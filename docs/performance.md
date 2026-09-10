@@ -10,9 +10,10 @@ These results use the pinned **FSR 4.1.1** provider, not the newer **4.1.1b**
 mod. Do not co-install 4.1.1b with this setup. The measurements do not cover
 4.1.1b or mixed runtimes; see [runtime compatibility](games.md#runtime-compatibility).
 
-For an estimate of FSR4's own GPU budget, see the
-[pass-cost infographic and historical FFX timestamps](fsr-cost.md). Its
-reconstructed pass costs are distinct from the measured whole-frame results below.
+For current direct measurements of FSR4's own GPU cost, see the
+[four-implementation comparison](gpu-cost.md). The older
+[pass-cost reconstruction](fsr-cost.md) is retained separately. Neither
+campaign is mixed with the measured whole-frame results below.
 
 | Game output | v3 FPS | v4 FPS | FPS gain | v3 → v4 whole-frame GPU ms |
 | --- | ---: | ---: | ---: | ---: |

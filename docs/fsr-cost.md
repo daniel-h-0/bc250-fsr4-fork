@@ -1,6 +1,10 @@
 # FSR4 GPU cost: historical measurements and reconstruction
 
-The README chart estimates the GPU time spent on FSR4 itself, using the best
+The new [primary chart](gpu-cost.md) directly measures four implementations,
+including v4r7, at every output size. The reconstruction below remains a
+separate historical record and supplies no values to that chart.
+
+This historical chart estimates the GPU time spent on FSR4 itself, using the best
 retained direct timing anchor and the later matched v3/v4 GPU savings. It is
 an illustration of the fork's benefit, **not an isolated-pass benchmark of the
 release at all three resolutions**. No new game measurements were taken for it.

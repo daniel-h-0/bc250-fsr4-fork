@@ -8,6 +8,10 @@ This is the **4.0.0-rc7 release candidate**; the DLL identifies itself as
 **4.1.1r7**. Its exact bytes are tested on BC250/Linux. Windows and other
 GPUs remain unqualified.
 
+![Measured FSR4 GPU cost on BC250: original FSR 4.1.1 shaders, FSR 4.1.1b, v3 and v4r7 at 1080p, 1440p and 4K Quality. Lower is better.](docs/assets/fsr4-four-way-gpu-cost.svg)
+
+Direct GPU timings of the complete upscaler. [Method and raw data](docs/gpu-cost.md).
+
 ## Install
 
 Download the [RC7 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc7):
