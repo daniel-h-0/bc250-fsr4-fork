@@ -1,8 +1,13 @@
 # Contributing
 
-Use the maintained `v4` branch. The project owns a pinned BC250 driver and a
-small Steam compatibility tool; their [release identities](docs/releases.md)
-and [source contracts](docs/development.md) are separate.
+For RC7 DLL development, start with [the DLL source and rebuild guide](dll/README.md).
+The [standalone GPU probe](dll/probe/README.md) can qualify a new D3D12 environment
+without a game installation. The driver commands below apply to the retained v4
+driver component.
+
+The portable DLL is the primary RC7 component. Retained driver and Steam
+runtime [release identities](docs/releases.md) and
+[source contracts](docs/development.md) remain separate.
 
 ## Set up and check
 
@@ -18,16 +23,18 @@ python3 scripts/check-repo.py
 
 The repository check covers pinned inputs, documentation links, recorded
 performance arithmetic and tooling tests. It needs no GPU. Driver builds
-use the separate [build instructions](README.md#build-from-source) and
+use the separate [build instructions](docs/legacy-rc6.md#build-from-source) and
 `requirements-build.txt`.
 
 ## Keep the scope small
 
+- DLL changes belong in `dll/` with complete editable shader sources, input
+  hashes and a newly qualified output identity. Keep the user download small.
 - Driver changes belong in the manifest and ordered Mesa patches. Preserve
   provenance and qualify changed compiler output.
 - Runtime changes belong in its manifest, launcher or narrow upstream patch.
   Use the shared assembly code; keep GE-Proton's loader and prefix ownership.
-- Steam controls per-game opt-in. Do not add game catalogs, executable scans,
+- In the retained runtime, Steam controls per-game opt-in. Do not add game catalogs, executable scans,
   Steam-account writers or game-directory injection to the active runtime.
 - Keep the retired wizard available for recovery only. Preserve existing
   transactions and historical qualification; add dated evidence for new work.

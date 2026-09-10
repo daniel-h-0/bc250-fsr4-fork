@@ -12,7 +12,7 @@ import runpy
 import subprocess
 import sys
 from pathlib import Path, PurePosixPath
-from statistics import mean
+from statistics import mean, median
 from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -180,7 +180,7 @@ def markdown_anchors(text):
 
 def check_docs(root):
     # Archived upstream prose is historical; only its orientation index is maintained.
-    documents = [*root.glob("*.md"), *(root / "docs").rglob("*.md")]
+    documents = [*root.glob("*.md"), *(root / "docs").rglob("*.md"), *(root / "dll").rglob("*.md")]
     if (root / "legacy/README.md").exists():
         documents.append(root / "legacy/README.md")
     if (root / "runtime/manifest.json").is_file():
@@ -285,6 +285,7 @@ def check_syntax(root):
         *(root / "scripts").glob("*.py"),
         *(root / "tests").glob("*.py"),
         *(root / "runtime").glob("*.py"),
+        *(root / "dll").glob("*.py"),
         *(root / "legacy/game-setup").glob("*.py"),
     ]
     for path in python_files:
@@ -308,6 +309,82 @@ def check_fsr_cost(root):
     return "historical FFX timestamps and matched GPU deltas reproduce the published cost estimates"
 
 
+def check_dll(root):
+    if not (root / "dll/manifest.json").exists():
+        return "historical source without a portable DLL component"
+    output = subprocess.check_output(
+        [sys.executable, "-B", str(root / "dll/build.py"), "--verify-sources"], text=True
+    )
+    manifest = load(root / "dll/manifest.json")
+    record = load(root / "docs/data/portable-dll-rc7.json")
+    require(
+        record["dll_sha256"] == manifest["expected_dll_sha256"],
+        "DLL qualification identity mismatch",
+    )
+    campaign = record["performance"]
+    require(campaign["complete"] and not campaign["trace"], "Incomplete/traced DLL timing campaign")
+    require(campaign["frames"] == 240 and len(campaign["rows"]) == 12, "DLL timing campaign size")
+    require(set(campaign["summaries"]) == {"1080", "1440", "2160"}, "DLL timing output sizes")
+    for size, summary in campaign["summaries"].items():
+        rows = [row for row in campaign["rows"] if row["size"] == size]
+        require([r["variant"] for r in rows] == ["v4", "dll", "dll", "v4"], "DLL timing ABBA order")
+        for row in rows:
+            values = row["gpu_ms"]
+            require(
+                len(values) == 240 and all(math.isfinite(v) and v > 0 for v in values),
+                "Invalid DLL GPU samples",
+            )
+            close(median(values[120:]), row["median_ms"], "DLL per-run median")
+            require(row["pixels_sha256"] == summary["pixels_sha256"], "DLL output image mismatch")
+            if row["variant"] == "dll":
+                require(row["tested_dll_sha256"] == record["dll_sha256"], "Timing used another DLL")
+        control = mean(r["median_ms"] for r in rows if r["variant"] == "v4")
+        candidate = mean(r["median_ms"] for r in rows if r["variant"] == "dll")
+        close(control, summary["v4_mean_of_medians_ms"], "DLL control summary")
+        close(candidate, summary["dll_mean_of_medians_ms"], "DLL candidate summary")
+        close(candidate / control, summary["dll_relative_time"], "DLL relative GPU time")
+        close(
+            (candidate / control - 1) * 100,
+            summary["dll_time_change_percent"],
+            "DLL GPU percentage",
+        )
+        legacy = [row for row in campaign["legacy_rows"] if row["size"] == size]
+        require(len(legacy) == 2, "Missing existing-v4 timing controls")
+        for row in legacy:
+            values = row["gpu_ms"]
+            require(
+                len(values) == 240 and all(math.isfinite(v) and v > 0 for v in values),
+                "Invalid existing-v4 GPU samples",
+            )
+            close(median(values[120:]), row["median_ms"], "Existing-v4 per-run median")
+            require(row["pixels_sha256"] == summary["pixels_sha256"], "Control image mismatch")
+        legacy_mean = mean(row["median_ms"] for row in legacy)
+        comparison = campaign["legacy_comparison"][size]
+        close(legacy_mean, comparison["legacy_v4_mean_of_medians_ms"], "Existing-v4 summary")
+        close(
+            (candidate / legacy_mean - 1) * 100,
+            comparison["rc7_time_change_from_legacy_percent"],
+            "DLL/existing-v4 percentage",
+        )
+    require(len(campaign["legacy_rows"]) == 6, "Existing-v4 timing campaign size")
+    quality = record["quality"]
+    require(quality["complete"] and len(quality["rows"]) == 20, "Incomplete DLL image matrix")
+    for case in quality["rows"]:
+        variants = case["variants"]
+        require(len(variants) in (2, 4), "Incomplete DLL image comparison")
+        require(all(v["finite"] for v in variants), "Non-finite DLL image")
+        images = {v["pixels_sha256"] for v in variants}
+        references = {v["pixels_sha256"] for v in variants if v["arm"] == "reference"}
+        require(case["qualified"] == (len(images) == 1), "Incorrect image qualification")
+        require(case["reference_stable"] == (len(references) == 1), "Incorrect reference stability")
+        for variant in variants:
+            if variant["arm"] == "dll":
+                require(variant["dll_sha256"] == record["dll_sha256"], "Image used another DLL")
+        if not case["qualified"]:
+            require(not case["reference_stable"], "Unresolved stable-reference image mismatch")
+    return output.strip() + "; 4,320 GPU samples and all 20 image-case classifications verified"
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -321,6 +398,7 @@ def main():
     for check in (
         check_snapshot,
         check_inputs,
+        check_dll,
         check_docs,
         check_performance,
         check_fsr_cost,

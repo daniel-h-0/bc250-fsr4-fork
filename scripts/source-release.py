@@ -52,11 +52,23 @@ def setup_files(files, commit):
         "docs/rc4-compatibility.md",
         "docs/review-rc5.md",
         "docs/save-paths-rc6.md",
+        "docs/legacy-rc6.md",
         "scripts/vulkan_probe.py",
         "scripts/safe_archive.py",
     ):
         if guide in files:
             selected[guide] = files[guide]
+    if "docs/legacy-rc6.md" in selected:
+        readme, mode = selected["docs/legacy-rc6.md"]
+        text = readme.decode()
+        text = re.sub(r"(\]\()\.\./", r"\1", text)
+        current_readme = (
+            "https://github.com/daniel-h-0/bc250-fsr4-fork/blob/" + commit + "/README.md"
+        )
+        text = text.replace(
+            "[RC7 quickstart](README.md)", "[RC7 quickstart](" + current_readme + ")"
+        )
+        selected["README.md"] = (text.encode(), mode)
     base = "https://github.com/daniel-h-0/bc250-fsr4-fork/blob/" + commit + "/"
     for name, (data, mode) in selected.items():
         if not name.endswith(".md"):
@@ -119,11 +131,12 @@ def create_archive(root, output, ref=None, *, setup=False):
             )
         ref = "HEAD"
     commit, files = snapshot(root, ref)
-    version = (
-        json.loads(files["runtime/manifest.json"][0])["release"]["version"]
-        if "runtime/manifest.json" in files
-        else json.loads(files["v4/manifest.json"][0])["version"]
-    )
+    if "dll/manifest.json" in files:
+        version = json.loads(files["dll/manifest.json"][0])["release_version"]
+    elif "runtime/manifest.json" in files:
+        version = json.loads(files["runtime/manifest.json"][0])["release"]["version"]
+    else:
+        version = json.loads(files["v4/manifest.json"][0])["version"]
     if not version or any(
         c not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-" for c in version
     ):

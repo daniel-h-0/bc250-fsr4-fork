@@ -19,8 +19,8 @@ compatible driver and retire the outgoing game-local hooks first.
 
 Use `bc250-fsr4-setup-4.0.0-rc6.tar.gz` and its checksum from the
 [releases page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases), or the
-[maintained source checkout](../README.md#obtain-the-source). The original
-driver rc1 archive predates this tool. Check the [prerequisites](../README.md#prerequisites),
+[maintained source checkout](legacy-rc6.md#obtain-the-source). The original
+driver rc1 archive predates this tool. Check the [prerequisites](legacy-rc6.md#prerequisites),
 then close Steam and games and run as your desktop user:
 
 ```sh

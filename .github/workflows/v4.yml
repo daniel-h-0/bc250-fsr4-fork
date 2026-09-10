@@ -99,3 +99,50 @@ jobs:
             .work/container/inputs.json
             dist/*.tar.gz
             dist/*.sha256
+
+  dll-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Obtain and verify the pinned public build inputs
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, tarfile, urllib.request
+          from pathlib import Path
+          root = Path('.work/dll-inputs')
+          root.mkdir(parents=True)
+          manifest = json.loads(Path('dll/manifest.json').read_text())
+          inputs = [
+              ('sdk.dll', manifest['sdk_url'], manifest['sdk_sha256']),
+              ('dxc.tar.gz', manifest['dxcompiler_archive']['url'], manifest['dxcompiler_archive']['sha256']),
+          ]
+          for name, url, expected in inputs:
+              path = root / name
+              with urllib.request.urlopen(url, timeout=120) as response, path.open('xb') as stream:
+                  while chunk := response.read(1024 * 1024):
+                      stream.write(chunk)
+              with path.open('rb') as stream:
+                  actual = hashlib.file_digest(stream, 'sha256').hexdigest()
+              if actual != expected:
+                  raise RuntimeError('Build input hash mismatch: ' + name)
+          with tarfile.open(root / 'dxc.tar.gz') as archive:
+              archive.extractall(root / 'dxc', filter='data')
+          PY
+      - name: Rebuild and validate all shaders and the exact release DLL
+        run: |
+          python3 dll/build.py --sdk .work/dll-inputs/sdk.dll \
+            --dxcompiler .work/dll-inputs/dxc/lib/libdxcompiler.so \
+            --output .work/dll-build --jobs 2
+          python3 scripts/package-dll.py \
+            --dll .work/dll-build/amd_fidelityfx_upscaler_dx12.dll --output dist/dll
+          cd dist/dll
+          sha256sum -c *.sha256
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: portable-dll-candidate
+          path: |
+            dist/dll/*.zip
+            dist/dll/*.sha256

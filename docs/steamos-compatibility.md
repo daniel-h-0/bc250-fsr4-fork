@@ -36,7 +36,7 @@ changed for this repair.
 ## Reproduce the initial SteamOS-only candidate
 
 Use a full source checkout and the normal
-[build prerequisites](../README.md#build-from-source), plus `bsdtar`.
+[build prerequisites](legacy-rc6.md#build-from-source), plus `bsdtar`.
 The build host still needs working compiler support tools and Meson; the
 target's compiler, headers and link libraries come from the pinned packages.
 

@@ -1,5 +1,8 @@
 # Development
 
+For the RC7 portable DLL, use the [DLL source guide](../dll/README.md).
+The driver/runtime procedures below describe the retained components.
+
 The maintained `v4` branch preserves upstream v3 history at
 `6173651fa3a5a557cba2c2ff802e2d6f49881bc1`. Keep `upstream` pointed at
 `https://github.com/dmorazasanchez/bc250-fsr4.git` and `origin` at the fork.
@@ -39,7 +42,7 @@ replacement. The generic GFX1013 dot lowerings, deferred-dot optimization and
 independent store repair remain active. This switch does not select stock Mesa
 or recreate upstream v3. The internal `v3` cache marker is a generation ID.
 
-Use the [native or container build commands](../README.md#build-from-source).
+Use the [native or container build commands](legacy-rc6.md#build-from-source).
 Build provenance records materialized source, recipe, compiler, dependencies
 and flags. Matching source hashes alone do not establish identical binaries.
 Target build records also pin imported builder and extraction helper code.

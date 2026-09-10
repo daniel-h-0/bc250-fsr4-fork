@@ -7,7 +7,7 @@ If you already completed the move to rc1, follow the
 
 ## Upgrade sequence
 
-1. Check Python **3.11+**, a working Vulkan loader and the [prerequisites](../README.md#prerequisites).
+1. Check Python **3.11+**, a working Vulkan loader and the [prerequisites](legacy-rc6.md#prerequisites).
    If Arch/CachyOS packages need updating, use a coherent full-system update
    and preserve the normal recovery path. Do not cherry-pick core libraries
    or invent compatibility symlinks.
@@ -65,7 +65,7 @@ The exact tested binaries and environment are recorded in
 Private rollback restores driver selection and migrated ICD bytes. It does
 not revert a separate distribution update; retain the distribution's recovery
 snapshot when you need the earlier complete environment. See
-[driver rollback](../README.md#private-archive-install-or-v3-upgrade).
+[driver rollback](legacy-rc6.md#private-archive-install-or-v3-upgrade).
 
 If your distribution has moved beyond Mesa 26.2.2, use a private archive that
 passes its checks or build the private source route. Do not downgrade a

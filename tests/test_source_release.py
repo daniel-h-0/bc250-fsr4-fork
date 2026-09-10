@@ -86,6 +86,31 @@ class SourceReleaseTests(unittest.TestCase):
             self.assertEqual(bundle.extractfile(member).read(), b"#!/bin/sh\nexit 0\n")
             self.assertFalse(any(member.name.endswith("new-source.txt") for member in bundle))
 
+    def test_dll_source_identity_does_not_relabel_the_retained_runtime(self):
+        for name in source_release.SETUP_FILES:
+            path = self.root / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("fixture\n")
+        (self.root / "runtime/manifest.json").write_text('{"release":{"version":"4.0.0-rc6"}}')
+        (self.root / "dll").mkdir()
+        (self.root / "dll/manifest.json").write_text('{"release_version":"4.0.0-rc7"}')
+        (self.root / "docs/legacy-rc6.md").write_text(
+            "# Retained RC6 guide\n[Games](../docs/games.md)\n"
+        )
+        self.git("add", ".")
+        self.git("commit", "-qm", "Portable DLL alongside retained runtime")
+        full = self.export("portable-source")
+        self.assertTrue(full.name.startswith("bc250-fsr4-v4.0.0-rc7-source-"))
+        setup = source_release.create_archive(
+            self.root, Path(self.temporary.name) / "retained-setup", setup=True
+        )
+        self.assertEqual(setup.name, "bc250-fsr4-setup-4.0.0-rc6.tar.gz")
+        with tarfile.open(setup) as bundle:
+            readme = bundle.extractfile("bc250-fsr4-setup-4.0.0-rc6/README.md").read().decode()
+            self.assertIn("Retained RC6 guide", readme)
+            self.assertIn("[Games](docs/games.md)", readme)
+            self.assertNotIn("4.0.0-rc7", readme)
+
     def test_existing_output_is_never_replaced(self):
         archive = self.export("one")
         original = archive.read_bytes()

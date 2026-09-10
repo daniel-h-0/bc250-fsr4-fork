@@ -2,7 +2,7 @@
 
 RC5 corrects installation, recovery and Steam utility behavior while reusing
 RC4’s exact portable driver and RC3’s upstream components and game preset.
-Use the [current setup](../README.md#start-a-steam-game) and
+Use the [current setup](legacy-rc6.md#start-a-steam-game) and
 [update guide](upgrading-rc2.md).
 
 ## Corrections

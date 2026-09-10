@@ -1,6 +1,39 @@
 # Releases and distribution
 
-BC250 FSR4 is one distribution with one install/update/status/rollback
+RC7 is the portable DLL release candidate. Its primary artifact is
+`bc250-fsr4-dll-4.0.0-rc7.zip`, with an equivalent smaller `.tar.xz` option.
+Each contains one DLL, the short installation guide, checksums and notices.
+Follow the [DLL quickstart](../README.md) and
+[compatibility scope](portable-dll-rc7.md). The retained RC6 installer is separate.
+
+## RC7 DLL and complete source
+
+From a reviewed source tree, rebuild the exact candidate using the
+[DLL build instructions](../dll/README.md), then package it:
+
+```sh
+python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll
+python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --format tar.xz
+python3 scripts/source-release.py --output dist/source
+```
+
+The binary packager refuses a mismatched DLL, changed instructions, missing
+notices and existing output assets. It includes SHA256SUMS inside the archive
+and an adjacent archive checksum. ZIP and tar.xz contain the same files; they
+are two compression formats for the same DLL. The complete source archive
+takes its release identity from `dll/manifest.json`, includes all 348 editable
+shader sources and retains the older runtime/driver source for recovery.
+
+`runtime/manifest.json` remains at RC6. `source-release.py --setup` still
+exports the retained RC6 installer with its own guide; it does not install RC7.
+Do not attach a relabeled RC6 installer or driver bundle as an RC7 DLL asset.
+The CI DLL job downloads hash-pinned public SDK/DXC inputs and checks all
+rebuilt shader hashes and the complete DLL hash. GPU/platform qualification
+is separate from a successful source build.
+
+## Retained RC6 distribution
+
+The retained RC6 distribution has one install/update/status/rollback
 interface. Driver and Steam runtime identities are recorded internally;
 changing the installer does not change the qualified driver or extend its
 old gameplay evidence.
@@ -23,7 +56,7 @@ The distribution release tag is `v4.0.0-rc6`. Its small
 `bc250-fsr4-setup-4.0.0-rc6.tar.gz` bundle contains the installer tools,
 runtime manifest, integration patch and essential documentation/notices,
 with an adjacent SHA256 checksum. Users extract it and follow the
-[quickstart](../README.md#start-a-steam-game); Git is optional.
+[quickstart](legacy-rc6.md#start-a-steam-game); Git is optional.
 Existing rc1 users should first read the [transition guide](upgrading-rc1.md).
 The original rc1 archive installs the driver component; it cannot update itself
 into the unified tools. Obtain the rc6 setup archive in a separate directory.
@@ -94,7 +127,14 @@ original attached source archive.
 
 ## Publishing changes
 
-Give component, patch or preset changes a new distribution version.
+For a portable DLL release, build from the reviewed immutable source commit,
+verify the DLL and archive checksums, and attach the DLL archive(s), matching
+checksums and complete source export. Record the actual GPU/API outcomes and
+remaining qualification limits. Keep the existing RC6 recovery assets available.
+The RC7 DLL release does not require a new driver or setup bundle.
+
+For retained driver/runtime releases, give component, patch or preset changes
+a new distribution version.
 Validate installation and the affected renderer/input routes, publish a matching setup
 bundle/checksum and record the scope in the changelog. Reuse an unchanged
 qualified driver by its exact hash.

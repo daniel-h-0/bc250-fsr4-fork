@@ -1,220 +1,75 @@
-# BC250 FSR4 v4
+# BC250 FSR4 — portable DLL, RC7
 
-Optimized Mesa 26.2.2 RADV for the AMD BC250, continuing
-[dmoraza's BC250 FSR4 project](https://github.com/dmorazasanchez/bc250-fsr4)
-with the original history preserved. Install once, then select
-**BC250 FSR4 (4.1.1 INT8)** in Steam for a compatible DX11, DX12 or Vulkan game.
+**RC7 puts the v4 FSR 4.1.1 INT8 optimizations in one Windows x64 DLL.**
+Use it with a compatible native FidelityFX game or an ordinary OptiScaler
+installation. A custom Mesa build, custom Proton tool and BC250 installer
+are no longer part of this installation.
 
-The [v4.0.0-rc1 driver](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc1)
-has recorded [qualification](docs/qualification.md) and
-[performance results](docs/performance.md). The **4.0.0-rc6 unified distribution** fixes
-[Steam's missing Windows save-folder mappings](docs/save-paths-rc6.md), retaining RC5's
-[installation and recovery fixes](docs/review-rc5.md), RC4’s
-[portable driver and compatibility checks](docs/rc4-compatibility.md) and RC3’s
-[DX11, DX12 and Vulkan runtime qualification](docs/runtime-qualification.md).
-The earlier performance results used the previous integration.
+This is the **4.0.0-rc7 release candidate**; the DLL identifies itself as
+**4.1.1r7**. Its exact bytes are tested on BC250/Linux. Windows and other
+GPUs remain unqualified. Read the [compatibility results](docs/portable-dll-rc7.md)
+before choosing a route. RC6 remains available with its
+[existing installation and recovery guide](docs/legacy-rc6.md).
 
-![Estimated FSR4 GPU cost, v3 to v4: 1080p approximately 4.5 to 3.4 ms; 1440p 8.0 to 5.7 ms; 4K 18.0 to 12.9 ms. Historical 1440p v3 timing is measured; other costs are reconstructed.](docs/assets/fsr4-v3-v4-cost.svg)
+## Install
 
-Reconstructed from a directly timed **8.02 ms FFX pass at 1440p Balanced** and matched
-game GPU savings. [Measurements, assumptions and source data](docs/fsr-cost.md)
-explain the estimates; [exact game results](docs/performance.md) are separate.
+Extract `bc250-fsr4-dll-4.0.0-rc7.zip` (or the smaller `.tar.xz` archive).
+It contains one DLL, instructions, checksums and notices. Close the game and
+back up any file you replace.
 
-## Start a Steam game
+**Already using OptiScaler:** replace
+`OptiScaler/amd_fidelityfx_upscaler_dx12.dll` with the RC7 DLL. Select the
+FFX/FSR4 backend and INT8 model 2. The [short installation guide](dll/INSTALL.md)
+has the exact settings and the ordinary Proton launch option.
 
-**SteamOS 3.7/3.8 and Debian 12:** The current installer automatically installs the portable
-driver when needed. No manual ABI archive selection or system-library replacement
-is required. See the [tested scope](docs/rc4-compatibility.md).
+**Native FidelityFX game:** replace its compatible upscaler DLL. Native
+loader versions differ: Deadzone Rogue uses the upscaler filename, while
+the tested KCD2 integration requires the same bytes under the loader filename.
+Follow the [filename and loader notes](docs/portable-dll-rc7.md#native-game-loaders).
 
-**Already using rc2–rc5?** Follow the [runtime update guide](docs/upgrading-rc2.md).
+To undo a DLL replacement, close the game and restore the backed-up file.
+Game updates may replace it. Keep one upscaler integration active per game;
+the [RC6 transition](docs/portable-dll-rc7.md#coming-from-rc6) explains how to
+switch an existing Steam selection without deleting saves or prefixes.
 
-**Already using rc1?** Follow the [rc1 transition guide](docs/upgrading-rc1.md)
-first. It covers driver selection and retiring the old game hooks.
+## What changed
 
-Download `bc250-fsr4-setup-4.0.0-rc6.tar.gz` and its checksum from the
-[releases page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases), verify
-the checksum and extract it. No Git checkout or Wine compilation is needed.
-Close Steam and games. From the extracted folder, run as your desktop user:
+The DLL embeds all 348 optimized shader permutations: model inference,
+image preparation and final output. It retains dynamic-weight guards and
+fallbacks. RC7 also rewrites 17,964 integer vector extensions as equivalent
+per-lane operations, allowing ordinary Proton 10 and 11 to translate the
+shaders while keeping their packed arithmetic.
 
-```sh
-./bc250-fsr4 install
-```
+RC7 also repairs a missing SDK synchronization barrier before padding clears.
+This addresses the intermittent synthetic-image corruption found during review
+without adding a runtime setting or another installed component.
 
-For a standard v3 installation, use `./bc250-fsr4 install --upgrade-v3`; this
-installs a private driver and journals the requested ICD migration for rollback.
-The installer reuses a compatible verified driver, or installs a private one
-when needed, then installs the Steam runtime. It manages both components
-through the same interface:
+In matched 240-frame trials, whole-upscaler GPU cost stayed within
+**1.14% of the existing v4 driver path** at 1080p, 1440p and 4K. Every scored output image was byte-identical.
+These are upscaler timings on BC250, not whole-game FPS promises for other GPUs.
+[Measurements and limits](docs/portable-dll-rc7.md#correctness-and-performance)
+include the previously inconclusive arbitrary-size cases.
 
-```sh
-./bc250-fsr4 update
-./bc250-fsr4 status
-./bc250-fsr4 doctor
-./bc250-fsr4 rollback
-```
+## Build and review
 
-Restart Steam. In the game's **Properties → Compatibility**, enable the
-specific compatibility tool option and choose **BC250 FSR4 (4.1.1 INT8)**.
-Launch the game and select its FSR or DLSS input in the graphics menu.
-Keep its established renderer; DX11 and Vulkan use a D3D12 interop path.
-Repeat that Steam selection for each compatible game you want to opt in.
-
-**Do not combine this with the newer 4.1.1b mod or another OptiScaler
-deployment.** Undo an existing integration first. The [game guide](docs/games.md)
-covers switching, runtime updates and undo. The former three-game wizard is
-retired; its [recovery commands](docs/game-troubleshooting.md#recover-the-retired-game-wizard)
-remain available.
-
-## Prerequisites
-
-- A functioning Linux BC250 graphics setup: x86_64, PCI `1002:13fe`, RADV
-  GFX1013. Firmware, kernel and clock configuration are separate.
-- Python **3.11+** and a working Vulkan loader (`libvulkan.so.1`).
-- Internet access for the initial pinned downloads. The installer applies its
-  small integration patch itself and obtains a verified static 7-Zip extractor
-  if `bsdtar` is absent. No root access or extra OS packages are needed for these
-  installation steps. [Offline options](docs/game-troubleshooting.md) are available.
-- RC4’s private driver targets Debian 12’s glibc 2.36 / GCC 12 / Wayland 1.21
-  library baseline. It has no shared LLVM, libdrm, display-info or SPIRV-Tools
-  dependency. Host and available Steam Runtime 4 checks run before activation.
-- Native Linux Steam is the initial target. Steam Flatpak and other sandboxes
-  are not qualified.
-
-Keep distribution libraries coherent and retain working 32-bit RADV. v4 ships
-only x86_64; never export its private ICD globally. See the
-[v3 upgrade notes](docs/upgrading-v3.md) for the actual dependency changes.
-
-## Advanced driver builds and installation
-
-| Route | Purpose |
-| --- | --- |
-| [Private archive](#private-archive-install-or-v3-upgrade) | Checked user installation and v3 migration; easiest rollback |
-| [Portable source build](docs/rc4-compatibility.md#reproduce-the-portable-driver) | Reproduce RC4’s older library baseline without changing the host OS |
-| [Native source build](#build-from-source) | Build the pinned driver for your distribution |
-| [Container build](#container-build) | Build the same source using Docker or Podman |
-| [System packages](docs/system-install.md) | Optional Arch/CachyOS integration with package-owned RADV |
-
-## Private archive install or v3 upgrade
-
-The unified installer already handles this. These component commands are
-for driver development and recovery.
-
-The internal driver installer obtains the published archive, checks its checksum and
-probes the host before activation. A local archive and adjacent checksum work
-without network access:
+The complete, editable LLVM/DXIL sources and pinned SDK/DXC identities are
+under [dll/](dll/README.md). Rebuilding validates every shader and must produce
+the exact release DLL hash. Build tools are needed only by developers.
 
 ```sh
-./install-v4.sh /path/to/DRIVER.tar.gz
+python3 scripts/check-repo.py
+python3 dll/build.py --sdk /path/to/original/amd_fidelityfx_upscaler_dx12.dll \
+  --dxcompiler /path/to/dxc/lib/libdxcompiler.so --output .work/dll --jobs 2
+python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll
 ```
 
-For a custom v3 ICD, append `--upgrade-v3-icd PATH`; repeat it for multiple
-installations. Only the named manifests are migrated, and their original bytes
-are retained for rollback. The standard `--upgrade-v3` option selects
-`~/.local/share/bc250-fsr4/v3/radv-bc250-fsr4-v3.json`.
-
-The default private root is `~/.local/share/bc250-fsr4/`, with retained
-releases and a stable `current.json`. For a custom root, use
-`python3 scripts/driver.py --prefix PATH install ARCHIVE` and pass the same
-prefix to subsequent commands.
-
-```sh
-python3 scripts/driver.py status
-./run-bc250-fsr4.sh vulkaninfo --summary
-python3 scripts/driver.py rollback
-```
-
-Before driver rollback, switch games using BC250 FSR4 back to their previous
-Steam compatibility tool. Rollback restores the previous driver selection and
-migrated ICD bytes, while preserving later user edits. If status reports an
-interrupted transaction, run `python3 scripts/driver.py recover`.
-The [unified interface](docs/games.md#update-or-undo) coordinates the components.
-Commands in this advanced driver section operate on the driver alone.
-
-## Build from source
-
-### Obtain the source
-
-Contributors can use an exported source snapshot or the maintained branch:
-
-```sh
-git clone --branch v4 https://github.com/daniel-h-0/bc250-fsr4-fork.git
-cd bc250-fsr4-fork
-```
-
-The original `v4.0.0-rc1` tag and assets remain immutable. See
-[release identities](docs/releases.md) before rebuilding or distributing.
-
-### Native build
-
-On a coherent Arch/CachyOS installation:
-
-```sh
-sudo pacman -S --needed base-devel python python-pip ninja git \
-  libdrm libelf zlib zstd libx11 libxext libxcb libxshmfence \
-  libxrandr libxxf86vm wayland libdisplay-info spirv-tools glslang vulkan-tools
-./scripts/bootstrap.sh
-./scripts/build-native.sh --jobs 4
-python3 scripts/package.py --label cachyos-x86_64
-```
-
-The builder verifies the pinned Mesa archive, ordered patches and final source
-hashes. It builds 64-bit RADV using ACO, with LLVM and game tracing disabled.
-Use `--mesa-archive PATH` for a local Mesa archive, `--prepare-only` to check
-inputs without compiling, or `--work PATH` for a separate build directory.
-Resume requires matching inputs; old rc1 build directories need a fresh build.
-
-## Container build
-
-With Docker or rootless Podman available:
-
-```sh
-./build-anywhere.sh --jobs 4
-python3 scripts/package.py --work .work/container --label arch-container-x86_64
-```
-
-Podman is preferred; select Docker with `BC250_CONTAINER_ENGINE=docker`.
-No GPU is needed for building. The resulting binary retains its distribution
-ABI requirements and must pass the destination host's checks. A new build
-needs qualification of its exact ELF before release.
-
-## What's in v4
-
-The patches provide bounded arithmetic lowerings, selective unrolling and
-reduction, composed image/texture optimizations, resolution-family coverage
-and guarded store repairs. Unknown inputs retain their correctness fallback.
-
-Matched Deadzone trials on a **40-CU BC250 with a 1850 MHz GPU maximum**
-against upstream v3 measured **+14.3%, +18.9% and
-+17.2% FPS** at 1080p, 1440p and 4K, respectively, with FSR 4.1.1 INT8 Quality
-and hardware ray tracing off. These are scene-specific averages from the
-[recorded campaign](docs/performance.md), not new-runtime measurements.
-
-For project work, see [contributing](CONTRIBUTING.md),
-[development](docs/development.md), [releases](docs/releases.md) and
-[provenance and licenses](THIRD_PARTY.md). Historical upstream experiments
-remain under [legacy](legacy/README.md).
+See [distribution and source archives](docs/releases.md), the
+[changelog](CHANGELOG.md), and [provenance and licenses](THIRD_PARTY.md).
 
 ## Special thanks
 
-This project builds on substantial work by these projects and their contributors:
-
-- [dmoraza's BC250 FSR4](https://github.com/dmorazasanchez/bc250-fsr4), for the
-  original BC250 compatibility work and the history this fork continues.
-- [Mesa](https://gitlab.freedesktop.org/mesa/mesa), for RADV and the ACO compiler
-  that our driver changes build on.
-- [GE-Proton](https://github.com/GloriousEggroll/proton-ge-custom), for the
-  compatibility runtime and upscaler integration underneath our Steam tool;
-  and [Valve's Proton](https://github.com/ValveSoftware/Proton), with its Wine,
-  DXVK and vkd3d-proton foundations.
-- [OptiScaler](https://github.com/optiscaler/OptiScaler) and
-  [OptiPatcher](https://github.com/optiscaler/OptiPatcher), for upscaler
-  interception, replacement and exposing supported games' DLSS inputs.
-- [umu-protonfixes](https://github.com/Open-Wine-Components/umu-protonfixes)
-  and [proton-upscalers](https://github.com/loathingKernel/proton-upscalers),
-  for the upstream prefix/upscaler tooling and component distribution we reuse.
-- [AMD FidelityFX SDK](https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK),
-  for the FSR implementation and API bridge.
-
-Their authors retain credit for their work; [provenance and licenses](THIRD_PARTY.md)
-record the component identities and applicable notices. This work was accomplished with 
-the assistance of AI tools (GPT-6-Astra-xhigh) with constant human oversight.
+This work continues [dmoraza's BC250 FSR4 project](https://github.com/dmorazasanchez/bc250-fsr4).
+Thanks to AMD/GPUOpen, the Mesa and RADV contributors, Microsoft DXC,
+Wine, vkd3d-proton, Valve Proton, GE-Proton and OptiScaler for the underlying
+algorithms, compilers and compatibility work. Their licenses and attribution
+remain with the source and release notices.
