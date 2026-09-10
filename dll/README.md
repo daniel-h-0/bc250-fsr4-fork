@@ -12,6 +12,8 @@ Use Python 3.11+, an x86-64 Linux C++ compiler (`g++`), and the official
 Obtain the original SDK DLL from the exact `sdk_url` in [manifest.json](manifest.json).
 The builder checks both the SDK and `libdxcompiler.so` SHA256 before running.
 DXC's own host-library requirements still apply to the build machine.
+The pinned archive extracts into `linux_dxc_2026_07_29.x86_x64/`; its library
+is `lib/libdxcompiler.so` inside that directory.
 
 From the repository root:
 

@@ -134,7 +134,7 @@ jobs:
       - name: Rebuild and validate all shaders and the exact release DLL
         run: |
           python3 dll/build.py --sdk .work/dll-inputs/sdk.dll \
-            --dxcompiler .work/dll-inputs/dxc/lib/libdxcompiler.so \
+            --dxcompiler .work/dll-inputs/dxc/linux_dxc_2026_07_29.x86_x64/lib/libdxcompiler.so \
             --output .work/dll-build --jobs 2
           python3 scripts/package-dll.py \
             --dll .work/dll-build/amd_fidelityfx_upscaler_dx12.dll --output dist/dll
