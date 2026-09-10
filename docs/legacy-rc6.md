@@ -3,6 +3,24 @@
 This is the retained RC6 installation guide. The current DLL candidate is described in the
 [RC7 quickstart](../README.md). These commands manage RC6, and do not install RC7.
 
+## Upgrade a game to RC7
+
+RC6 supplied a driver and Steam compatibility tool. RC7 supplies a game DLL.
+For an existing RC6 game, close it and select an ordinary Proton tool in
+Steam. Retire the previous integration's game hooks and launch overrides
+using its recovery instructions. Let ordinary Proton launch once before
+installing a new game-local adapter, then follow the
+[DLL installation guide](../dll/INSTALL.md). Use one integration at a time.
+
+The DLL change requires no save migration or manual prefix edits. The
+save-folder registration defect described below belonged to the older
+Steam tool. A package-owned system driver can remain installed independently.
+Keep RC6 available for other games or recovery; to return a game to it,
+restore the replaced DLL, remove only the adapter files you introduced, and
+reselect the RC6 Steam tool.
+
+## Historical RC6 overview
+
 Optimized Mesa 26.2.2 RADV for the AMD BC250, continuing
 [dmoraza's BC250 FSR4 project](https://github.com/dmorazasanchez/bc250-fsr4)
 with the original history preserved. Install once, then select

@@ -1,17 +1,18 @@
 # BC250 FSR4 — portable DLL, RC7
 
 **RC7 puts the v4 FSR 4.1.1 INT8 optimizations in one Windows x64 DLL.**
-Use it with a compatible native FidelityFX game or an ordinary OptiScaler
-installation. A custom Mesa build, custom Proton tool and BC250 installer
-are no longer part of this installation.
+Drop it into a working OptiScaler installation or a compatible native
+FidelityFX game. The optimizations are built into the DLL.
 
 This is the **4.0.0-rc7 release candidate**; the DLL identifies itself as
 **4.1.1r7**. Its exact bytes are tested on BC250/Linux. Windows and other
-GPUs remain unqualified. Read the [compatibility results](docs/portable-dll-rc7.md)
-before choosing a route. RC6 remains available with its
-[existing installation and recovery guide](docs/legacy-rc6.md).
+GPUs remain unqualified.
 
 ## Install
+
+Download the [RC7 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc7):
+[ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc7/bc250-fsr4-dll-4.0.0-rc7.zip) or
+[tar.xz](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc7/bc250-fsr4-dll-4.0.0-rc7.tar.xz).
 
 Extract `bc250-fsr4-dll-4.0.0-rc7.zip` (or the smaller `.tar.xz` archive).
 It contains one DLL, instructions, checksums and notices. Close the game and
@@ -27,10 +28,20 @@ loader versions differ: Deadzone Rogue uses the upscaler filename, while
 the tested KCD2 integration requires the same bytes under the loader filename.
 Follow the [filename and loader notes](docs/portable-dll-rc7.md#native-game-loaders).
 
-To undo a DLL replacement, close the game and restore the backed-up file.
-Game updates may replace it. Keep one upscaler integration active per game;
-the [RC6 transition](docs/portable-dll-rc7.md#coming-from-rc6) explains how to
-switch an existing Steam selection without deleting saves or prefixes.
+To undo, close the game and restore the backed-up DLL. Game updates may
+replace it. Use one upscaler integration per game.
+
+## Compatibility
+
+The final DLL passed rendering checks in Control, System Shock, No Man's Sky,
+Deadzone Rogue, Kingdom Come: Deliverance II, Roboquest with Luma, and
+DOOM: The Dark Ages. These cover native FSR and OptiScaler's DX11, DX12 and
+Vulkan routes on BC250/Linux with ordinary GE-Proton.
+
+No Man's Sky hit its hang detector during initial shader compilation;
+restarting with the compiled cache worked. Frame generation, native Windows,
+other GPUs and unlisted integrations need separate testing.
+[Tested configurations and limits](docs/portable-dll-rc7.md)
 
 ## What changed
 
@@ -65,6 +76,8 @@ python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll
 
 See [distribution and source archives](docs/releases.md), the
 [changelog](CHANGELOG.md), and [provenance and licenses](THIRD_PARTY.md).
+For the older driver and Steam tool, see the
+[RC6 guide and upgrade notes](docs/legacy-rc6.md).
 
 ## Special thanks
 

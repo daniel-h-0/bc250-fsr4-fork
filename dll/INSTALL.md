@@ -4,9 +4,8 @@ Project version **4.0.0-rc7**; SDK display name **4.1.1r7**.
 This archive contains one modified Windows x64 upscaler DLL. The v4
 performance changes are already compiled into it.
 
-**Tested hardware: AMD BC250 on Linux.** An FFX API and rendering check passes on ordinary Proton 10/11. Windows and other GPUs are candidates for testing, not qualified
-platforms. This DLL uses modern DXIL/Shader Model 6.9; native Windows needs
-a D3D12 runtime and driver that accept those shaders.
+**Tested on AMD BC250 / Linux with ordinary Proton.** Native Windows and
+other GPUs need separate testing.
 
 ## With OptiScaler
 
@@ -41,48 +40,55 @@ On Proton, use an ordinary compatibility tool. For OptiScaler installed as
 `winmm.dll`, the Steam launch option is:
 
 ```sh
-PROTON_FSR4_UPGRADE=0 PROTON_USE_OPTISCALER=0 WINEDLLOVERRIDES="winmm=n,b" %command%
+PROTON_FSR4_UPGRADE=0 PROTON_USE_OPTISCALER=0 WINEDLLOVERRIDES="winmm=n,b;amdxcffx64=" %command%
 ```
 
 Use the matching proxy name if your OptiScaler installation uses another name.
-The two Proton variables keep separate automatic upscaler integrations off
-in tools that provide them; ordinary Valve Proton ignores unsupported options.
-OptiScaler's required adapter files stay installed; this download replaces
-only its upscaler backend. Keep the adapter's signed `nvngx_dlss.dll` helper
-beside its proxy when required: System Shock needs that placement even with
-`Libraries.NvngxDlssPath` configured. The RC6 BC250 Steam tool must not remain selected
-for a game using this route.
+For Heroic or another Wine launcher, enter these as environment-variable
+name/value pairs instead of using Steam’s `%command%` placeholder. There is
+no RC7-specific Heroic switch; Heroic launch behavior has not been separately
+qualified with this candidate.
+These variables load the adapter and keep competing automatic upscaler
+integrations off. Keep OptiScaler's other files installed, including its
+signed `nvngx_dlss.dll` helper beside the proxy when required.
 
 For a visual check, temporarily set `[FSR] Fsr4EnableWatermark=true`.
 The rendered image should identify **4.1.1r7**, INT8 and the local source.
-Turn the watermark off after checking. A loaded DLL alone does not establish
-that the game is using FSR4.
+Turn the watermark off after checking.
 
 ## With a native FidelityFX game
 
-Close the game, back up its compatible `amd_fidelityfx_upscaler_dx12.dll`,
-then replace that file. Enable native FSR in the game. No OptiScaler proxy
-or Wine override is required for this route.
+Close the game, back up the compatible game DLL, then replace it and select
+native FSR in the graphics menu. The verified replacement locations are:
 
-Loader compatibility is game-specific. The verified integration in
-**Deadzone Rogue** uses `Valhalla/Binaries/Win64/amd_fidelityfx_upscaler_dx12.dll`.
-In **Kingdom Come: Deliverance II**, the older bundled loader is incompatible
-with this SDK provider interface. Use the same replacement bytes as
-`Bin/Win64Shared/amd_fidelityfx_loader_dx12.dll`, keeping the original
-upscaler file. Those native filename checks were performed with the preceding
-DLL; RC7 preserves the SDK interface and adds the Proton and synchronization fixes.
+| Game | Replace this file |
+| --- | --- |
+| Deadzone Rogue | `Valhalla/Binaries/Win64/amd_fidelityfx_upscaler_dx12.dll` |
+| Kingdom Come: Deliverance II | `Bin/Win64Shared/amd_fidelityfx_loader_dx12.dll` |
 
-This file implements upscaling. Do not apply the KCD2 loader substitution to
-other games without checking their loader and other FidelityFX effects.
-Frame generation, ray regeneration, Luma/ReShade combinations and arbitrary
-native loader versions are outside RC7's qualification.
+For KCD2, rename the downloaded DLL to the loader filename, keep the original
+upscaler file, and explicitly select **FSR 4.1** in-game; Quality was tested.
+Other games may use different loader interfaces. Check compatibility before
+applying that rename elsewhere.
+
+## Known limits
+
+This release covers upscaling. Frame generation, ray regeneration and
+unlisted game or mod combinations need separate testing. The recorded
+Roboquest Luma/ReShade combination passed a basecamp check.
+
+Initial shader compilation can cause a long pause. No Man's Sky hit its
+hang detector on the first in-game switch to DLSS; restarting with the same
+DLL and compiled cache worked. Native Windows requires a D3D12 runtime and
+driver accepting DXIL 1.9 / Shader Model 6.9.
+
+[Tested configurations and details](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc7/docs/portable-dll-rc7.md)
 
 ## Update, undo and checksums
 
 Keep the original game/adapter DLL backup. To update, close the game and replace
 only the RC7 DLL. To undo, restore the backup. Game updates may restore their
-own DLL. This DLL installation needs no driver installation, Steam account
-management, manual Wine-prefix edits or save migration.
+own DLL.
 
 The DLL is 115,176,448 bytes, SHA256:
 
@@ -94,5 +100,6 @@ Verify with `sha256sum -c SHA256SUMS` on Linux, or PowerShell
 `Get-FileHash .\amd_fidelityfx_upscaler_dx12.dll -Algorithm SHA256` on Windows.
 The modified DLL is not AMD-signed. Retain the included notices.
 
-Full compatibility results, existing-RC6 transition, source and rebuild
-instructions: [BC250 FSR4 repository](https://github.com/daniel-h-0/bc250-fsr4-fork).
+Source and build instructions: [BC250 FSR4 repository](https://github.com/daniel-h-0/bc250-fsr4-fork).
+Upgrading from the older BC250 driver/Steam tool:
+[RC6 upgrade notes](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc7/docs/legacy-rc6.md#upgrade-a-game-to-rc7).

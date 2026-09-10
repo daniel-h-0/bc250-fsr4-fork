@@ -4,7 +4,7 @@ RC7 makes the optimized **FSR 4.1.1 INT8 DLL** the primary product. Users
 replace one compatible upscaler DLL. The performance implementation is
 compiled into that file; a custom Mesa package or custom Proton tool is no
 longer required. The [installation guide](../dll/INSTALL.md) accompanies the
-binary download. RC6 remains a separate, retained installation and recovery path.
+binary download.
 
 ```mermaid
 flowchart LR
@@ -28,26 +28,44 @@ driver shader compilation are still required by the platform.
 
 | Context | Evidence and limit |
 | --- | --- |
-| Direct FFX API / D3D12 | Context creation, GPU dispatch, finite full-image readback and destruction with ordinary Proton; shader lowering fixes the prior Proton 10/11 failure |
-| Control / DX12 DLSS | RC7 rendered a loaded-save scene through upstream OptiScaler and ordinary Proton Experimental; watermark and 14 captured shader hashes identify the local DLL |
-| System Shock / DX11 DLSS | RC7 rendered the 3D menu through upstream OptiScaler and ordinary GE-Proton 11-6; 14 matching shaders, with the separate AMD driver provider disabled |
-| No Man's Sky Cosmos / Vulkan DLSS | RC7 rendered a loaded-save scene through upstream OptiScaler and ordinary Proton Experimental; 14 matching shaders, with the separate AMD driver provider disabled |
-| Native game DLL replacement | Deadzone Rogue and KCD2 established the filename/loader routes with the preceding DLL; see the precise scope below |
+| Direct FFX API / D3D12 | Context creation, GPU dispatch, finite full-image readback and destruction on ordinary Proton 10/11, Experimental, Hotfix and GE-Proton |
+| Control / DX12 DLSS | Final RC7 rendered a saved scene with the existing 1440p ray-tracing/HDR settings; fourteen matching shaders |
+| System Shock / DX11 DLSS | Final RC7 rendered the 3D title menu at 1440p; fourteen matching shaders |
+| No Man's Sky Cosmos / Vulkan DLSS | Final RC7 rendered a saved scene at 1080p Balanced on a restart; fourteen matching shaders; first-compilation hang described below |
+| Deadzone Rogue / native FFX | Final RC7 rendered its menu and an existing Zone 1 scene at 1440p Balanced; sixteen matching shaders |
+| KCD2 / native FFX | Final RC7 rendered an existing saved scene at 1440p FSR 4.1 Quality; fourteen matching shaders; requires the loader filename and explicit FSR selection |
+| Roboquest / DX11 Luma | Final RC7 rendered the existing basecamp at 1440p Native AA through the retained Luma/ReShade combination; fourteen matching shaders |
+| DOOM: The Dark Ages / Vulkan FFX | Final RC7 rendered the 3D main menu at 1440p FSR Performance with HDR enabled and frame generation disabled; fourteen matching shaders |
 | Native Windows and other GPUs | Unqualified; external testing is required |
-| Frame generation, ray regeneration, Luma/ReShade combinations | Outside this DLL candidate's qualification |
-| Steam Flatpak / other sandboxes / other Linux distributions | No separate operating-system or sandbox qualification; make the DLL and adapter files accessible inside the application's environment |
+| Frame generation, ray regeneration, other mod combinations | Outside this DLL candidate's qualification |
+| Heroic, Steam Flatpak, other sandboxes or Linux distributions | No separate launcher, operating-system or sandbox qualification; make the DLL and adapter files accessible inside the application's environment |
 
-The System Shock and No Man’s Sky checks used the preceding RC7 build
-(`b68c1c0b…`) with the same 348 shader blobs, before the SDK barrier repair.
-They establish those adapter routes, but do not represent executions of the
-final DLL. The API, image and timing results below use the final bytes; the
-Control follow-up also checks the final DLL.
+These final-DLL game follow-ups use ordinary **GE-Proton 11-6**, the normal
+Steam prefixes, and the installed Mesa driver (`6bc07c5a…`). They exclude the
+separate `amdxcffx64.dll` driver provider and use no custom Proton manifest or
+private driver override. The separate API, image and timing checks establish
+operation with standard Mesa (`38742ee1…`). Every completed follow-up includes
+actual rendering, the mapped DLL identity, the complete matching model shader
+family, and a normal exit through the game's menus.
+
+Earlier System Shock and No Man’s Sky records used the preceding RC7 build
+(`b68c1c0b…`) before the SDK barrier repair. Earlier native checks used
+`066fc2a4…`. Their original scopes remain in the evidence; the follow-ups above
+check the final `730c175a…` DLL itself.
+
+**No Man's Sky first-compilation caveat:** the first in-game change from Off
+to DLSS recorded a 65.96-second first-dispatch stall and the game's
+`0x1106-HANG` report. No kernel GPU fault or reset was recorded. A fresh launch
+with the same DLL, Proton, driver and compiled shader cache rendered the saved
+scene and exited normally. That establishes a successful restart, not a
+universal cold-start guarantee. Shader dumping and diagnostic logging were
+enabled for identification; these game checks are not performance trials.
 
 The exact runtime identities, shader/image hashes and measured results are
 in [the candidate record](data/portable-dll-rc7.json). A menu or scene check is
 bounded functionality evidence, not an endurance test or an installation
-allowlist. Previous RC3 runtime gameplay results do not automatically transfer
-to this DLL.
+allowlist. Untested game/renderer combinations need separate checks.
+Previous RC3 runtime gameplay results do not automatically transfer to this DLL.
 
 ## Proton compatibility change
 
@@ -123,14 +141,22 @@ dispatch. The initial incomplete-layout trials remain negative evidence.
 This is why the guide starts with a working upstream adapter installation.
 
 Some Proton releases ship their own optional `amdxcffx64.dll` under `contrib`.
-Its presence does not identify the selected rendering backend. Control used
-the local RC7 SDK despite that stock component being present. The System Shock and No Man's Sky
-checks explicitly disabled it through a temporary Wine override, and still
-rendered using all 14 expected RC7 shaders. No Man's Sky used the ordinary
-Vulkan capability spoofing required to expose DLSS, and excluded unsupported
+Its presence does not identify the selected rendering backend. The installed
+follow-ups disabled that provider through `WINEDLLOVERRIDES`, and still
+rendered using the complete expected RC7 shader family. No Man's Sky used
+ordinary Vulkan capability spoofing to expose DLSS, and excluded unsupported
 `VK_NVX_binary_import,VK_NVX_image_view_handle` extensions only from vkd3d
-through `VKD3D_DISABLE_EXTENSIONS`. Its existing signed NGX helper was retained. No RC6 driver-provider or custom
-Proton manifest was used for these adapter checks.
+through `VKD3D_DISABLE_EXTENSIONS`. Its existing signed NGX helper was retained.
+No RC6 driver-provider or custom Proton manifest was used.
+
+**Roboquest's retained mod combination:** Luma Unreal Engine `latest-623`
+(add-on SHA256 `cee6b0e72d14673281cafae65b18803935b92d6121abaa5791e410a4e2b79583`)
+and ReShade 6.8.0.1 remained loaded. The existing Luma HDR and DLSS selection
+fed OptiScaler's DX11-to-D3D12 path at 2560×1440 Native AA. Upstream
+`Plugins.LoadReshade=true` loaded that existing installation, with
+`CreateD3D12DeviceForLuma`, `RestoreComputeSignature`, `RestoreGraphicSignature`
+and `ExtendedStateRestore` left false. This qualifies the recorded combination,
+not arbitrary Luma builds or ReShade effects.
 
 Enable the temporary FSR watermark or inspect actual adapter dispatch logs
 to distinguish the local `4.1.1r7` path from a fallback. DLL loading alone is
@@ -150,11 +176,20 @@ Native loader compatibility must be checked against the game integration.
 | Deadzone Rogue 1.4.2.0 | `Valhalla/Binaries/Win64/amd_fidelityfx_upscaler_dx12.dll` | Rendered native-FSR menu and matching shader hashes |
 | KCD2 1.5.6 | `Bin/Win64Shared/amd_fidelityfx_loader_dx12.dll` | Same DLL bytes under this filename; rendered a saved scene with FSR 4.1 Quality, preserving the original upscaler file |
 
-Those two game checks used the preceding DLL with SHA256
-`066fc2a4e5df3a31203085028939d9cc2a7a4dd45eceaf2c946bb580321f2746`.
-RC7's changes preserve its SDK interface and shader arithmetic, but those
-native game checks are not being represented as executions of the final RC7
-bytes. The direct API and adapter checks have their own exact artifact records.
+Both native routes passed follow-up checks with the final RC7 DLL
+`730c175a…` on ordinary GE-Proton 11-6 and the normal Steam prefixes.
+Deadzone rendered its menu and an existing Zone 1 scene with native FSR
+Balanced at 2560×1440; sixteen SDK shader hashes match RC7. KCD2 rendered
+its existing saved scene with FSR 4.1 Quality at 2560×1440; fourteen hashes
+match. Both exited through their menus. These follow-ups used the installed
+Mesa driver (`6bc07c5a…`); the separate API and timing checks establish
+standard-Mesa operation. The earlier native checks used `066fc2a4…` and
+remain historical evidence.
+
+KCD2's previous DLSS selection resolved to Off after the adapter was removed.
+Selecting **FSR 4.1 / Quality** activated the native route. Wait for initial
+shader compilation after applying the selection; a loaded replacement DLL
+with no matching dispatched shaders is insufficient evidence.
 
 KCD2's older loader called an incompatible private provider-vtable slot when
 only the upscaler file was replaced. Calling the new SDK at the loader entry
@@ -209,31 +244,6 @@ previously passed modified runtime-weight and fast-path witness checks;
 RC7 preserves those guards and fallbacks, with the documented integer-cast
 and host-synchronization changes.
 
-## Coming from RC6
-
-Switch one game at a time. Keep its original game-file backups and saves.
-Close the game, select an ordinary Proton tool in Steam, and retire any
-game-local hooks owned by the old integration using their original recovery
-method. Run the ordinary tool once before installing a new game-local
-adapter so its prefix can reconcile. Do not copy a second proxy over an
-unknown existing installation or delete the prefix to change upscalers.
-
-For native FFX, install the appropriate single DLL replacement. For other
-inputs, install the normal upstream OptiScaler adapter and replace its backend
-DLL. Remove inherited launch variables that select another upscaler or a
-private driver before evaluating RC7. The DLL itself needs no global Vulkan
-ICD export, `PROTON_UPSCALER_MANIFEST`, BC250 installation service or account scan.
-
-RC6 can remain installed for other games or rollback. A system-package-owned
-driver is independent of this DLL installation: switching a game does not
-require replacing that system package. The recorded standard-Mesa test
-establishes that the DLL does not depend on the v4 driver rewrites.
-
-To roll back a trial, close the game, restore the replaced game DLL and remove
-only adapter files introduced for that trial, then reselect the retained RC6
-tool if that was the previous integration. Preserve unrelated mods and saves.
-Use the [RC6 recovery guide](legacy-rc6.md) for RC6 component management.
-
 ## Review and reproduction
 
 The [developer guide](../dll/README.md) describes the source inventory, SDK
@@ -247,3 +257,6 @@ D3D12 runtime version, game/version, renderer, adapter version and input,
 selected FSR mode, visible output and normal exit result. A Windows/other-GPU
 report also needs the actual native shader-compilation/dispatch outcome.
 Keep logs focused and omit account data, saves and proprietary game shaders.
+
+The older bundled integration has separate
+[RC6 upgrade and recovery notes](legacy-rc6.md#upgrade-a-game-to-rc7).

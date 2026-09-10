@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "release_version": "4.0.0-rc7",
-  "status": "release candidate prepared and locally qualified within the documented scope; not published",
+  "status": "release candidate; final DLL verified on BC250 within the recorded scope",
   "dll_sha256": "730c175a38b0f0271ffaa201ca531825c6440a95fb71729d34566c66af8e4893",
   "dll_bytes": 115176448,
   "hardware": "AMD BC250, RADV GFX1013",
@@ -5579,7 +5579,7 @@
     "Other GPUs",
     "Frame generation",
     "Ray regeneration",
-    "Luma/ReShade chains",
+    "Luma/ReShade combinations other than the recorded Roboquest setup",
     "Unlisted native loader versions",
     "Separately booted other distributions and sandboxes",
     "Three listed odd-output cases whose original-shader reference varies on repeat: 193x145, 2401x901, and 193x145 with an 8K context reserve"
@@ -6680,6 +6680,704 @@
             "proton_version": "1787951532 GE-Proton11-6"
           }
         ]
+      }
+    ]
+  },
+  "final_game_validation": {
+    "date": "2026-09-10",
+    "scope": "Seven bounded rendered-menu or scene checks with the final DLL; not an endurance test, game-FPS benchmark or universal allowlist.",
+    "runtime": "1787951532 GE-Proton11-6",
+    "proton_sha256": "95a41f83184ab574d118fdd20f8647d5db0c350eb571314b475f0d25087311cf",
+    "installed_driver_sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+    "private_driver_override": false,
+    "custom_proton_manifest": false,
+    "driver_provider_mapped": false,
+    "shader_dumping_and_diagnostic_logging": true,
+    "games": [
+      {
+        "appid": "870780",
+        "title": "Control Ultimate Edition",
+        "steam_build_id": "21225456",
+        "method": "upstream-optiscaler",
+        "dll_sha256": "730c175a38b0f0271ffaa201ca531825c6440a95fb71729d34566c66af8e4893",
+        "normal_menu_exit": true,
+        "live_steam_prefix": true,
+        "frame_generation": false,
+        "matching_shaders": [
+          {
+            "sha256": "e0a5fd57224503c5a6a10d45d08d001cc9043c4386ec7b0775fed7f25e09cba5",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass5",
+            "original_offset": 8089344
+          },
+          {
+            "sha256": "6f5569320c6cfaff731a6eab871f91de7337e583502000c2f53a9e72563727b7",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass8",
+            "original_offset": 12049200
+          },
+          {
+            "sha256": "87afc2d462736f435508ecb79f8707296c585e0bbb6df9cf15c964c93f046114",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass4",
+            "original_offset": 5846912
+          },
+          {
+            "sha256": "5e8ad6459ea87511d99b4b4b76c94a11a6480ae54aee41ff8eace209ea4aa909",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass2",
+            "original_offset": 4728928
+          },
+          {
+            "sha256": "adff3975128c83a728bdb34249c02e0a15518b8bc3f9fc307a44d088d1d9e37b",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass11",
+            "original_offset": 2312288
+          },
+          {
+            "sha256": "97c5e253846a5e5fed1f9a100442972a42487a76bb73e14eabbc23ccb3c11ed4",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass6",
+            "original_offset": 11866848
+          },
+          {
+            "sha256": "84fd7bce193391d21552832b021468d4e3ffff12dbf2fdda8ce4197cc269732d",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass7",
+            "original_offset": 6564672
+          },
+          {
+            "sha256": "cf0a32445f9780bb7af0ead7ef0cd9c107050d6fa2cced66943d1e617a76f726",
+            "entry": "fsr4_model_v07_fp8_no_scale_prepass",
+            "original_offset": 3752112
+          },
+          {
+            "sha256": "b14a4abed39a158424165536e24cad54dbad83f31c9b39cbd7e21f4d905206d1",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass9",
+            "original_offset": 7304704
+          },
+          {
+            "sha256": "64f0355835f735ca5f48302974ed2e3ed5ead8f6cc849cfc855abf94005161be",
+            "entry": "fsr4_model_v07_fp8_no_scale_postpass",
+            "original_offset": 2392608
+          },
+          {
+            "sha256": "9cdb2de6688c65e8827292ffb185f5a1ce11fd38c7a34eaff37129d332ae0a66",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass3",
+            "original_offset": 1157264
+          },
+          {
+            "sha256": "16439266a71871ab5145acafd8e57f039df3673486d69e78191320cc77ac739c",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass12",
+            "original_offset": 11616800
+          },
+          {
+            "sha256": "9299b4aefb7cbb5ab7e33003251bbb8f19aeecc56280c16af5ff2dda008b426c",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass1",
+            "original_offset": 8249808
+          },
+          {
+            "sha256": "657da1d293ee854d99fa77c4da98bbf12b32708908582a0611fd6a44111a4e5d",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass10",
+            "original_offset": 6414480
+          }
+        ],
+        "dispatches_at_capture": 933,
+        "renderer": "DX12",
+        "input_api": "DLSS",
+        "observed": "existing saved scene",
+        "output": [
+          2560,
+          1440
+        ],
+        "input": [
+          1969,
+          1107
+        ],
+        "mode": "Native AA 1.30x",
+        "hdr": true,
+        "ray_traced_reflections": true
+      },
+      {
+        "appid": "3228590",
+        "title": "Deadzone: Rogue",
+        "steam_build_id": "23350458",
+        "method": "native-dll",
+        "dll_sha256": "730c175a38b0f0271ffaa201ca531825c6440a95fb71729d34566c66af8e4893",
+        "normal_menu_exit": true,
+        "live_steam_prefix": true,
+        "frame_generation": false,
+        "matching_shaders": [
+          {
+            "sha256": "669d4829b390299b9d6427af710b814996fd95f76cf8e98ebd38e292db5b2331",
+            "entry": "fsr4_model_v07_fp8_no_scale_prepass",
+            "original_offset": 3493664
+          },
+          {
+            "sha256": "266bd168026eb590bb98fb1d93b2f5a63736ab13d0dcfba30cfc1b68babc00cf",
+            "entry": "fsr4_model_v07_fp8_no_scale_prepass",
+            "original_offset": 8604112
+          },
+          {
+            "sha256": "e0a5fd57224503c5a6a10d45d08d001cc9043c4386ec7b0775fed7f25e09cba5",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass5",
+            "original_offset": 8089344
+          },
+          {
+            "sha256": "6f5569320c6cfaff731a6eab871f91de7337e583502000c2f53a9e72563727b7",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass8",
+            "original_offset": 12049200
+          },
+          {
+            "sha256": "e8aca92a63ea5d836520301d7bb12893460ce313cd250da28afb3ae3503e1289",
+            "entry": "fsr4_model_v07_fp8_no_scale_postpass",
+            "original_offset": 7364592
+          },
+          {
+            "sha256": "87afc2d462736f435508ecb79f8707296c585e0bbb6df9cf15c964c93f046114",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass4",
+            "original_offset": 5846912
+          },
+          {
+            "sha256": "5e8ad6459ea87511d99b4b4b76c94a11a6480ae54aee41ff8eace209ea4aa909",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass2",
+            "original_offset": 4728928
+          },
+          {
+            "sha256": "adff3975128c83a728bdb34249c02e0a15518b8bc3f9fc307a44d088d1d9e37b",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass11",
+            "original_offset": 2312288
+          },
+          {
+            "sha256": "97c5e253846a5e5fed1f9a100442972a42487a76bb73e14eabbc23ccb3c11ed4",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass6",
+            "original_offset": 11866848
+          },
+          {
+            "sha256": "84fd7bce193391d21552832b021468d4e3ffff12dbf2fdda8ce4197cc269732d",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass7",
+            "original_offset": 6564672
+          },
+          {
+            "sha256": "b14a4abed39a158424165536e24cad54dbad83f31c9b39cbd7e21f4d905206d1",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass9",
+            "original_offset": 7304704
+          },
+          {
+            "sha256": "64f0355835f735ca5f48302974ed2e3ed5ead8f6cc849cfc855abf94005161be",
+            "entry": "fsr4_model_v07_fp8_no_scale_postpass",
+            "original_offset": 2392608
+          },
+          {
+            "sha256": "9cdb2de6688c65e8827292ffb185f5a1ce11fd38c7a34eaff37129d332ae0a66",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass3",
+            "original_offset": 1157264
+          },
+          {
+            "sha256": "16439266a71871ab5145acafd8e57f039df3673486d69e78191320cc77ac739c",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass12",
+            "original_offset": 11616800
+          },
+          {
+            "sha256": "9299b4aefb7cbb5ab7e33003251bbb8f19aeecc56280c16af5ff2dda008b426c",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass1",
+            "original_offset": 8249808
+          },
+          {
+            "sha256": "657da1d293ee854d99fa77c4da98bbf12b32708908582a0611fd6a44111a4e5d",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass10",
+            "original_offset": 6414480
+          }
+        ],
+        "dispatches_at_capture": 0,
+        "renderer": "DX12",
+        "input_api": "native FFX",
+        "observed": "main menu and existing Zone 1 starting corridor",
+        "output": [
+          2560,
+          1440
+        ],
+        "mode": "Balanced",
+        "game_version": "1.4.2.0",
+        "replacement": "Valhalla/Binaries/Win64/amd_fidelityfx_upscaler_dx12.dll"
+      },
+      {
+        "appid": "1771300",
+        "title": "Kingdom Come: Deliverance II",
+        "steam_build_id": "23914554",
+        "method": "native-dll",
+        "dll_sha256": "730c175a38b0f0271ffaa201ca531825c6440a95fb71729d34566c66af8e4893",
+        "normal_menu_exit": true,
+        "live_steam_prefix": true,
+        "frame_generation": false,
+        "matching_shaders": [
+          {
+            "sha256": "669d4829b390299b9d6427af710b814996fd95f76cf8e98ebd38e292db5b2331",
+            "entry": "fsr4_model_v07_fp8_no_scale_prepass",
+            "original_offset": 3493664
+          },
+          {
+            "sha256": "e0a5fd57224503c5a6a10d45d08d001cc9043c4386ec7b0775fed7f25e09cba5",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass5",
+            "original_offset": 8089344
+          },
+          {
+            "sha256": "6f5569320c6cfaff731a6eab871f91de7337e583502000c2f53a9e72563727b7",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass8",
+            "original_offset": 12049200
+          },
+          {
+            "sha256": "e8aca92a63ea5d836520301d7bb12893460ce313cd250da28afb3ae3503e1289",
+            "entry": "fsr4_model_v07_fp8_no_scale_postpass",
+            "original_offset": 7364592
+          },
+          {
+            "sha256": "87afc2d462736f435508ecb79f8707296c585e0bbb6df9cf15c964c93f046114",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass4",
+            "original_offset": 5846912
+          },
+          {
+            "sha256": "5e8ad6459ea87511d99b4b4b76c94a11a6480ae54aee41ff8eace209ea4aa909",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass2",
+            "original_offset": 4728928
+          },
+          {
+            "sha256": "adff3975128c83a728bdb34249c02e0a15518b8bc3f9fc307a44d088d1d9e37b",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass11",
+            "original_offset": 2312288
+          },
+          {
+            "sha256": "97c5e253846a5e5fed1f9a100442972a42487a76bb73e14eabbc23ccb3c11ed4",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass6",
+            "original_offset": 11866848
+          },
+          {
+            "sha256": "84fd7bce193391d21552832b021468d4e3ffff12dbf2fdda8ce4197cc269732d",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass7",
+            "original_offset": 6564672
+          },
+          {
+            "sha256": "b14a4abed39a158424165536e24cad54dbad83f31c9b39cbd7e21f4d905206d1",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass9",
+            "original_offset": 7304704
+          },
+          {
+            "sha256": "9cdb2de6688c65e8827292ffb185f5a1ce11fd38c7a34eaff37129d332ae0a66",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass3",
+            "original_offset": 1157264
+          },
+          {
+            "sha256": "16439266a71871ab5145acafd8e57f039df3673486d69e78191320cc77ac739c",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass12",
+            "original_offset": 11616800
+          },
+          {
+            "sha256": "9299b4aefb7cbb5ab7e33003251bbb8f19aeecc56280c16af5ff2dda008b426c",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass1",
+            "original_offset": 8249808
+          },
+          {
+            "sha256": "657da1d293ee854d99fa77c4da98bbf12b32708908582a0611fd6a44111a4e5d",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass10",
+            "original_offset": 6414480
+          }
+        ],
+        "dispatches_at_capture": 0,
+        "renderer": "DX12",
+        "input_api": "native FFX",
+        "observed": "existing saved scene",
+        "output": [
+          2560,
+          1440
+        ],
+        "mode": "FSR 4.1 Quality",
+        "game_version": "1.5.6",
+        "replacement": "Bin/Win64Shared/amd_fidelityfx_loader_dx12.dll",
+        "original_upscaler_preserved": true,
+        "explicit_native_fsr_selection_required": true
+      },
+      {
+        "appid": "482400",
+        "title": "System Shock",
+        "steam_build_id": "22239093",
+        "method": "upstream-optiscaler",
+        "dll_sha256": "730c175a38b0f0271ffaa201ca531825c6440a95fb71729d34566c66af8e4893",
+        "normal_menu_exit": true,
+        "live_steam_prefix": true,
+        "frame_generation": false,
+        "matching_shaders": [
+          {
+            "sha256": "e0a5fd57224503c5a6a10d45d08d001cc9043c4386ec7b0775fed7f25e09cba5",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass5",
+            "original_offset": 8089344
+          },
+          {
+            "sha256": "6f5569320c6cfaff731a6eab871f91de7337e583502000c2f53a9e72563727b7",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass8",
+            "original_offset": 12049200
+          },
+          {
+            "sha256": "87afc2d462736f435508ecb79f8707296c585e0bbb6df9cf15c964c93f046114",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass4",
+            "original_offset": 5846912
+          },
+          {
+            "sha256": "5e8ad6459ea87511d99b4b4b76c94a11a6480ae54aee41ff8eace209ea4aa909",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass2",
+            "original_offset": 4728928
+          },
+          {
+            "sha256": "adff3975128c83a728bdb34249c02e0a15518b8bc3f9fc307a44d088d1d9e37b",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass11",
+            "original_offset": 2312288
+          },
+          {
+            "sha256": "97c5e253846a5e5fed1f9a100442972a42487a76bb73e14eabbc23ccb3c11ed4",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass6",
+            "original_offset": 11866848
+          },
+          {
+            "sha256": "ef0d6e79afdd3cd00a00d26219beab1c1b436a261ad57a9d2da16ab4cf367aa4",
+            "entry": "fsr4_model_v07_fp8_no_scale_prepass",
+            "original_offset": 4872832
+          },
+          {
+            "sha256": "84fd7bce193391d21552832b021468d4e3ffff12dbf2fdda8ce4197cc269732d",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass7",
+            "original_offset": 6564672
+          },
+          {
+            "sha256": "b14a4abed39a158424165536e24cad54dbad83f31c9b39cbd7e21f4d905206d1",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass9",
+            "original_offset": 7304704
+          },
+          {
+            "sha256": "64f0355835f735ca5f48302974ed2e3ed5ead8f6cc849cfc855abf94005161be",
+            "entry": "fsr4_model_v07_fp8_no_scale_postpass",
+            "original_offset": 2392608
+          },
+          {
+            "sha256": "9cdb2de6688c65e8827292ffb185f5a1ce11fd38c7a34eaff37129d332ae0a66",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass3",
+            "original_offset": 1157264
+          },
+          {
+            "sha256": "16439266a71871ab5145acafd8e57f039df3673486d69e78191320cc77ac739c",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass12",
+            "original_offset": 11616800
+          },
+          {
+            "sha256": "9299b4aefb7cbb5ab7e33003251bbb8f19aeecc56280c16af5ff2dda008b426c",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass1",
+            "original_offset": 8249808
+          },
+          {
+            "sha256": "657da1d293ee854d99fa77c4da98bbf12b32708908582a0611fd6a44111a4e5d",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass10",
+            "original_offset": 6414480
+          }
+        ],
+        "dispatches_at_capture": 2326,
+        "renderer": "DX11",
+        "input_api": "DLSS",
+        "observed": "3D title menu",
+        "output": [
+          2560,
+          1440
+        ],
+        "input": [
+          1969,
+          1108
+        ],
+        "mode": "Native AA 1.30x"
+      },
+      {
+        "appid": "275850",
+        "title": "No Man's Sky",
+        "steam_build_id": "25208023",
+        "method": "upstream-optiscaler",
+        "dll_sha256": "730c175a38b0f0271ffaa201ca531825c6440a95fb71729d34566c66af8e4893",
+        "normal_menu_exit": true,
+        "live_steam_prefix": true,
+        "frame_generation": false,
+        "matching_shaders": [
+          {
+            "sha256": "c4ebb9050149baf71a90c5fb02de43cee9c4e2d825faed1e137b83d99ecef0a2",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass10",
+            "original_offset": 4402608
+          },
+          {
+            "sha256": "dc017a2baa5d1a399ef288316e7017a3a650ad329bada8b794ee19978158c2fe",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass2",
+            "original_offset": 2591072
+          },
+          {
+            "sha256": "2f3449e3904158001426a8fd41699d1eff52475cc0a8ee8bd49ecf0964b7bc13",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass6",
+            "original_offset": 12255360
+          },
+          {
+            "sha256": "e6f7d6bad0e057e98138d66b226adf6f1c396c90488ee1f42b0cca2a41a0f3aa",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass7",
+            "original_offset": 7210432
+          },
+          {
+            "sha256": "f43b85fb4bc2d07e507af1f6299a51f2d79358da2866272b04518df98ce4e627",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass12",
+            "original_offset": 6586320
+          },
+          {
+            "sha256": "20b2e34291f40823f2ae4b6797e1ee07b7b3608788ce8da3791c78c6cd33f689",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass9",
+            "original_offset": 8345568
+          },
+          {
+            "sha256": "352d07692a2d8d69f20a8ea9dfff90f2ff876c7bb3e67a32d27036fa1351a99d",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass4",
+            "original_offset": 1362784
+          },
+          {
+            "sha256": "4d290512602025019aaa32a54de43069891f48b28dc8a2420240b3ed37571c9f",
+            "entry": "fsr4_model_v07_fp8_no_scale_postpass",
+            "original_offset": 6191504
+          },
+          {
+            "sha256": "31a9c979086185b366c5576847669a74b68ef3e912fbd31c2e01752d3863851d",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass8",
+            "original_offset": 7514256
+          },
+          {
+            "sha256": "a6eca5b876d95f88447b85e2ca44701d559c243a0a65201d4a878dc2fd4ac46e",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass5",
+            "original_offset": 12397696
+          },
+          {
+            "sha256": "b851040818cb103d54173fef5c7dbd795a72a1375e7cfc53868dc243deb5e5c5",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass1",
+            "original_offset": 2936384
+          },
+          {
+            "sha256": "3b50aa35dc9a6a4b0e19db68706327ac1e505be3f1d64885ef757e760d2bcd21",
+            "entry": "fsr4_model_v07_fp8_no_scale_prepass",
+            "original_offset": 12163792
+          },
+          {
+            "sha256": "01c2236c366365892dbcd8db074ee5fa917aa2bdd5fdeaf325bf19f432a33157",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass3",
+            "original_offset": 6745424
+          },
+          {
+            "sha256": "5eb6f90520f09677cc8f83e8e3eda5ef1d1648a9896d27af6d1a8529d8ee3b35",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass11",
+            "original_offset": 8521024
+          }
+        ],
+        "dispatches_at_capture": 3870,
+        "renderer": "Vulkan",
+        "input_api": "DLSS",
+        "observed": "existing saved scene after restart",
+        "output": [
+          1920,
+          1080
+        ],
+        "input": [
+          1136,
+          640
+        ],
+        "mode": "Balanced",
+        "game_version": "Cosmos build 178763",
+        "first_attempt": "0x1106-HANG after a 65.96-second first-dispatch stall on the first in-game switch to DLSS",
+        "retry": "same DLL, Proton, driver and compiled cache; rendered the saved scene and exited normally"
+      },
+      {
+        "appid": "692890",
+        "title": "Roboquest",
+        "steam_build_id": "22092854",
+        "method": "upstream-optiscaler",
+        "dll_sha256": "730c175a38b0f0271ffaa201ca531825c6440a95fb71729d34566c66af8e4893",
+        "normal_menu_exit": true,
+        "live_steam_prefix": true,
+        "frame_generation": false,
+        "matching_shaders": [
+          {
+            "sha256": "266bd168026eb590bb98fb1d93b2f5a63736ab13d0dcfba30cfc1b68babc00cf",
+            "entry": "fsr4_model_v07_fp8_no_scale_prepass",
+            "original_offset": 8604112
+          },
+          {
+            "sha256": "e0a5fd57224503c5a6a10d45d08d001cc9043c4386ec7b0775fed7f25e09cba5",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass5",
+            "original_offset": 8089344
+          },
+          {
+            "sha256": "6f5569320c6cfaff731a6eab871f91de7337e583502000c2f53a9e72563727b7",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass8",
+            "original_offset": 12049200
+          },
+          {
+            "sha256": "87afc2d462736f435508ecb79f8707296c585e0bbb6df9cf15c964c93f046114",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass4",
+            "original_offset": 5846912
+          },
+          {
+            "sha256": "5e8ad6459ea87511d99b4b4b76c94a11a6480ae54aee41ff8eace209ea4aa909",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass2",
+            "original_offset": 4728928
+          },
+          {
+            "sha256": "adff3975128c83a728bdb34249c02e0a15518b8bc3f9fc307a44d088d1d9e37b",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass11",
+            "original_offset": 2312288
+          },
+          {
+            "sha256": "97c5e253846a5e5fed1f9a100442972a42487a76bb73e14eabbc23ccb3c11ed4",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass6",
+            "original_offset": 11866848
+          },
+          {
+            "sha256": "84fd7bce193391d21552832b021468d4e3ffff12dbf2fdda8ce4197cc269732d",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass7",
+            "original_offset": 6564672
+          },
+          {
+            "sha256": "b14a4abed39a158424165536e24cad54dbad83f31c9b39cbd7e21f4d905206d1",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass9",
+            "original_offset": 7304704
+          },
+          {
+            "sha256": "64f0355835f735ca5f48302974ed2e3ed5ead8f6cc849cfc855abf94005161be",
+            "entry": "fsr4_model_v07_fp8_no_scale_postpass",
+            "original_offset": 2392608
+          },
+          {
+            "sha256": "9cdb2de6688c65e8827292ffb185f5a1ce11fd38c7a34eaff37129d332ae0a66",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass3",
+            "original_offset": 1157264
+          },
+          {
+            "sha256": "16439266a71871ab5145acafd8e57f039df3673486d69e78191320cc77ac739c",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass12",
+            "original_offset": 11616800
+          },
+          {
+            "sha256": "9299b4aefb7cbb5ab7e33003251bbb8f19aeecc56280c16af5ff2dda008b426c",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass1",
+            "original_offset": 8249808
+          },
+          {
+            "sha256": "657da1d293ee854d99fa77c4da98bbf12b32708908582a0611fd6a44111a4e5d",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass10",
+            "original_offset": 6414480
+          }
+        ],
+        "dispatches_at_capture": 6885,
+        "renderer": "DX11",
+        "input_api": "DLSS through Luma",
+        "observed": "existing basecamp",
+        "output": [
+          2560,
+          1440
+        ],
+        "input": [
+          2560,
+          1440
+        ],
+        "mode": "Native AA 1.00x",
+        "game_version": "1.6.2-51812",
+        "hdr": true,
+        "luma_version": "latest-623",
+        "luma_sha256": "cee6b0e72d14673281cafae65b18803935b92d6121abaa5791e410a4e2b79583",
+        "reshade_version": "6.8.0.1",
+        "reshade_sha256": "29ba792da16d63683513032a379ebdee9e75a21335db07650ca94fd78a46a525"
+      },
+      {
+        "appid": "3017860",
+        "title": "DOOM: The Dark Ages",
+        "steam_build_id": "24368472",
+        "method": "upstream-optiscaler",
+        "dll_sha256": "730c175a38b0f0271ffaa201ca531825c6440a95fb71729d34566c66af8e4893",
+        "normal_menu_exit": true,
+        "live_steam_prefix": true,
+        "frame_generation": false,
+        "matching_shaders": [
+          {
+            "sha256": "669d4829b390299b9d6427af710b814996fd95f76cf8e98ebd38e292db5b2331",
+            "entry": "fsr4_model_v07_fp8_no_scale_prepass",
+            "original_offset": 3493664
+          },
+          {
+            "sha256": "e0a5fd57224503c5a6a10d45d08d001cc9043c4386ec7b0775fed7f25e09cba5",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass5",
+            "original_offset": 8089344
+          },
+          {
+            "sha256": "6f5569320c6cfaff731a6eab871f91de7337e583502000c2f53a9e72563727b7",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass8",
+            "original_offset": 12049200
+          },
+          {
+            "sha256": "e8aca92a63ea5d836520301d7bb12893460ce313cd250da28afb3ae3503e1289",
+            "entry": "fsr4_model_v07_fp8_no_scale_postpass",
+            "original_offset": 7364592
+          },
+          {
+            "sha256": "87afc2d462736f435508ecb79f8707296c585e0bbb6df9cf15c964c93f046114",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass4",
+            "original_offset": 5846912
+          },
+          {
+            "sha256": "5e8ad6459ea87511d99b4b4b76c94a11a6480ae54aee41ff8eace209ea4aa909",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass2",
+            "original_offset": 4728928
+          },
+          {
+            "sha256": "adff3975128c83a728bdb34249c02e0a15518b8bc3f9fc307a44d088d1d9e37b",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass11",
+            "original_offset": 2312288
+          },
+          {
+            "sha256": "97c5e253846a5e5fed1f9a100442972a42487a76bb73e14eabbc23ccb3c11ed4",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass6",
+            "original_offset": 11866848
+          },
+          {
+            "sha256": "84fd7bce193391d21552832b021468d4e3ffff12dbf2fdda8ce4197cc269732d",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass7",
+            "original_offset": 6564672
+          },
+          {
+            "sha256": "b14a4abed39a158424165536e24cad54dbad83f31c9b39cbd7e21f4d905206d1",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass9",
+            "original_offset": 7304704
+          },
+          {
+            "sha256": "9cdb2de6688c65e8827292ffb185f5a1ce11fd38c7a34eaff37129d332ae0a66",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass3",
+            "original_offset": 1157264
+          },
+          {
+            "sha256": "16439266a71871ab5145acafd8e57f039df3673486d69e78191320cc77ac739c",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass12",
+            "original_offset": 11616800
+          },
+          {
+            "sha256": "9299b4aefb7cbb5ab7e33003251bbb8f19aeecc56280c16af5ff2dda008b426c",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass1",
+            "original_offset": 8249808
+          },
+          {
+            "sha256": "657da1d293ee854d99fa77c4da98bbf12b32708908582a0611fd6a44111a4e5d",
+            "entry": "fsr4_model_v07_fp8_no_scale_pass10",
+            "original_offset": 6414480
+          }
+        ],
+        "dispatches_at_capture": 4603,
+        "renderer": "Vulkan",
+        "input_api": "native FSR via Vulkan FFX adapter",
+        "observed": "3D main menu",
+        "output": [
+          2560,
+          1440
+        ],
+        "input": [
+          1280,
+          720
+        ],
+        "mode": "FSR Performance",
+        "hdr": true
       }
     ]
   }

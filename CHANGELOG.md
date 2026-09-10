@@ -1,11 +1,11 @@
 # Changelog
 
-## 4.0.0-rc7 — portable DLL candidate
+## 4.0.0-rc7 — 2026-09-10 — portable DLL candidate
 
 - Make one Windows x64 upscaler DLL the primary download. Embed all 348
   model, image-preparation and final-output shader permutations, carrying
   the v4 optimizations and guarded fallbacks without a custom Mesa or Proton
-  installation. Keep RC6 installation/recovery available separately.
+  installation.
 - Express 17,964 two-lane integer extensions as equivalent scalar lane
   operations. This fixes the vkd3d translation failure on ordinary Proton
   10 and 11 while retaining packed arithmetic and measured v4 parity.
@@ -14,10 +14,14 @@
   addressing the intermittent image corruption reproduced during review.
 - Identify the modified SDK as `4.1.1r7`, preserving its numeric API/provider
   identity. Document native-loader compatibility, the optional OptiScaler
-  input adapter, existing-RC6 migration, undo and unqualified platforms.
+  input adapter, DLL replacement, undo and tested platforms.
 - Include complete editable shader sources, hash-pinned reproducible builds,
   executable lowering checks, strict source inventories and deterministic
   DLL packages. The retained RC6 driver/runtime pins do not change.
+- Verify the final DLL through seven normal-Steam game routes, including the
+  native Deadzone/KCD2 loaders, DX12/DX11/Vulkan adapters and Roboquest’s
+  existing Luma/ReShade setup. Record the No Man’s Sky first-compilation
+  hang and successful restart; keep untested routes explicit.
 - Record [candidate compatibility and measurement limits](docs/portable-dll-rc7.md).
   No Windows/other-GPU acceptance is implied by the portable format.
 
