@@ -1,5 +1,23 @@
 # Changelog
 
+## 4.0.0-rc8 — 2026-09-10 — 1440p performance checkpoint
+
+- Reduce measured whole-upscaler GPU time at 1440p Quality by 8.52% versus
+  RC7 in fresh matched final-DLL tests: 6.61728 ms → 6.05354 ms. Publish all
+  4,800 timestamps, per-run medians, sampled clocks and image hashes.
+- Update sixteen shader slots with native integer dot products, Winograd
+  convolution, streamed arithmetic, improved weight checks and wave choices.
+  Retain dynamic-weight fallbacks, all other 332 shader hashes, the RC7
+  integer-cast compatibility repair and the SDK synchronization repair.
+- Identify the DLL as `4.1.1r8`; preserve its numeric API/provider identity.
+  Rebuild all 348 validated shaders into the exact published DLL bytes.
+- Match all seven final-DLL image pairs for HDR, SDR, motion, reset, dynamic
+  resolution, sharpening and Balanced input at 1440p. Keep component
+  arithmetic/fallback evidence separate from fresh release checks.
+- Keep RC7's chart and seven game-route checks as historical evidence. RC8
+  has no fresh game, 1080p/4K, native-Windows or other-GPU qualification.
+  See [RC8 measurements and scope](docs/portable-dll-rc8.md).
+
 ## 4.0.0-rc7 — 2026-09-10 — portable DLL candidate
 
 - Make one Windows x64 upscaler DLL the primary download. Embed all 348

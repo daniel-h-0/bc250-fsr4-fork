@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
-"""Package the exact RC7 DLL with its instructions, notices and checksums."""
+"""Package the exact release DLL with its instructions, notices and checksums."""
 
 import argparse
 import hashlib

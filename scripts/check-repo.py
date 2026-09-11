@@ -309,6 +309,177 @@ def check_fsr_cost(root):
     return "historical FFX timestamps and matched GPU deltas reproduce the published cost estimates"
 
 
+def check_rc8_record(record, manifest):
+    require(record["schema"] == 1, "RC8 record schema")
+    for actual, expected in (
+        (record["release_version"], manifest["release_version"]),
+        (record["provider_name"], manifest["provider_name"]),
+        (record["dll_sha256"], manifest["expected_dll_sha256"]),
+        (record["dll_bytes"], manifest["expected_dll_bytes"]),
+        (record["reference_rc7_sha256"], manifest["previous_release"]["dll_sha256"]),
+    ):
+        require(actual == expected, "RC8 qualification identity mismatch")
+    binding = record["checkpoint_binding"]
+    require(
+        binding["release_sha256"] == record["dll_sha256"]
+        and binding["all_348_shaders_identical_to_checkpoint"]
+        and binding["only_binary_changes_from_checkpoint_are_provider_label_and_pe_checksum"]
+        and binding["changed_byte_offsets"] == [352, 353, 819973, 819974]
+        and binding["sdk_synchronization_preserved"],
+        "RC8 checkpoint binding mismatch",
+    )
+    slots = {r["original_offset"]: r for r in manifest["replacements"]}
+    shader_set = [[offset, row["replacement_sha256"]] for offset, row in sorted(slots.items())]
+    require(
+        hashlib.sha256(json.dumps(shader_set, separators=(",", ":")).encode()).hexdigest()
+        == record["shader_set_sha256"],
+        "RC8 shader-set fingerprint mismatch",
+    )
+    previous = dict(record["reference_rc7_shader_set"])
+    changed = {int(row["offset"], 16): row for row in record["changed_shader_slots"]}
+    require(len(previous) == len(slots) == 348 and set(previous) == set(slots), "RC7 shader set")
+    require(
+        len(changed) == len(record["changed_shader_slots"]) == 16
+        and set(changed) == {o for o, r in slots.items() if r["replacement_sha256"] != previous[o]},
+        "RC8 changed shader slots",
+    )
+    for offset, row in changed.items():
+        source = slots[offset]
+        require(
+            row["source"] == source["source"]
+            and row["source_sha256"] == source["source_sha256"]
+            and row["shader_sha256"] == source["replacement_sha256"],
+            "RC8 changed shader identity mismatch",
+        )
+    changed_hashes = {row["shader_sha256"] for row in changed.values()}
+
+    def check_run(row, frames):
+        require(row["valid"] and row["finite"] and row["returncode"] == 0, "Invalid RC8 run")
+        require(row["frames"] == frames and row["loaded_dll_path_matches"], "RC8 run identity")
+        require(row["variant"] in ("v4r7", "v4r8"), "RC8 run variant")
+        expected = (
+            (record["dll_sha256"], record["provider_name"])
+            if row["variant"] == "v4r8"
+            else (record["reference_rc7_sha256"], "4.1.1r7")
+        )
+        require((row["dll_sha256"], row["provider"]) == expected, "RC8 run DLL/provider mismatch")
+        require(
+            row["driver_sha256"] == record["environment"]["driver_sha256"], "RC8 driver mismatch"
+        )
+        require(
+            math.isfinite(row["pixel_min"])
+            and math.isfinite(row["pixel_max"])
+            and row["pixel_min"] <= row["pixel_max"],
+            "RC8 non-finite image bounds",
+        )
+
+    campaign = record["performance"]
+    order = ["v4r7", "v4r8", "v4r8", "v4r7"] * 2
+    require(campaign["complete"] and not campaign["trace"], "Incomplete/traced RC8 campaign")
+    require(
+        campaign["frames_per_run"] == 600
+        and campaign["discard_first_frames"] == 300
+        and campaign["output"] == [2560, 1440]
+        and campaign["render"] == [1706, 960]
+        and campaign["preset"] == "Quality",
+        "RC8 performance workload mismatch",
+    )
+    rows = campaign["rows"]
+    require(campaign["order"] == [r["variant"] for r in rows] == order, "RC8 timing order")
+    require(len({r["name"] for r in rows}) == 8, "Duplicate RC8 timing run")
+    summary = campaign["summary"]
+    for row in rows:
+        check_run(row, 600)
+        values = row["gpu_ms"]
+        require(
+            not row["shader_dumping"]
+            and len(values) == 600
+            and all(math.isfinite(v) and v > 0 for v in values),
+            "Invalid RC8 GPU samples",
+        )
+        close(median(values[300:]), row["median_ms"], "RC8 per-run median")
+        clocks = row["scoring_telemetry"]
+        require(
+            clocks
+            and all(
+                300 <= t["completed_frames"] < 600 and t["gpu_clock_hz"] == 1850000000
+                for t in clocks
+            ),
+            "RC8 scoring clock mismatch",
+        )
+        require(row["pixels_sha256"] == summary["pixels_sha256"], "RC8 scored image mismatch")
+    medians = {}
+    for variant in ("v4r7", "v4r8"):
+        values = [r["median_ms"] for r in rows if r["variant"] == variant]
+        result = summary["summaries"][variant]
+        require(values == result["run_medians_ms"], "RC8 run medians")
+        for field, actual in (
+            ("median_ms", median(values)),
+            ("min_ms", min(values)),
+            ("max_ms", max(values)),
+        ):
+            close(actual, result[field], "RC8 " + field)
+        medians[variant] = median(values)
+    close(medians["v4r7"] - medians["v4r8"], summary["saving_ms"], "RC8 saving")
+    close(
+        100 * (1 - medians["v4r8"] / medians["v4r7"]), summary["saving_percent"], "RC8 percentage"
+    )
+    require(
+        summary["all_images_identical"]
+        and summary["sampled_scoring_clock_mhz"] == 1850
+        and summary["all_candidate_runs_below_all_controls"]
+        and summary["summaries"]["v4r8"]["max_ms"] < summary["summaries"]["v4r7"]["min_ms"],
+        "RC8 summary classification mismatch",
+    )
+    quality = record["quality"]
+    require(
+        quality["complete"] and quality["output"] == [2560, 1440], "Incomplete RC8 quality matrix"
+    )
+    require(
+        [c["scenario"] for c in quality["cases"]]
+        == ["hdr", "sdr", "motion", "reset", "resize", "rcas", "static"],
+        "RC8 quality scenario coverage",
+    )
+    require(quality["preflight"]["scenario"] == "static", "RC8 preflight scenario")
+    for index, case in enumerate([quality["preflight"], *quality["cases"]]):
+        require(
+            case["render"] == ([1506, 848] if index == 7 else [1706, 960]), "RC8 image input size"
+        )
+        require([r["variant"] for r in case["rows"]] == ["v4r7", "v4r8"], "RC8 image pair")
+        for row in case["rows"]:
+            check_run(row, 64)
+            require(row["shader_dumping"], "RC8 image shader identification missing")
+            require(row["pixels_sha256"] == case["pixels_sha256"], "RC8 quality image mismatch")
+            if row["variant"] == "v4r8":
+                require(
+                    changed_hashes <= {r["sha256"] for r in row["observed_shaders"]},
+                    "RC8 changed shader coverage missing",
+                )
+    evidence = record["development_component_evidence"]
+    require(
+        [r["pass"] for r in evidence["modified_model_weights"]] == [7, 8, 9, 11],
+        "RC8 fallback coverage",
+    )
+    for row in evidence["modified_model_weights"]:
+        require(row["component_shader_sha256"] in changed_hashes, "RC8 fallback component identity")
+        require(
+            row["fast_path_witness_changes_image"] and len(row["mutations"]) >= 2,
+            "RC8 fallback witnesses",
+        )
+        require(
+            all(
+                m["exact_fallback_image"] and m["mutation_changes_reference_image"]
+                for m in row["mutations"]
+            ),
+            "RC8 fallback mismatch",
+        )
+    for row in evidence["cpu_arithmetic"]:
+        require(
+            row["component_shader_sha256"] in changed_hashes and row["results"]["valid"],
+            "RC8 CPU component identity",
+        )
+
+
 def check_dll(root):
     if not (root / "dll/manifest.json").exists():
         return "historical source without a portable DLL component"
@@ -318,8 +489,8 @@ def check_dll(root):
     manifest = load(root / "dll/manifest.json")
     record = load(root / "docs/data/portable-dll-rc7.json")
     require(
-        record["dll_sha256"] == manifest["expected_dll_sha256"],
-        "DLL qualification identity mismatch",
+        record["dll_sha256"] == manifest["previous_release"]["dll_sha256"],
+        "Historical RC7 DLL qualification identity mismatch",
     )
     campaign = record["performance"]
     require(campaign["complete"] and not campaign["trace"], "Incomplete/traced DLL timing campaign")
@@ -382,7 +553,10 @@ def check_dll(root):
                 require(variant["dll_sha256"] == record["dll_sha256"], "Image used another DLL")
         if not case["qualified"]:
             require(not case["reference_stable"], "Unresolved stable-reference image mismatch")
-    return output.strip() + "; 4,320 GPU samples and all 20 image-case classifications verified"
+    check_rc8_record(load(root / manifest["qualification_record"]), manifest)
+    return (
+        output.strip() + "; RC7's 4,320 samples/20 cases and RC8's 4,800 samples/7 cases verified"
+    )
 
 
 def main():

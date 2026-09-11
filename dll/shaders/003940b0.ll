@@ -2409,8 +2409,10 @@ attributes #2 = { nounwind }
 !20 = !{!21}
 !21 = !{i32 0, %struct.SamplerState* undef, !"", i32 0, i32 0, i32 1, i32 0, null}
 !22 = !{void ()* @fsr4_model_v07_fp8_no_scale_prepass, !"fsr4_model_v07_fp8_no_scale_prepass", null, !4, !23}
-!23 = !{i32 0, i64 8912944, i32 4, !24}
+!23 = !{i32 0, i64 8912944, i32 4, !24, i32 11, !25}
 !24 = !{i32 256, i32 1, i32 1}
 
 
 declare i32 @dx.op.quadReadLaneAt.i32(i32, i32, i32) #2
+
+!25 = !{i32 32}

@@ -27,7 +27,7 @@ def build(sdk, manifest, output):
         if path.exists() or path.is_symlink():
             raise FileExistsError(path)
     if len(manifest["replacements"]) != 348:
-        raise ValueError("RC7 requires all 348 shader replacements")
+        raise ValueError("The portable DLL requires all 348 shader replacements")
     original = sdk.read_bytes()
     if sha(original) != SDK_SHA or manifest["sdk_sha256"] != SDK_SHA:
         raise ValueError("Unrecognized SDK")
@@ -92,7 +92,7 @@ def build(sdk, manifest, output):
     label_offset = 0xC8300
     if data[label_offset : label_offset + 8] != b"4.1.1\0\0\0":
         raise ValueError("The SDK provider label differs from the pinned layout")
-    data[label_offset : label_offset + 8] = b"4.1.1r7\0"
+    data[label_offset : label_offset + 8] = b"4.1.1r8\0"
     cert, size = struct.unpack_from("<II", data, optional + 112 + 4 * 8)
     if cert < max(s["offset"] + s["size"] for s in sections) or cert + size != len(data):
         raise ValueError("Unexpected SDK certificate placement")
@@ -196,7 +196,7 @@ def build(sdk, manifest, output):
         sha256=sha(data),
         bytes=len(data),
         host_changes=host_changes,
-        provider_name="4.1.1r7",
+        provider_name="4.1.1r8",
         replacements=records,
     )
     with output.with_suffix(".json").open("x") as stream:

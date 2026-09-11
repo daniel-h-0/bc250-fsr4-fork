@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "label": "bc250-fsr4-dll-4.0.0-rc7",
+  "label": "bc250-fsr4-dll-4.0.0-rc8",
   "sdk_sha256": "d0dcccc74a43c44ba435b7a369b456e0970d8a4464e4bd683119b374f2c9fb46",
   "sdk_url": "https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_dx12.dll",
   "dxcompiler_sha256": "be01593d3ff635fca6f20b044aa49c777f6409e50a28fb0242a0c87272620b62",
   "dxcompiler_release": "https://github.com/microsoft/DirectXShaderCompiler/releases/tag/v1.9.2607",
-  "expected_dll_sha256": "730c175a38b0f0271ffaa201ca531825c6440a95fb71729d34566c66af8e4893",
-  "expected_dll_bytes": 115176448,
+  "expected_dll_sha256": "f8816fed46bce60179228a58905e16788f021fad0b68c08d1e3555564093b2b4",
+  "expected_dll_bytes": 112343040,
   "replacements": [
     {
       "original_offset": 911872,
@@ -49,9 +49,9 @@
       "original_size": 30068,
       "original_sha256": "8e09087b83065612befc39be3bc18988ba04f749c20f8879092c5d14b8e9680b",
       "entry": "fsr4_model_v07_fp8_no_scale_pass3",
-      "replacement_sha256": "9cdb2de6688c65e8827292ffb185f5a1ce11fd38c7a34eaff37129d332ae0a66",
+      "replacement_sha256": "dee317375bf05a7d7f7cbe19c3e18b4e9459aa448686504b58102479bbaf0109",
       "source": "shaders/0011a890.ll",
-      "source_sha256": "88b8b44d669e411bb4f46e2050f0f08ed5ea2b0126260accb06cd4314a2c6f16"
+      "source_sha256": "b2e29e3a2e58a1bd12a4856050b80b8d206ecdcca7aaf439e5694292e361ada6"
     },
     {
       "original_offset": 1203472,
@@ -220,9 +220,9 @@
       "original_size": 17516,
       "original_sha256": "b4b5db88ba09f3983c369f44f8532b67dfddac88c16e6ad2d14a17af29075201",
       "entry": "fsr4_model_v07_fp8_no_scale_pass11",
-      "replacement_sha256": "adff3975128c83a728bdb34249c02e0a15518b8bc3f9fc307a44d088d1d9e37b",
+      "replacement_sha256": "999fa52120abd1df93fc8326b6a14456bd3c47cb92f44b0eeb4acc1cdc251522",
       "source": "shaders/00234860.ll",
-      "source_sha256": "f2ee14ed1ed9e8e1182f6132a4a32703319f9f3e5fb5e0014e80397bfffa139e"
+      "source_sha256": "0f2920f3f98520f12e57820ff5b9b876e11d4b169d6ef5bdf140044cac3dcf7d"
     },
     {
       "original_offset": 2351888,
@@ -238,9 +238,9 @@
       "original_size": 45320,
       "original_sha256": "41bf3c2d8c68ea0e0a18918220a948a7823d684f50066e6665564788a0e1c794",
       "entry": "fsr4_model_v07_fp8_no_scale_postpass",
-      "replacement_sha256": "64f0355835f735ca5f48302974ed2e3ed5ead8f6cc849cfc855abf94005161be",
+      "replacement_sha256": "09bb2ec37306a2cc9067f15103f601498470dbe1012fcb9531e53889dc593dcb",
       "source": "shaders/00248220.ll",
-      "source_sha256": "9978a745c08418766de7c53ea35164b80d2b12b1aaedde5b6b10a439a61a7749"
+      "source_sha256": "af48ea20be52411c6bef035fac3872a96279b7a5b0da2865a1e986161ada647c"
     },
     {
       "original_offset": 2437968,
@@ -382,9 +382,9 @@
       "original_size": 23100,
       "original_sha256": "824595cf71596381fea8205883ebbd659e5ab35e91e980ccddbead35bdab3c0a",
       "entry": "fsr4_model_v07_fp8_no_scale_pass9",
-      "replacement_sha256": "b14a4abed39a158424165536e24cad54dbad83f31c9b39cbd7e21f4d905206d1",
+      "replacement_sha256": "7deb891736c8f81936f91fbef1c4db5e3faac9a18abace2238668279756ad24c",
       "source": "shaders/00337550.ll",
-      "source_sha256": "66b39a8d9a593577872802531fe6dbacd99a44d8d288c38114385f5e10c9d49d"
+      "source_sha256": "cf65f88162c63c77007bfb535c4b7bdfa16122bb6b9a396a01ce714fa860bfc1"
     },
     {
       "original_offset": 3471936,
@@ -544,18 +544,18 @@
       "original_size": 38616,
       "original_sha256": "d3f4f98f637fa5bc82963ec57e26b99535d09e6718438ca7d9d1e4564e0ac47c",
       "entry": "fsr4_model_v07_fp8_no_scale_pass2",
-      "replacement_sha256": "5e8ad6459ea87511d99b4b4b76c94a11a6480ae54aee41ff8eace209ea4aa909",
+      "replacement_sha256": "711fefd568215d9ab56733109f39b7dd2bb4f69a45320939c35308cf23e8b757",
       "source": "shaders/00482860.ll",
-      "source_sha256": "aa2d9f920f7cc08692dc30be85931e7654437218fa9f7c218f99d7fbe6e33e2c"
+      "source_sha256": "44b6c07e94e1bc1150057cf7751c01caa7e0ce890c769d5ea7d5c2d89b5980f9"
     },
     {
       "original_offset": 4825280,
       "original_size": 21648,
       "original_sha256": "eb1d8606de2879f1ef211a7920368b439f0e43a7528a7d7ccada5149bb6a90cd",
       "entry": "fsr4_model_v07_fp8_no_scale_pass7",
-      "replacement_sha256": "84fd7bce193391d21552832b021468d4e3ffff12dbf2fdda8ce4197cc269732d",
+      "replacement_sha256": "fb5d012df38e9a0a8306319439e99248a4b4b9324b3ce852c082bcee732150a5",
       "source": "shaders/0049a0c0.ll",
-      "source_sha256": "46c4f097f1bb4879e6964b7cb140179d2d1ab9cba8d87c4cd63d0f0bf7fe1bf6"
+      "source_sha256": "3bf871a6a89b312e720f548e14beb9d881eb1c5c3a10fceae55fba9823b9f3e3"
     },
     {
       "original_offset": 4908320,
@@ -760,9 +760,9 @@
       "original_size": 21648,
       "original_sha256": "eb1d8606de2879f1ef211a7920368b439f0e43a7528a7d7ccada5149bb6a90cd",
       "entry": "fsr4_model_v07_fp8_no_scale_pass7",
-      "replacement_sha256": "84fd7bce193391d21552832b021468d4e3ffff12dbf2fdda8ce4197cc269732d",
+      "replacement_sha256": "fb5d012df38e9a0a8306319439e99248a4b4b9324b3ce852c082bcee732150a5",
       "source": "shaders/00642b40.ll",
-      "source_sha256": "eaf20d7b831fcc19bdcf1b24b9abb2748450a147338e0d8e5f11f1d6b79ba6b9"
+      "source_sha256": "3bf871a6a89b312e720f548e14beb9d881eb1c5c3a10fceae55fba9823b9f3e3"
     },
     {
       "original_offset": 6586320,
@@ -877,9 +877,9 @@
       "original_size": 23100,
       "original_sha256": "824595cf71596381fea8205883ebbd659e5ab35e91e980ccddbead35bdab3c0a",
       "entry": "fsr4_model_v07_fp8_no_scale_pass9",
-      "replacement_sha256": "b14a4abed39a158424165536e24cad54dbad83f31c9b39cbd7e21f4d905206d1",
+      "replacement_sha256": "7deb891736c8f81936f91fbef1c4db5e3faac9a18abace2238668279756ad24c",
       "source": "shaders/006f7600.ll",
-      "source_sha256": "56134b42af75b92d18709ebae14e0944fb52b142b52253f3d9b55cef06b75cdd"
+      "source_sha256": "5c97e014a3146d95be1be92cec0453af6e042f3673ad12eb86cf621cb6575918"
     },
     {
       "original_offset": 7364592,
@@ -1012,9 +1012,9 @@
       "original_size": 38512,
       "original_sha256": "bb2d3f210a38e89d9de77fece4abb49d9ed30e0c7549b04e3747571926ae58bd",
       "entry": "fsr4_model_v07_fp8_no_scale_pass1",
-      "replacement_sha256": "9299b4aefb7cbb5ab7e33003251bbb8f19aeecc56280c16af5ff2dda008b426c",
+      "replacement_sha256": "6e8cb607d621a7afeed4fd51fc8b227169d9bf742747f96808c4284d80e4d7f9",
       "source": "shaders/007de1d0.ll",
-      "source_sha256": "c88399bc4a88419e34ead9d87e3ee83e87bc502913563f8d3c94a462798ab6fa"
+      "source_sha256": "ae1c64a93dbde150710c7abdbd2b0e8a6e5e388a6c821284bb4a5371fb165cbd"
     },
     {
       "original_offset": 8288352,
@@ -1183,9 +1183,9 @@
       "original_size": 106280,
       "original_sha256": "1526f25ae524ace46ab3b45c64cf2d38212434b5b2c69586a26b83e8e2294542",
       "entry": "fsr4_model_v07_fp8_no_scale_pass6",
-      "replacement_sha256": "97c5e253846a5e5fed1f9a100442972a42487a76bb73e14eabbc23ccb3c11ed4",
+      "replacement_sha256": "3525942370c3b3ff4697da2fe3de9f9216d8a08fbe1c4dbbfa9cc951b8890a6c",
       "source": "shaders/008f3770.ll",
-      "source_sha256": "1ec325a66fff540286f3ccaf6b16864bee992b1472f98b6805cb3eedd8c6a2b5"
+      "source_sha256": "a2f6ab820b8dca3b14bf8f550dd129c69729b20ccb24422956443064976137a7"
     },
     {
       "original_offset": 9546736,
@@ -1201,9 +1201,9 @@
       "original_size": 21648,
       "original_sha256": "331098ae093a02fac79fc5b2c29b5aea349f2eb485c6fa738bed050845211267",
       "entry": "fsr4_model_v07_fp8_no_scale_pass8",
-      "replacement_sha256": "6f5569320c6cfaff731a6eab871f91de7337e583502000c2f53a9e72563727b7",
+      "replacement_sha256": "ca80321738e290b0b7d09dd57a60843548e88481671acf5d3e0e8f405422375a",
       "source": "shaders/0092fc80.ll",
-      "source_sha256": "59b41ac72528abc1fcaca4429429680db10ef5498a2b2feb0696062304de3e58"
+      "source_sha256": "f37ad4bab58f58e0e32c1f56d06d9bd4fdde93fac7aaaa1d562cad05f517ca9a"
     },
     {
       "original_offset": 9670752,
@@ -1417,9 +1417,9 @@
       "original_size": 38416,
       "original_sha256": "7dcb64562f01cc7ad112d6e05505ba7a9f2ff89026f2fb4d94582f65853d2b59",
       "entry": "fsr4_model_v07_fp8_no_scale_pass12",
-      "replacement_sha256": "16439266a71871ab5145acafd8e57f039df3673486d69e78191320cc77ac739c",
+      "replacement_sha256": "8312aab78fc138605fd1293b8394a395d955117ed137805fd4be1dca834f7dc6",
       "source": "shaders/00b14220.ll",
-      "source_sha256": "340cda977c03be95a8d2c121e6e83cb14123605a8272f9bf7ac1d8cdf9366315"
+      "source_sha256": "d3c798cd1e0af557221e2d56172f1b8b69c080f14c3883b4a823562b2a3e0287"
     },
     {
       "original_offset": 11655280,
@@ -1453,18 +1453,18 @@
       "original_size": 106280,
       "original_sha256": "1526f25ae524ace46ab3b45c64cf2d38212434b5b2c69586a26b83e8e2294542",
       "entry": "fsr4_model_v07_fp8_no_scale_pass6",
-      "replacement_sha256": "97c5e253846a5e5fed1f9a100442972a42487a76bb73e14eabbc23ccb3c11ed4",
+      "replacement_sha256": "3525942370c3b3ff4697da2fe3de9f9216d8a08fbe1c4dbbfa9cc951b8890a6c",
       "source": "shaders/00b512e0.ll",
-      "source_sha256": "1f3366a14ad9c5494146d474b0dc67efb1bb703591b8565d76f4867a6adae837"
+      "source_sha256": "e6995067bb2dc917a83fcea540456f9a33086a435bcc61ac335baf9ae6abf69d"
     },
     {
       "original_offset": 12049200,
       "original_size": 21648,
       "original_sha256": "331098ae093a02fac79fc5b2c29b5aea349f2eb485c6fa738bed050845211267",
       "entry": "fsr4_model_v07_fp8_no_scale_pass8",
-      "replacement_sha256": "6f5569320c6cfaff731a6eab871f91de7337e583502000c2f53a9e72563727b7",
+      "replacement_sha256": "ca80321738e290b0b7d09dd57a60843548e88481671acf5d3e0e8f405422375a",
       "source": "shaders/00b7db30.ll",
-      "source_sha256": "ce1b111dd61d197abeca9f1b83fe919ef59dd32bfd4f9daf2da6eff728347430"
+      "source_sha256": "f37ad4bab58f58e0e32c1f56d06d9bd4fdde93fac7aaaa1d562cad05f517ca9a"
     },
     {
       "original_offset": 12071200,
@@ -1543,9 +1543,9 @@
       "original_size": 17968,
       "original_sha256": "7a82be223720008f33a9ae1cc27bcb30a04ea6d18667c368702d911283eaa7eb",
       "entry": "fsr4_model_v07_fp8_no_scale_prepass",
-      "replacement_sha256": "cf0a32445f9780bb7af0ead7ef0cd9c107050d6fa2cced66943d1e617a76f726",
+      "replacement_sha256": "70ae04dce8f9198c95840d8c2e8ac356958c689c5c825c414dad29f3f792b96f",
       "source": "shaders/00103100.ll",
-      "source_sha256": "0fe8898dcca211dfcb716ec12d716cbf76842dbcb6d473c80d387337aaa32e8b"
+      "source_sha256": "bfc658a092de586eda1eb05e684374902dd4252a03ce2a4a5d7e973c4b0250fe"
     },
     {
       "original_offset": 1139104,
@@ -1849,9 +1849,9 @@
       "original_size": 17968,
       "original_sha256": "7a82be223720008f33a9ae1cc27bcb30a04ea6d18667c368702d911283eaa7eb",
       "entry": "fsr4_model_v07_fp8_no_scale_prepass",
-      "replacement_sha256": "cf0a32445f9780bb7af0ead7ef0cd9c107050d6fa2cced66943d1e617a76f726",
+      "replacement_sha256": "70ae04dce8f9198c95840d8c2e8ac356958c689c5c825c414dad29f3f792b96f",
       "source": "shaders/003940b0.ll",
-      "source_sha256": "0fe8898dcca211dfcb716ec12d716cbf76842dbcb6d473c80d387337aaa32e8b"
+      "source_sha256": "bfc658a092de586eda1eb05e684374902dd4252a03ce2a4a5d7e973c4b0250fe"
     },
     {
       "original_offset": 3770576,
@@ -3141,13 +3141,16 @@
       "source_sha256": "4c9c99b52aee87bc9df7641f459888b7b49dd29f5c03463f732df316da877ff3"
     }
   ],
-  "release_version": "4.0.0-rc7",
-  "provider_name": "4.1.1r7",
-  "base_optimization_manifest_sha256": "b8ab072acf8db2b2ada206f36896347e5793ec7974566e581f8cd25ee3ada8d8",
+  "release_version": "4.0.0-rc8",
+  "provider_name": "4.1.1r8",
+  "base_optimization_manifest_sha256": "8d852d93670af582553ae6a11d02f8f7f7f40813a1049ad1a4c842231ca3ee97",
   "compatibility_lowering": {
-    "integer_extensions": 17964,
-    "shaders_changed": 48,
-    "description": "Per-lane sext/zext <2 x i16> to <2 x i32>; all packed arithmetic retained."
+    "description": "Per-lane integer extensions retain the RC7 compatibility repair; all new shader sources are already lowered.",
+    "rc7_baseline": {
+      "integer_extensions": 17964,
+      "shaders_changed": 48,
+      "description": "Per-lane sext/zext <2 x i16> to <2 x i32>; all packed arithmetic retained."
+    }
   },
   "dxcompiler_archive": {
     "url": "https://github.com/microsoft/DirectXShaderCompiler/releases/download/v1.9.2607/linux_dxc_2026_07_29.x86_x64.tar.gz",
@@ -3160,5 +3163,10 @@
     "replacement_byte": 0,
     "description": "Retain the SDK buffer-UAV addBarrier call for non-null bindings even when a compute job requests SKIP_BARRIERS; orders padding clears after the preceding model dispatch.",
     "upstream_source": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/backend/dx12/ffx_dx12.cpp#L3599"
+  },
+  "qualification_record": "docs/data/portable-dll-rc8.json",
+  "previous_release": {
+    "version": "4.0.0-rc7",
+    "dll_sha256": "730c175a38b0f0271ffaa201ca531825c6440a95fb71729d34566c66af8e4893"
   }
 }
