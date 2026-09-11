@@ -4,7 +4,7 @@ This fork preserves [dmorazasanchez/bc250-fsr4](https://github.com/dmorazasanche
 history at v3 baseline `6173651fa3a5a557cba2c2ff802e2d6f49881bc1`.
 Credit for the original BC250 FSR4 compatibility work belongs to that project
 and its contributors.
-The README's [special thanks](README.md#special-thanks) acknowledges the major
+The README's [special thanks](README.md#special-thanks-and-notes) acknowledges the major
 driver, compatibility-runtime and upscaler projects used by this distribution.
 
 The imported repository had no top-level license grant at that revision.
