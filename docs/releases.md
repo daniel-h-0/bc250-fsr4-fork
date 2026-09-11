@@ -1,12 +1,12 @@
 # Releases and distribution
 
-RC8 is the portable DLL release candidate. Its primary artifact is
-`bc250-fsr4-dll-4.0.0-rc8.zip`, with an equivalent smaller `.tar.xz` option.
+RC9 is the portable DLL release candidate. Its primary artifact is
+`bc250-fsr4-dll-4.0.0-rc9.zip`, with an equivalent smaller `.tar.xz` option.
 Each contains one DLL, the short installation guide, checksums and notices.
 Follow the [DLL quickstart](../README.md) and
-[compatibility scope](portable-dll-rc8.md). The retained RC6 installer is separate.
+[compatibility scope](portable-dll-rc9.md). The retained RC6 installer is separate.
 
-## RC8 DLL and complete source
+## RC9 DLL and complete source
 
 From a reviewed source tree, rebuild the exact candidate using the
 [DLL build instructions](../dll/README.md), then package it:
@@ -25,8 +25,8 @@ takes its release identity from `dll/manifest.json`, includes all 348 editable
 shader sources and retains the older runtime/driver source for recovery.
 
 `runtime/manifest.json` remains at RC6. `source-release.py --setup` still
-exports the retained RC6 installer with its own guide; it does not install RC8.
-Do not attach a relabeled RC6 installer or driver bundle as an RC8 DLL asset.
+exports the retained RC6 installer with its own guide; it does not install RC9.
+Do not attach a relabeled RC6 installer or driver bundle as an RC9 DLL asset.
 The CI DLL job downloads hash-pinned public SDK/DXC inputs and checks all
 rebuilt shader hashes and the complete DLL hash. GPU/platform qualification
 is separate from a successful source build.
@@ -131,7 +131,7 @@ For a portable DLL release, build from the reviewed immutable source commit,
 verify the DLL and archive checksums, and attach the DLL archive(s), matching
 checksums and complete source export. Record the actual GPU/API outcomes and
 remaining qualification limits. Keep the existing RC6 recovery assets available.
-The RC8 DLL release does not require a new driver or setup bundle.
+The RC9 DLL release does not require a new driver or setup bundle.
 
 For retained driver/runtime releases, give component, patch or preset changes
 a new distribution version.

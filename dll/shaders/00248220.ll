@@ -120,8 +120,8 @@ v0:
   %v13 = call %dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, %dx.types.Handle %v9, i32 4)  ; CBufferLoadLegacy(handle,regIndex)
   %v14 = extractvalue %dx.types.CBufRet.i32 %v13, 0
   %v15 = extractvalue %dx.types.CBufRet.i32 %v13, 1
-  %v16 = sdiv i32 %v14, 2
-  %v17 = sdiv i32 %v15, 2
+  %v16 = lshr i32 %v14, 1
+  %v17 = lshr i32 %v15, 1
   %v18 = lshr i32 %v12, 1
   %v19 = and i32 %v18, 14
   %v20 = lshr i32 %v12, 5
@@ -11916,6 +11916,22 @@ v2073:
   %v2211 = call i32 @dx.op.binary.i32(i32 38, i32 %v2209, i32 %v2205)  ; IMin(a,b)
   %v2212 = call i32 @dx.op.binary.i32(i32 38, i32 %v2210, i32 %v2208)  ; IMin(a,b)
   %v2213 = call %dx.types.Handle @dx.op.annotateHandle(i32 216, %dx.types.Handle %v7, %dx.types.ResourceProperties { i32 2, i32 777 })  ; AnnotateHandle(res,props)  resource: Texture2D<3xF32>
+  %bcfr0ax = icmp eq i32 %v2211, %v1724
+  %bcfr0ay = icmp eq i32 %v2212, %v1725
+  %bcfr0a = and i1 %bcfr0ax, %bcfr0ay
+  %bcfr0bx = icmp eq i32 %v2211, %v1761
+  %bcfr0by = icmp eq i32 %v2212, %v1725
+  %bcfr0b = and i1 %bcfr0bx, %bcfr0by
+  %bcfr0hit = or i1 %bcfr0a, %bcfr0b
+  br i1 %bcfr0hit, label %bcfr0cache, label %bcfr0slow
+
+bcfr0cache:
+  %bcfr0rgb0 = select i1 %bcfr0a, float %v1744, float %v1778
+  %bcfr0rgb1 = select i1 %bcfr0a, float %v1745, float %v1779
+  %bcfr0rgb2 = select i1 %bcfr0a, float %v1746, float %v1780
+  br label %bcfr0join
+
+bcfr0slow:
   %v2214 = call %dx.types.ResRet.f32 @dx.op.textureLoad.f32(i32 66, %dx.types.Handle %v2213, i32 0, i32 %v2211, i32 %v2212, i32 undef, i32 undef, i32 undef, i32 undef)  ; TextureLoad(srv,mipLevelOrSampleCount,coord0,coord1,coord2,offset0,offset1,offset2)
   %v2215 = extractvalue %dx.types.ResRet.f32 %v2214, 0
   %v2216 = extractvalue %dx.types.ResRet.f32 %v2214, 1
@@ -11932,9 +11948,15 @@ v2073:
   %v2227 = fmul fast float %v2224, 0x3FB4D50600000000
   %v2228 = fmul fast float %v2225, 0x3FB4D50600000000
   %v2229 = fmul fast float %v2226, 0x3FB4D50600000000
-  %v2230 = call float @dx.op.binary.f32(i32 35, float %v2227, float 0.000000e+00)  ; FMax(a,b)
-  %v2231 = call float @dx.op.binary.f32(i32 35, float %v2228, float 0.000000e+00)  ; FMax(a,b)
-  %v2232 = call float @dx.op.binary.f32(i32 35, float %v2229, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr0slowrgb0 = call float @dx.op.binary.f32(i32 35, float %v2227, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr0slowrgb1 = call float @dx.op.binary.f32(i32 35, float %v2228, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr0slowrgb2 = call float @dx.op.binary.f32(i32 35, float %v2229, float 0.000000e+00)  ; FMax(a,b)
+  br label %bcfr0join
+
+bcfr0join:
+  %v2230 = phi float [ %bcfr0rgb0, %bcfr0cache ], [ %bcfr0slowrgb0, %bcfr0slow ]
+  %v2231 = phi float [ %bcfr0rgb1, %bcfr0cache ], [ %bcfr0slowrgb1, %bcfr0slow ]
+  %v2232 = phi float [ %bcfr0rgb2, %bcfr0cache ], [ %bcfr0slowrgb2, %bcfr0slow ]
   %v2233 = fmul fast float %v2230, %v2202
   %v2234 = fmul fast float %v2231, %v2202
   %v2235 = fmul fast float %v2232, %v2202
@@ -11950,6 +11972,22 @@ v2073:
   %v2245 = fadd fast float %v2244, %v2202
   %v2246 = call i32 @dx.op.binary.i32(i32 37, i32 %v2178, i32 0)  ; IMax(a,b)
   %v2247 = call i32 @dx.op.binary.i32(i32 38, i32 %v2246, i32 %v2205)  ; IMin(a,b)
+  %bcfr1ax = icmp eq i32 %v2247, %v1761
+  %bcfr1ay = icmp eq i32 %v2212, %v1725
+  %bcfr1a = and i1 %bcfr1ax, %bcfr1ay
+  %bcfr1bx = icmp eq i32 %v2247, %v1799
+  %bcfr1by = icmp eq i32 %v2212, %v1725
+  %bcfr1b = and i1 %bcfr1bx, %bcfr1by
+  %bcfr1hit = or i1 %bcfr1a, %bcfr1b
+  br i1 %bcfr1hit, label %bcfr1cache, label %bcfr1slow
+
+bcfr1cache:
+  %bcfr1rgb0 = select i1 %bcfr1a, float %v1778, float %v1816
+  %bcfr1rgb1 = select i1 %bcfr1a, float %v1779, float %v1817
+  %bcfr1rgb2 = select i1 %bcfr1a, float %v1780, float %v1818
+  br label %bcfr1join
+
+bcfr1slow:
   %v2248 = call %dx.types.ResRet.f32 @dx.op.textureLoad.f32(i32 66, %dx.types.Handle %v2213, i32 0, i32 %v2247, i32 %v2212, i32 undef, i32 undef, i32 undef, i32 undef)  ; TextureLoad(srv,mipLevelOrSampleCount,coord0,coord1,coord2,offset0,offset1,offset2)
   %v2249 = extractvalue %dx.types.ResRet.f32 %v2248, 0
   %v2250 = extractvalue %dx.types.ResRet.f32 %v2248, 1
@@ -11966,9 +12004,15 @@ v2073:
   %v2261 = fmul fast float %v2258, 0x3FB4D50600000000
   %v2262 = fmul fast float %v2259, 0x3FB4D50600000000
   %v2263 = fmul fast float %v2260, 0x3FB4D50600000000
-  %v2264 = call float @dx.op.binary.f32(i32 35, float %v2261, float 0.000000e+00)  ; FMax(a,b)
-  %v2265 = call float @dx.op.binary.f32(i32 35, float %v2262, float 0.000000e+00)  ; FMax(a,b)
-  %v2266 = call float @dx.op.binary.f32(i32 35, float %v2263, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr1slowrgb0 = call float @dx.op.binary.f32(i32 35, float %v2261, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr1slowrgb1 = call float @dx.op.binary.f32(i32 35, float %v2262, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr1slowrgb2 = call float @dx.op.binary.f32(i32 35, float %v2263, float 0.000000e+00)  ; FMax(a,b)
+  br label %bcfr1join
+
+bcfr1join:
+  %v2264 = phi float [ %bcfr1rgb0, %bcfr1cache ], [ %bcfr1slowrgb0, %bcfr1slow ]
+  %v2265 = phi float [ %bcfr1rgb1, %bcfr1cache ], [ %bcfr1slowrgb1, %bcfr1slow ]
+  %v2266 = phi float [ %bcfr1rgb2, %bcfr1cache ], [ %bcfr1slowrgb2, %bcfr1slow ]
   %v2267 = fmul fast float %v2264, %v2244
   %v2268 = fmul fast float %v2265, %v2244
   %v2269 = fmul fast float %v2266, %v2244
@@ -12027,6 +12071,22 @@ v2073:
   %v2322 = fadd fast float %v2283, %v2321
   %v2323 = call i32 @dx.op.binary.i32(i32 37, i32 %v2179, i32 0)  ; IMax(a,b)
   %v2324 = call i32 @dx.op.binary.i32(i32 38, i32 %v2323, i32 %v2208)  ; IMin(a,b)
+  %bcfr2ax = icmp eq i32 %v2211, %v1724
+  %bcfr2ay = icmp eq i32 %v2324, %v1838
+  %bcfr2a = and i1 %bcfr2ax, %bcfr2ay
+  %bcfr2bx = icmp eq i32 %v2211, %v1761
+  %bcfr2by = icmp eq i32 %v2324, %v1838
+  %bcfr2b = and i1 %bcfr2bx, %bcfr2by
+  %bcfr2hit = or i1 %bcfr2a, %bcfr2b
+  br i1 %bcfr2hit, label %bcfr2cache, label %bcfr2slow
+
+bcfr2cache:
+  %bcfr2rgb0 = select i1 %bcfr2a, float %v1855, float %v1886
+  %bcfr2rgb1 = select i1 %bcfr2a, float %v1856, float %v1887
+  %bcfr2rgb2 = select i1 %bcfr2a, float %v1857, float %v1888
+  br label %bcfr2join
+
+bcfr2slow:
   %v2325 = call %dx.types.ResRet.f32 @dx.op.textureLoad.f32(i32 66, %dx.types.Handle %v2213, i32 0, i32 %v2211, i32 %v2324, i32 undef, i32 undef, i32 undef, i32 undef)  ; TextureLoad(srv,mipLevelOrSampleCount,coord0,coord1,coord2,offset0,offset1,offset2)
   %v2326 = extractvalue %dx.types.ResRet.f32 %v2325, 0
   %v2327 = extractvalue %dx.types.ResRet.f32 %v2325, 1
@@ -12043,9 +12103,15 @@ v2073:
   %v2338 = fmul fast float %v2335, 0x3FB4D50600000000
   %v2339 = fmul fast float %v2336, 0x3FB4D50600000000
   %v2340 = fmul fast float %v2337, 0x3FB4D50600000000
-  %v2341 = call float @dx.op.binary.f32(i32 35, float %v2338, float 0.000000e+00)  ; FMax(a,b)
-  %v2342 = call float @dx.op.binary.f32(i32 35, float %v2339, float 0.000000e+00)  ; FMax(a,b)
-  %v2343 = call float @dx.op.binary.f32(i32 35, float %v2340, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr2slowrgb0 = call float @dx.op.binary.f32(i32 35, float %v2338, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr2slowrgb1 = call float @dx.op.binary.f32(i32 35, float %v2339, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr2slowrgb2 = call float @dx.op.binary.f32(i32 35, float %v2340, float 0.000000e+00)  ; FMax(a,b)
+  br label %bcfr2join
+
+bcfr2join:
+  %v2341 = phi float [ %bcfr2rgb0, %bcfr2cache ], [ %bcfr2slowrgb0, %bcfr2slow ]
+  %v2342 = phi float [ %bcfr2rgb1, %bcfr2cache ], [ %bcfr2slowrgb1, %bcfr2slow ]
+  %v2343 = phi float [ %bcfr2rgb2, %bcfr2cache ], [ %bcfr2slowrgb2, %bcfr2slow ]
   %v2344 = fmul fast float %v2341, %v2321
   %v2345 = fmul fast float %v2342, %v2321
   %v2346 = fmul fast float %v2343, %v2321
@@ -12058,6 +12124,22 @@ v2073:
   %v2353 = fmul fast float %v2352, 0xC00A1FBB00000000
   %v2354 = call float @dx.op.unary.f32(i32 21, float %v2353)  ; Exp(value)
   %v2355 = fadd fast float %v2322, %v2354
+  %bcfr3ax = icmp eq i32 %v2247, %v1761
+  %bcfr3ay = icmp eq i32 %v2324, %v1838
+  %bcfr3a = and i1 %bcfr3ax, %bcfr3ay
+  %bcfr3bx = icmp eq i32 %v2247, %v1799
+  %bcfr3by = icmp eq i32 %v2324, %v1838
+  %bcfr3b = and i1 %bcfr3bx, %bcfr3by
+  %bcfr3hit = or i1 %bcfr3a, %bcfr3b
+  br i1 %bcfr3hit, label %bcfr3cache, label %bcfr3slow
+
+bcfr3cache:
+  %bcfr3rgb0 = select i1 %bcfr3a, float %v1886, float %v1917
+  %bcfr3rgb1 = select i1 %bcfr3a, float %v1887, float %v1918
+  %bcfr3rgb2 = select i1 %bcfr3a, float %v1888, float %v1919
+  br label %bcfr3join
+
+bcfr3slow:
   %v2356 = call %dx.types.ResRet.f32 @dx.op.textureLoad.f32(i32 66, %dx.types.Handle %v2213, i32 0, i32 %v2247, i32 %v2324, i32 undef, i32 undef, i32 undef, i32 undef)  ; TextureLoad(srv,mipLevelOrSampleCount,coord0,coord1,coord2,offset0,offset1,offset2)
   %v2357 = extractvalue %dx.types.ResRet.f32 %v2356, 0
   %v2358 = extractvalue %dx.types.ResRet.f32 %v2356, 1
@@ -12074,9 +12156,15 @@ v2073:
   %v2369 = fmul fast float %v2366, 0x3FB4D50600000000
   %v2370 = fmul fast float %v2367, 0x3FB4D50600000000
   %v2371 = fmul fast float %v2368, 0x3FB4D50600000000
-  %v2372 = call float @dx.op.binary.f32(i32 35, float %v2369, float 0.000000e+00)  ; FMax(a,b)
-  %v2373 = call float @dx.op.binary.f32(i32 35, float %v2370, float 0.000000e+00)  ; FMax(a,b)
-  %v2374 = call float @dx.op.binary.f32(i32 35, float %v2371, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr3slowrgb0 = call float @dx.op.binary.f32(i32 35, float %v2369, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr3slowrgb1 = call float @dx.op.binary.f32(i32 35, float %v2370, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr3slowrgb2 = call float @dx.op.binary.f32(i32 35, float %v2371, float 0.000000e+00)  ; FMax(a,b)
+  br label %bcfr3join
+
+bcfr3join:
+  %v2372 = phi float [ %bcfr3rgb0, %bcfr3cache ], [ %bcfr3slowrgb0, %bcfr3slow ]
+  %v2373 = phi float [ %bcfr3rgb1, %bcfr3cache ], [ %bcfr3slowrgb1, %bcfr3slow ]
+  %v2374 = phi float [ %bcfr3rgb2, %bcfr3cache ], [ %bcfr3slowrgb2, %bcfr3slow ]
   %v2375 = fmul fast float %v2372, %v2354
   %v2376 = fmul fast float %v2373, %v2354
   %v2377 = fmul fast float %v2374, %v2354
@@ -12129,6 +12217,22 @@ v2073:
   %v2424 = fadd fast float %v2386, %v2423
   %v2425 = call i32 @dx.op.binary.i32(i32 37, i32 %v2412, i32 0)  ; IMax(a,b)
   %v2426 = call i32 @dx.op.binary.i32(i32 38, i32 %v2425, i32 %v2208)  ; IMin(a,b)
+  %bcfr4ax = icmp eq i32 %v2211, %v1724
+  %bcfr4ay = icmp eq i32 %v2426, %v1940
+  %bcfr4a = and i1 %bcfr4ax, %bcfr4ay
+  %bcfr4bx = icmp eq i32 %v2211, %v1761
+  %bcfr4by = icmp eq i32 %v2426, %v1940
+  %bcfr4b = and i1 %bcfr4bx, %bcfr4by
+  %bcfr4hit = or i1 %bcfr4a, %bcfr4b
+  br i1 %bcfr4hit, label %bcfr4cache, label %bcfr4slow
+
+bcfr4cache:
+  %bcfr4rgb0 = select i1 %bcfr4a, float %v1957, float %v1988
+  %bcfr4rgb1 = select i1 %bcfr4a, float %v1958, float %v1989
+  %bcfr4rgb2 = select i1 %bcfr4a, float %v1959, float %v1990
+  br label %bcfr4join
+
+bcfr4slow:
   %v2427 = call %dx.types.ResRet.f32 @dx.op.textureLoad.f32(i32 66, %dx.types.Handle %v2213, i32 0, i32 %v2211, i32 %v2426, i32 undef, i32 undef, i32 undef, i32 undef)  ; TextureLoad(srv,mipLevelOrSampleCount,coord0,coord1,coord2,offset0,offset1,offset2)
   %v2428 = extractvalue %dx.types.ResRet.f32 %v2427, 0
   %v2429 = extractvalue %dx.types.ResRet.f32 %v2427, 1
@@ -12145,9 +12249,15 @@ v2073:
   %v2440 = fmul fast float %v2437, 0x3FB4D50600000000
   %v2441 = fmul fast float %v2438, 0x3FB4D50600000000
   %v2442 = fmul fast float %v2439, 0x3FB4D50600000000
-  %v2443 = call float @dx.op.binary.f32(i32 35, float %v2440, float 0.000000e+00)  ; FMax(a,b)
-  %v2444 = call float @dx.op.binary.f32(i32 35, float %v2441, float 0.000000e+00)  ; FMax(a,b)
-  %v2445 = call float @dx.op.binary.f32(i32 35, float %v2442, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr4slowrgb0 = call float @dx.op.binary.f32(i32 35, float %v2440, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr4slowrgb1 = call float @dx.op.binary.f32(i32 35, float %v2441, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr4slowrgb2 = call float @dx.op.binary.f32(i32 35, float %v2442, float 0.000000e+00)  ; FMax(a,b)
+  br label %bcfr4join
+
+bcfr4join:
+  %v2443 = phi float [ %bcfr4rgb0, %bcfr4cache ], [ %bcfr4slowrgb0, %bcfr4slow ]
+  %v2444 = phi float [ %bcfr4rgb1, %bcfr4cache ], [ %bcfr4slowrgb1, %bcfr4slow ]
+  %v2445 = phi float [ %bcfr4rgb2, %bcfr4cache ], [ %bcfr4slowrgb2, %bcfr4slow ]
   %v2446 = fmul fast float %v2443, %v2423
   %v2447 = fmul fast float %v2444, %v2423
   %v2448 = fmul fast float %v2445, %v2423
@@ -12160,6 +12270,22 @@ v2073:
   %v2455 = fmul fast float %v2454, 0xC00A1FBB00000000
   %v2456 = call float @dx.op.unary.f32(i32 21, float %v2455)  ; Exp(value)
   %v2457 = fadd fast float %v2424, %v2456
+  %bcfr5ax = icmp eq i32 %v2247, %v1761
+  %bcfr5ay = icmp eq i32 %v2426, %v1940
+  %bcfr5a = and i1 %bcfr5ax, %bcfr5ay
+  %bcfr5bx = icmp eq i32 %v2247, %v1799
+  %bcfr5by = icmp eq i32 %v2426, %v1940
+  %bcfr5b = and i1 %bcfr5bx, %bcfr5by
+  %bcfr5hit = or i1 %bcfr5a, %bcfr5b
+  br i1 %bcfr5hit, label %bcfr5cache, label %bcfr5slow
+
+bcfr5cache:
+  %bcfr5rgb0 = select i1 %bcfr5a, float %v1988, float %v2019
+  %bcfr5rgb1 = select i1 %bcfr5a, float %v1989, float %v2020
+  %bcfr5rgb2 = select i1 %bcfr5a, float %v1990, float %v2021
+  br label %bcfr5join
+
+bcfr5slow:
   %v2458 = call %dx.types.ResRet.f32 @dx.op.textureLoad.f32(i32 66, %dx.types.Handle %v2213, i32 0, i32 %v2247, i32 %v2426, i32 undef, i32 undef, i32 undef, i32 undef)  ; TextureLoad(srv,mipLevelOrSampleCount,coord0,coord1,coord2,offset0,offset1,offset2)
   %v2459 = extractvalue %dx.types.ResRet.f32 %v2458, 0
   %v2460 = extractvalue %dx.types.ResRet.f32 %v2458, 1
@@ -12176,9 +12302,15 @@ v2073:
   %v2471 = fmul fast float %v2468, 0x3FB4D50600000000
   %v2472 = fmul fast float %v2469, 0x3FB4D50600000000
   %v2473 = fmul fast float %v2470, 0x3FB4D50600000000
-  %v2474 = call float @dx.op.binary.f32(i32 35, float %v2471, float 0.000000e+00)  ; FMax(a,b)
-  %v2475 = call float @dx.op.binary.f32(i32 35, float %v2472, float 0.000000e+00)  ; FMax(a,b)
-  %v2476 = call float @dx.op.binary.f32(i32 35, float %v2473, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr5slowrgb0 = call float @dx.op.binary.f32(i32 35, float %v2471, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr5slowrgb1 = call float @dx.op.binary.f32(i32 35, float %v2472, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr5slowrgb2 = call float @dx.op.binary.f32(i32 35, float %v2473, float 0.000000e+00)  ; FMax(a,b)
+  br label %bcfr5join
+
+bcfr5join:
+  %v2474 = phi float [ %bcfr5rgb0, %bcfr5cache ], [ %bcfr5slowrgb0, %bcfr5slow ]
+  %v2475 = phi float [ %bcfr5rgb1, %bcfr5cache ], [ %bcfr5slowrgb1, %bcfr5slow ]
+  %v2476 = phi float [ %bcfr5rgb2, %bcfr5cache ], [ %bcfr5slowrgb2, %bcfr5slow ]
   %v2477 = fmul fast float %v2474, %v2456
   %v2478 = fmul fast float %v2475, %v2456
   %v2479 = fmul fast float %v2476, %v2456
@@ -12267,9 +12399,9 @@ v2540:
   br label %v2559
 
 v2559:
-  %v2560 = phi float [ %v2556, %v2540 ], [ %v2536, %v2073 ]
-  %v2561 = phi float [ %v2557, %v2540 ], [ %v2537, %v2073 ]
-  %v2562 = phi float [ %v2558, %v2540 ], [ %v2538, %v2073 ]
+  %v2560 = phi float [ %v2556, %v2540 ], [ %v2536, %bcfr5join ]
+  %v2561 = phi float [ %v2557, %v2540 ], [ %v2537, %bcfr5join ]
+  %v2562 = phi float [ %v2558, %v2540 ], [ %v2538, %bcfr5join ]
   %v2563 = call float @dx.op.binary.f32(i32 35, float %v2560, float 0.000000e+00)  ; FMax(a,b)
   %v2564 = call float @dx.op.binary.f32(i32 35, float %v2561, float 0.000000e+00)  ; FMax(a,b)
   %v2565 = call float @dx.op.binary.f32(i32 35, float %v2562, float 0.000000e+00)  ; FMax(a,b)
@@ -13479,6 +13611,22 @@ v3045:
   %v3180 = call i32 @dx.op.binary.i32(i32 38, i32 %v3178, i32 %v3174)  ; IMin(a,b)
   %v3181 = call i32 @dx.op.binary.i32(i32 38, i32 %v3179, i32 %v3177)  ; IMin(a,b)
   %v3182 = call %dx.types.Handle @dx.op.annotateHandle(i32 216, %dx.types.Handle %v7, %dx.types.ResourceProperties { i32 2, i32 777 })  ; AnnotateHandle(res,props)  resource: Texture2D<3xF32>
+  %bcfr6ax = icmp eq i32 %v3180, %v2697
+  %bcfr6ay = icmp eq i32 %v3181, %v2698
+  %bcfr6a = and i1 %bcfr6ax, %bcfr6ay
+  %bcfr6bx = icmp eq i32 %v3180, %v2733
+  %bcfr6by = icmp eq i32 %v3181, %v2698
+  %bcfr6b = and i1 %bcfr6bx, %bcfr6by
+  %bcfr6hit = or i1 %bcfr6a, %bcfr6b
+  br i1 %bcfr6hit, label %bcfr6cache, label %bcfr6slow
+
+bcfr6cache:
+  %bcfr6rgb0 = select i1 %bcfr6a, float %v2716, float %v2750
+  %bcfr6rgb1 = select i1 %bcfr6a, float %v2717, float %v2751
+  %bcfr6rgb2 = select i1 %bcfr6a, float %v2718, float %v2752
+  br label %bcfr6join
+
+bcfr6slow:
   %v3183 = call %dx.types.ResRet.f32 @dx.op.textureLoad.f32(i32 66, %dx.types.Handle %v3182, i32 0, i32 %v3180, i32 %v3181, i32 undef, i32 undef, i32 undef, i32 undef)  ; TextureLoad(srv,mipLevelOrSampleCount,coord0,coord1,coord2,offset0,offset1,offset2)
   %v3184 = extractvalue %dx.types.ResRet.f32 %v3183, 0
   %v3185 = extractvalue %dx.types.ResRet.f32 %v3183, 1
@@ -13495,9 +13643,15 @@ v3045:
   %v3196 = fmul fast float %v3193, 0x3FB4D50600000000
   %v3197 = fmul fast float %v3194, 0x3FB4D50600000000
   %v3198 = fmul fast float %v3195, 0x3FB4D50600000000
-  %v3199 = call float @dx.op.binary.f32(i32 35, float %v3196, float 0.000000e+00)  ; FMax(a,b)
-  %v3200 = call float @dx.op.binary.f32(i32 35, float %v3197, float 0.000000e+00)  ; FMax(a,b)
-  %v3201 = call float @dx.op.binary.f32(i32 35, float %v3198, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr6slowrgb0 = call float @dx.op.binary.f32(i32 35, float %v3196, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr6slowrgb1 = call float @dx.op.binary.f32(i32 35, float %v3197, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr6slowrgb2 = call float @dx.op.binary.f32(i32 35, float %v3198, float 0.000000e+00)  ; FMax(a,b)
+  br label %bcfr6join
+
+bcfr6join:
+  %v3199 = phi float [ %bcfr6rgb0, %bcfr6cache ], [ %bcfr6slowrgb0, %bcfr6slow ]
+  %v3200 = phi float [ %bcfr6rgb1, %bcfr6cache ], [ %bcfr6slowrgb1, %bcfr6slow ]
+  %v3201 = phi float [ %bcfr6rgb2, %bcfr6cache ], [ %bcfr6slowrgb2, %bcfr6slow ]
   %v3202 = fmul fast float %v3199, %v3171
   %v3203 = fmul fast float %v3200, %v3171
   %v3204 = fmul fast float %v3201, %v3171
@@ -13513,6 +13667,22 @@ v3045:
   %v3214 = fadd fast float %v3213, %v3171
   %v3215 = call i32 @dx.op.binary.i32(i32 37, i32 %v3147, i32 0)  ; IMax(a,b)
   %v3216 = call i32 @dx.op.binary.i32(i32 38, i32 %v3215, i32 %v3174)  ; IMin(a,b)
+  %bcfr7ax = icmp eq i32 %v3216, %v2733
+  %bcfr7ay = icmp eq i32 %v3181, %v2698
+  %bcfr7a = and i1 %bcfr7ax, %bcfr7ay
+  %bcfr7bx = icmp eq i32 %v3216, %v2771
+  %bcfr7by = icmp eq i32 %v3181, %v2698
+  %bcfr7b = and i1 %bcfr7bx, %bcfr7by
+  %bcfr7hit = or i1 %bcfr7a, %bcfr7b
+  br i1 %bcfr7hit, label %bcfr7cache, label %bcfr7slow
+
+bcfr7cache:
+  %bcfr7rgb0 = select i1 %bcfr7a, float %v2750, float %v2788
+  %bcfr7rgb1 = select i1 %bcfr7a, float %v2751, float %v2789
+  %bcfr7rgb2 = select i1 %bcfr7a, float %v2752, float %v2790
+  br label %bcfr7join
+
+bcfr7slow:
   %v3217 = call %dx.types.ResRet.f32 @dx.op.textureLoad.f32(i32 66, %dx.types.Handle %v3182, i32 0, i32 %v3216, i32 %v3181, i32 undef, i32 undef, i32 undef, i32 undef)  ; TextureLoad(srv,mipLevelOrSampleCount,coord0,coord1,coord2,offset0,offset1,offset2)
   %v3218 = extractvalue %dx.types.ResRet.f32 %v3217, 0
   %v3219 = extractvalue %dx.types.ResRet.f32 %v3217, 1
@@ -13529,9 +13699,15 @@ v3045:
   %v3230 = fmul fast float %v3227, 0x3FB4D50600000000
   %v3231 = fmul fast float %v3228, 0x3FB4D50600000000
   %v3232 = fmul fast float %v3229, 0x3FB4D50600000000
-  %v3233 = call float @dx.op.binary.f32(i32 35, float %v3230, float 0.000000e+00)  ; FMax(a,b)
-  %v3234 = call float @dx.op.binary.f32(i32 35, float %v3231, float 0.000000e+00)  ; FMax(a,b)
-  %v3235 = call float @dx.op.binary.f32(i32 35, float %v3232, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr7slowrgb0 = call float @dx.op.binary.f32(i32 35, float %v3230, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr7slowrgb1 = call float @dx.op.binary.f32(i32 35, float %v3231, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr7slowrgb2 = call float @dx.op.binary.f32(i32 35, float %v3232, float 0.000000e+00)  ; FMax(a,b)
+  br label %bcfr7join
+
+bcfr7join:
+  %v3233 = phi float [ %bcfr7rgb0, %bcfr7cache ], [ %bcfr7slowrgb0, %bcfr7slow ]
+  %v3234 = phi float [ %bcfr7rgb1, %bcfr7cache ], [ %bcfr7slowrgb1, %bcfr7slow ]
+  %v3235 = phi float [ %bcfr7rgb2, %bcfr7cache ], [ %bcfr7slowrgb2, %bcfr7slow ]
   %v3236 = fmul fast float %v3233, %v3213
   %v3237 = fmul fast float %v3234, %v3213
   %v3238 = fmul fast float %v3235, %v3213
@@ -13590,6 +13766,22 @@ v3045:
   %v3291 = fadd fast float %v3252, %v3290
   %v3292 = call i32 @dx.op.binary.i32(i32 37, i32 %v3148, i32 0)  ; IMax(a,b)
   %v3293 = call i32 @dx.op.binary.i32(i32 38, i32 %v3292, i32 %v3177)  ; IMin(a,b)
+  %bcfr8ax = icmp eq i32 %v3180, %v2697
+  %bcfr8ay = icmp eq i32 %v3293, %v2810
+  %bcfr8a = and i1 %bcfr8ax, %bcfr8ay
+  %bcfr8bx = icmp eq i32 %v3180, %v2733
+  %bcfr8by = icmp eq i32 %v3293, %v2810
+  %bcfr8b = and i1 %bcfr8bx, %bcfr8by
+  %bcfr8hit = or i1 %bcfr8a, %bcfr8b
+  br i1 %bcfr8hit, label %bcfr8cache, label %bcfr8slow
+
+bcfr8cache:
+  %bcfr8rgb0 = select i1 %bcfr8a, float %v2827, float %v2858
+  %bcfr8rgb1 = select i1 %bcfr8a, float %v2828, float %v2859
+  %bcfr8rgb2 = select i1 %bcfr8a, float %v2829, float %v2860
+  br label %bcfr8join
+
+bcfr8slow:
   %v3294 = call %dx.types.ResRet.f32 @dx.op.textureLoad.f32(i32 66, %dx.types.Handle %v3182, i32 0, i32 %v3180, i32 %v3293, i32 undef, i32 undef, i32 undef, i32 undef)  ; TextureLoad(srv,mipLevelOrSampleCount,coord0,coord1,coord2,offset0,offset1,offset2)
   %v3295 = extractvalue %dx.types.ResRet.f32 %v3294, 0
   %v3296 = extractvalue %dx.types.ResRet.f32 %v3294, 1
@@ -13606,9 +13798,15 @@ v3045:
   %v3307 = fmul fast float %v3304, 0x3FB4D50600000000
   %v3308 = fmul fast float %v3305, 0x3FB4D50600000000
   %v3309 = fmul fast float %v3306, 0x3FB4D50600000000
-  %v3310 = call float @dx.op.binary.f32(i32 35, float %v3307, float 0.000000e+00)  ; FMax(a,b)
-  %v3311 = call float @dx.op.binary.f32(i32 35, float %v3308, float 0.000000e+00)  ; FMax(a,b)
-  %v3312 = call float @dx.op.binary.f32(i32 35, float %v3309, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr8slowrgb0 = call float @dx.op.binary.f32(i32 35, float %v3307, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr8slowrgb1 = call float @dx.op.binary.f32(i32 35, float %v3308, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr8slowrgb2 = call float @dx.op.binary.f32(i32 35, float %v3309, float 0.000000e+00)  ; FMax(a,b)
+  br label %bcfr8join
+
+bcfr8join:
+  %v3310 = phi float [ %bcfr8rgb0, %bcfr8cache ], [ %bcfr8slowrgb0, %bcfr8slow ]
+  %v3311 = phi float [ %bcfr8rgb1, %bcfr8cache ], [ %bcfr8slowrgb1, %bcfr8slow ]
+  %v3312 = phi float [ %bcfr8rgb2, %bcfr8cache ], [ %bcfr8slowrgb2, %bcfr8slow ]
   %v3313 = fmul fast float %v3310, %v3290
   %v3314 = fmul fast float %v3311, %v3290
   %v3315 = fmul fast float %v3312, %v3290
@@ -13621,6 +13819,22 @@ v3045:
   %v3322 = fmul fast float %v3321, 0xC00A1FBB00000000
   %v3323 = call float @dx.op.unary.f32(i32 21, float %v3322)  ; Exp(value)
   %v3324 = fadd fast float %v3291, %v3323
+  %bcfr9ax = icmp eq i32 %v3216, %v2733
+  %bcfr9ay = icmp eq i32 %v3293, %v2810
+  %bcfr9a = and i1 %bcfr9ax, %bcfr9ay
+  %bcfr9bx = icmp eq i32 %v3216, %v2771
+  %bcfr9by = icmp eq i32 %v3293, %v2810
+  %bcfr9b = and i1 %bcfr9bx, %bcfr9by
+  %bcfr9hit = or i1 %bcfr9a, %bcfr9b
+  br i1 %bcfr9hit, label %bcfr9cache, label %bcfr9slow
+
+bcfr9cache:
+  %bcfr9rgb0 = select i1 %bcfr9a, float %v2858, float %v2889
+  %bcfr9rgb1 = select i1 %bcfr9a, float %v2859, float %v2890
+  %bcfr9rgb2 = select i1 %bcfr9a, float %v2860, float %v2891
+  br label %bcfr9join
+
+bcfr9slow:
   %v3325 = call %dx.types.ResRet.f32 @dx.op.textureLoad.f32(i32 66, %dx.types.Handle %v3182, i32 0, i32 %v3216, i32 %v3293, i32 undef, i32 undef, i32 undef, i32 undef)  ; TextureLoad(srv,mipLevelOrSampleCount,coord0,coord1,coord2,offset0,offset1,offset2)
   %v3326 = extractvalue %dx.types.ResRet.f32 %v3325, 0
   %v3327 = extractvalue %dx.types.ResRet.f32 %v3325, 1
@@ -13637,9 +13851,15 @@ v3045:
   %v3338 = fmul fast float %v3335, 0x3FB4D50600000000
   %v3339 = fmul fast float %v3336, 0x3FB4D50600000000
   %v3340 = fmul fast float %v3337, 0x3FB4D50600000000
-  %v3341 = call float @dx.op.binary.f32(i32 35, float %v3338, float 0.000000e+00)  ; FMax(a,b)
-  %v3342 = call float @dx.op.binary.f32(i32 35, float %v3339, float 0.000000e+00)  ; FMax(a,b)
-  %v3343 = call float @dx.op.binary.f32(i32 35, float %v3340, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr9slowrgb0 = call float @dx.op.binary.f32(i32 35, float %v3338, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr9slowrgb1 = call float @dx.op.binary.f32(i32 35, float %v3339, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr9slowrgb2 = call float @dx.op.binary.f32(i32 35, float %v3340, float 0.000000e+00)  ; FMax(a,b)
+  br label %bcfr9join
+
+bcfr9join:
+  %v3341 = phi float [ %bcfr9rgb0, %bcfr9cache ], [ %bcfr9slowrgb0, %bcfr9slow ]
+  %v3342 = phi float [ %bcfr9rgb1, %bcfr9cache ], [ %bcfr9slowrgb1, %bcfr9slow ]
+  %v3343 = phi float [ %bcfr9rgb2, %bcfr9cache ], [ %bcfr9slowrgb2, %bcfr9slow ]
   %v3344 = fmul fast float %v3341, %v3323
   %v3345 = fmul fast float %v3342, %v3323
   %v3346 = fmul fast float %v3343, %v3323
@@ -13692,6 +13912,22 @@ v3045:
   %v3393 = fadd fast float %v3355, %v3392
   %v3394 = call i32 @dx.op.binary.i32(i32 37, i32 %v3381, i32 0)  ; IMax(a,b)
   %v3395 = call i32 @dx.op.binary.i32(i32 38, i32 %v3394, i32 %v3177)  ; IMin(a,b)
+  %bcfr10ax = icmp eq i32 %v3180, %v2697
+  %bcfr10ay = icmp eq i32 %v3395, %v2912
+  %bcfr10a = and i1 %bcfr10ax, %bcfr10ay
+  %bcfr10bx = icmp eq i32 %v3180, %v2733
+  %bcfr10by = icmp eq i32 %v3395, %v2912
+  %bcfr10b = and i1 %bcfr10bx, %bcfr10by
+  %bcfr10hit = or i1 %bcfr10a, %bcfr10b
+  br i1 %bcfr10hit, label %bcfr10cache, label %bcfr10slow
+
+bcfr10cache:
+  %bcfr10rgb0 = select i1 %bcfr10a, float %v2929, float %v2960
+  %bcfr10rgb1 = select i1 %bcfr10a, float %v2930, float %v2961
+  %bcfr10rgb2 = select i1 %bcfr10a, float %v2931, float %v2962
+  br label %bcfr10join
+
+bcfr10slow:
   %v3396 = call %dx.types.ResRet.f32 @dx.op.textureLoad.f32(i32 66, %dx.types.Handle %v3182, i32 0, i32 %v3180, i32 %v3395, i32 undef, i32 undef, i32 undef, i32 undef)  ; TextureLoad(srv,mipLevelOrSampleCount,coord0,coord1,coord2,offset0,offset1,offset2)
   %v3397 = extractvalue %dx.types.ResRet.f32 %v3396, 0
   %v3398 = extractvalue %dx.types.ResRet.f32 %v3396, 1
@@ -13708,9 +13944,15 @@ v3045:
   %v3409 = fmul fast float %v3406, 0x3FB4D50600000000
   %v3410 = fmul fast float %v3407, 0x3FB4D50600000000
   %v3411 = fmul fast float %v3408, 0x3FB4D50600000000
-  %v3412 = call float @dx.op.binary.f32(i32 35, float %v3409, float 0.000000e+00)  ; FMax(a,b)
-  %v3413 = call float @dx.op.binary.f32(i32 35, float %v3410, float 0.000000e+00)  ; FMax(a,b)
-  %v3414 = call float @dx.op.binary.f32(i32 35, float %v3411, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr10slowrgb0 = call float @dx.op.binary.f32(i32 35, float %v3409, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr10slowrgb1 = call float @dx.op.binary.f32(i32 35, float %v3410, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr10slowrgb2 = call float @dx.op.binary.f32(i32 35, float %v3411, float 0.000000e+00)  ; FMax(a,b)
+  br label %bcfr10join
+
+bcfr10join:
+  %v3412 = phi float [ %bcfr10rgb0, %bcfr10cache ], [ %bcfr10slowrgb0, %bcfr10slow ]
+  %v3413 = phi float [ %bcfr10rgb1, %bcfr10cache ], [ %bcfr10slowrgb1, %bcfr10slow ]
+  %v3414 = phi float [ %bcfr10rgb2, %bcfr10cache ], [ %bcfr10slowrgb2, %bcfr10slow ]
   %v3415 = fmul fast float %v3412, %v3392
   %v3416 = fmul fast float %v3413, %v3392
   %v3417 = fmul fast float %v3414, %v3392
@@ -13723,6 +13965,22 @@ v3045:
   %v3424 = fmul fast float %v3423, 0xC00A1FBB00000000
   %v3425 = call float @dx.op.unary.f32(i32 21, float %v3424)  ; Exp(value)
   %v3426 = fadd fast float %v3393, %v3425
+  %bcfr11ax = icmp eq i32 %v3216, %v2733
+  %bcfr11ay = icmp eq i32 %v3395, %v2912
+  %bcfr11a = and i1 %bcfr11ax, %bcfr11ay
+  %bcfr11bx = icmp eq i32 %v3216, %v2771
+  %bcfr11by = icmp eq i32 %v3395, %v2912
+  %bcfr11b = and i1 %bcfr11bx, %bcfr11by
+  %bcfr11hit = or i1 %bcfr11a, %bcfr11b
+  br i1 %bcfr11hit, label %bcfr11cache, label %bcfr11slow
+
+bcfr11cache:
+  %bcfr11rgb0 = select i1 %bcfr11a, float %v2960, float %v2991
+  %bcfr11rgb1 = select i1 %bcfr11a, float %v2961, float %v2992
+  %bcfr11rgb2 = select i1 %bcfr11a, float %v2962, float %v2993
+  br label %bcfr11join
+
+bcfr11slow:
   %v3427 = call %dx.types.ResRet.f32 @dx.op.textureLoad.f32(i32 66, %dx.types.Handle %v3182, i32 0, i32 %v3216, i32 %v3395, i32 undef, i32 undef, i32 undef, i32 undef)  ; TextureLoad(srv,mipLevelOrSampleCount,coord0,coord1,coord2,offset0,offset1,offset2)
   %v3428 = extractvalue %dx.types.ResRet.f32 %v3427, 0
   %v3429 = extractvalue %dx.types.ResRet.f32 %v3427, 1
@@ -13739,9 +13997,15 @@ v3045:
   %v3440 = fmul fast float %v3437, 0x3FB4D50600000000
   %v3441 = fmul fast float %v3438, 0x3FB4D50600000000
   %v3442 = fmul fast float %v3439, 0x3FB4D50600000000
-  %v3443 = call float @dx.op.binary.f32(i32 35, float %v3440, float 0.000000e+00)  ; FMax(a,b)
-  %v3444 = call float @dx.op.binary.f32(i32 35, float %v3441, float 0.000000e+00)  ; FMax(a,b)
-  %v3445 = call float @dx.op.binary.f32(i32 35, float %v3442, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr11slowrgb0 = call float @dx.op.binary.f32(i32 35, float %v3440, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr11slowrgb1 = call float @dx.op.binary.f32(i32 35, float %v3441, float 0.000000e+00)  ; FMax(a,b)
+  %bcfr11slowrgb2 = call float @dx.op.binary.f32(i32 35, float %v3442, float 0.000000e+00)  ; FMax(a,b)
+  br label %bcfr11join
+
+bcfr11join:
+  %v3443 = phi float [ %bcfr11rgb0, %bcfr11cache ], [ %bcfr11slowrgb0, %bcfr11slow ]
+  %v3444 = phi float [ %bcfr11rgb1, %bcfr11cache ], [ %bcfr11slowrgb1, %bcfr11slow ]
+  %v3445 = phi float [ %bcfr11rgb2, %bcfr11cache ], [ %bcfr11slowrgb2, %bcfr11slow ]
   %v3446 = fmul fast float %v3443, %v3425
   %v3447 = fmul fast float %v3444, %v3425
   %v3448 = fmul fast float %v3445, %v3425
@@ -13830,9 +14094,9 @@ v3509:
   br label %v3528
 
 v3528:
-  %v3529 = phi float [ %v3525, %v3509 ], [ %v3505, %v3045 ]
-  %v3530 = phi float [ %v3526, %v3509 ], [ %v3506, %v3045 ]
-  %v3531 = phi float [ %v3527, %v3509 ], [ %v3507, %v3045 ]
+  %v3529 = phi float [ %v3525, %v3509 ], [ %v3505, %bcfr11join ]
+  %v3530 = phi float [ %v3526, %v3509 ], [ %v3506, %bcfr11join ]
+  %v3531 = phi float [ %v3527, %v3509 ], [ %v3507, %bcfr11join ]
   %v3532 = call float @dx.op.binary.f32(i32 35, float %v3529, float 0.000000e+00)  ; FMax(a,b)
   %v3533 = call float @dx.op.binary.f32(i32 35, float %v3530, float 0.000000e+00)  ; FMax(a,b)
   %v3534 = call float @dx.op.binary.f32(i32 35, float %v3531, float 0.000000e+00)  ; FMax(a,b)

@@ -1,34 +1,32 @@
-# BC250 FSR4 — portable DLL, RC8
+# BC250 FSR4 — portable DLL, RC9
 
 **FSR 4.1.1 INT8 optimizations in one Windows x64 DLL.**
 Drop it into a working OptiScaler installation or a compatible native
 FidelityFX game. The optimizations are built into the DLL.
 
-This is the **4.0.0-rc8 performance checkpoint**; the DLL identifies itself as
-**4.1.1r8**. Its exact bytes are tested on BC250/Linux. Windows and other
+This is the **4.0.0-rc9 performance checkpoint**; the DLL identifies itself as
+**4.1.1r9**. Its exact bytes are tested on BC250/Linux. Windows and other
 GPUs remain unqualified.
 
-![Measured FSR4 GPU cost on BC250: original FSR 4.1.1 shaders, FSR 4.1.1b, v3 and v4r7 at 1080p, 1440p and 4K Quality. Lower is better.](docs/assets/fsr4-four-way-gpu-cost.svg)
+![Measured FSR4 GPU cost on BC250: original FSR 4.1.1 shaders, FSR 4.1.1b, v3 and RC9 at 1080p, 1440p and 4K Quality. Lower is better.](docs/assets/fsr4-four-way-gpu-cost-rc9.svg)
 
-The chart shows the earlier RC7 campaign. [Method and raw data](docs/gpu-cost.md).
-
-**RC8 reduces measured 1440p Quality upscaler GPU time by 8.52% versus RC7:**
-6.617 ms → 6.054 ms in fresh matched tests. All output images match exactly.
-This checkpoint was measured at 1440p only; the chart's other resolutions
-remain RC7 results. [RC8 measurements and raw data](docs/portable-dll-rc8.md).
+**RC9 costs 3.93 / 5.92 / 12.08 ms at 1080p / 1440p / 4K Quality.**
+Only RC9 was remeasured on September 11; the three baseline arms retain their
+September 10 timestamps. All complete output images match.
+[Chart method and raw data](docs/gpu-cost.md) · [RC9 changes and qualification](docs/portable-dll-rc9.md).
 
 ## Install
 
-Download the [RC8 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc8):
-[ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc8/bc250-fsr4-dll-4.0.0-rc8.zip) or
-[tar.xz](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc8/bc250-fsr4-dll-4.0.0-rc8.tar.xz).
+Download the [RC9 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc9):
+[ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc9/bc250-fsr4-dll-4.0.0-rc9.zip) or
+[tar.xz](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc9/bc250-fsr4-dll-4.0.0-rc9.tar.xz).
 
-Extract `bc250-fsr4-dll-4.0.0-rc8.zip` (or the smaller `.tar.xz` archive).
+Extract `bc250-fsr4-dll-4.0.0-rc9.zip` (or the smaller `.tar.xz` archive).
 It contains one DLL, instructions, checksums and notices. Close the game and
 back up any file you replace.
 
 **Already using OptiScaler:** replace
-`OptiScaler/amd_fidelityfx_upscaler_dx12.dll` with the RC8 DLL. Select the
+`OptiScaler/amd_fidelityfx_upscaler_dx12.dll` with the RC9 DLL. Select the
 FFX/FSR4 backend and INT8 model 2. The [short installation guide](dll/INSTALL.md)
 has the exact settings and the ordinary Proton launch option.
 
@@ -42,7 +40,7 @@ replace it. Use one upscaler integration per game.
 
 ## Compatibility
 
-RC8 passed direct D3D12 API, image and performance checks at 1440p on
+RC9 passed direct D3D12 API, image and performance checks at 1080p, 1440p and 4K on
 BC250/Linux with standard Mesa and ordinary GE-Proton. It has no new game
 rendering checks. The earlier RC7 DLL passed Control, System Shock, No Man's
 Sky, Deadzone Rogue, Kingdom Come: Deliverance II, Roboquest with Luma, and
@@ -51,24 +49,22 @@ DOOM: The Dark Ages through native FSR and OptiScaler's DX11/DX12/Vulkan routes.
 No Man's Sky hit its hang detector during initial shader compilation;
 restarting with the compiled cache worked. Frame generation, native Windows,
 other GPUs and unlisted integrations need separate testing.
-[RC8 scope](docs/portable-dll-rc8.md) and [RC7 game evidence](docs/portable-dll-rc7.md).
+[RC9 scope](docs/portable-dll-rc9.md) and [RC7 game evidence](docs/portable-dll-rc7.md).
 
 ## What changed
 
-RC8 changes sixteen of the 348 shader slots. It combines native packed
-integer dot products, Winograd convolution in two model passes, streamed
-arithmetic, cooperative weight checks and measured wave-size choices.
-Dynamic-weight guards and fallbacks remain present. The other 332 shader
-slots keep their RC7 bytes.
+RC9 changes twelve shader slots from RC8, or nineteen from RC7. It adds
+bounded packed arithmetic in model passes 1, 2, 4, 5, 7, 9, 10, 11 and 12,
+including additional Winograd convolution and reordered integer accumulation,
+plus exact final-output lane extraction. Dynamic-weight guards and fallbacks,
+the integer-cast compatibility repair and the SDK synchronization barrier remain.
+All 348 shaders are identical to the retained qualified development checkpoint.
 
-The RC7 integer-cast compatibility repair and SDK synchronization barrier
-before padding clears are retained. The SDK's numeric API/provider identity
-and five public exports stay the same.
-
-The RC8 comparison includes eight 600-frame runs, scoring the last 300
-frames of each, plus seven separate image cases covering HDR, SDR, motion,
-reset, dynamic resolution, sharpening and Balanced input. These are synthetic
-upscaler timings, with no whole-game FPS claim.
+The new chart contains twelve RC9 runs of 600 frames, scoring the final 300
+frames of each. Three resolution preflights and seven additional 1440p image
+cases match the verified references. These are synthetic upscaler costs.
+Compared with the historical RC7 chart, RC9's 1440p and 4K values are lower;
+its 1080p value is slightly higher. Those chart comparisons span two dates.
 
 ## Build and review
 

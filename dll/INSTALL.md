@@ -1,6 +1,6 @@
-# FSR 4.1.1 INT8 — RC8 DLL
+# FSR 4.1.1 INT8 — RC9 DLL
 
-Project version **4.0.0-rc8**; SDK display name **4.1.1r8**.
+Project version **4.0.0-rc9**; SDK display name **4.1.1r9**.
 This archive contains one modified Windows x64 upscaler DLL. The v4
 performance changes are already compiled into it.
 
@@ -53,7 +53,7 @@ integrations off. Keep OptiScaler's other files installed, including its
 signed `nvngx_dlss.dll` helper beside the proxy when required.
 
 For a visual check, temporarily set `[FSR] Fsr4EnableWatermark=true`.
-The rendered image should identify **4.1.1r8**, INT8 and the local source.
+The rendered image should identify **4.1.1r9**, INT8 and the local source.
 Turn the watermark off after checking.
 
 ## With a native FidelityFX game
@@ -76,15 +76,15 @@ applying that rename elsewhere.
 
 This release covers upscaling. Frame generation, ray regeneration and
 unlisted game or mod combinations need separate testing. The seven recorded
-game-route checks belong to RC7; RC8 currently has
-synthetic D3D12 image/performance checks and has not been retested in games.
+game-route checks belong to RC7; RC9 has synthetic D3D12 image/performance
+checks at 1080p, 1440p and 4K and has not been retested in games.
 
 Initial shader compilation can cause a long pause. With RC7, No Man's Sky hit its
 hang detector on the first in-game switch to DLSS; restarting with the same
 DLL and compiled cache worked. Native Windows requires a D3D12 runtime and
 driver accepting DXIL 1.9 / Shader Model 6.9.
 
-[Tested configurations and details](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc8/docs/portable-dll-rc8.md)
+[Tested configurations and details](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc9/docs/portable-dll-rc9.md)
 
 ## Update, undo and checksums
 
@@ -104,4 +104,4 @@ The modified DLL is not AMD-signed. Retain the included notices.
 
 Source and build instructions: [BC250 FSR4 repository](https://github.com/daniel-h-0/bc250-fsr4-fork).
 Upgrading from the older BC250 driver/Steam tool:
-[RC6 upgrade notes](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc8/docs/legacy-rc6.md#upgrade-a-game-to-rc7).
+[RC6 upgrade notes](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc9/docs/legacy-rc6.md#upgrade-a-game-to-rc7).

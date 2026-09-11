@@ -1,8 +1,10 @@
 # SPDX-License-Identifier: MIT
 """Regressions for the publication consistency checks."""
 
+import copy
 import importlib.util
 import json
+import runpy
 import shutil
 import tempfile
 import unittest
@@ -82,6 +84,75 @@ class RepositoryCheckTests(unittest.TestCase):
         path.write_text(json.dumps(values))
         with self.assertRaisesRegex(ValueError, "FSR cost reconstruction changed"):
             checks.check_fsr_cost(self.root)
+
+
+class RC9PublicationTests(unittest.TestCase):
+    def setUp(self):
+        self.record = copy.deepcopy(checks.load(ROOT / "docs/data/portable-dll-rc9.json"))
+        self.manifest = checks.load(ROOT / "dll/manifest.json")
+
+    def test_release_run_cannot_use_the_development_provider_label(self):
+        self.record["performance"]["rows"][0]["provider"] = "4.1.1d1"
+        with self.assertRaisesRegex(ValueError, "DLL/provider mismatch"):
+            checks.check_rc9_record(self.record, self.manifest)
+
+    def test_changed_scored_samples_cannot_keep_the_published_median(self):
+        row = self.record["performance"]["rows"][0]
+        row["gpu_ms"][300:] = [100.0] * 300
+        with self.assertRaisesRegex(ValueError, "per-run median"):
+            checks.check_rc9_record(self.record, self.manifest)
+
+    def test_complete_model_identity_is_required(self):
+        self.record["quality"]["preflights"][1]["row"]["observed_shaders"] = []
+        with self.assertRaisesRegex(ValueError, "shader coverage missing"):
+            checks.check_rc9_record(self.record, self.manifest)
+
+    def test_stale_component_evidence_cannot_be_relabelled_as_current(self):
+        old = checks.load(ROOT / "docs/data/portable-dll-rc8.json")
+        self.record["development_component_evidence"]["modified_model_weights"][0][
+            "component_shader_sha256"
+        ] = old["development_component_evidence"]["modified_model_weights"][0][
+            "component_shader_sha256"
+        ]
+        with self.assertRaisesRegex(ValueError, "fallback component identity"):
+            checks.check_rc9_record(self.record, self.manifest)
+
+    def test_inherited_timing_cannot_be_presented_as_final_release_bytes(self):
+        row = self.record["inherited_checkpoint_comparison"]["rows"][1]
+        row["dll_sha256"] = self.record["dll_sha256"]
+        row["provider"] = self.record["provider_name"]
+        with self.assertRaisesRegex(ValueError, "DLL/provider mismatch"):
+            checks.check_rc9_record(self.record, self.manifest)
+
+    def chart_fixture(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        directory = Path(temporary.name)
+        for name in ("fsr-cost-20260910", "fsr-cost-20260911-rc9"):
+            shutil.copytree(ROOT / "docs/data" / name, directory / name)
+        current = directory / "fsr-cost-20260911-rc9"
+        summarize = runpy.run_path(str(current / "summarize.py"))["summarize"]
+        return current, summarize
+
+    def test_refresh_must_preserve_every_baseline_timestamp(self):
+        current, summarize = self.chart_fixture()
+        samples = current / "samples.csv"
+        lines = samples.read_text().splitlines()
+        fields = lines[1].split(",")
+        fields[-1] = "1000.000000000"
+        lines[1] = ",".join(fields)
+        samples.write_text("\n".join(lines) + "\n")
+        with self.assertRaisesRegex(ValueError, "Baseline timestamps must remain unchanged"):
+            summarize()
+
+    def test_refresh_must_preserve_baseline_run_metadata(self):
+        current, summarize = self.chart_fixture()
+        path = current / "runs.json"
+        runs = checks.load(path)
+        next(iter(runs.values()))["clock_min_mhz"] = 1800
+        path.write_text(json.dumps(runs))
+        with self.assertRaisesRegex(ValueError, "Baseline run metadata must remain unchanged"):
+            summarize()
 
 
 if __name__ == "__main__":

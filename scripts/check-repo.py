@@ -480,6 +480,233 @@ def check_rc8_record(record, manifest):
         )
 
 
+def check_rc9_record(record, manifest):
+    require(record["schema"] == 1, "RC9 record schema")
+    for actual, expected in (
+        (record["release_version"], manifest["release_version"]),
+        (record["provider_name"], manifest["provider_name"]),
+        (record["dll_sha256"], manifest["expected_dll_sha256"]),
+        (record["dll_bytes"], manifest["expected_dll_bytes"]),
+        (record["reference_rc8_sha256"], manifest["previous_release"]["dll_sha256"]),
+        (record["reference_rc7_sha256"], manifest["historical_rc7_release"]["dll_sha256"]),
+    ):
+        require(actual == expected, "RC9 qualification identity mismatch")
+    binding = record["checkpoint_binding"]
+    require(
+        binding["release_sha256"] == record["dll_sha256"]
+        and binding["all_348_shaders_identical_to_checkpoint"]
+        and binding["only_binary_changes_from_checkpoint_are_provider_label_and_pe_checksum"]
+        and binding["changed_byte_offsets"] == [352, 353, 819973, 819974]
+        and binding["sdk_synchronization_preserved"],
+        "RC9 checkpoint binding mismatch",
+    )
+    slots = {r["original_offset"]: r for r in manifest["replacements"]}
+    shader_set = [[o, r["replacement_sha256"]] for o, r in sorted(slots.items())]
+    require(
+        hashlib.sha256(json.dumps(shader_set, separators=(",", ":")).encode()).hexdigest()
+        == record["shader_set_sha256"],
+        "RC9 shader-set fingerprint mismatch",
+    )
+    for version, count in (("rc7", 19), ("rc8", 12)):
+        previous = dict(record["reference_shader_sets"][version])
+        changed = {int(r["offset"], 16): r for r in record["changed_shader_slots"][version]}
+        require(
+            len(previous) == len(slots) == 348 and set(previous) == set(slots), "RC9 source slots"
+        )
+        require(
+            len(changed) == len(record["changed_shader_slots"][version]) == count
+            and set(changed)
+            == {o for o, r in slots.items() if r["replacement_sha256"] != previous[o]},
+            "RC9 changed shader slots",
+        )
+        for offset, row in changed.items():
+            require(
+                row["source"] == slots[offset]["source"]
+                and row["source_sha256"] == slots[offset]["source_sha256"]
+                and row["shader_sha256"] == slots[offset]["replacement_sha256"],
+                "RC9 changed shader identity mismatch",
+            )
+    changed_hashes = {r["shader_sha256"] for r in record["changed_shader_slots"]["rc7"]}
+
+    def check_run(row, frames, dll, provider):
+        require(
+            row["valid"] and row["finite"] and row["returncode"] == 0, "Invalid RC9 evidence run"
+        )
+        require(row["frames"] == frames and row["loaded_dll_path_matches"], "RC9 run identity")
+        require(
+            (row["dll_sha256"], row["provider"]) == (dll, provider), "RC9 run DLL/provider mismatch"
+        )
+        require(
+            row["driver_sha256"] == record["environment"]["driver_sha256"], "RC9 driver mismatch"
+        )
+        require(
+            math.isfinite(row["pixel_min"])
+            and math.isfinite(row["pixel_max"])
+            and row["pixel_min"] <= row["pixel_max"],
+            "RC9 non-finite image bounds",
+        )
+        if frames == 600:
+            values = row["gpu_ms"]
+            require(
+                not row["shader_dumping"]
+                and len(values) == 600
+                and all(math.isfinite(v) and v > 0 for v in values),
+                "Invalid RC9 GPU samples",
+            )
+            close(median(values[300:]), row["median_ms"], "RC9 per-run median")
+            require(
+                row["scoring_telemetry"]
+                and all(
+                    300 <= t["completed_frames"] < 600 and t["gpu_clock_hz"] == 1850000000
+                    for t in row["scoring_telemetry"]
+                ),
+                "RC9 scoring clock mismatch",
+            )
+        else:
+            require(row["shader_dumping"], "RC9 image shader identification missing")
+
+    campaign = record["performance"]
+    sizes = {
+        "1080p": {"render": [1280, 720], "output": [1920, 1080]},
+        "1440p": {"render": [1706, 960], "output": [2560, 1440]},
+        "4k": {"render": [2560, 1440], "output": [3840, 2160]},
+    }
+    require(
+        campaign["complete"]
+        and not campaign["trace"]
+        and campaign["new_baseline_runs"] == 0
+        and campaign["frames_per_run"] == 600
+        and campaign["discard_first_frames"] == 300
+        and campaign["sizes"] == sizes
+        and campaign["preset"] == "Quality",
+        "RC9 performance workload mismatch",
+    )
+    rows = campaign["rows"]
+    require(len(rows) == len({r["name"] for r in rows}) == 12, "RC9 timing run count")
+    require(
+        [r["size"] for r in rows] == [s for order in campaign["resolution_orders"] for s in order]
+        and len(campaign["resolution_orders"]) == 4
+        and all(
+            set(order) == set(sizes) and len(order) == 3 for order in campaign["resolution_orders"]
+        ),
+        "RC9 timing order",
+    )
+    for row in rows:
+        require(row["variant"] == "v4r9", "Only fresh RC9 runs belong in this cohort")
+        check_run(row, 600, record["dll_sha256"], record["provider_name"])
+    for size in sizes:
+        selected = [r for r in rows if r["size"] == size]
+        values = [r["median_ms"] for r in selected]
+        summary = campaign["summaries"][size]
+        require(len(values) == 4 and values == summary["run_medians_ms"], "RC9 run medians")
+        require(len({r["pixels_sha256"] for r in selected}) == 1, "RC9 scored image mismatch")
+        for field, value in (
+            ("median_ms", median(values)),
+            ("min_ms", min(values)),
+            ("max_ms", max(values)),
+        ):
+            close(value, summary[field], "RC9 " + field)
+    quality = record["quality"]
+    require(quality["complete"], "Incomplete RC9 quality matrix")
+    require([c["size"] for c in quality["preflights"]] == list(sizes), "RC9 preflight coverage")
+    require(
+        [(c["scenario"], c["size"]) for c in quality["cases"]]
+        == [(s, "1440p") for s in ("hdr", "sdr", "motion", "reset", "resize", "rcas")]
+        + [("static", "1440p-balanced")],
+        "RC9 quality scenario coverage",
+    )
+    for case in quality["preflights"] + quality["cases"]:
+        row = case["row"]
+        check_run(row, 64, record["dll_sha256"], record["provider_name"])
+        require(row["pixels_sha256"] == case["pixels_sha256"], "RC9 quality image mismatch")
+        observed = {s["sha256"] for s in row["observed_shaders"]}
+        if case["size"] != "1080p":
+            require(changed_hashes <= observed, "RC9 changed shader coverage missing")
+        if "reference_row" in case:
+            reference = case["reference_row"]
+            check_run(reference, 64, record["reference_rc7_sha256"], "4.1.1r7")
+            require(
+                reference["pixels_sha256"] == row["pixels_sha256"], "RC9 reference image differs"
+            )
+        else:
+            require(len(case["model_shader_hashes"]) == 14, "RC9 complete model family")
+            for shader in case["model_shader_hashes"]:
+                require(
+                    shader["sha256"] == slots[shader["original_offset"]]["replacement_sha256"]
+                    and shader["sha256"] in observed,
+                    "RC9 model identity mismatch",
+                )
+    inherited = record["inherited_checkpoint_comparison"]
+    require(
+        inherited["checkpoint_sha256"] == binding["checkpoint_sha256"], "RC9 inherited DLL identity"
+    )
+    candidate = inherited["candidate"]
+    old_rows = inherited["rows"]
+    require(
+        [r["variant"] for r in old_rows] == ["v4r7", candidate, candidate, "v4r7"] * 2,
+        "RC9 inherited order",
+    )
+    for row in old_rows:
+        is_candidate = row["variant"] == candidate
+        check_run(
+            row,
+            600,
+            binding["checkpoint_sha256"] if is_candidate else record["reference_rc7_sha256"],
+            "4.1.1d1" if is_candidate else "4.1.1r7",
+        )
+        require(
+            row["pixels_sha256"] == inherited["summary"]["pixels_sha256"],
+            "RC9 inherited image mismatch",
+        )
+    old_medians = {}
+    for variant in ("v4r7", candidate):
+        values = [r["median_ms"] for r in old_rows if r["variant"] == variant]
+        result = inherited["summary"]["summaries"][variant]
+        require(values == result["run_medians_ms"], "RC9 inherited medians")
+        old_medians[variant] = median(values)
+        for field, value in (
+            ("median_ms", median(values)),
+            ("min_ms", min(values)),
+            ("max_ms", max(values)),
+        ):
+            close(value, result[field], "RC9 inherited " + field)
+    close(
+        old_medians["v4r7"] - old_medians[candidate],
+        inherited["summary"]["saving_ms"],
+        "RC9 inherited saving",
+    )
+    close(
+        100 * (1 - old_medians[candidate] / old_medians["v4r7"]),
+        inherited["summary"]["saving_percent"],
+        "RC9 inherited percentage",
+    )
+    evidence = record["development_component_evidence"]
+    require(
+        [r["pass_number"] for r in evidence["modified_model_weights"]] == [7, 8, 9, 11],
+        "RC9 fallback coverage",
+    )
+    for row in evidence["modified_model_weights"]:
+        require(row["component_shader_sha256"] in changed_hashes, "RC9 fallback component identity")
+        require(
+            row["fast_path_witness_changes_image"] and len(row["mutations"]) >= 2,
+            "RC9 fallback witnesses",
+        )
+        require(
+            all(
+                m["exact_fallback_image"] and m["mutation_changes_reference_image"]
+                for m in row["mutations"]
+            ),
+            "RC9 fallback mismatch",
+        )
+    require(len(evidence["cpu_arithmetic"]) == 10, "RC9 arithmetic component count")
+    for row in evidence["cpu_arithmetic"]:
+        require(
+            row["component_shader_sha256"] == slots[int(row["offset"], 16)]["replacement_sha256"]
+            and row["results"]["valid"],
+            "RC9 CPU component identity",
+        )
+
+
 def check_dll(root):
     if not (root / "dll/manifest.json").exists():
         return "historical source without a portable DLL component"
@@ -489,7 +716,7 @@ def check_dll(root):
     manifest = load(root / "dll/manifest.json")
     record = load(root / "docs/data/portable-dll-rc7.json")
     require(
-        record["dll_sha256"] == manifest["previous_release"]["dll_sha256"],
+        record["dll_sha256"] == manifest["historical_rc7_release"]["dll_sha256"],
         "Historical RC7 DLL qualification identity mismatch",
     )
     campaign = record["performance"]
@@ -553,9 +780,25 @@ def check_dll(root):
                 require(variant["dll_sha256"] == record["dll_sha256"], "Image used another DLL")
         if not case["qualified"]:
             require(not case["reference_stable"], "Unresolved stable-reference image mismatch")
-    check_rc8_record(load(root / manifest["qualification_record"]), manifest)
+    check_rc8_record(
+        load(root / "docs/data/portable-dll-rc8.json"),
+        load(root / "docs/data/portable-dll-rc8-manifest.json"),
+    )
+    rc9 = load(root / manifest["qualification_record"])
+    check_rc9_record(rc9, manifest)
+    chart_dir = root / rc9["performance"]["chart_data"]
+    chart = runpy.run_path(str(chart_dir / "summarize.py"))["summarize"]()
+    require(chart == load(chart_dir / "results.json"), "RC9 chart results changed")
+    for cell in chart["cells"]:
+        if cell["variant"] == "v4r9":
+            require(
+                cell["run_medians_ms"]
+                == rc9["performance"]["summaries"][cell["resolution"]]["run_medians_ms"],
+                "RC9 chart and release medians differ",
+            )
     return (
-        output.strip() + "; RC7's 4,320 samples/20 cases and RC8's 4,800 samples/7 cases verified"
+        output.strip()
+        + "; historical RC7/RC8 and RC9's 7,200 fresh samples/10 image cases verified; chart baselines preserved"
     )
 
 

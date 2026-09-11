@@ -15,7 +15,7 @@ class RC8RecordTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.record = json.loads((ROOT / "docs/data/portable-dll-rc8.json").read_text())
-        cls.manifest = json.loads((ROOT / "dll/manifest.json").read_text())
+        cls.manifest = json.loads((ROOT / "docs/data/portable-dll-rc8-manifest.json").read_text())
 
     def test_published_raw_data_reproduces_claims(self):
         CHECK(self.record, self.manifest)

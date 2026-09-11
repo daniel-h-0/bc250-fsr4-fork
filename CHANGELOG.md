@@ -1,5 +1,20 @@
 # Changelog
 
+## 4.0.0-rc9 — 2026-09-11 — retained shader checkpoint and chart refresh
+
+- Publish the retained 1440p checkpoint as DLL `4.1.1r9`: twelve slots change
+  from RC8 and nineteen from RC7. All 348 compiled shaders match the qualified
+  development DLL; only its label and PE checksum differ.
+- Extend exact Winograd and bounded packed arithmetic, preserve dynamic-weight
+  fallbacks, scalar-cast compatibility and the SDK synchronization repair.
+- Measure the final DLL at 1080p/1440p/4K Quality: 3.92825/5.91826/12.08447 ms.
+  Refresh only RC9 in the chart; preserve all 36 original baseline runs.
+  Retain the separate earlier RC7/development matched result with its original
+  identity. This refresh shows a slightly higher 1080p value than the RC7 chart.
+- Verify three complete model/image preflights and seven additional 1440p image
+  cases against sealed references. No new game or endurance claim.
+  See [RC9 measurements and scope](docs/portable-dll-rc9.md).
+
 ## 4.0.0-rc8 — 2026-09-10 — 1440p performance checkpoint
 
 - Reduce measured whole-upscaler GPU time at 1440p Quality by 8.52% versus

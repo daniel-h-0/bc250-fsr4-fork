@@ -1,4 +1,4 @@
-# Rebuilding the RC8 DLL
+# Rebuilding the RC9 DLL
 
 The ordinary download is one DLL. This directory is its developer source:
 348 complete editable LLVM/DXIL assembly files, the pinned input manifest,
@@ -31,8 +31,8 @@ python3 scripts/package-dll.py \
 
 The output directory must be new and outside `dll/`. Nothing is installed.
 Every assembly source is hashed, assembled, validated by DXC, and compared
-against its expected shader hash. The complete DLL must be **112,343,040 bytes**,
-SHA256 **f8816fed46bce60179228a58905e16788f021fad0b68c08d1e3555564093b2b4**.
+against its expected shader hash. The complete DLL must be **111,815,680 bytes**,
+SHA256 **eefcac03ab17b04a29a5bb16e3f3e9c3181ba9ea46b05a61cb49a5003e1516ef**.
 Compiler diagnostics or any mismatch stop the build.
 
 `source-inventory.json` records all source files in this directory except
@@ -67,13 +67,14 @@ is [scalarize_casts.py](scalarize_casts.py). The executable CPU test in
 [test_dll_release.py](../tests/test_dll_release.py) checks every 16-bit value
 in both lanes against original LLVM and mathematical signed/unsigned results.
 
-RC8 changes sixteen shader slots: Winograd model passes 1 and 12,
-native packed dot products in passes 7 and 8, streamed pass 11 arithmetic,
-vector weight checks in passes 3 and 6, cooperative pass 9 weight checks,
-native final-output spatial/color math,
-and selected preparation/model/final-output wave sizes. Passes 7 and 8 use
-complete per-wave model checks at Wave64; their runtime-weight fallbacks
-remain intact. The other 332 slots keep their RC7 compiled hashes.
+RC9 changes twelve slots from RC8 and nineteen from RC7. Five model passes
+(1, 2, 4, 10 and 12) use exact Winograd convolution; bounded coefficient
+grouping and accumulation improve those passes and streamed passes 5, 7, 9
+and 11. The final output uses exact unsigned halfword extraction with the
+retained color reuse. Pass 8, vector weight checks in passes 3 and 6, and
+preparation/final-output wave choices carry forward the accepted RC8 work.
+Complete model guards and dynamic-weight fallbacks remain intact. The other
+329 slots keep their RC7 compiled hashes; 336 keep their RC8 hashes.
 
 The shaders retain DXIL 1.9 / Shader Model 6.9. The DLL does not disguise them as
 older shader-model bytecode. Native Windows driver support needs separate
@@ -84,7 +85,7 @@ qualification; success through Proton does not establish native driver support.
 [repack_dll.py](repack_dll.py) accepts only the pinned SDK image. It preserves
 the SDK's five public FFX exports, numeric provider version, imports and host
 implementation. It makes the audited 18-byte INT8 eligibility change, and
-changes the existing eight-byte display-label slot to `4.1.1r8` plus its NUL.
+changes the existing eight-byte display-label slot to `4.1.1r9` plus its NUL.
 It does not add a compatibility loader shim or frame-generation implementation.
 
 One additional instruction-immediate byte repairs SDK synchronization. The
@@ -120,9 +121,9 @@ these are separate from rebuilding or installing the DLL.
 
 ## Evidence and notices
 
-[RC8 compatibility and measurements](../docs/portable-dll-rc8.md) record the
-final checkpoint's fresh 1440p tests and its component evidence. The earlier
-[RC7 review](../docs/portable-dll-rc7.md) retains its game and driver campaigns.
+[RC9 compatibility and measurements](../docs/portable-dll-rc9.md) record the
+final checkpoint's three-resolution tests and its inherited component evidence.
+The earlier [RC7 review](../docs/portable-dll-rc7.md) retains its game and driver campaigns.
 Performance measurements are not inferred from a source version number.
 The release packager accepts only the exact DLL hash and includes all recorded
 notices. Both archive formats have deterministic contents and adjacent checksums.

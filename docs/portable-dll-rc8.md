@@ -25,7 +25,7 @@ the sampled clocks, exact DLL/driver/probe identities, image hashes and the
 calculation inputs. `scripts/check-repo.py` recomputes the results. The
 [standalone D3D12 probe](../dll/probe/README.md) provides the workload source.
 This measures the upscaler's GPU cost, not game FPS. The older four-way
-[README chart](gpu-cost.md) remains a separate RC7 campaign. No RC8 timing
+[RC7 chart](gpu-cost-rc7.md) remains a separate RC7 campaign. No RC8 timing
 claim is made for 1080p or 4K, and earlier private-candidate timings are not
 pooled into this final-byte result.
 

@@ -1,17 +1,17 @@
 # Direct FSR4 GPU cost — four implementations
 
-The updated chart measures the complete FSR upscaler on an AMD BC250 at
-1080p, 1440p and 4K Quality. **Only RC9 was remeasured on September 11.**
-The original FSR 4.1.1, supplied 4.1.1b and upstream v3 arms retain their
-September 10 data unchanged. Every value comes from completed GPU timestamps.
+This historical September 10 chart measures the complete FSR upscaler on an AMD BC250 at
+1080p, 1440p and 4K Quality. Every bar comes from GPU timestamps in a fresh
+September 10 campaign. No pixel-count extrapolation or FPS subtraction enters
+these values.
 
-![FSR4 GPU cost: fresh RC9 versus unchanged baselines](assets/fsr4-four-way-gpu-cost-rc9.svg)
+![Direct GPU cost of four FSR implementations](assets/fsr4-four-way-gpu-cost.svg)
 
-| Output / Quality input | FSR 4.1.1 original shaders | FSR 4.1.1b | BC250 v3 | BC250 RC9 |
+| Output / Quality input | FSR 4.1.1 original shaders | FSR 4.1.1b | BC250 v3 | BC250 v4r7 |
 | --- | ---: | ---: | ---: | ---: |
-| 1080p / 1280×720 | 7.13 ms | 7.13 ms | 5.18 ms | 3.93 ms |
-| 1440p / 1706×960 | 11.51 ms | 11.77 ms | 8.24 ms | 5.92 ms |
-| 4K / 2560×1440 | 25.72 ms | 25.71 ms | 18.40 ms | 12.08 ms |
+| 1080p / 1280×720 | 7.13 ms | 7.13 ms | 5.18 ms | 3.84 ms |
+| 1440p / 1706×960 | 11.51 ms | 11.77 ms | 8.24 ms | 6.61 ms |
+| 4K / 2560×1440 | 25.72 ms | 25.71 ms | 18.40 ms | 13.94 ms |
 
 Lower is better. The numbers are milliseconds per complete upscale dispatch,
 not total game frame time. The workload is a controlled synthetic D3D12 scene.
@@ -29,8 +29,8 @@ change the cost.
   implementation, rebuilt for this host's LLVM ABI. Its
   [source and build audit](performance.md#what-the-baseline-represents) is
   retained. This is the v3 implementation, rather than disabling one v4 flag.
-- **BC250 RC9:** the final RC9 DLL, SHA256
-  `eefcac03ab17b04a29a5bb16e3f3e9c3181ba9ea46b05a61cb49a5003e1516ef`.
+- **BC250 v4r7:** the exact published RC7 DLL, SHA256
+  `730c175a38b0f0271ffaa201ca531825c6440a95fb71729d34566c66af8e4893`.
 
 The first, second and fourth arms share the same standard Mesa 26.2.1 driver.
 v3 retains its original driver. The chart compares these four implementations;
@@ -53,58 +53,48 @@ readback, CPU time and shader compilation lie outside that interval.
 Each cell has four independent launches. Every launch dispatches 600 frames,
 discards the first 300, and contributes the median of the remaining 300 GPU
 times. The plotted value is the median of those four launch medians. Whiskers
-show their minimum and maximum; they are not confidence intervals. The original
-baseline runs retain their Williams-order positions. RC9 uses
-four separate rounds across the three output sizes; the exact order is
-recorded in the new configuration. This is a refresh of one arm across dates,
-not a new interleaved four-way campaign. No outliers were removed.
+show their minimum and maximum; they are not confidence intervals. The
+four-round Williams order puts each technique in each position once and
+balances every ordered transition. No outliers were removed.
 
 Observed run ranges are retained even where they are wider. Small differences
 between FSR 4.1.1 and 4.1.1b overlap the measured run ranges; this workload
 does not establish a performance gain for 4.1.1b.
 
-The combined dataset has **28,800 timestamps and 14,400 scored frames**:
-36 unchanged baseline launches plus twelve new RC9 launches. All completed
-their GPU fences and exited normally. At each resolution,
+There are **28,800 recorded timestamps and 14,400 scored frames**. All 48
+launches completed their GPU fences and exited normally. At each resolution,
 all sixteen final images are byte-identical. Separate 64-frame preflights
-match the complete images and verify each active model family. The RC9
-preflights are fresh; the baseline preflights retain their original records.
-Per-pass tracing and shader dumps are off during scoring.
+also match all four images and verify the complete active model family for
+each artifact. Per-pass tracing and shader dumps are off during scoring.
 
 The existing GPU governor and cooling policy were preserved.
 Every run's scored-period median GPU clock was **1850 MHz**.
+The highest sampled scored-period temperature is **82.0 °C**.
 The experiment uses one board and one defined workload, with no Windows,
 other-GPU or whole-game FPS claim.
 
 ## Data and reproduction
 
-[Every timestamp](data/fsr-cost-20260911-rc9/samples.csv),
-[run metadata and telemetry summaries](data/fsr-cost-20260911-rc9/runs.json),
-[build identities and configuration](data/fsr-cost-20260911-rc9/configuration.json),
-[model/image preflight](data/fsr-cost-20260911-rc9/preflight.json), and
-[computed results](data/fsr-cost-20260911-rc9/results.json) accompany the figure.
+[Every timestamp](data/fsr-cost-20260910/samples.csv),
+[run metadata and telemetry summaries](data/fsr-cost-20260910/runs.json),
+[build identities and configuration](data/fsr-cost-20260910/configuration.json),
+[model/image preflight](data/fsr-cost-20260910/preflight.json), and
+[computed results](data/fsr-cost-20260910/results.json) accompany the figure.
 The summarizer checks counts, identities, timing flags, finite positive
-samples, scoring clocks, complete images and every plotted statistic. It also
-checks the original dataset hashes and requires unchanged baseline metadata
-and timestamp lines. The historical source dataset is included alongside it.
-The chart generator
+samples, complete images and every plotted statistic. The chart generator
 derives bar heights, error bars and printed values from those results.
 
 ```sh
-python3 docs/data/fsr-cost-20260911-rc9/summarize.py
-python3 docs/data/fsr-cost-20260911-rc9/plot.py
+python3 docs/data/fsr-cost-20260910/summarize.py
+python3 docs/data/fsr-cost-20260910/plot.py
 ```
 
 The first command uses Python's standard library. Plotting uses Matplotlib
-3.11.1 and Fira Sans. Exports are [SVG](assets/fsr4-four-way-gpu-cost-rc9.svg),
-[3600×2040 PNG](assets/fsr4-four-way-gpu-cost-rc9.png) and
-[PDF](assets/fsr4-four-way-gpu-cost-rc9.pdf). Vector geometry and displayed values
-are also recorded in [chart-geometry.json](data/fsr-cost-20260911-rc9/chart-geometry.json).
+3.11.1 and Fira Sans. Exports are [SVG](assets/fsr4-four-way-gpu-cost.svg),
+[3600×2040 PNG](assets/fsr4-four-way-gpu-cost.png) and
+[PDF](assets/fsr4-four-way-gpu-cost.pdf). Vector geometry and displayed values
+are also recorded in [chart-geometry.json](data/fsr-cost-20260910/chart-geometry.json).
 
 The [September 8 reconstructed chart](fsr-cost.md) and
 [September 7 whole-game v3/v4 results](performance.md) remain historical,
 separate campaigns; their values are not mixed into this figure.
-
-The [September 10 RC7 chart](gpu-cost-rc7.md) remains unchanged. See the
-[RC9 qualification](portable-dll-rc9.md) for its separate retained-checkpoint
-comparison, additional image cases and the slightly higher 1080p result.
