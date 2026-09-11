@@ -84,10 +84,11 @@ See [distribution and source archives](docs/releases.md), the
 For the older driver and Steam tool, see the
 [RC6 guide and upgrade notes](docs/legacy-rc6.md).
 
-## Special thanks
+## Special thanks and notes
 
 This work continues [dmoraza's BC250 FSR4 project](https://github.com/dmorazasanchez/bc250-fsr4).
 Thanks to AMD/GPUOpen, the Mesa and RADV contributors, Microsoft DXC,
 Wine, vkd3d-proton, Valve Proton, GE-Proton and OptiScaler for the underlying
 algorithms, compilers and compatibility work. Their licenses and attribution
-remain with the source and release notices.
+remain with the source and release notices. This work was accomplished with the
+assistance of GPT-6-Astra, with constant human review and oversight.
