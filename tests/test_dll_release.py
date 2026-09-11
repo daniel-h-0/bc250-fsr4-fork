@@ -144,7 +144,6 @@ class DllPackageTests(unittest.TestCase):
         self.root = Path(self.temp.name) / "source"
         source = self.root / "dll"
         (source / "notices").mkdir(parents=True)
-        (source / "INSTALL.md").write_text("Test instructions\n")
         (source / "notices/license.txt").write_text("Fixture notice\n")
         self.dll = Path(self.temp.name) / "fixture.dll"
         self.dll.write_bytes(b"MZ fixture bytes for package boundary tests\n")
@@ -152,11 +151,19 @@ class DllPackageTests(unittest.TestCase):
             json.dumps(
                 {
                     "release_version": "4.0.0-rc7-test",
+                    "provider_name": "4.1.1-test",
                     "expected_dll_bytes": self.dll.stat().st_size,
                     "expected_dll_sha256": hashlib.sha256(self.dll.read_bytes()).hexdigest(),
                 }
             )
         )
+        self.instructions = (
+            "Project version **4.0.0-rc7-test**; SDK display name **4.1.1-test**.\n\n"
+            f"The DLL is {self.dll.stat().st_size:,} bytes, SHA256:\n\n```text\n"
+            + hashlib.sha256(self.dll.read_bytes()).hexdigest()
+            + "\n```\n"
+        )
+        (source / "INSTALL.md").write_text(self.instructions)
         (source / "source-inventory.json").write_text(
             json.dumps(
                 {
@@ -207,6 +214,37 @@ class DllPackageTests(unittest.TestCase):
         (self.root / "dll/notices/license.txt").unlink()
         with self.assertRaisesRegex(ValueError, "notice inventory"):
             package_dll.release_files(self.root, self.dll)
+
+    def test_inventoried_but_stale_checksum_footer_is_rejected(self):
+        source = self.root / "dll"
+        for stale in (
+            self.instructions.replace(hashlib.sha256(self.dll.read_bytes()).hexdigest(), "0" * 64),
+            self.instructions.replace(f"{self.dll.stat().st_size:,} bytes", "1 bytes"),
+            self.instructions.replace("4.1.1-test", "4.1.1-old"),
+        ):
+            (source / "INSTALL.md").write_text(stale)
+            inventory = json.loads((source / "source-inventory.json").read_text())
+            inventory["INSTALL.md"] = hashlib.sha256(stale.encode()).hexdigest()
+            (source / "source-inventory.json").write_text(json.dumps(inventory))
+            with self.assertRaisesRegex(ValueError, "release identity"):
+                package_dll.release_files(self.root, self.dll)
+
+    def test_documentation_revision_keeps_the_original_asset_and_dll(self):
+        output = Path(self.temp.name) / "releases"
+        original = package_dll.create_archive(self.root, self.dll, output)
+        original_bytes = original.read_bytes()
+        refresh = package_dll.create_archive(self.root, self.dll, output, documentation_revision=1)
+        self.assertTrue(refresh.name.endswith("-docs1.zip"))
+        self.assertEqual(original.read_bytes(), original_bytes)
+        with zipfile.ZipFile(refresh) as archive:
+            self.assertEqual(archive.read(package_dll.DLL_NAME), self.dll.read_bytes())
+        with self.assertRaises(FileExistsError):
+            package_dll.create_archive(self.root, self.dll, output, documentation_revision=1)
+        for invalid in (0, -1, "1", True):
+            with self.assertRaisesRegex(ValueError, "positive integer"):
+                package_dll.create_archive(
+                    self.root, self.dll, output, documentation_revision=invalid
+                )
 
 
 if __name__ == "__main__":

@@ -714,6 +714,9 @@ def check_dll(root):
         [sys.executable, "-B", str(root / "dll/build.py"), "--verify-sources"], text=True
     )
     manifest = load(root / "dll/manifest.json")
+    runpy.run_path(str(root / "scripts/package-dll.py"))["validate_install_guide"](
+        (root / "dll/INSTALL.md").read_text(), manifest
+    )
     record = load(root / "docs/data/portable-dll-rc7.json")
     require(
         record["dll_sha256"] == manifest["historical_rc7_release"]["dll_sha256"],

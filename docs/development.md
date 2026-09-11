@@ -1,6 +1,6 @@
 # Development
 
-For the RC7 portable DLL, use the [DLL source guide](../dll/README.md).
+For the current RC9 portable DLL, use the [DLL source guide](../dll/README.md).
 The driver/runtime procedures below describe the retained components.
 
 The maintained `v4` branch preserves upstream v3 history at

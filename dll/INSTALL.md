@@ -7,6 +7,15 @@ performance changes are already compiled into it.
 **Tested on AMD BC250 / Linux with ordinary Proton.** Native Windows and
 other GPUs need separate testing.
 
+**First installation?** Use the
+[illustrated beginner walkthrough](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md)
+for the pinned OptiScaler download, exact game folders, Steam/Heroic steps and
+the real RC9 watermark reference. This short guide is also the archive README.
+
+The `-docs1` archives refresh documentation only. Original RC9 archives had
+RC8's size/hash in this README footer; their DLL and `SHA256SUMS` were correct.
+The current DLL identity appears below and is checked against the build manifest.
+
 ## First launch: shader compilation can look like a freeze
 
 **Expect a potentially long pause when this FSR path is first used without a
@@ -32,7 +41,10 @@ time or a guarantee for another game.
 
 ## With OptiScaler
 
-1. Use a working [upstream OptiScaler installation](https://github.com/optiscaler/OptiScaler).
+1. Use a working OptiScaler installation. These settings and the `OptiScaler/`
+   layout refer to the pinned
+   [10.0.0-pre1 nightly from September 4, 2026](https://github.com/optiscaler/OptiScaler-nightly/releases/tag/nightly-20260904),
+   as explained in the beginner walkthrough. Other versions can have different layouts.
    Close the game. Back up its existing
    `OptiScaler/amd_fidelityfx_upscaler_dx12.dll`, then replace it with this DLL.
 2. Set the following in `OptiScaler.ini`. These select FSR4 INT8, linear input,
@@ -53,6 +65,8 @@ time or a guarantee for another game.
 
    [FrameGen]
    Enabled=false
+   FGInput=nofg
+   FGOutput=nofg
    ```
 
 3. Launch and enable the supported DLSS/FSR input in the game's graphics menu.
@@ -63,10 +77,14 @@ On Proton, use an ordinary compatibility tool. For OptiScaler installed as
 `winmm.dll`, the Steam launch option is:
 
 ```sh
-PROTON_FSR4_UPGRADE=0 PROTON_USE_OPTISCALER=0 WINEDLLOVERRIDES="winmm=n,b;amdxcffx64=" %command%
+/usr/bin/env PROTON_FSR4_UPGRADE=0 PROTON_USE_OPTISCALER=0 PROTON_USE_XALIA=0 WINEDLLOVERRIDES="winmm=n,b;amdxcffx64=" VKD3D_DISABLE_EXTENSIONS="VK_NVX_binary_import,VK_NVX_image_view_handle" %command%
 ```
 
 Use the matching proxy name if your OptiScaler installation uses another name.
+Keep the recipe's renderer argument and any unrelated existing launch options;
+use exactly one lowercase `%command%`. Native Windows does not use these Proton
+variables. `PROTON_USE_XALIA=0` avoids the adapter being inherited by the Windows
+UI accessibility helper in the recorded Proton setup.
 For Heroic or another Wine launcher, enter these as environment-variable
 name/value pairs instead of using Steam’s `%command%` placeholder. There is
 no RC9-specific Heroic switch; Heroic launch behavior has not been separately
@@ -75,9 +93,11 @@ These variables load the adapter and keep competing automatic upscaler
 integrations off. Keep OptiScaler's other files installed, including its
 signed `nvngx_dlss.dll` helper beside the proxy when required.
 
-For a visual check, temporarily set `[FSR] Fsr4EnableWatermark=true`.
+For a visual check, temporarily set `[FSR] Fsr4EnableWatermark=true` and restart.
 The rendered image should identify **4.1.1r9**, INT8 and the local source.
-Turn the watermark off after checking.
+The game's own DLSS/FSR menu label can stay unchanged. Turn the watermark off
+after checking. The smaller build-time/commit lines belong to inherited SDK
+metadata; use the provider label and DLL hash to identify this release.
 
 ## With a native FidelityFX game
 
@@ -109,9 +129,13 @@ driver accepting DXIL 1.9 / Shader Model 6.9.
 
 ## Update, undo and checksums
 
-Keep the original game/adapter DLL backup. To update, close the game and replace
-only the upscaler DLL. To undo, restore the backup. Game updates may restore their
-own DLL.
+Keep the original game/adapter DLL backup and previous launch-option text. To
+update, close the game and replace only the recipe's upscaler/loader DLL. To undo,
+restore that backup and the launch settings you changed. Remove a newly added
+adapter only using your record of added files; preserve game-provided helpers,
+other mods, saves and prefixes. The
+[complete undo steps](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md#undo)
+cover Steam and Heroic. Game updates may restore their own DLL.
 
 The DLL is 111,815,680 bytes, SHA256:
 

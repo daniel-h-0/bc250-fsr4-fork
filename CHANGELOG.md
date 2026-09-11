@@ -1,5 +1,19 @@
 # Changelog
 
+## RC9 documentation refresh 1 — 2026-09-11
+
+- Add an illustrated beginner walkthrough with pinned OptiScaler/helper downloads,
+  eight game recipes, Steam/Heroic instructions, a real SDK-rendered RC9/INT8
+  watermark reference, and explicit update/undo steps.
+- Publish distinct `-docs1` DLL packages with corrected instructions. The original
+  RC9 packages' README footer had RC8's size/hash; their DLL and internal checksums
+  were correct. Original assets/tags and the exact RC9 DLL remain unchanged.
+- Check the installation guide's release version, provider label, size and checksum
+  against the manifest during repository validation and packaging. Documentation
+  revisions get separate asset names and cannot overwrite existing files.
+- Clarify current DLL versus retained driver/runtime instructions and preserve
+  historical RC7/RC8 evidence. Fix the retained setup archive's current-guide link.
+
 ## 4.0.0-rc9 — 2026-09-11 — retained shader checkpoint and chart refresh
 
 - Publish the retained 1440p checkpoint as DLL `4.1.1r9`: twelve slots change

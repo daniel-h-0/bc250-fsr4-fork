@@ -1,6 +1,8 @@
-# Runtime troubleshooting and legacy recovery
+# RC6 runtime troubleshooting and legacy recovery
 
-Start with [the Steam game guide](games.md). Installation can verify files and
+For the current portable DLL, use [RC9 installation and troubleshooting](beginner-guide.md#if-the-check-fails).
+This page covers the retained RC6 tool and retired game wizard. Start with
+[the legacy Steam game guide](games.md). Installation can verify files and
 driver loading; it cannot establish that a game's current frame uses FSR4.
 For an existing rc1 installation, use the [transition guide](upgrading-rc1.md)
 to distinguish driver reuse from removal of old game-local hooks.

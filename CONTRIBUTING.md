@@ -1,11 +1,11 @@
 # Contributing
 
-For RC7 DLL development, start with [the DLL source and rebuild guide](dll/README.md).
+For RC9 DLL development, start with [the DLL source and rebuild guide](dll/README.md).
 The [standalone GPU probe](dll/probe/README.md) can qualify a new D3D12 environment
 without a game installation. The driver commands below apply to the retained v4
 driver component.
 
-The portable DLL is the primary RC7 component. Retained driver and Steam
+The portable DLL is the primary current component. Retained driver and Steam
 runtime [release identities](docs/releases.md) and
 [source contracts](docs/development.md) remain separate.
 

@@ -1,9 +1,13 @@
 # RC7 portable DLL: compatibility and review
 
+This page preserves RC7's results and integration details. New installations
+use the [current RC9 walkthrough](beginner-guide.md); these historical results
+do not qualify every later DLL in those games.
+
 RC7 makes the optimized **FSR 4.1.1 INT8 DLL** the primary product. Users
 replace one compatible upscaler DLL. The performance implementation is
 compiled into that file; a custom Mesa package or custom Proton tool is no
-longer required. The [installation guide](../dll/INSTALL.md) accompanies the
+longer required. The [RC7 installation guide](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc7/dll/INSTALL.md) accompanies the
 binary download.
 
 ```mermaid
@@ -123,7 +127,7 @@ diagnostic variants are not included in the release.
 ## Ordinary OptiScaler setup
 
 Install the upstream adapter normally, then replace its upscaler backend
-with RC7. The [short guide](../dll/INSTALL.md#with-optiscaler) gives the FFX
+with RC7. The [RC7 short guide](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc7/dll/INSTALL.md#with-optiscaler) gives the FFX
 backend, INT8 model and linear-color settings. Retain upstream game-specific
 input/spoofing options. Frame generation was off in these checks.
 

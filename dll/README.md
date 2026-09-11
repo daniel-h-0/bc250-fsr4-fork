@@ -24,9 +24,9 @@ python3 dll/build.py \
   --dxcompiler /path/to/dxc/lib/libdxcompiler.so \
   --output .work/dll --jobs 2
 python3 scripts/package-dll.py \
-  --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --output dist/dll
+  --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --output dist/dll --documentation-revision 1
 python3 scripts/package-dll.py \
-  --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --output dist/dll --format tar.xz
+  --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --output dist/dll --format tar.xz --documentation-revision 1
 ```
 
 The output directory must be new and outside `dll/`. Nothing is installed.
@@ -127,6 +127,9 @@ The earlier [RC7 review](../docs/portable-dll-rc7.md) retains its game and drive
 Performance measurements are not inferred from a source version number.
 The release packager accepts only the exact DLL hash and includes all recorded
 notices. Both archive formats have deterministic contents and adjacent checksums.
+The installation guide's version, provider, size and checksum must agree with
+the manifest. Documentation-only revisions use distinct `-docsN` filenames,
+retaining original assets and the identical DLL; see [distribution notes](../docs/releases.md#documentation-refresh-1).
 
 AMD's full mixed-license notice, including its explicit MIT exception for the
 upscaler DLL, is retained under [notices/AMD-SDK-LICENSE.md](notices/AMD-SDK-LICENSE.md).

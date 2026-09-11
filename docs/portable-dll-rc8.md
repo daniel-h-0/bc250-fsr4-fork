@@ -2,7 +2,9 @@
 
 RC8 reduces synthetic whole-upscaler GPU time by **8.52% versus RC7** in
 fresh 1440p Quality tests on AMD BC250. It is distributed as the same single
-Windows x64 DLL, labeled **4.1.1r8**. Follow the [installation guide](../dll/INSTALL.md)
+Windows x64 DLL, labeled **4.1.1r8**. This is historical RC8 evidence; new users
+should follow the [current RC9 walkthrough](beginner-guide.md).
+Follow the [RC8 installation guide](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc8/dll/INSTALL.md)
 to replace a compatible native game DLL or a working OptiScaler backend.
 
 ## Measured result

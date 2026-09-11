@@ -1,5 +1,9 @@
 # Upgrade a working v3 installation
 
+This is the retained driver/runtime migration. For RC9's portable DLL, start
+with the [current walkthrough](beginner-guide.md); do not install a driver merely
+to follow that DLL guide.
+
 A working v3 setup already has most libraries required by the v4 driver.
 The migration does not require a new kernel, firmware flash or LLVM upgrade.
 If you already completed the move to rc1, follow the

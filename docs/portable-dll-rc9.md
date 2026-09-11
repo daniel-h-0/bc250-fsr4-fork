@@ -3,7 +3,10 @@
 RC9 publishes the best retained 1440p development checkpoint as one Windows
 x64 DLL, labeled **4.1.1r9**. Fresh final-DLL measurements are **3.92825 ms at
 1080p, 5.91826 ms at 1440p and 12.08447 ms at 4K**, using Quality input.
-The [installation guide](../dll/INSTALL.md) describes DLL replacement.
+The [beginner walkthrough](beginner-guide.md) gives pinned downloads, exact
+game folders and a visual check; the [short guide](../dll/INSTALL.md) describes
+DLL replacement. [Documentation refresh 1](releases.md#documentation-refresh-1)
+corrects the original archive's README footer without changing the DLL.
 
 **First use may pause the game while shaders compile.** Without a usable cache
 for the current GPU/driver/Proton and shader combination, enabling this FSR path

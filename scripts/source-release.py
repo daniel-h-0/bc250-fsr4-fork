@@ -65,9 +65,10 @@ def setup_files(files, commit):
         current_readme = (
             "https://github.com/daniel-h-0/bc250-fsr4-fork/blob/" + commit + "/README.md"
         )
-        text = text.replace(
-            "[RC7 quickstart](README.md)", "[RC7 quickstart](" + current_readme + ")"
-        )
+        for label in ("RC7 quickstart", "portable DLL quickstart"):
+            text = text.replace(
+                "[" + label + "](README.md)", "[" + label + "](" + current_readme + ")"
+            )
         selected["README.md"] = (text.encode(), mode)
     base = "https://github.com/daniel-h-0/bc250-fsr4-fork/blob/" + commit + "/"
     for name, (data, mode) in selected.items():

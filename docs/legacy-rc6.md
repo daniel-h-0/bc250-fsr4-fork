@@ -1,7 +1,7 @@
 # RC6 driver and Steam runtime (retained)
 
 This is the retained RC6 installation guide. The current DLL candidate is described in the
-[RC7 quickstart](../README.md). These commands manage RC6, and do not install RC7.
+[portable DLL quickstart](../README.md). These commands manage RC6, and do not install RC9.
 
 ## Upgrade a game to RC7
 

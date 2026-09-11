@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="620" viewBox="0 0 1120 620" role="img" aria-labelledby="title description">
+  <title id="title">Find the executable folder, then put the adapter and RC9 in their separate places</title>
+  <desc id="description">Illustration, not a Steam screenshot. Steam Library, Properties, Installed Files, Browse opens the game root. Follow the recipe to the executable. For Cyberpunk, open bin then x64. OptiScaler.dll is renamed dxgi.dll beside Cyberpunk2077.exe. The RC9 DLL keeps the name amd_fidelityfx_upscaler_dx12.dll inside the OptiScaler subfolder.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0 0 L7 3 L0 6" fill="none" stroke="#64748b" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1120" height="620" rx="18" fill="#f8fafc"/>
+  <g font-family="DejaVu Sans, Arial, sans-serif" fill="#172033">
+    <text x="32" y="42" font-size="23" font-weight="700">From Steam to the right DLL folder</text>
+    <text x="32" y="69" font-size="14" fill="#526176">Illustration · Cyberpunk example · follow your recipe for other games</text>
+    <rect x="32" y="95" width="305" height="183" rx="12" fill="#e8f0fa" stroke="#c3d3e7"/>
+    <circle cx="57" cy="123" r="15" fill="#2159a0"/><text x="52" y="129" font-size="17" fill="white" font-weight="700">1</text>
+    <text x="83" y="130" font-size="18" font-weight="700">Steam Library</text>
+    <text x="53" y="166" font-size="17">Right-click your game</text>
+    <text x="53" y="198" font-size="17">Properties → Installed Files</text>
+    <rect x="52" y="218" width="118" height="39" rx="7" fill="#2159a0"/><text x="72" y="244" font-size="17" fill="white" font-weight="700">Browse…</text>
+    <path d="M346 187 H380" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="397" y="95" width="322" height="183" rx="12" fill="#fff" stroke="#cbd5e1"/>
+    <circle cx="422" cy="123" r="15" fill="#2159a0"/><text x="417" y="129" font-size="17" fill="white" font-weight="700">2</text>
+    <text x="448" y="130" font-size="18" font-weight="700">Open the recipe's path</text>
+    <text x="418" y="167" font-size="17">Game root → bin → x64</text>
+    <text x="418" y="204" font-size="16" font-family="DejaVu Sans Mono, monospace">Cyberpunk2077.exe</text>
+    <text x="418" y="246" font-size="15" fill="#526176">The adapter sits beside this .exe.</text>
+    <path d="M729 187 H763" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="780" y="95" width="308" height="183" rx="12" fill="#f0f7ef" stroke="#bad3b6"/>
+    <circle cx="805" cy="123" r="15" fill="#38702e"/><text x="800" y="129" font-size="17" fill="white" font-weight="700">3</text>
+    <text x="831" y="130" font-size="18" font-weight="700">Use the two DLLs</text>
+    <text x="801" y="167" font-size="16">Adapter: rename OptiScaler.dll</text>
+    <text x="801" y="200" font-size="16">RC9: keep its upscaler filename</text>
+    <text x="801" y="245" font-size="15" fill="#526176">Their locations are different.</text>
+    <rect x="32" y="311" width="1056" height="271" rx="12" fill="#fff" stroke="#cbd5e1"/>
+    <text x="54" y="345" font-size="18" font-weight="700">Inside bin/x64</text>
+    <g font-family="DejaVu Sans Mono, monospace" font-size="17">
+      <text x="62" y="381">Cyberpunk2077.exe</text>
+      <text x="62" y="414" fill="#2159a0">dxgi.dll</text>
+      <text x="62" y="447">OptiScaler.ini</text>
+      <text x="62" y="480">nvngx_dlss.dll</text>
+      <text x="62" y="513">OptiScaler/</text>
+      <path d="M77 522 V548 H103" stroke="#a0aec0" stroke-width="2" fill="none"/>
+      <text x="115" y="551" fill="#38702e">amd_fidelityfx_upscaler_dx12.dll</text>
+    </g>
+    <text x="680" y="414" font-size="17" fill="#2159a0">OptiScaler.dll renamed to the proxy</text>
+    <text x="680" y="447" font-size="17" fill="#526176">Edit the existing settings</text>
+    <text x="680" y="480" font-size="17" fill="#526176">Keep the game's copy, if present</text>
+    <path d="M504 545 H651" stroke="#38702e" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="680" y="551" font-size="17" fill="#38702e" font-weight="700">Replace this with RC9</text>
+    <text x="32" y="607" font-size="14" fill="#526176">Native recipes use the game's original DLL path instead. Always make a backup first.</text>
+  </g>
+</svg>

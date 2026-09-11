@@ -1,6 +1,9 @@
-# System installation on Arch / CachyOS
+# Legacy driver-only system installation on Arch / CachyOS
 
-**Already running the qualified rc1 system packages?** The current shared runtime reuses
+For RC9, use the [portable DLL walkthrough](beginner-guide.md). It does not
+require the driver-package operations on this page.
+
+**Already running the qualified rc1 system packages?** The retained RC6 runtime reuses
 that compatible driver; follow the [rc1 transition guide](upgrading-rc1.md).
 There is no system-package replacement needed for that transition.
 
@@ -30,7 +33,8 @@ not remove a competing game-local runtime. Follow the
 
 Use the maintained `v4` checkout's packaging tools; see
 [release identities](releases.md) for their relationship to the original rc1
-driver. First build or obtain a compatible v4 archive using the main README. Locate
+driver. First build or obtain a compatible driver archive using the
+[retained driver guide](legacy-rc6.md#build-from-source). Locate
 the exact installed `vulkan-radeon` package in `/var/cache/pacman/pkg/` and
 verify its version with `pacman -Q vulkan-radeon`. If the exact archive is
 missing, retrieve it from your distribution's trusted package archive. Do not

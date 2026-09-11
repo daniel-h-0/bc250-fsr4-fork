@@ -1,5 +1,9 @@
 # Update an existing rc2–rc5 runtime
 
+This updates the retained Steam compatibility tool to RC6. New RC9 DLL
+installations use the [beginner walkthrough](beginner-guide.md); migrating an
+old game integration is covered by the [RC6 handoff](legacy-rc6.md#upgrade-a-game-to-rc7).
+
 RC4 adds a portable driver, automatic repair of the old private driver's ABI
 mismatches, fewer installer prerequisites and host/Steam Runtime diagnostics.
 RC6 fixes [Steam save-folder registration](save-paths-rc6.md), including a

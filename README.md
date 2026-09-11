@@ -17,6 +17,11 @@ September 10 timestamps. All complete output images match.
 
 ## Install
 
+**New to OptiScaler?** Start with the [illustrated beginner walkthrough](docs/beginner-guide.md):
+one pinned adapter version, exact game folders, Steam/Heroic choices, a real
+RC9 watermark reference and undo instructions. Cyberpunk and Control have
+worked recipes; native DLL replacements have separate steps.
+
 **First use can look frozen.** The first time this FSR path is enabled without
 a usable shader cache, the graphics driver and Proton may spend tens of seconds
 or longer compiling its shaders. The game can stop updating or appear
@@ -26,12 +31,13 @@ the cache; changing the GPU, driver, Proton or shader version can trigger more
 compilation. [First-launch guidance and troubleshooting](docs/first-run-shader-compilation.md).
 
 Download the [RC9 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc9):
-[ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc9/bc250-fsr4-dll-4.0.0-rc9.zip) or
-[tar.xz](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc9/bc250-fsr4-dll-4.0.0-rc9.tar.xz).
+[ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc9/bc250-fsr4-dll-4.0.0-rc9-docs1.zip) or
+[tar.xz](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc9/bc250-fsr4-dll-4.0.0-rc9-docs1.tar.xz).
 
-Extract `bc250-fsr4-dll-4.0.0-rc9.zip` (or the smaller `.tar.xz` archive).
+Extract `bc250-fsr4-dll-4.0.0-rc9-docs1.zip` (or the smaller `.tar.xz` archive).
 It contains one DLL, instructions, checksums and notices. Close the game and
-back up any file you replace.
+back up any file you replace. The `docs1` refresh corrects the instructions;
+the RC9 DLL is unchanged. [Original-archive documentation correction](docs/releases.md#documentation-refresh-1).
 
 **Already using OptiScaler:** replace
 `OptiScaler/amd_fidelityfx_upscaler_dx12.dll` with the RC9 DLL. Select the
@@ -43,8 +49,10 @@ loader versions differ: Deadzone Rogue uses the upscaler filename, while
 the tested KCD2 integration requires the same bytes under the loader filename.
 Follow the [filename and loader notes](docs/portable-dll-rc7.md#native-game-loaders).
 
-To undo, close the game and restore the backed-up DLL. Game updates may
-replace it. Use one upscaler integration per game.
+To undo, restore the backed-up DLL and the launch settings changed for this
+installation. If you added a fresh adapter, remove only its added files.
+The [undo checklist](docs/beginner-guide.md#undo) distinguishes these cases.
+Game updates may replace the DLL. Use one upscaler integration per game.
 
 ## Compatibility
 
@@ -86,7 +94,7 @@ the exact release DLL hash. Build tools are needed only by developers.
 python3 scripts/check-repo.py
 python3 dll/build.py --sdk /path/to/original/amd_fidelityfx_upscaler_dx12.dll \
   --dxcompiler /path/to/dxc/lib/libdxcompiler.so --output .work/dll --jobs 2
-python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll
+python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --documentation-revision 1
 ```
 
 See [distribution and source archives](docs/releases.md), the

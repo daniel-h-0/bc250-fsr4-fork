@@ -20,6 +20,19 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def validate_install_guide(text, manifest):
+    heading = (
+        f"Project version **{manifest['release_version']}**; "
+        f"SDK display name **{manifest['provider_name']}**."
+    )
+    footers = re.findall(
+        r"The DLL is ([\d,]+) bytes, SHA256:\s+```text\s+([a-f0-9]{64})\s+```", text
+    )
+    expected = (f"{manifest['expected_dll_bytes']:,}", manifest["expected_dll_sha256"])
+    if heading not in text or footers != [expected]:
+        raise ValueError("Installation guide release identity differs from the DLL manifest")
+
+
 def release_files(root, dll):
     source = root / "dll"
     manifest = json.loads((source / "manifest.json").read_text())
@@ -49,18 +62,24 @@ def release_files(root, dll):
         if digest(content) != inventory.get(str(path.relative_to(source))):
             raise ValueError("Release documentation differs from the source inventory")
         files[name] = content
+    validate_install_guide(files["README.md"].decode(), manifest)
     files["SHA256SUMS"] = "".join(
         f"{digest(data)}  {name}\n" for name, data in sorted(files.items())
     ).encode()
     return version, files
 
 
-def create_archive(root, dll, output, archive_format="zip"):
+def create_archive(root, dll, output, archive_format="zip", documentation_revision=None):
     if archive_format not in ("zip", "tar.xz"):
         raise ValueError("Unsupported archive format")
+    if documentation_revision is not None and (
+        type(documentation_revision) is not int or documentation_revision < 1
+    ):
+        raise ValueError("Documentation revision must be a positive integer")
     version, files = release_files(root, dll)
     output.mkdir(parents=True, exist_ok=True)
-    archive = output / f"bc250-fsr4-dll-{version}.{archive_format}"
+    suffix = "" if documentation_revision is None else f"-docs{documentation_revision}"
+    archive = output / f"bc250-fsr4-dll-{version}{suffix}.{archive_format}"
     checksum = Path(str(archive) + ".sha256")
     for path in (archive, checksum):
         if path.exists() or path.is_symlink():
@@ -106,10 +125,19 @@ def main():
     parser.add_argument("--dll", type=Path, required=True)
     parser.add_argument("--output", type=Path, default=ROOT / "dist/dll")
     parser.add_argument("--format", choices=("zip", "tar.xz"), default="zip")
+    parser.add_argument(
+        "--documentation-revision",
+        type=int,
+        help="Name a documentation-only refresh without replacing original assets",
+    )
     args = parser.parse_args()
     print(
         create_archive(
-            ROOT, args.dll.expanduser().absolute(), args.output.expanduser().resolve(), args.format
+            ROOT,
+            args.dll.expanduser().absolute(),
+            args.output.expanduser().resolve(),
+            args.format,
+            args.documentation_revision,
         )
     )
 

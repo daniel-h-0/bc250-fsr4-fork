@@ -96,6 +96,7 @@ class SourceReleaseTests(unittest.TestCase):
         (self.root / "dll/manifest.json").write_text('{"release_version":"4.0.0-rc7"}')
         (self.root / "docs/legacy-rc6.md").write_text(
             "# Retained RC6 guide\n[Games](../docs/games.md)\n"
+            "[portable DLL quickstart](../README.md)\n"
         )
         self.git("add", ".")
         self.git("commit", "-qm", "Portable DLL alongside retained runtime")
@@ -109,6 +110,14 @@ class SourceReleaseTests(unittest.TestCase):
             readme = bundle.extractfile("bc250-fsr4-setup-4.0.0-rc6/README.md").read().decode()
             self.assertIn("Retained RC6 guide", readme)
             self.assertIn("[Games](docs/games.md)", readme)
+            current = self.git("rev-parse", "HEAD").decode().strip()
+            self.assertIn(
+                "[portable DLL quickstart](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/"
+                + current
+                + "/README.md)",
+                readme,
+            )
+            self.assertNotIn("[portable DLL quickstart](README.md)", readme)
             self.assertNotIn("4.0.0-rc7", readme)
 
     def test_existing_output_is_never_replaced(self):

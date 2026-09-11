@@ -1,0 +1,25 @@
+{
+  "date": "2026-09-11",
+  "purpose": "SDK-rendered watermark reference on a synthetic SDR input; not a game screenshot or performance measurement",
+  "dll_sha256": "eefcac03ab17b04a29a5bb16e3f3e9c3181ba9ea46b05a61cb49a5003e1516ef",
+  "provider": "4.1.1r9",
+  "render": [
+    1280,
+    720
+  ],
+  "output": [
+    1920,
+    1080
+  ],
+  "frames": 8,
+  "environment": {
+    "MLSR-WATERMARK": "1",
+    "BC250_FFX_SCENARIO": "sdr"
+  },
+  "all_dispatches_completed": true,
+  "loaded_dll_path_matches": true,
+  "probe_sha256": "1ea66d09b2ca8863fbabf18adf0ebf10423a8e1f66bc22399e44ec7f76749d76",
+  "raw_rgba32f_sha256": "4e669700886d2afc7f84e0ef5a82febf32e26f9a671b71210e3035aca2def1b0",
+  "png_sha256": "4c0f7a519106fc28ad1934b054579e364286698f5426cb94330edf0ff65033d2",
+  "png_conversion": "ImageMagick 7: little-endian float32 RGBA, linear RGB to sRGB, 8-bit PNG. No overlay text added or relabeled."
+}

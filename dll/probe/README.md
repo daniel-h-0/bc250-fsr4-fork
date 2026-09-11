@@ -58,6 +58,21 @@ files. Use a separate test prefix, ordinary Proton and the intended driver.
 Keep other upscaler injection disabled. The probe writes the two explicitly
 selected output files; choose fresh paths rather than existing data.
 
+For a visible SDK watermark on a documentation reference, set the process
+environment variable `MLSR-WATERMARK` to `1`. In PowerShell, the hyphenated name
+can be set with:
+
+```powershell
+[Environment]::SetEnvironmentVariable('MLSR-WATERMARK', '1', 'Process')
+```
+
+The [RC9 reference image](../../docs/assets/rc9-watermark-reference.png) uses
+the unchanged probe, SDR input, 1280×720 render / 1920×1080 output and eight
+frames. Its [capture record](../../docs/data/beginner-watermark-rc9.json) identifies
+the DLL, executable and output hashes. It is a synthetic documentation render,
+not a game screenshot or timing result. It leaves the scored release images
+and performance records unchanged. Unset this variable for normal image comparisons.
+
 The default workload renders 128×96 to 192×144 for four frames. Require
 successful create, four dispatch/fence completions, readback and destroy.
 The raw output is 442,368 bytes. With RC7's corrected SDK synchronization,

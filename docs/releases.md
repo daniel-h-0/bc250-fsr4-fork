@@ -1,9 +1,9 @@
 # Releases and distribution
 
 RC9 is the portable DLL release candidate. Its primary artifact is
-`bc250-fsr4-dll-4.0.0-rc9.zip`, with an equivalent smaller `.tar.xz` option.
+`bc250-fsr4-dll-4.0.0-rc9-docs1.zip`, with an equivalent smaller `.tar.xz` option.
 Each contains one DLL, the short installation guide, checksums and notices.
-Follow the [DLL quickstart](../README.md) and
+Follow the [beginner walkthrough](beginner-guide.md), [DLL quickstart](../README.md) and
 [compatibility scope](portable-dll-rc9.md). The retained RC6 installer is separate.
 
 ## RC9 DLL and complete source
@@ -12,12 +12,13 @@ From a reviewed source tree, rebuild the exact candidate using the
 [DLL build instructions](../dll/README.md), then package it:
 
 ```sh
-python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll
-python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --format tar.xz
+python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --documentation-revision 1
+python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --format tar.xz --documentation-revision 1
 python3 scripts/source-release.py --output dist/source
 ```
 
-The binary packager refuses a mismatched DLL, changed instructions, missing
+The binary packager refuses a mismatched DLL, instructions whose release
+version/provider/size/checksum disagree with the manifest, unrecorded instructions, missing
 notices and existing output assets. It includes SHA256SUMS inside the archive
 and an adjacent archive checksum. ZIP and tar.xz contain the same files; they
 are two compression formats for the same DLL. The complete source archive
@@ -30,6 +31,25 @@ Do not attach a relabeled RC6 installer or driver bundle as an RC9 DLL asset.
 The CI DLL job downloads hash-pinned public SDK/DXC inputs and checks all
 rebuilt shader hashes and the complete DLL hash. GPU/platform qualification
 is separate from a successful source build.
+
+## Documentation refresh 1
+
+The original September 11 RC9 ZIP and tar.xz contain the correct DLL and
+internal `SHA256SUMS`, but their README footer mistakenly lists RC8's size and
+checksum. The maintained guide was corrected first; `-docs1` downloads now
+carry the corrected guide, beginner links and first-use compilation guidance.
+
+Both original and refreshed packages contain the same **111,815,680-byte DLL**:
+`eefcac03ab17b04a29a5bb16e3f3e9c3181ba9ea46b05a61cb49a5003e1516ef`.
+The archive checksums change because the documentation changes. Use the checksum
+whose filename matches the archive you downloaded. The refresh has a matching
+source snapshot of its own documentation/tooling commit; it does not move the
+RC9 tag, overwrite original assets or imply new gameplay qualification.
+
+For a documentation-only refresh, pass `--documentation-revision N` with a
+positive integer. This gives new `-docsN` asset names while still requiring the
+exact manifest-pinned DLL. Ordinary packaging without the option keeps the
+original filenames. Existing files are always refused.
 
 ## Retained RC6 distribution
 
