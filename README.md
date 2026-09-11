@@ -17,6 +17,14 @@ September 10 timestamps. All complete output images match.
 
 ## Install
 
+**First use can look frozen.** The first time this FSR path is enabled without
+a usable shader cache, the graphics driver and Proton may spend tens of seconds
+or longer compiling its shaders. The game can stop updating or appear
+unresponsive during that work, even though the DLL is already installed.
+Allow time for compilation before force-closing it. Later launches can reuse
+the cache; changing the GPU, driver, Proton or shader version can trigger more
+compilation. [First-launch guidance and troubleshooting](docs/first-run-shader-compilation.md).
+
 Download the [RC9 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc9):
 [ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc9/bc250-fsr4-dll-4.0.0-rc9.zip) or
 [tar.xz](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc9/bc250-fsr4-dll-4.0.0-rc9.tar.xz).
@@ -47,7 +55,9 @@ Sky, Deadzone Rogue, Kingdom Come: Deliverance II, Roboquest with Luma, and
 DOOM: The Dark Ages through native FSR and OptiScaler's DX11/DX12/Vulkan routes.
 
 No Man's Sky hit its hang detector during initial shader compilation;
-restarting with the compiled cache worked. Frame generation, native Windows,
+restarting with the compiled cache worked. See the
+[first-launch note](docs/first-run-shader-compilation.md) before treating an
+initial pause as a failed installation. Frame generation, native Windows,
 other GPUs and unlisted integrations need separate testing.
 [RC9 scope](docs/portable-dll-rc9.md) and [RC7 game evidence](docs/portable-dll-rc7.md).
 

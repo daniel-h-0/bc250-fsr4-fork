@@ -7,6 +7,29 @@ performance changes are already compiled into it.
 **Tested on AMD BC250 / Linux with ordinary Proton.** Native Windows and
 other GPUs need separate testing.
 
+## First launch: shader compilation can look like a freeze
+
+**Expect a potentially long pause when this FSR path is first used without a
+usable shader cache.** The graphics driver and Proton still need to translate
+and compile the supplied shaders for your GPU and software combination. This
+can happen when enabling FSR in a menu or loading a game with FSR already
+selected. The game may stop updating or appear unresponsive for tens of seconds
+or longer, without showing compilation progress. Allow time before force-closing
+it; the pause alone does not establish a crash or failed installation.
+
+Later launches can reuse cached shaders. A GPU, driver, Proton, game or FSR DLL
+update, a cleared/disabled cache, or a newly selected shader variant can trigger
+compilation again. Keep the cache between attempts. If the game actually times
+out or exits, preserve its error/log and try one restart with the same files
+and cache. Repeated failures, GPU/device errors or a whole-system lockup need
+investigation; do not assume every freeze is compilation.
+
+In one RC7 No Man's Sky check, the first dispatch stalled for about 66 seconds
+and triggered the game's hang detector; a restart with the same files and cache
+rendered successfully. That diagnostic run is an example, not a promised wait
+time or a guarantee for another game.
+[Details and troubleshooting](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/first-run-shader-compilation.md).
+
 ## With OptiScaler
 
 1. Use a working [upstream OptiScaler installation](https://github.com/optiscaler/OptiScaler).
@@ -46,7 +69,7 @@ PROTON_FSR4_UPGRADE=0 PROTON_USE_OPTISCALER=0 WINEDLLOVERRIDES="winmm=n,b;amdxcf
 Use the matching proxy name if your OptiScaler installation uses another name.
 For Heroic or another Wine launcher, enter these as environment-variable
 name/value pairs instead of using Steam’s `%command%` placeholder. There is
-no RC8-specific Heroic switch; Heroic launch behavior has not been separately
+no RC9-specific Heroic switch; Heroic launch behavior has not been separately
 qualified with this candidate.
 These variables load the adapter and keep competing automatic upscaler
 integrations off. Keep OptiScaler's other files installed, including its
@@ -60,7 +83,7 @@ Turn the watermark off after checking.
 
 Close the game, back up the compatible game DLL, then replace it and select
 native FSR in the graphics menu. These replacement locations were verified
-with RC7; RC8 game follow-ups are pending:
+with RC7; they have not been retested with RC9:
 
 | Game | Replace this file |
 | --- | --- |
@@ -79,9 +102,7 @@ unlisted game or mod combinations need separate testing. The seven recorded
 game-route checks belong to RC7; RC9 has synthetic D3D12 image/performance
 checks at 1080p, 1440p and 4K and has not been retested in games.
 
-Initial shader compilation can cause a long pause. With RC7, No Man's Sky hit its
-hang detector on the first in-game switch to DLSS; restarting with the same
-DLL and compiled cache worked. Native Windows requires a D3D12 runtime and
+Native Windows requires a D3D12 runtime and
 driver accepting DXIL 1.9 / Shader Model 6.9.
 
 [Tested configurations and details](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc9/docs/portable-dll-rc9.md)
@@ -89,13 +110,13 @@ driver accepting DXIL 1.9 / Shader Model 6.9.
 ## Update, undo and checksums
 
 Keep the original game/adapter DLL backup. To update, close the game and replace
-only the RC8 DLL. To undo, restore the backup. Game updates may restore their
+only the upscaler DLL. To undo, restore the backup. Game updates may restore their
 own DLL.
 
-The DLL is 112,343,040 bytes, SHA256:
+The DLL is 111,815,680 bytes, SHA256:
 
 ```text
-f8816fed46bce60179228a58905e16788f021fad0b68c08d1e3555564093b2b4
+eefcac03ab17b04a29a5bb16e3f3e9c3181ba9ea46b05a61cb49a5003e1516ef
 ```
 
 Verify with `sha256sum -c SHA256SUMS` on Linux, or PowerShell

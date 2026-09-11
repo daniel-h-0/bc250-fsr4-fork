@@ -5,6 +5,12 @@ x64 DLL, labeled **4.1.1r9**. Fresh final-DLL measurements are **3.92825 ms at
 1080p, 5.91826 ms at 1440p and 12.08447 ms at 4K**, using Quality input.
 The [installation guide](../dll/INSTALL.md) describes DLL replacement.
 
+**First use may pause the game while shaders compile.** Without a usable cache
+for the current GPU/driver/Proton and shader combination, enabling this FSR path
+can take tens of seconds or longer and look like a freeze. This startup work is
+separate from the per-frame GPU costs below. Read the
+[first-launch guidance](first-run-shader-compilation.md) before interrupting it.
+
 ## Fresh release measurements
 
 | Output / input | Median of four run medians | Range of run medians |
