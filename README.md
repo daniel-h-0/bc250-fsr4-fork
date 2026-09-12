@@ -31,13 +31,13 @@ the cache; changing the GPU, driver, Proton or shader version can trigger more
 compilation. [First-launch guidance and troubleshooting](docs/first-run-shader-compilation.md).
 
 Download the [RC9 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc9):
-[ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc9/bc250-fsr4-dll-4.0.0-rc9-docs1.zip) or
-[tar.xz](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc9/bc250-fsr4-dll-4.0.0-rc9-docs1.tar.xz).
+[ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc9/bc250-fsr4-dll-4.0.0-rc9-docs2.zip) or
+[tar.xz](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc9/bc250-fsr4-dll-4.0.0-rc9-docs2.tar.xz).
 
-Extract `bc250-fsr4-dll-4.0.0-rc9-docs1.zip` (or the smaller `.tar.xz` archive).
+Extract `bc250-fsr4-dll-4.0.0-rc9-docs2.zip` (or the smaller `.tar.xz` archive).
 It contains one DLL, instructions, checksums and notices. Close the game and
-back up any file you replace. The `docs1` refresh corrects the instructions;
-the RC9 DLL is unchanged. [Original-archive documentation correction](docs/releases.md#documentation-refresh-1).
+back up any file you replace. The `docs2` refresh also corrects watermark removal;
+the RC9 DLL is unchanged. [Documentation corrections](docs/releases.md#documentation-refresh-2).
 
 **Already using OptiScaler:** replace
 `OptiScaler/amd_fidelityfx_upscaler_dx12.dll` with the RC9 DLL. Select the
@@ -94,7 +94,7 @@ the exact release DLL hash. Build tools are needed only by developers.
 python3 scripts/check-repo.py
 python3 dll/build.py --sdk /path/to/original/amd_fidelityfx_upscaler_dx12.dll \
   --dxcompiler /path/to/dxc/lib/libdxcompiler.so --output .work/dll --jobs 2
-python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --documentation-revision 1
+python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --documentation-revision 2
 ```
 
 See [distribution and source archives](docs/releases.md), the

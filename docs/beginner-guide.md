@@ -441,9 +441,15 @@ enable the same SDK watermark without installing OptiScaler:
 ```
 
 Remove only `'MLSR-WATERMARK=1'` after checking. For OptiScaler, close the game
-and return `Fsr4EnableWatermark=false`. The game's DLSS/FSR menu label can stay
-unchanged. A file checksum or the OptiScaler menu opening proves installation,
-but a rendered banner identifies the active provider.
+and set **`Fsr4EnableWatermark=auto`**, then restart. With this pinned OptiScaler
+build, `false` sets `MLSR-WATERMARK=0`; the FSR library enables the banner whenever
+that variable exists, even with a value of `0`. `auto` leaves it unset. Remove any
+explicit `MLSR-WATERMARK` entry from your launch options or launcher environment
+as well.
+
+The game's DLSS/FSR menu label can stay unchanged. A file checksum or the
+OptiScaler menu opening proves installation, but a rendered banner identifies
+the active provider.
 
 ## If the check fails
 
@@ -455,6 +461,7 @@ but a rendered banner identifies the active provider.
 | The banner shows another version or `SOURCE: DRIVER` | Recheck the nested RC9 DLL and remove competing automatic upscaler settings. Confirm the DLL hash. |
 | First use appears frozen | Follow the compilation guidance; keep the cache. Repeated crashes or device errors need investigation, not repeated force-closing. |
 | Nothing appears on a title screen | Some menus do not invoke upscaling. Check a rendered scene; restart after changing the watermark option. |
+| Watermark remains after setting it to `false` | Close the game, use `Fsr4EnableWatermark=auto`, remove any `MLSR-WATERMARK` launch variable, and restart. A value of `0` still enables the banner. |
 | A game update removes RC9 | Recheck compatibility and back up the newly supplied original before replacing it again. |
 
 ## Update an existing installation

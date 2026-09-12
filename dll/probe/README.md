@@ -71,7 +71,12 @@ the unchanged probe, SDR input, 1280×720 render / 1920×1080 output and eight
 frames. Its [capture record](../../docs/data/beginner-watermark-rc9.json) identifies
 the DLL, executable and output hashes. It is a synthetic documentation render,
 not a game screenshot or timing result. It leaves the scored release images
-and performance records unchanged. Unset this variable for normal image comparisons.
+and performance records unchanged. Unset this variable for normal image comparisons;
+setting it to `0` still enables the banner:
+
+```powershell
+[Environment]::SetEnvironmentVariable('MLSR-WATERMARK', $null, 'Process')
+```
 
 The default workload renders 128×96 to 192×144 for four frames. Require
 successful create, four dispatch/fence completions, readback and destroy.

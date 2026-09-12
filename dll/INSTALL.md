@@ -95,9 +95,12 @@ signed `nvngx_dlss.dll` helper beside the proxy when required.
 
 For a visual check, temporarily set `[FSR] Fsr4EnableWatermark=true` and restart.
 The rendered image should identify **4.1.1r9**, INT8 and the local source.
-The game's own DLSS/FSR menu label can stay unchanged. Turn the watermark off
-after checking. The smaller build-time/commit lines belong to inherited SDK
-metadata; use the provider label and DLL hash to identify this release.
+The game's own DLSS/FSR menu label can stay unchanged. After checking, close the
+game, set **`Fsr4EnableWatermark=auto`**, and restart. In the pinned OptiScaler
+build, `false` sets `MLSR-WATERMARK=0`, which still enables the SDK banner because
+the variable exists. Remove any explicit `MLSR-WATERMARK` launch variable too;
+`auto` leaves it unset. The smaller build-time/commit lines belong to inherited
+SDK metadata; use the provider label and DLL hash to identify this release.
 
 ## With a native FidelityFX game
 

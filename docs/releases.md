@@ -1,7 +1,7 @@
 # Releases and distribution
 
 RC9 is the portable DLL release candidate. Its primary artifact is
-`bc250-fsr4-dll-4.0.0-rc9-docs1.zip`, with an equivalent smaller `.tar.xz` option.
+`bc250-fsr4-dll-4.0.0-rc9-docs2.zip`, with an equivalent smaller `.tar.xz` option.
 Each contains one DLL, the short installation guide, checksums and notices.
 Follow the [beginner walkthrough](beginner-guide.md), [DLL quickstart](../README.md) and
 [compatibility scope](portable-dll-rc9.md). The retained RC6 installer is separate.
@@ -12,8 +12,8 @@ From a reviewed source tree, rebuild the exact candidate using the
 [DLL build instructions](../dll/README.md), then package it:
 
 ```sh
-python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --documentation-revision 1
-python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --format tar.xz --documentation-revision 1
+python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --documentation-revision 2
+python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --format tar.xz --documentation-revision 2
 python3 scripts/source-release.py --output dist/source
 ```
 
@@ -31,6 +31,15 @@ Do not attach a relabeled RC6 installer or driver bundle as an RC9 DLL asset.
 The CI DLL job downloads hash-pinned public SDK/DXC inputs and checks all
 rebuilt shader hashes and the complete DLL hash. GPU/platform qualification
 is separate from a successful source build.
+
+## Documentation refresh 2
+
+The September 12 `-docs2` packages correct watermark removal: close the game,
+set `Fsr4EnableWatermark=auto`, remove any `MLSR-WATERMARK` launch variable,
+and restart. The pinned OptiScaler build sets that variable to `0` for `false`,
+which still enables the SDK banner. The DLL, release tag and shader sources
+are unchanged. Use the current packages for the corrected instructions;
+the original and `-docs1` assets remain available with their own checksums.
 
 ## Documentation refresh 1
 
