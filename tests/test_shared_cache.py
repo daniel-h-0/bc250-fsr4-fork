@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -44,7 +45,7 @@ class SharedCacheTests(unittest.TestCase):
         one, two = Path(first["MESA_SHADER_CACHE_DIR"]), Path(second["MESA_SHADER_CACHE_DIR"])
         self.assertNotEqual(one, two)
         self.assertEqual(
-            (one / "mesa_shader_cache_db").resolve(), (two / "mesa_shader_cache_db").resolve()
+            (one / "mesa_shader_cache").resolve(), (two / "mesa_shader_cache").resolve()
         )
         self.assertEqual((one / "mesa_shader_cache_sf").resolve(), self.fossilize)
         self.assertFalse((two / "mesa_shader_cache_sf").exists())
@@ -67,9 +68,17 @@ class SharedCacheTests(unittest.TestCase):
         self.assertEqual(cache.prepare(self.env, self.shared), first)
         self.assertEqual(cache.prepare(first, self.shared), first)
 
+    def test_concurrent_launchers_prepare_one_consistent_view(self):
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            results = list(pool.map(lambda _: cache.prepare(self.env, self.shared), range(32)))
+        self.assertTrue(all(result == results[0] for result in results))
+        view = Path(results[0]["MESA_SHADER_CACHE_DIR"])
+        self.assertEqual((view / "mesa_shader_cache").resolve(), self.shared / "mesa_shader_cache")
+        self.assertEqual((view / "mesa_shader_cache_sf").resolve(), self.fossilize)
+
     def test_existing_wrong_link_or_data_is_not_replaced(self):
         env = cache.prepare(self.env, self.shared)
-        link = Path(env["MESA_SHADER_CACHE_DIR"]) / "mesa_shader_cache_db"
+        link = Path(env["MESA_SHADER_CACHE_DIR"]) / "mesa_shader_cache"
         link.unlink()
         link.mkdir()
         (link / "keep").write_bytes(b"existing")
@@ -131,3 +140,80 @@ class SharedCacheTests(unittest.TestCase):
         self.assertEqual(child.stdout.strip(), str(self.original))
         self.assertIn("launching with original settings", child.stderr)
         self.assertEqual(self.shared.read_bytes(), b"existing file, not a cache directory")
+
+    def test_fossilize_created_after_first_launch_is_picked_up(self):
+        original = self.root / "late-game-cache"
+        env = dict(self.env, MESA_SHADER_CACHE_DIR=str(original))
+        first = cache.prepare(env, self.shared)
+        self.assertEqual(first["MESA_DISK_CACHE_COMBINE_RW_WITH_RO_FOZ"], "0")
+        view = Path(first["MESA_SHADER_CACHE_DIR"])
+        self.assertFalse((view / "mesa_shader_cache_sf").exists())
+        (original / "mesa_shader_cache_sf").mkdir(parents=True)
+        second = cache.prepare(env, self.shared)
+        self.assertEqual(second["MESA_DISK_CACHE_COMBINE_RW_WITH_RO_FOZ"], "1")
+        self.assertEqual(
+            (view / "mesa_shader_cache_sf").resolve(), original / "mesa_shader_cache_sf"
+        )
+
+    def test_backend_selection_and_dynamic_readonly_list_are_preserved(self):
+        env = dict(
+            self.env, MESA_DISK_CACHE_READ_ONLY_FOZ_DBS_DYNAMIC_LIST="/original/dynamic-list"
+        )
+        result = cache.prepare(env, self.shared, "database")
+        self.assertEqual(result["MESA_DISK_CACHE_DATABASE"], "1")
+        self.assertEqual(
+            result["MESA_DISK_CACHE_READ_ONLY_FOZ_DBS"], env["MESA_DISK_CACHE_READ_ONLY_FOZ_DBS"]
+        )
+        self.assertEqual(
+            result["MESA_DISK_CACHE_READ_ONLY_FOZ_DBS_DYNAMIC_LIST"], "/original/dynamic-list"
+        )
+        self.assertEqual(
+            (Path(result["MESA_SHADER_CACHE_DIR"]) / "mesa_shader_cache_db").resolve(),
+            self.shared / "mesa_shader_cache_db",
+        )
+
+    def test_relative_xdg_is_ignored_and_atomic_distro_home_is_supported(self):
+        user_home = self.root / "var/home/player"
+        result = cache.prepare({"HOME": str(user_home), "XDG_CACHE_HOME": "relative"})
+        self.assertTrue(
+            str(Path(result["MESA_SHADER_CACHE_DIR"])).startswith(str(user_home / ".cache"))
+        )
+        self.assertEqual(result["BC250_FSR4_CACHE_ORIGINAL_ROOT"], str(user_home / ".cache"))
+
+    def test_builtins_created_later_do_not_conflict_with_owned_view(self):
+        first = cache.prepare(self.env, self.shared)
+        (self.original / "radv_builtin_shaders").mkdir()
+        (self.original / "radv_builtin_shaders/keep").write_bytes(b"original builtin cache")
+        second = cache.prepare(self.env, self.shared)
+        self.assertEqual(first, second)
+        self.assertEqual(
+            (Path(second["MESA_SHADER_CACHE_DIR"]) / "radv_builtin_shaders").resolve(),
+            self.shared / "radv_builtin_shaders",
+        )
+        self.assertEqual(
+            (self.original / "radv_builtin_shaders/keep").read_bytes(), b"original builtin cache"
+        )
+
+    def test_no_python_bootstrap_still_runs_the_original_command(self):
+        empty_path = self.root / "empty-path"
+        empty_path.mkdir()
+        child = subprocess.run(
+            [
+                "/bin/sh",
+                str(ROOT / "scripts/shared-cache.sh"),
+                "--cache-dir",
+                str(self.shared),
+                "--",
+                sys.executable,
+                "-c",
+                "import sys;print(sys.argv[1])",
+                "preserved argument",
+            ],
+            env=dict(os.environ, PATH=str(empty_path)),
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        self.assertEqual(child.stdout.strip(), "preserved argument")
+        self.assertIn("launching with original cache settings", child.stderr)
+        self.assertFalse(self.shared.exists())

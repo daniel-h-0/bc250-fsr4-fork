@@ -1,0 +1,17 @@
+{
+  "legacy_bytes": 656,
+  "config": 4,
+  "config_bytes": 56,
+  "info": 64,
+  "total_size": 624,
+  "code_size": 632,
+  "exec_size": 636,
+  "ir_size": 640,
+  "disasm_size": 644,
+  "stats_size": 648,
+  "debug_info_size": 652,
+  "data": 656,
+  "wgp_mode": 40,
+  "rsrc1": 44,
+  "layout_source_sha256": "2d203a8787076e55bb94e8d97c9c3d13780bd1de33a5da516c22d24c3405c5c1"
+}

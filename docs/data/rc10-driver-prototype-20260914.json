@@ -1,0 +1,153 @@
+{
+  "scope": "Synthetic shader/provider parity; release qualification incomplete",
+  "kernel": "7.2.5-1.163-cachyos-bc250",
+  "boot_id": "1e08ff08-73a9-4b27-abd7-136ccb1130f0",
+  "runs": [
+    {
+      "name": "driver-preflight-1080p-a",
+      "size": "1080p",
+      "route": "a",
+      "valid": true,
+      "pixels_sha256": "e6833d91a27bf277092c78c9157460dfdd94670bea498034e4c98774f76a2e84",
+      "dll_sha256": "eefcac03ab17b04a29a5bb16e3f3e9c3181ba9ea46b05a61cb49a5003e1516ef",
+      "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+      "frames": 64,
+      "matched_shaders": 0
+    },
+    {
+      "name": "driver-preflight-1080p-reference",
+      "size": "1080p",
+      "route": "reference",
+      "valid": true,
+      "pixels_sha256": "e6833d91a27bf277092c78c9157460dfdd94670bea498034e4c98774f76a2e84",
+      "dll_sha256": "eefcac03ab17b04a29a5bb16e3f3e9c3181ba9ea46b05a61cb49a5003e1516ef",
+      "driver_sha256": "532ea8f28474a117772467b04156b11bc18f716be8bea3c588c3b0efba46f4b1",
+      "frames": 64,
+      "matched_shaders": 14
+    },
+    {
+      "name": "driver-preflight-1080p-driver",
+      "size": "1080p",
+      "route": "driver",
+      "valid": true,
+      "pixels_sha256": "e6833d91a27bf277092c78c9157460dfdd94670bea498034e4c98774f76a2e84",
+      "dll_sha256": "5f3ca278e9a187221c8c0ede0fedce249cb368564cf9236c90aa6b2273a7db49",
+      "driver_sha256": "532ea8f28474a117772467b04156b11bc18f716be8bea3c588c3b0efba46f4b1",
+      "frames": 64,
+      "matched_shaders": 14
+    },
+    {
+      "name": "provider-proxy-1080p",
+      "size": "1080p",
+      "route": "provider-via-optiscaler",
+      "valid": true,
+      "pixels_sha256": "e6833d91a27bf277092c78c9157460dfdd94670bea498034e4c98774f76a2e84",
+      "dll_sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+      "driver_sha256": "532ea8f28474a117772467b04156b11bc18f716be8bea3c588c3b0efba46f4b1",
+      "frames": 64,
+      "provider": "4.1.1"
+    },
+    {
+      "name": "driver-preflight-1440p-a",
+      "size": "1440p",
+      "route": "a",
+      "valid": true,
+      "pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+      "dll_sha256": "eefcac03ab17b04a29a5bb16e3f3e9c3181ba9ea46b05a61cb49a5003e1516ef",
+      "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+      "frames": 64,
+      "matched_shaders": 0
+    },
+    {
+      "name": "driver-preflight-1440p-reference",
+      "size": "1440p",
+      "route": "reference",
+      "valid": true,
+      "pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+      "dll_sha256": "eefcac03ab17b04a29a5bb16e3f3e9c3181ba9ea46b05a61cb49a5003e1516ef",
+      "driver_sha256": "532ea8f28474a117772467b04156b11bc18f716be8bea3c588c3b0efba46f4b1",
+      "frames": 64,
+      "matched_shaders": 14
+    },
+    {
+      "name": "driver-preflight-1440p-driver",
+      "size": "1440p",
+      "route": "driver",
+      "valid": true,
+      "pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+      "dll_sha256": "5f3ca278e9a187221c8c0ede0fedce249cb368564cf9236c90aa6b2273a7db49",
+      "driver_sha256": "532ea8f28474a117772467b04156b11bc18f716be8bea3c588c3b0efba46f4b1",
+      "frames": 64,
+      "matched_shaders": 14
+    },
+    {
+      "name": "provider-proxy-1440p",
+      "size": "1440p",
+      "route": "provider-via-optiscaler",
+      "valid": true,
+      "pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+      "dll_sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+      "driver_sha256": "532ea8f28474a117772467b04156b11bc18f716be8bea3c588c3b0efba46f4b1",
+      "frames": 64,
+      "provider": "4.1.1"
+    },
+    {
+      "name": "driver-preflight-4k-a",
+      "size": "4k",
+      "route": "a",
+      "valid": true,
+      "pixels_sha256": "59957d2dd10bfd04f50489bec80a37fb05905cffdf342e7e20eedd4795eeacc9",
+      "dll_sha256": "eefcac03ab17b04a29a5bb16e3f3e9c3181ba9ea46b05a61cb49a5003e1516ef",
+      "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+      "frames": 64,
+      "matched_shaders": 0
+    },
+    {
+      "name": "driver-preflight-4k-reference",
+      "size": "4k",
+      "route": "reference",
+      "valid": true,
+      "pixels_sha256": "59957d2dd10bfd04f50489bec80a37fb05905cffdf342e7e20eedd4795eeacc9",
+      "dll_sha256": "eefcac03ab17b04a29a5bb16e3f3e9c3181ba9ea46b05a61cb49a5003e1516ef",
+      "driver_sha256": "532ea8f28474a117772467b04156b11bc18f716be8bea3c588c3b0efba46f4b1",
+      "frames": 64,
+      "matched_shaders": 14
+    },
+    {
+      "name": "driver-preflight-4k-driver",
+      "size": "4k",
+      "route": "driver",
+      "valid": true,
+      "pixels_sha256": "59957d2dd10bfd04f50489bec80a37fb05905cffdf342e7e20eedd4795eeacc9",
+      "dll_sha256": "5f3ca278e9a187221c8c0ede0fedce249cb368564cf9236c90aa6b2273a7db49",
+      "driver_sha256": "532ea8f28474a117772467b04156b11bc18f716be8bea3c588c3b0efba46f4b1",
+      "frames": 64,
+      "matched_shaders": 14
+    },
+    {
+      "name": "provider-proxy-4k",
+      "size": "4k",
+      "route": "provider-via-optiscaler",
+      "valid": true,
+      "pixels_sha256": "59957d2dd10bfd04f50489bec80a37fb05905cffdf342e7e20eedd4795eeacc9",
+      "dll_sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+      "driver_sha256": "532ea8f28474a117772467b04156b11bc18f716be8bea3c588c3b0efba46f4b1",
+      "frames": 64,
+      "provider": "4.1.1"
+    }
+  ],
+  "selector_tests": {
+    "complete": true,
+    "scope": "Real C selector CPU tests; does not exercise Vulkan dispatch or shader math",
+    "output": "PASS: 28 original/optimized pairs, modified inputs, hardware/stage/entry/spec/internal/disable/subgroup guards\n",
+    "source_sha256": "fa5dbe9c707a8b8b1200e74d676aca31dcc062f1e34119af7d125789910fe2dc",
+    "header_sha256": "94bf44415fc33b385794d2bffd32d1286e631b276f5790c8113a0b442a405689"
+  },
+  "remaining": [
+    "8K reserved resolution family",
+    "Additional SDK modes and runtime performance",
+    "Cache identity for experimental opt-out flag",
+    "Other translator versions",
+    "Package and installation/recovery qualification"
+  ]
+}

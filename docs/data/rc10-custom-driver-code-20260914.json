@@ -1,0 +1,4160 @@
+{
+  "legacy": {
+    "complete": true,
+    "driver_sha256": "681b3caae157e1a6692e5c834a23cf38727b103ba796676a8658dc4b77155711",
+    "layout": {
+      "legacy_bytes": 656,
+      "config": 4,
+      "config_bytes": 56,
+      "info": 64,
+      "total_size": 624,
+      "code_size": 632,
+      "exec_size": 636,
+      "ir_size": 640,
+      "disasm_size": 644,
+      "stats_size": 648,
+      "debug_info_size": 652,
+      "data": 656,
+      "wgp_mode": 40,
+      "rsrc1": 44,
+      "layout_source_sha256": "2d203a8787076e55bb94e8d97c9c3d13780bd1de33a5da516c22d24c3405c5c1"
+    },
+    "rows": [
+      {
+        "source": "shaders/00432db0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "c4ebb9050149baf71a90c5fb02de43cee9c4e2d825faed1e137b83d99ecef0a2",
+            "binary_sha256": "8767909e6b53e55a68cf9b54cb97b8ca9eb1165c846cabdae7529f77c1c8533e",
+            "bytes": 50276
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "32db677aabcf8a60b5d450693e277f1575ca4c24762693e3129f3a1441b77152",
+            "binary_sha256": "f5c963e59af017cced611e52088134743ba5f70795b114a9754e65931c2d8868",
+            "bytes": 50276
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "eea65cdd80f8e6fedf0b5d172166cf0766cac9a570eb082905e6648a14e6cdbe",
+          "exec_sha256": "761afc2524cad32642f03cf72e449380c3835bc979808ff846105fbe641405df",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "93c8523864eca7b3fe94ed525c0303d97e699f61e267b0347e423618ffb06a75",
+          "sizes": {
+            "code_size": 49508,
+            "exec_size": 49488,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "8767909e6b53e55a68cf9b54cb97b8ca9eb1165c846cabdae7529f77c1c8533e"
+        },
+        "candidate": {
+          "code_sha256": "eea65cdd80f8e6fedf0b5d172166cf0766cac9a570eb082905e6648a14e6cdbe",
+          "exec_sha256": "761afc2524cad32642f03cf72e449380c3835bc979808ff846105fbe641405df",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "93c8523864eca7b3fe94ed525c0303d97e699f61e267b0347e423618ffb06a75",
+          "sizes": {
+            "code_size": 49508,
+            "exec_size": 49488,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "f5c963e59af017cced611e52088134743ba5f70795b114a9754e65931c2d8868"
+        }
+      },
+      {
+        "source": "shaders/00278960.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "dc017a2baa5d1a399ef288316e7017a3a650ad329bada8b794ee19978158c2fe",
+            "binary_sha256": "48ea775e459d2dac3f701fdd22a125795cda2fdd32b7550d814e124d07e7a8b1",
+            "bytes": 27032
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "4051abea652c8dfce21dfff6fe8bee17513dac36baaa393cb5f9fed437fae6ca",
+            "binary_sha256": "d3deb05c2396d317c0f86667d6a9f3a3d5d07c4b98baf3d0cd6f348ab9ec1b92",
+            "bytes": 27032
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "a08d7cb2b9dcd2f90c3d4e65385b754dfe3e275565bbc81b62478b9043937361",
+          "exec_sha256": "eb7bb112c3d9ff8f7452456699372e5d154c438db4b63214b64c61a2080f729c",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "e6af8ef87dfc4560bf15ad1da268b6848d9f0854b13a7fa8534fc6d021b204af",
+          "sizes": {
+            "code_size": 26264,
+            "exec_size": 26244,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "48ea775e459d2dac3f701fdd22a125795cda2fdd32b7550d814e124d07e7a8b1"
+        },
+        "candidate": {
+          "code_sha256": "a08d7cb2b9dcd2f90c3d4e65385b754dfe3e275565bbc81b62478b9043937361",
+          "exec_sha256": "eb7bb112c3d9ff8f7452456699372e5d154c438db4b63214b64c61a2080f729c",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "e6af8ef87dfc4560bf15ad1da268b6848d9f0854b13a7fa8534fc6d021b204af",
+          "sizes": {
+            "code_size": 26264,
+            "exec_size": 26244,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "d3deb05c2396d317c0f86667d6a9f3a3d5d07c4b98baf3d0cd6f348ab9ec1b92"
+        }
+      },
+      {
+        "source": "shaders/0098e620.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "2f3449e3904158001426a8fd41699d1eff52475cc0a8ee8bd49ecf0964b7bc13",
+            "binary_sha256": "918bdeb2e41289a598b5204392b362ac9a66bc89b8bd9c34ee97616666721383",
+            "bytes": 159736
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "ab25efdb94d8c408881cc6f9d1e659de41152f486cdea6c579bf8a32ee973990",
+            "binary_sha256": "8ef8b996b856fe9cba12b3f9bec84d1b9d6868ac24fc2b968ddb138d19072d74",
+            "bytes": 159736
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "b786276dc9828cba389ddd708b8541111a375497e1604b344e9fee0ee6b04cfd",
+          "exec_sha256": "5e78e7cd7457eeb1d69306befd6f569baa0920191c48d049853bda3db63ac403",
+          "config_sha256": "e426c1e8baf51d6ccfb713a279785dffa4c3329bc079c1098d3a34aa944c1907",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "2e8e0ac83857fcf9eb297af02d50cd57638452c7187f788f1edc2a0a7f44d9de",
+          "sizes": {
+            "code_size": 158968,
+            "exec_size": 150500,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "918bdeb2e41289a598b5204392b362ac9a66bc89b8bd9c34ee97616666721383"
+        },
+        "candidate": {
+          "code_sha256": "b786276dc9828cba389ddd708b8541111a375497e1604b344e9fee0ee6b04cfd",
+          "exec_sha256": "5e78e7cd7457eeb1d69306befd6f569baa0920191c48d049853bda3db63ac403",
+          "config_sha256": "e426c1e8baf51d6ccfb713a279785dffa4c3329bc079c1098d3a34aa944c1907",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "2e8e0ac83857fcf9eb297af02d50cd57638452c7187f788f1edc2a0a7f44d9de",
+          "sizes": {
+            "code_size": 158968,
+            "exec_size": 150500,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "8ef8b996b856fe9cba12b3f9bec84d1b9d6868ac24fc2b968ddb138d19072d74"
+        }
+      },
+      {
+        "source": "shaders/00522900.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "e6f7d6bad0e057e98138d66b226adf6f1c396c90488ee1f42b0cca2a41a0f3aa",
+            "binary_sha256": "1aaf601e4923fd6e533d0569963d59c651a26462f608a7750d32352036be4293",
+            "bytes": 143480
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "d82b601be75b0ac5377e635e654243bfd9efadce0079fb505522f8e12f381a3b",
+            "binary_sha256": "b5f7b93dc0cfa9f074fd550375a323297320138073be79288c8a63bd3e488155",
+            "bytes": 143480
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "c173568f215927477057620ad367a1db5c45a5fe90a62f9c84581b03049c5ef6",
+          "exec_sha256": "62037b7e4b98c6160af6f8cb0ef921414244f39cf2cbf263c29c2a158d6c270c",
+          "config_sha256": "86fdbb167c76ef809a262899e8e33de0a4793eacaf4708c10db1e71efe577e14",
+          "info_sha256": "47e3eb5ac2d14182d3f486c32a09aca4760dc7c7e81adeee552372f3b393a2ea",
+          "stats_sha256": "1d1db54b58912508f1d2ae606c856af95e2049284b35567b0e6750791ac8007a",
+          "sizes": {
+            "code_size": 142712,
+            "exec_size": 120804,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "1aaf601e4923fd6e533d0569963d59c651a26462f608a7750d32352036be4293"
+        },
+        "candidate": {
+          "code_sha256": "c173568f215927477057620ad367a1db5c45a5fe90a62f9c84581b03049c5ef6",
+          "exec_sha256": "62037b7e4b98c6160af6f8cb0ef921414244f39cf2cbf263c29c2a158d6c270c",
+          "config_sha256": "86fdbb167c76ef809a262899e8e33de0a4793eacaf4708c10db1e71efe577e14",
+          "info_sha256": "47e3eb5ac2d14182d3f486c32a09aca4760dc7c7e81adeee552372f3b393a2ea",
+          "stats_sha256": "1d1db54b58912508f1d2ae606c856af95e2049284b35567b0e6750791ac8007a",
+          "sizes": {
+            "code_size": 142712,
+            "exec_size": 120804,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "b5f7b93dc0cfa9f074fd550375a323297320138073be79288c8a63bd3e488155"
+        }
+      },
+      {
+        "source": "shaders/00647fd0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "f43b85fb4bc2d07e507af1f6299a51f2d79358da2866272b04518df98ce4e627",
+            "binary_sha256": "ed70043f15e758fa8bceda521c8fd3b047f5385d5c8157d65b43eda3b3949f53",
+            "bytes": 25812
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "6326a9152b85a004f5f18265c74dd20fb9108a69b7347c5b897d9cc84268d0a8",
+            "binary_sha256": "fc696c6fb04bad35767ce92340c79cdd9f62c298ff4a8c46d551cb53f105034d",
+            "bytes": 25812
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "1b1ad4460bd1f3947a3fad266bd442c76088f5c47f3da0d2cd0dcd560e6bf320",
+          "exec_sha256": "eaee26e73856502b6388049e66b9182df2a34eaeb5bf577f8caa9bd71604a57b",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "a30b2f3b039dbb995228155e5ab81fd178cf463af151bc4eda2b876983b1a20f",
+          "sizes": {
+            "code_size": 25044,
+            "exec_size": 25024,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "ed70043f15e758fa8bceda521c8fd3b047f5385d5c8157d65b43eda3b3949f53"
+        },
+        "candidate": {
+          "code_sha256": "1b1ad4460bd1f3947a3fad266bd442c76088f5c47f3da0d2cd0dcd560e6bf320",
+          "exec_sha256": "eaee26e73856502b6388049e66b9182df2a34eaeb5bf577f8caa9bd71604a57b",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "a30b2f3b039dbb995228155e5ab81fd178cf463af151bc4eda2b876983b1a20f",
+          "sizes": {
+            "code_size": 25044,
+            "exec_size": 25024,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "fc696c6fb04bad35767ce92340c79cdd9f62c298ff4a8c46d551cb53f105034d"
+        }
+      },
+      {
+        "source": "shaders/007a62f0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "20b2e34291f40823f2ae4b6797e1ee07b7b3608788ce8da3791c78c6cd33f689",
+            "binary_sha256": "adbc4373bdc67756303707c9c96f5e969d0cd533f9dd5805b35b308e3b8dc835",
+            "bytes": 208520
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "c4995f0a85034d3c04ede6634391f7eb4f6dfd806b6173bd8bdd4ff986664471",
+            "binary_sha256": "2c79e3f08a110dfd8be7ba027bba975077154e404c4a34468471c46a9ef230bc",
+            "bytes": 208520
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "ab3ce90d2f5f521585fb63fd79de225b29aa7eda038ebfc5621c0fd10875f0ca",
+          "exec_sha256": "0a0ee9f21ee7020139d9ac5c4ff473336a7202c28e6a649ccc11631822431de6",
+          "config_sha256": "4590cca13736ee72ac38da1c3f0de40b7f2e742b730249d2489d541bbcb47817",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "dece2f9e342ccfdffe2c4ebed0941944870e602c7c87740bd3fed6bd7037574f",
+          "sizes": {
+            "code_size": 207752,
+            "exec_size": 177524,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "adbc4373bdc67756303707c9c96f5e969d0cd533f9dd5805b35b308e3b8dc835"
+        },
+        "candidate": {
+          "code_sha256": "ab3ce90d2f5f521585fb63fd79de225b29aa7eda038ebfc5621c0fd10875f0ca",
+          "exec_sha256": "0a0ee9f21ee7020139d9ac5c4ff473336a7202c28e6a649ccc11631822431de6",
+          "config_sha256": "4590cca13736ee72ac38da1c3f0de40b7f2e742b730249d2489d541bbcb47817",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "dece2f9e342ccfdffe2c4ebed0941944870e602c7c87740bd3fed6bd7037574f",
+          "sizes": {
+            "code_size": 207752,
+            "exec_size": 177524,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "2c79e3f08a110dfd8be7ba027bba975077154e404c4a34468471c46a9ef230bc"
+        }
+      },
+      {
+        "source": "shaders/0014cb60.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "352d07692a2d8d69f20a8ea9dfff90f2ff876c7bb3e67a32d27036fa1351a99d",
+            "binary_sha256": "9b93d8512229c782c89c55ec4bbc865a48c8fde2386db7349a4af1adda98ec31",
+            "bytes": 52480
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "ed4a6fa5d8a44fb7c101423b10b9cc105f7c399fc8fa78620d67307b76b09ef8",
+            "binary_sha256": "35d17d3e7e5e7b522ccca1ce1423da11674f618e264c4ad1d0e7fee2acbf8ed9",
+            "bytes": 52480
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "e52e25deade7aae3b15ddb673eab0a000a7d8d7d529c27f7e5fa4b15ccd910e8",
+          "exec_sha256": "3fc6e5436046b40dcbe9206e7a3522d4a89d82c9e8f720688986d8b0c3761277",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "00806b035aeea693df484e16f5abdbf8b8fc5a5a9d58e77583a56b98073ddb86",
+          "sizes": {
+            "code_size": 51712,
+            "exec_size": 51692,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "9b93d8512229c782c89c55ec4bbc865a48c8fde2386db7349a4af1adda98ec31"
+        },
+        "candidate": {
+          "code_sha256": "e52e25deade7aae3b15ddb673eab0a000a7d8d7d529c27f7e5fa4b15ccd910e8",
+          "exec_sha256": "3fc6e5436046b40dcbe9206e7a3522d4a89d82c9e8f720688986d8b0c3761277",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "00806b035aeea693df484e16f5abdbf8b8fc5a5a9d58e77583a56b98073ddb86",
+          "sizes": {
+            "code_size": 51712,
+            "exec_size": 51692,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "35d17d3e7e5e7b522ccca1ce1423da11674f618e264c4ad1d0e7fee2acbf8ed9"
+        }
+      },
+      {
+        "source": "shaders/006855c0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "31a9c979086185b366c5576847669a74b68ef3e912fbd31c2e01752d3863851d",
+            "binary_sha256": "b9760bf9f136cc8a20f33a7a09ab7ef98a6e95923c52d436bb192622464ca378",
+            "bytes": 144756
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "4a9af4fdf3ba7448ef173573ba7a90e61813a69c6fa93f02c54cf20a1627e6c6",
+            "binary_sha256": "b9760bf9f136cc8a20f33a7a09ab7ef98a6e95923c52d436bb192622464ca378",
+            "bytes": 144756
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "46f2a45989151a4314245aec99036555188dc98398b2feb4fd10a319b5c8ad1c",
+          "exec_sha256": "a44aee3e2775dc919d85f3efd49751df9a12a4016c456bbcb88c51d795888cf3",
+          "config_sha256": "86fdbb167c76ef809a262899e8e33de0a4793eacaf4708c10db1e71efe577e14",
+          "info_sha256": "47e3eb5ac2d14182d3f486c32a09aca4760dc7c7e81adeee552372f3b393a2ea",
+          "stats_sha256": "9346a2bb428c752be0678b408b2bda30c7a0020405e86213e5ee2ab3ba17d6ed",
+          "sizes": {
+            "code_size": 143988,
+            "exec_size": 122080,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "b9760bf9f136cc8a20f33a7a09ab7ef98a6e95923c52d436bb192622464ca378"
+        },
+        "candidate": {
+          "code_sha256": "46f2a45989151a4314245aec99036555188dc98398b2feb4fd10a319b5c8ad1c",
+          "exec_sha256": "a44aee3e2775dc919d85f3efd49751df9a12a4016c456bbcb88c51d795888cf3",
+          "config_sha256": "86fdbb167c76ef809a262899e8e33de0a4793eacaf4708c10db1e71efe577e14",
+          "info_sha256": "47e3eb5ac2d14182d3f486c32a09aca4760dc7c7e81adeee552372f3b393a2ea",
+          "stats_sha256": "9346a2bb428c752be0678b408b2bda30c7a0020405e86213e5ee2ab3ba17d6ed",
+          "sizes": {
+            "code_size": 143988,
+            "exec_size": 122080,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "b9760bf9f136cc8a20f33a7a09ab7ef98a6e95923c52d436bb192622464ca378"
+        }
+      },
+      {
+        "source": "shaders/00bd2c80.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "a6eca5b876d95f88447b85e2ca44701d559c243a0a65201d4a878dc2fd4ac46e",
+            "binary_sha256": "5be281c67f44cfc5973a2f9ba2f0480bde7471b04fde717452de639b4e933a43",
+            "bytes": 52884
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "654980717c9be3f02d0a94cd52b2cdbbec4b3c5789e2a4fe2767a2aa96aeaffa",
+            "binary_sha256": "eb3867610225761db470890d59fbcbf92b78076ea3e2e5c4acf78f75c1a0ec42",
+            "bytes": 52884
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "6536b918dab252a529c70c5f8169c8d600a916fd508daf173aa52d2db8f2c955",
+          "exec_sha256": "5ba146c34e73ca3589cef61f589cefe98d744fdb680abd412d2cdd11b0326515",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "260b5f6b3891045358227d7c674a4c0234488a7ba87ab5e566cb56a7c1d0a19e",
+          "sizes": {
+            "code_size": 52116,
+            "exec_size": 52096,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "5be281c67f44cfc5973a2f9ba2f0480bde7471b04fde717452de639b4e933a43"
+        },
+        "candidate": {
+          "code_sha256": "6536b918dab252a529c70c5f8169c8d600a916fd508daf173aa52d2db8f2c955",
+          "exec_sha256": "5ba146c34e73ca3589cef61f589cefe98d744fdb680abd412d2cdd11b0326515",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "260b5f6b3891045358227d7c674a4c0234488a7ba87ab5e566cb56a7c1d0a19e",
+          "sizes": {
+            "code_size": 52116,
+            "exec_size": 52096,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "eb3867610225761db470890d59fbcbf92b78076ea3e2e5c4acf78f75c1a0ec42"
+        }
+      },
+      {
+        "source": "shaders/002cce40.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "b851040818cb103d54173fef5c7dbd795a72a1375e7cfc53868dc243deb5e5c5",
+            "binary_sha256": "e5974249404ae9fbe566df92a3f6a7638ac94b4985c28a7c5b194d5e1a58c149",
+            "bytes": 28840
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "d3c654481614c4a3258f8e96bc5d2760021a6d706928cc274a5b594419b52036",
+            "binary_sha256": "6dd6d4697929d4bc2cfe45d33ea72324eec6d6a924c8a89a60ba3813e3c25ee1",
+            "bytes": 28840
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "0a4451bfcaa6b643bbb273278f0c72c648f983db8ac8e223ab7c40f614693bb4",
+          "exec_sha256": "c5bfab406929901a25c1f80c0b7db2185d3781b36351e78b1f66901d740a020c",
+          "config_sha256": "e1efae4bac4f35d566a6ee662587e2b2fa50e89a2f8539e7231bebbae46ed159",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "ee0833a7511959a75079880c9005128c7dd10eb4db185fc50546c8e8dc918241",
+          "sizes": {
+            "code_size": 28072,
+            "exec_size": 28052,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "e5974249404ae9fbe566df92a3f6a7638ac94b4985c28a7c5b194d5e1a58c149"
+        },
+        "candidate": {
+          "code_sha256": "0a4451bfcaa6b643bbb273278f0c72c648f983db8ac8e223ab7c40f614693bb4",
+          "exec_sha256": "c5bfab406929901a25c1f80c0b7db2185d3781b36351e78b1f66901d740a020c",
+          "config_sha256": "e1efae4bac4f35d566a6ee662587e2b2fa50e89a2f8539e7231bebbae46ed159",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "ee0833a7511959a75079880c9005128c7dd10eb4db185fc50546c8e8dc918241",
+          "sizes": {
+            "code_size": 28072,
+            "exec_size": 28052,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "6dd6d4697929d4bc2cfe45d33ea72324eec6d6a924c8a89a60ba3813e3c25ee1"
+        }
+      },
+      {
+        "source": "shaders/0066ed50.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "01c2236c366365892dbcd8db074ee5fa917aa2bdd5fdeaf325bf19f432a33157",
+            "binary_sha256": "61abba07077dfb5fecde191ff32e752d786332d6f44df7209487ef6565430dec",
+            "bytes": 48240
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "422af8d7b5247a9c9a88e5cda108bde4f4d81a5eba990ec281bbad0d6ca44ac3",
+            "binary_sha256": "7412b9151486f9114ccaaddeb3dd91767d18b0efd14d9b9a3dcf7f9da696405f",
+            "bytes": 48240
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "64d65b98c6f05ee3808691136a8487bd32669d47239a93e096d0d712612d1004",
+          "exec_sha256": "e61cae10f3bbe294d42f863a8dfa9fbb79d7dab3dde3aade36ce41618fd14b24",
+          "config_sha256": "ac6019f82595ebc00dbc4925291487318da64956b287ec5f0d1eb03eff2f011f",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "47b8d64e347167e2d79d9f78a7f7c604e4f4274b35d5849222081ffac6c2f9f5",
+          "sizes": {
+            "code_size": 47472,
+            "exec_size": 45276,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "61abba07077dfb5fecde191ff32e752d786332d6f44df7209487ef6565430dec"
+        },
+        "candidate": {
+          "code_sha256": "64d65b98c6f05ee3808691136a8487bd32669d47239a93e096d0d712612d1004",
+          "exec_sha256": "e61cae10f3bbe294d42f863a8dfa9fbb79d7dab3dde3aade36ce41618fd14b24",
+          "config_sha256": "ac6019f82595ebc00dbc4925291487318da64956b287ec5f0d1eb03eff2f011f",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "47b8d64e347167e2d79d9f78a7f7c604e4f4274b35d5849222081ffac6c2f9f5",
+          "sizes": {
+            "code_size": 47472,
+            "exec_size": 45276,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "7412b9151486f9114ccaaddeb3dd91767d18b0efd14d9b9a3dcf7f9da696405f"
+        }
+      },
+      {
+        "source": "shaders/00820540.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "5eb6f90520f09677cc8f83e8e3eda5ef1d1648a9896d27af6d1a8529d8ee3b35",
+            "binary_sha256": "80f4c2184b9aa99e8d7150c11729d318e463eb5a1ee3a4254a7a1ae8c496c1ce",
+            "bytes": 110312
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "ec4f437d42b5d3746831136859e2ff5b8737081553a49430be6fb4d9f39c9b1f",
+            "binary_sha256": "dd92c1e2570bc30791145f9a1ab90d91d7628dc94fc62d7f322b075110ef1d35",
+            "bytes": 110312
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "389ee249d8de43190c47a667ad9340e78f67a2ae12b88f9bd9530bb1bec8f098",
+          "exec_sha256": "0f666926d61b6ef7e8a07078b4a0f1d15e16b4987705c0920927db11641c6523",
+          "config_sha256": "13ffbb86b136eda0fe29c6530e9f89a7e61e096600010000b400d8dae5445939",
+          "info_sha256": "2049aff847599da97525e72a6400e789ca239b4a2eebf8267acb258ae0af717a",
+          "stats_sha256": "5e46779c32a45fa98ff568ac34f54f44fcc4c76d6de5ebf2456fcf6fa4f9826e",
+          "sizes": {
+            "code_size": 109544,
+            "exec_size": 100500,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "80f4c2184b9aa99e8d7150c11729d318e463eb5a1ee3a4254a7a1ae8c496c1ce"
+        },
+        "candidate": {
+          "code_sha256": "389ee249d8de43190c47a667ad9340e78f67a2ae12b88f9bd9530bb1bec8f098",
+          "exec_sha256": "0f666926d61b6ef7e8a07078b4a0f1d15e16b4987705c0920927db11641c6523",
+          "config_sha256": "13ffbb86b136eda0fe29c6530e9f89a7e61e096600010000b400d8dae5445939",
+          "info_sha256": "2049aff847599da97525e72a6400e789ca239b4a2eebf8267acb258ae0af717a",
+          "stats_sha256": "5e46779c32a45fa98ff568ac34f54f44fcc4c76d6de5ebf2456fcf6fa4f9826e",
+          "sizes": {
+            "code_size": 109544,
+            "exec_size": 100500,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "dd92c1e2570bc30791145f9a1ab90d91d7628dc94fc62d7f322b075110ef1d35"
+        }
+      },
+      {
+        "source": "shaders/007de1d0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "3d3f16a58fa9c50e7c3457b67cda2d86d99ca379ad47a74e93268396e7e7ee11",
+            "binary_sha256": "fe725c433af2d6ea553b58aa0aad6bd74ca8e70b0c18ce16f4f14effd61257aa",
+            "bytes": 36164
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "e7a99c5a0a12922829216063e81a83cc186a6b2e801d1123918a4fd48ec681cf",
+            "binary_sha256": "fe947cb6857e1e1e824cea96918fd3f7f61d6b91b6400b9c5e6638da29973a4a",
+            "bytes": 36164
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "3047e00353550ea99f96fe0ea107b94b08e8828401ad8949144212c60a99a1ec",
+          "exec_sha256": "c5445d3cbaf64f2e6b813d36b076eed305d3b7ecb400132bd255d4a639046c40",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "2ef74eacfd5cfc5f8b7a2c8c044215ec94c670df401d895d4458bd55dccefd2f",
+          "sizes": {
+            "code_size": 35396,
+            "exec_size": 35376,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "fe725c433af2d6ea553b58aa0aad6bd74ca8e70b0c18ce16f4f14effd61257aa"
+        },
+        "candidate": {
+          "code_sha256": "3047e00353550ea99f96fe0ea107b94b08e8828401ad8949144212c60a99a1ec",
+          "exec_sha256": "c5445d3cbaf64f2e6b813d36b076eed305d3b7ecb400132bd255d4a639046c40",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "2ef74eacfd5cfc5f8b7a2c8c044215ec94c670df401d895d4458bd55dccefd2f",
+          "sizes": {
+            "code_size": 35396,
+            "exec_size": 35376,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "fe947cb6857e1e1e824cea96918fd3f7f61d6b91b6400b9c5e6638da29973a4a"
+        }
+      },
+      {
+        "source": "shaders/0092fc80.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "ca80321738e290b0b7d09dd57a60843548e88481671acf5d3e0e8f405422375a",
+            "binary_sha256": "2d3bedb59885176b345cbf0442d351fa06a6987ac398db1eb9ff6395fb34dc43",
+            "bytes": 194716
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "60c48309ef202fd6039934582e787f3348c9a32bb836b7dae472563f10b871bc",
+            "binary_sha256": "3cea0534e850871524b119d91d845cbcf1ae390075fb3897fed1d7cee08e68d2",
+            "bytes": 194716
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "eee4ce9dcbf24498ad182ebe43d55e7c9a704c87e248a92c5a81c6af743764e9",
+          "exec_sha256": "db07d2f21341ff803587af160c98f9fd13842041b43ecfe9f61185af7339e2ad",
+          "config_sha256": "5268f171f715f899f710cd6d2285d50b9e830d4db1e149fd74ca70a5dc62a57c",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "2a8c218269ab851765c48a09a84e805670667d1641bc42958bdd565c0b46d736",
+          "sizes": {
+            "code_size": 193948,
+            "exec_size": 172040,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "2d3bedb59885176b345cbf0442d351fa06a6987ac398db1eb9ff6395fb34dc43"
+        },
+        "candidate": {
+          "code_sha256": "eee4ce9dcbf24498ad182ebe43d55e7c9a704c87e248a92c5a81c6af743764e9",
+          "exec_sha256": "db07d2f21341ff803587af160c98f9fd13842041b43ecfe9f61185af7339e2ad",
+          "config_sha256": "5268f171f715f899f710cd6d2285d50b9e830d4db1e149fd74ca70a5dc62a57c",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "2a8c218269ab851765c48a09a84e805670667d1641bc42958bdd565c0b46d736",
+          "sizes": {
+            "code_size": 193948,
+            "exec_size": 172040,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "3cea0534e850871524b119d91d845cbcf1ae390075fb3897fed1d7cee08e68d2"
+        }
+      },
+      {
+        "source": "shaders/0061e090.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "d4f6cd7592b59fbf137bc306c7143d8c143d8994769a84863543ad73fc5cd287",
+            "binary_sha256": "3983d15258953bfdeb1f0082e69cee928e063c7fe88897149a8ce15c1bb22a8f",
+            "bytes": 61568
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "bb4cd9f5f0ea8d2097a68a3d19a2f87c9474d5c5f21ce576bf67e77785826724",
+            "binary_sha256": "054dd673fb9cdd7f5a8630571ba83fe55575148b31f25316b954059abee6b856",
+            "bytes": 61568
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "dc6863c5a03af13d024b471defbee538cb8b13df19fbdb26f47678e52d16cdcb",
+          "exec_sha256": "7ccec972e76ff25289d502705bd7c61fba85c64d1e31e614ccc1f5ec05bc05e8",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "84c6f922c5ccfdc2eebefd4adb15091b6201622f206ad4634ea8bc4d75e4bf9b",
+          "sizes": {
+            "code_size": 60800,
+            "exec_size": 60780,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "3983d15258953bfdeb1f0082e69cee928e063c7fe88897149a8ce15c1bb22a8f"
+        },
+        "candidate": {
+          "code_sha256": "dc6863c5a03af13d024b471defbee538cb8b13df19fbdb26f47678e52d16cdcb",
+          "exec_sha256": "7ccec972e76ff25289d502705bd7c61fba85c64d1e31e614ccc1f5ec05bc05e8",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "84c6f922c5ccfdc2eebefd4adb15091b6201622f206ad4634ea8bc4d75e4bf9b",
+          "sizes": {
+            "code_size": 60800,
+            "exec_size": 60780,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "054dd673fb9cdd7f5a8630571ba83fe55575148b31f25316b954059abee6b856"
+        }
+      },
+      {
+        "source": "shaders/0011a890.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "dee317375bf05a7d7f7cbe19c3e18b4e9459aa448686504b58102479bbaf0109",
+            "binary_sha256": "6ace545ab4b8b99d64719eef80b951a0ff8d7758091ebb2034d719d356c98b86",
+            "bytes": 48068
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "1a272781c068fca547ed12a3eb6d7df6a5e6811568e9d6019b5dac706a8f74a8",
+            "binary_sha256": "470d697b2c8fce5192b478616a1f602b1d240818508d60ae7bc44a1b7b46225e",
+            "bytes": 48068
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "dd651f77dfdcd36b6dedc582dabf26cdcb2e324833fb561237b2728baec3cd10",
+          "exec_sha256": "4a501634cee20f6522ba6f909c149e3a4b34299aff5d6a2992c829eb5fdfed89",
+          "config_sha256": "ac6019f82595ebc00dbc4925291487318da64956b287ec5f0d1eb03eff2f011f",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "47b8d64e347167e2d79d9f78a7f7c604e4f4274b35d5849222081ffac6c2f9f5",
+          "sizes": {
+            "code_size": 47300,
+            "exec_size": 45104,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "6ace545ab4b8b99d64719eef80b951a0ff8d7758091ebb2034d719d356c98b86"
+        },
+        "candidate": {
+          "code_sha256": "dd651f77dfdcd36b6dedc582dabf26cdcb2e324833fb561237b2728baec3cd10",
+          "exec_sha256": "4a501634cee20f6522ba6f909c149e3a4b34299aff5d6a2992c829eb5fdfed89",
+          "config_sha256": "ac6019f82595ebc00dbc4925291487318da64956b287ec5f0d1eb03eff2f011f",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "47b8d64e347167e2d79d9f78a7f7c604e4f4274b35d5849222081ffac6c2f9f5",
+          "sizes": {
+            "code_size": 47300,
+            "exec_size": 45104,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "470d697b2c8fce5192b478616a1f602b1d240818508d60ae7bc44a1b7b46225e"
+        }
+      },
+      {
+        "source": "shaders/0049a0c0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "4857047affd2bab8b53c2c9ca535a1fc9e6150c7442be672306aadb3f1444e4e",
+            "binary_sha256": "f42dee015e5d5e8dd70c8684bc2c284519143ad52f079aeb7f897d5423b5c3c5",
+            "bytes": 191772
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "d4bf28f87a7a8468a4887dbfe5f9829e19f74b3b0c531a5279ccdd3f81e7b1cb",
+            "binary_sha256": "d192415dcc81d973b9dc342c7dffab52ee331f9fd3f05b2643a81c0c7cb56e72",
+            "bytes": 191772
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "8e19eb5f29b62dff656a8cdda69ec34981bb3bb617c6f4c7684295569bd5d5e0",
+          "exec_sha256": "b7c55829c0ba3cdf8d1893299734b49fc5301d8952370e8968e8662195fcc497",
+          "config_sha256": "5268f171f715f899f710cd6d2285d50b9e830d4db1e149fd74ca70a5dc62a57c",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "8644c7186801cdfa3202ba331565bd3214e5e6bece138053cb98131484578168",
+          "sizes": {
+            "code_size": 191004,
+            "exec_size": 169096,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "f42dee015e5d5e8dd70c8684bc2c284519143ad52f079aeb7f897d5423b5c3c5"
+        },
+        "candidate": {
+          "code_sha256": "8e19eb5f29b62dff656a8cdda69ec34981bb3bb617c6f4c7684295569bd5d5e0",
+          "exec_sha256": "b7c55829c0ba3cdf8d1893299734b49fc5301d8952370e8968e8662195fcc497",
+          "config_sha256": "5268f171f715f899f710cd6d2285d50b9e830d4db1e149fd74ca70a5dc62a57c",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "8644c7186801cdfa3202ba331565bd3214e5e6bece138053cb98131484578168",
+          "sizes": {
+            "code_size": 191004,
+            "exec_size": 169096,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "d192415dcc81d973b9dc342c7dffab52ee331f9fd3f05b2643a81c0c7cb56e72"
+        }
+      },
+      {
+        "source": "shaders/00337550.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "77b63b9ce7206ba6838c7a4f19c04d6ceaf2e26e89f937d779859a53802bfb7f",
+            "binary_sha256": "ae9a7501d097aeb035f1cae1bbae811ef257a154e24aff0fba0d278fe0770b2f",
+            "bytes": 230752
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "6a38a4bff153918e53ff432ab47753ca27afbb34c4323c0d2f2b691b7a3850db",
+            "binary_sha256": "ae9a7501d097aeb035f1cae1bbae811ef257a154e24aff0fba0d278fe0770b2f",
+            "bytes": 230752
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "74b184ad168e3c2878eadff39c5bade5a5855af338b16d646373043cfded409d",
+          "exec_sha256": "ac33395c8e4efb7e53d5fc5a2a1322d4da9892b41f3f62d351f3db5755898ec3",
+          "config_sha256": "6a71304d708b3da670a1951eeacc67bbe073b69dca0ad65eb740f70dc3c3445c",
+          "info_sha256": "ea1eed47acb7965dee5e1d86729ebc2a423ff0ce6562e4daa4cc19ddc29df579",
+          "stats_sha256": "39ef2358b974bb18e9a23a71bdbd37062d6a5f0d0a9b0d1df91773a0fb3e736f",
+          "sizes": {
+            "code_size": 229984,
+            "exec_size": 199756,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "ae9a7501d097aeb035f1cae1bbae811ef257a154e24aff0fba0d278fe0770b2f"
+        },
+        "candidate": {
+          "code_sha256": "74b184ad168e3c2878eadff39c5bade5a5855af338b16d646373043cfded409d",
+          "exec_sha256": "ac33395c8e4efb7e53d5fc5a2a1322d4da9892b41f3f62d351f3db5755898ec3",
+          "config_sha256": "6a71304d708b3da670a1951eeacc67bbe073b69dca0ad65eb740f70dc3c3445c",
+          "info_sha256": "ea1eed47acb7965dee5e1d86729ebc2a423ff0ce6562e4daa4cc19ddc29df579",
+          "stats_sha256": "39ef2358b974bb18e9a23a71bdbd37062d6a5f0d0a9b0d1df91773a0fb3e736f",
+          "sizes": {
+            "code_size": 229984,
+            "exec_size": 199756,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "ae9a7501d097aeb035f1cae1bbae811ef257a154e24aff0fba0d278fe0770b2f"
+        }
+      },
+      {
+        "source": "shaders/00234860.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "3f439bcd27d6533826053f2f246cbee135cf407920e59511cddb9260072a898e",
+            "binary_sha256": "28f49ecabc8042683f133046ac57f625e94c07570fb9af8e1bf362fe89c6bf5d",
+            "bytes": 102796
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "364fcf29b51a9ac6553efe612b90844d0e5152f9a301c1ff52857f3a76fd4a03",
+            "binary_sha256": "9c7ac9ec17b23e317ec9ea79f370a37169a837c65a7e9043462bca683693eeb6",
+            "bytes": 102796
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "522b58c74913cddbdb8af3adf47a5c2889244c7059883061896dbeaf3773c53a",
+          "exec_sha256": "a58dccedea6a032424fe576463dce71fae234a10741645cfb4e5b5c06d496055",
+          "config_sha256": "13ffbb86b136eda0fe29c6530e9f89a7e61e096600010000b400d8dae5445939",
+          "info_sha256": "2049aff847599da97525e72a6400e789ca239b4a2eebf8267acb258ae0af717a",
+          "stats_sha256": "55c18270b59cb7f73a470f2da96de8b2c0830fc9bac3262ff907e1fc94248e16",
+          "sizes": {
+            "code_size": 102028,
+            "exec_size": 92984,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "28f49ecabc8042683f133046ac57f625e94c07570fb9af8e1bf362fe89c6bf5d"
+        },
+        "candidate": {
+          "code_sha256": "522b58c74913cddbdb8af3adf47a5c2889244c7059883061896dbeaf3773c53a",
+          "exec_sha256": "a58dccedea6a032424fe576463dce71fae234a10741645cfb4e5b5c06d496055",
+          "config_sha256": "13ffbb86b136eda0fe29c6530e9f89a7e61e096600010000b400d8dae5445939",
+          "info_sha256": "2049aff847599da97525e72a6400e789ca239b4a2eebf8267acb258ae0af717a",
+          "stats_sha256": "55c18270b59cb7f73a470f2da96de8b2c0830fc9bac3262ff907e1fc94248e16",
+          "sizes": {
+            "code_size": 102028,
+            "exec_size": 92984,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "9c7ac9ec17b23e317ec9ea79f370a37169a837c65a7e9043462bca683693eeb6"
+        }
+      },
+      {
+        "source": "shaders/007b6f00.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "fc533c62583b62b966a28bebd38ca235b9c8baf0c45e63d63a73c037fbc79dc3",
+            "binary_sha256": "480174a97afd2be8c74a9c506eacfa46b12378ae26f39efa237d213979bea1a9",
+            "bytes": 52916
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "1e676795f243bf2014f51f2d376bf1e96ed67066c7c04e3f74751e0d083fd9b5",
+            "binary_sha256": "480174a97afd2be8c74a9c506eacfa46b12378ae26f39efa237d213979bea1a9",
+            "bytes": 52916
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "d990d2200e3064d6cfbc4ad478dcbd24780dce2b375114bca24022926655be65",
+          "exec_sha256": "51a748ab01764569701524c8ce28cdbff29a434b33bf952ab8bb45925abee307",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "a30b2f3b039dbb995228155e5ab81fd178cf463af151bc4eda2b876983b1a20f",
+          "sizes": {
+            "code_size": 52148,
+            "exec_size": 52128,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "480174a97afd2be8c74a9c506eacfa46b12378ae26f39efa237d213979bea1a9"
+        },
+        "candidate": {
+          "code_sha256": "d990d2200e3064d6cfbc4ad478dcbd24780dce2b375114bca24022926655be65",
+          "exec_sha256": "51a748ab01764569701524c8ce28cdbff29a434b33bf952ab8bb45925abee307",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "a30b2f3b039dbb995228155e5ab81fd178cf463af151bc4eda2b876983b1a20f",
+          "sizes": {
+            "code_size": 52148,
+            "exec_size": 52128,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "480174a97afd2be8c74a9c506eacfa46b12378ae26f39efa237d213979bea1a9"
+        }
+      },
+      {
+        "source": "shaders/00593780.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "251caf038a9c0f058adeea7d5bb7e63f35ace2506a8e53865d01d563ace52ed1",
+            "binary_sha256": "b0c7fce9e9e10f95e646f55fb8775d83d426e01e5bbc6959d4e65823b9c989db",
+            "bytes": 62108
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "99cf2f590dde4f369c9e92f44ccc9bd30a171a1dfa3dc65eac61ad54b7885c60",
+            "binary_sha256": "8adbb5009f638aae525a7377365579ed66afbc67a9888ed62346d80695b07731",
+            "bytes": 62108
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "5c40682a5d9bb9dcffe2f61b72c17dbbd3e32897e55155d942e721dd1454f602",
+          "exec_sha256": "26efc2ec8a9cea07b92553bf5953441ea02a28d43a22c386a710524156729909",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "626574bc40b3ca49090e8642f0999fcb0bbb50ac2760be189ad3b67d87cd6501",
+          "sizes": {
+            "code_size": 61340,
+            "exec_size": 61320,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "b0c7fce9e9e10f95e646f55fb8775d83d426e01e5bbc6959d4e65823b9c989db"
+        },
+        "candidate": {
+          "code_sha256": "5c40682a5d9bb9dcffe2f61b72c17dbbd3e32897e55155d942e721dd1454f602",
+          "exec_sha256": "26efc2ec8a9cea07b92553bf5953441ea02a28d43a22c386a710524156729909",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "626574bc40b3ca49090e8642f0999fcb0bbb50ac2760be189ad3b67d87cd6501",
+          "sizes": {
+            "code_size": 61340,
+            "exec_size": 61320,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "8adbb5009f638aae525a7377365579ed66afbc67a9888ed62346d80695b07731"
+        }
+      },
+      {
+        "source": "shaders/008f3770.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "3525942370c3b3ff4697da2fe3de9f9216d8a08fbe1c4dbbfa9cc951b8890a6c",
+            "binary_sha256": "229c7584ed2afe5bd954ba24e22ba130407a06fccb25f0d68cfd4a82cc54cdb9",
+            "bytes": 159188
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "d01cf0416f9e13a092c36fce8f248ac43b24f45bd280a6aee36bc656440bbb82",
+            "binary_sha256": "abf89dbdef24bdec77a225e4faba48ec62fa6ff4bda374734465f2a46942bad4",
+            "bytes": 159188
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "bf485b0dc0bcc552405bd7a4287838f30c8b2904bdbdb7467d2ecbf968fc6442",
+          "exec_sha256": "e96c7c4e99f97cef195b099f09b5f8d29a4b8500bbc73c48965c440cf824aef3",
+          "config_sha256": "e426c1e8baf51d6ccfb713a279785dffa4c3329bc079c1098d3a34aa944c1907",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "2e8e0ac83857fcf9eb297af02d50cd57638452c7187f788f1edc2a0a7f44d9de",
+          "sizes": {
+            "code_size": 158420,
+            "exec_size": 149952,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "229c7584ed2afe5bd954ba24e22ba130407a06fccb25f0d68cfd4a82cc54cdb9"
+        },
+        "candidate": {
+          "code_sha256": "bf485b0dc0bcc552405bd7a4287838f30c8b2904bdbdb7467d2ecbf968fc6442",
+          "exec_sha256": "e96c7c4e99f97cef195b099f09b5f8d29a4b8500bbc73c48965c440cf824aef3",
+          "config_sha256": "e426c1e8baf51d6ccfb713a279785dffa4c3329bc079c1098d3a34aa944c1907",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "2e8e0ac83857fcf9eb297af02d50cd57638452c7187f788f1edc2a0a7f44d9de",
+          "sizes": {
+            "code_size": 158420,
+            "exec_size": 149952,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "abf89dbdef24bdec77a225e4faba48ec62fa6ff4bda374734465f2a46942bad4"
+        }
+      },
+      {
+        "source": "shaders/00482860.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "e6ae27536712fb0d98969dbe68a00878f0749b4b8acc680115b435dd0962b8ee",
+            "binary_sha256": "d3b622a96387293e12518314cb76b2d60ed59c98bfa33314a6b94a7671fd3bf7",
+            "bytes": 36512
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "b194f058fa6faa994a8f40409122ae255be29c7cdf1bff1df04dc0431970cafa",
+            "binary_sha256": "6aff19d3caeaca149b9066f27b48590fd2cfdce31930d9ee8971ddedbc03144d",
+            "bytes": 36512
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "cced9dce8237341b409eed26b1c82e9af4f344877e56334ff3eecd2d5d0e90d2",
+          "exec_sha256": "f2aa94b9902ccf29ccf5a68652ccea2c11b67dd606e5720645ca202a7e247d22",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "2ef74eacfd5cfc5f8b7a2c8c044215ec94c670df401d895d4458bd55dccefd2f",
+          "sizes": {
+            "code_size": 35744,
+            "exec_size": 35724,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "d3b622a96387293e12518314cb76b2d60ed59c98bfa33314a6b94a7671fd3bf7"
+        },
+        "candidate": {
+          "code_sha256": "cced9dce8237341b409eed26b1c82e9af4f344877e56334ff3eecd2d5d0e90d2",
+          "exec_sha256": "f2aa94b9902ccf29ccf5a68652ccea2c11b67dd606e5720645ca202a7e247d22",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "2ef74eacfd5cfc5f8b7a2c8c044215ec94c670df401d895d4458bd55dccefd2f",
+          "sizes": {
+            "code_size": 35744,
+            "exec_size": 35724,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "6aff19d3caeaca149b9066f27b48590fd2cfdce31930d9ee8971ddedbc03144d"
+        }
+      },
+      {
+        "source": "shaders/00b14220.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "efff7b3efb2082eba07c08a8273dd8e441945fd223c3707df31e3d61499f6218",
+            "binary_sha256": "9c14d6253eed3a7058d674e18d73cdce437db2a7fae4ea0d69600c8b0b3cb5e5",
+            "bytes": 35012
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "5618e4416b9697cce978ba237b5360d0a250050d13900fc7d058e4e0d944e072",
+            "binary_sha256": "68ed2caefedd60fb5f8d559ce46e09c6365f637fcef12b82b40c890da78ecc34",
+            "bytes": 35012
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "17a30053e4cabae96ee8ab9648a2379edfc539fa28f4df15a42ce79c02b43ca8",
+          "exec_sha256": "6f75193c29126b8909de67bc6364083b08ba4884f1132f9e21cef6f89515f60b",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "ed4a04cd757a8fec5668a9b4854a8ea71c125a1fbf888bb4a5e4f8bfe5ff57fd",
+          "sizes": {
+            "code_size": 34244,
+            "exec_size": 34224,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "9c14d6253eed3a7058d674e18d73cdce437db2a7fae4ea0d69600c8b0b3cb5e5"
+        },
+        "candidate": {
+          "code_sha256": "17a30053e4cabae96ee8ab9648a2379edfc539fa28f4df15a42ce79c02b43ca8",
+          "exec_sha256": "6f75193c29126b8909de67bc6364083b08ba4884f1132f9e21cef6f89515f60b",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "ed4a04cd757a8fec5668a9b4854a8ea71c125a1fbf888bb4a5e4f8bfe5ff57fd",
+          "sizes": {
+            "code_size": 34244,
+            "exec_size": 34224,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "68ed2caefedd60fb5f8d559ce46e09c6365f637fcef12b82b40c890da78ecc34"
+        }
+      },
+      {
+        "source": "shaders/009739d0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "eb0debb1fbe99789aa6d757ffa9e100e1c9d1469aa0b660068fd6e6ea05c1464",
+            "binary_sha256": "65031e50b8e2a78ef46aa2f2db42ef772f554d375bd5463007e0aabeb3a5bd68",
+            "bytes": 27032
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "c23d27c08a4f31a054ad77e813a98d94badd9a66777903466209940970f54d9c",
+            "binary_sha256": "e3aa3ebdd04ad109e5a8050f8391a68bebe89aee59315b3c7e024360a3d0c261",
+            "bytes": 27032
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "fb9df0d008e45048120a982bdae259dcda24f8e867606d0ea7c0cb95a88de8ac",
+          "exec_sha256": "6d695c774a91dcb3c4baa94bd0453152afd4a921935cd2ec95cdd3650497c157",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "e6af8ef87dfc4560bf15ad1da268b6848d9f0854b13a7fa8534fc6d021b204af",
+          "sizes": {
+            "code_size": 26264,
+            "exec_size": 26244,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "65031e50b8e2a78ef46aa2f2db42ef772f554d375bd5463007e0aabeb3a5bd68"
+        },
+        "candidate": {
+          "code_sha256": "fb9df0d008e45048120a982bdae259dcda24f8e867606d0ea7c0cb95a88de8ac",
+          "exec_sha256": "6d695c774a91dcb3c4baa94bd0453152afd4a921935cd2ec95cdd3650497c157",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "e6af8ef87dfc4560bf15ad1da268b6848d9f0854b13a7fa8534fc6d021b204af",
+          "sizes": {
+            "code_size": 26264,
+            "exec_size": 26244,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "e3aa3ebdd04ad109e5a8050f8391a68bebe89aee59315b3c7e024360a3d0c261"
+        }
+      },
+      {
+        "source": "shaders/0010fcd0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "60543f8e723ea6f49eab8765a314a34bcfae78cfe0221789689b81f0d99b6627",
+            "binary_sha256": "653d53f813e4e9fe45f0eb282841312a8e05fa3bd46289868232c5e2f673d776",
+            "bytes": 143480
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "dede305f1c1f7975846b8c286bce9d09d4d5213cc2ec1f40f40c8d3814d7d1f1",
+            "binary_sha256": "2da9fa924ccd80db87701097423d53cd29256ac5696c5cb58f08e32c83382d95",
+            "bytes": 143480
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "4bd47b7d9423aca21b3ffc49bb556445caf98e5a785734c0e28e252c7a07e33a",
+          "exec_sha256": "add8d7e66135e8ac177ed6f64ee6ae1e21caf2473b0c2963e98ea8e9270c9aca",
+          "config_sha256": "86fdbb167c76ef809a262899e8e33de0a4793eacaf4708c10db1e71efe577e14",
+          "info_sha256": "47e3eb5ac2d14182d3f486c32a09aca4760dc7c7e81adeee552372f3b393a2ea",
+          "stats_sha256": "1d1db54b58912508f1d2ae606c856af95e2049284b35567b0e6750791ac8007a",
+          "sizes": {
+            "code_size": 142712,
+            "exec_size": 120804,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "653d53f813e4e9fe45f0eb282841312a8e05fa3bd46289868232c5e2f673d776"
+        },
+        "candidate": {
+          "code_sha256": "4bd47b7d9423aca21b3ffc49bb556445caf98e5a785734c0e28e252c7a07e33a",
+          "exec_sha256": "add8d7e66135e8ac177ed6f64ee6ae1e21caf2473b0c2963e98ea8e9270c9aca",
+          "config_sha256": "86fdbb167c76ef809a262899e8e33de0a4793eacaf4708c10db1e71efe577e14",
+          "info_sha256": "47e3eb5ac2d14182d3f486c32a09aca4760dc7c7e81adeee552372f3b393a2ea",
+          "stats_sha256": "1d1db54b58912508f1d2ae606c856af95e2049284b35567b0e6750791ac8007a",
+          "sizes": {
+            "code_size": 142712,
+            "exec_size": 120804,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "2da9fa924ccd80db87701097423d53cd29256ac5696c5cb58f08e32c83382d95"
+        }
+      },
+      {
+        "source": "shaders/009b99a0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "613ba3a13f5437f6706b9094256fa7c6e7dac68c351ce63c2be7a996a0c0b600",
+            "binary_sha256": "30c178ddcc5a24223bcc76f656e6a69ec93482c42dcc18c95c705130221e789a",
+            "bytes": 110312
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "d18f00f736b908a87ebffe85ff45268e4e35f519ed64e8d5af5aac2a9752e0e0",
+            "binary_sha256": "065a52ab94f250cd378acf0a51c6147bac2b96a2c6e4e68652625c332e3c60a7",
+            "bytes": 110312
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "e2df0fda5e723b93b24edddd77935693c8ee3cac83846e94d91d276026985cd5",
+          "exec_sha256": "6a314e1a77cd6b388ca88757414cf67be440b815988b8e8c8a3097d47b1ec051",
+          "config_sha256": "13ffbb86b136eda0fe29c6530e9f89a7e61e096600010000b400d8dae5445939",
+          "info_sha256": "2049aff847599da97525e72a6400e789ca239b4a2eebf8267acb258ae0af717a",
+          "stats_sha256": "5e46779c32a45fa98ff568ac34f54f44fcc4c76d6de5ebf2456fcf6fa4f9826e",
+          "sizes": {
+            "code_size": 109544,
+            "exec_size": 100500,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "30c178ddcc5a24223bcc76f656e6a69ec93482c42dcc18c95c705130221e789a"
+        },
+        "candidate": {
+          "code_sha256": "e2df0fda5e723b93b24edddd77935693c8ee3cac83846e94d91d276026985cd5",
+          "exec_sha256": "6a314e1a77cd6b388ca88757414cf67be440b815988b8e8c8a3097d47b1ec051",
+          "config_sha256": "13ffbb86b136eda0fe29c6530e9f89a7e61e096600010000b400d8dae5445939",
+          "info_sha256": "2049aff847599da97525e72a6400e789ca239b4a2eebf8267acb258ae0af717a",
+          "stats_sha256": "5e46779c32a45fa98ff568ac34f54f44fcc4c76d6de5ebf2456fcf6fa4f9826e",
+          "sizes": {
+            "code_size": 109544,
+            "exec_size": 100500,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "065a52ab94f250cd378acf0a51c6147bac2b96a2c6e4e68652625c332e3c60a7"
+        }
+      },
+      {
+        "source": "shaders/00aed1d0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "34c3d98ead7622c30672f23d36e514f76a4719aa801e402435ed8505e9529e04",
+            "binary_sha256": "1d97be849952e881998c7b90bc70fb67ca9bfe97f09fc700d54dc4a16806f59c",
+            "bytes": 25812
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "33d0aac0e148c2c9cee147fbd72fe01af0560dc7dde89b732c9f370330f62116",
+            "binary_sha256": "1d97be849952e881998c7b90bc70fb67ca9bfe97f09fc700d54dc4a16806f59c",
+            "bytes": 25812
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "210cce8fcd0b303701c247e976610e57f994de43a357f9079aea43f34538378c",
+          "exec_sha256": "24b0c400eb650ba61cd97c9cb9d5eedc975551cbcfd77809cf50092445fbd5a4",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "a30b2f3b039dbb995228155e5ab81fd178cf463af151bc4eda2b876983b1a20f",
+          "sizes": {
+            "code_size": 25044,
+            "exec_size": 25024,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "1d97be849952e881998c7b90bc70fb67ca9bfe97f09fc700d54dc4a16806f59c"
+        },
+        "candidate": {
+          "code_sha256": "210cce8fcd0b303701c247e976610e57f994de43a357f9079aea43f34538378c",
+          "exec_sha256": "24b0c400eb650ba61cd97c9cb9d5eedc975551cbcfd77809cf50092445fbd5a4",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "a30b2f3b039dbb995228155e5ab81fd178cf463af151bc4eda2b876983b1a20f",
+          "sizes": {
+            "code_size": 25044,
+            "exec_size": 25024,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "1d97be849952e881998c7b90bc70fb67ca9bfe97f09fc700d54dc4a16806f59c"
+        }
+      },
+      {
+        "source": "shaders/00793060.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "df79e93b0521df0c6295abd11ecdd0afbe5382add1b8b75fcd3bf17267336717",
+            "binary_sha256": "dd56e911a73e849463389019e9993d0f2b1e01e819a596a7526b8a7ab094cdc0",
+            "bytes": 144756
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "3bb6b7b602dfb919a3f3876e6d47b8bdedf064a5418fa7e6482d18d5fd2e1146",
+            "binary_sha256": "4302a167d70c00270f9adcec52c03ec36eca8e5d8f613661c8a76f4699c9d440",
+            "bytes": 144756
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "aba6603f67a02c79d0bc7522bf66b89720f81ca9fc9cbccd6ada3d99bcdec36f",
+          "exec_sha256": "2e6623b57e22d86cd077b768c65f3884a5dd85b774e3c5f48c287a8190583437",
+          "config_sha256": "86fdbb167c76ef809a262899e8e33de0a4793eacaf4708c10db1e71efe577e14",
+          "info_sha256": "47e3eb5ac2d14182d3f486c32a09aca4760dc7c7e81adeee552372f3b393a2ea",
+          "stats_sha256": "9346a2bb428c752be0678b408b2bda30c7a0020405e86213e5ee2ab3ba17d6ed",
+          "sizes": {
+            "code_size": 143988,
+            "exec_size": 122080,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "dd56e911a73e849463389019e9993d0f2b1e01e819a596a7526b8a7ab094cdc0"
+        },
+        "candidate": {
+          "code_sha256": "aba6603f67a02c79d0bc7522bf66b89720f81ca9fc9cbccd6ada3d99bcdec36f",
+          "exec_sha256": "2e6623b57e22d86cd077b768c65f3884a5dd85b774e3c5f48c287a8190583437",
+          "config_sha256": "86fdbb167c76ef809a262899e8e33de0a4793eacaf4708c10db1e71efe577e14",
+          "info_sha256": "47e3eb5ac2d14182d3f486c32a09aca4760dc7c7e81adeee552372f3b393a2ea",
+          "stats_sha256": "9346a2bb428c752be0678b408b2bda30c7a0020405e86213e5ee2ab3ba17d6ed",
+          "sizes": {
+            "code_size": 143988,
+            "exec_size": 122080,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "4302a167d70c00270f9adcec52c03ec36eca8e5d8f613661c8a76f4699c9d440"
+        }
+      },
+      {
+        "source": "shaders/00abcc10.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "0a6b7c9ac5843b39cae30de0f51d334c9c8b5dc8126ae01402a25203b6580fd7",
+            "binary_sha256": "a165a864d113a9249985ea9033db751000cf6fee1bb28e47b2765448ed086fdb",
+            "bytes": 50276
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "25bffb316bbb20739ecc292e9491e4ceace9fe0a338dbf6c375b56a1d5503c16",
+            "binary_sha256": "dfa80e131cbf31ddadddffc590eb28e89e58911abaa5cb1e7c5f4f0553c6483c",
+            "bytes": 50276
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "3de2e4f16639934b2555e9bf01c74bbe9b52bb754b88070091df79e24b0d892a",
+          "exec_sha256": "ec0ba2673a1453c201285b77b06de3837b67bdf102f0478422e8f2287ebab1ac",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "93c8523864eca7b3fe94ed525c0303d97e699f61e267b0347e423618ffb06a75",
+          "sizes": {
+            "code_size": 49508,
+            "exec_size": 49488,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "a165a864d113a9249985ea9033db751000cf6fee1bb28e47b2765448ed086fdb"
+        },
+        "candidate": {
+          "code_sha256": "3de2e4f16639934b2555e9bf01c74bbe9b52bb754b88070091df79e24b0d892a",
+          "exec_sha256": "ec0ba2673a1453c201285b77b06de3837b67bdf102f0478422e8f2287ebab1ac",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "93c8523864eca7b3fe94ed525c0303d97e699f61e267b0347e423618ffb06a75",
+          "sizes": {
+            "code_size": 49508,
+            "exec_size": 49488,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "dfa80e131cbf31ddadddffc590eb28e89e58911abaa5cb1e7c5f4f0553c6483c"
+        }
+      },
+      {
+        "source": "shaders/00166450.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "3cfa0d1ac7c87c29fc3d8268e75b467b47d6408a606c6a737c4b0ce4f4ad988e",
+            "binary_sha256": "c93be4a703e64c0f7a0e3ac434cf2c4a04baedfedaa3494cf181eb9eb551cff6",
+            "bytes": 48256
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "cbd425329686111cf99dd51a04bf78597004e1a4dd959776063d755c79dc3b61",
+            "binary_sha256": "a94e6bd51376048e20deeeebc13817c9daaa1182d4934f9f892f0c2f0fde702f",
+            "bytes": 48256
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "dcf3905ea9ed15032f20a0fef0752c73cdd40632ca861930c2f0d2b5fad6c5f9",
+          "exec_sha256": "4799f229e41ee777316a6386074f1b5c1302ec31f2ba47939c329116f8694590",
+          "config_sha256": "ac6019f82595ebc00dbc4925291487318da64956b287ec5f0d1eb03eff2f011f",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "47b8d64e347167e2d79d9f78a7f7c604e4f4274b35d5849222081ffac6c2f9f5",
+          "sizes": {
+            "code_size": 47488,
+            "exec_size": 45292,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "c93be4a703e64c0f7a0e3ac434cf2c4a04baedfedaa3494cf181eb9eb551cff6"
+        },
+        "candidate": {
+          "code_sha256": "dcf3905ea9ed15032f20a0fef0752c73cdd40632ca861930c2f0d2b5fad6c5f9",
+          "exec_sha256": "4799f229e41ee777316a6386074f1b5c1302ec31f2ba47939c329116f8694590",
+          "config_sha256": "ac6019f82595ebc00dbc4925291487318da64956b287ec5f0d1eb03eff2f011f",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "47b8d64e347167e2d79d9f78a7f7c604e4f4274b35d5849222081ffac6c2f9f5",
+          "sizes": {
+            "code_size": 47488,
+            "exec_size": 45292,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "a94e6bd51376048e20deeeebc13817c9daaa1182d4934f9f892f0c2f0fde702f"
+        }
+      },
+      {
+        "source": "shaders/00135760.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "62c4b1d81650d48c0e915bf35a51d2d7f72cc7b69bcd7237c4a92001cf54de31",
+            "binary_sha256": "4fe62aba60a50d569a24f369664bb55dc7e60118f42204ac15b714a463e0b035",
+            "bytes": 52480
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "0d0f3a398cc6b41274e03eaa1a6f8c54ea9bf55914a468fce2bb75f53f5e755d",
+            "binary_sha256": "a609b47960c3ac65f5333f1647a701cee0fbf1d22d5dc6984c11a2b1ef208544",
+            "bytes": 52480
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "b003f47457da2dbd50331959235dcf645dd3e64a90092e8661d2dadc6704d0d2",
+          "exec_sha256": "a26e08321f9707e37f72adb2421afc5fc700be6d305fd47f70b56ae233078688",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "00806b035aeea693df484e16f5abdbf8b8fc5a5a9d58e77583a56b98073ddb86",
+          "sizes": {
+            "code_size": 51712,
+            "exec_size": 51692,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "4fe62aba60a50d569a24f369664bb55dc7e60118f42204ac15b714a463e0b035"
+        },
+        "candidate": {
+          "code_sha256": "b003f47457da2dbd50331959235dcf645dd3e64a90092e8661d2dadc6704d0d2",
+          "exec_sha256": "a26e08321f9707e37f72adb2421afc5fc700be6d305fd47f70b56ae233078688",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "00806b035aeea693df484e16f5abdbf8b8fc5a5a9d58e77583a56b98073ddb86",
+          "sizes": {
+            "code_size": 51712,
+            "exec_size": 51692,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "a609b47960c3ac65f5333f1647a701cee0fbf1d22d5dc6984c11a2b1ef208544"
+        }
+      },
+      {
+        "source": "shaders/004bee10.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "7dd1ac1f8b5ba368b9adbe99c94c61de9641a0fc40c2c3ddc2b340af7f80ef69",
+            "binary_sha256": "bc03e67b908ab44f2df50201a96f65915b1b5c62a468800f3cca433edfd4b90b",
+            "bytes": 28844
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "b1b9333aacd7bafb6be97ae68a07d2937d3fbbaeb2a3a79963a8fce0cfc7a584",
+            "binary_sha256": "3eb2031200754acceecdfb04864cdce888de520eb06696de68294e63040125b2",
+            "bytes": 28844
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "d0dafc185ca0e18ca5a240688600129d622253ea0f1f97436fce2703349c3b41",
+          "exec_sha256": "90b884b27485bcbe2f798ca7bcaaaa117c91365a93978a06795ca6ecbf8534a4",
+          "config_sha256": "e1efae4bac4f35d566a6ee662587e2b2fa50e89a2f8539e7231bebbae46ed159",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "ee0833a7511959a75079880c9005128c7dd10eb4db185fc50546c8e8dc918241",
+          "sizes": {
+            "code_size": 28076,
+            "exec_size": 28056,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "bc03e67b908ab44f2df50201a96f65915b1b5c62a468800f3cca433edfd4b90b"
+        },
+        "candidate": {
+          "code_sha256": "d0dafc185ca0e18ca5a240688600129d622253ea0f1f97436fce2703349c3b41",
+          "exec_sha256": "90b884b27485bcbe2f798ca7bcaaaa117c91365a93978a06795ca6ecbf8534a4",
+          "config_sha256": "e1efae4bac4f35d566a6ee662587e2b2fa50e89a2f8539e7231bebbae46ed159",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "ee0833a7511959a75079880c9005128c7dd10eb4db185fc50546c8e8dc918241",
+          "sizes": {
+            "code_size": 28076,
+            "exec_size": 28056,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "3eb2031200754acceecdfb04864cdce888de520eb06696de68294e63040125b2"
+        }
+      },
+      {
+        "source": "shaders/001460c0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "2209719020e324a3c43bacc224273a1008e4914360ddfac6e58b17848a985ed3",
+            "binary_sha256": "40f9a91d8b591f3e10daa842c24c3d59d4557a5ea2f8df963f74fe4546446aa6",
+            "bytes": 208520
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "b3c65840cddf9fd40852c2d2db1b3a779c13beee00bf9a5ec52ae2a31639f66a",
+            "binary_sha256": "5c86895cdede0fa2ea7d517270ef07ee4577e633873d61ba6a20dbcfbdc31f23",
+            "bytes": 208520
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "ceeb0f8461143d0b07578a839c882cdc05a9d357335440cfd718045b459bbf11",
+          "exec_sha256": "514c7078dd5912767000702729968fe3f693dfbde59874788e2ef001a87b845f",
+          "config_sha256": "4590cca13736ee72ac38da1c3f0de40b7f2e742b730249d2489d541bbcb47817",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "dece2f9e342ccfdffe2c4ebed0941944870e602c7c87740bd3fed6bd7037574f",
+          "sizes": {
+            "code_size": 207752,
+            "exec_size": 177524,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "40f9a91d8b591f3e10daa842c24c3d59d4557a5ea2f8df963f74fe4546446aa6"
+        },
+        "candidate": {
+          "code_sha256": "ceeb0f8461143d0b07578a839c882cdc05a9d357335440cfd718045b459bbf11",
+          "exec_sha256": "514c7078dd5912767000702729968fe3f693dfbde59874788e2ef001a87b845f",
+          "config_sha256": "4590cca13736ee72ac38da1c3f0de40b7f2e742b730249d2489d541bbcb47817",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "dece2f9e342ccfdffe2c4ebed0941944870e602c7c87740bd3fed6bd7037574f",
+          "sizes": {
+            "code_size": 207752,
+            "exec_size": 177524,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "5c86895cdede0fa2ea7d517270ef07ee4577e633873d61ba6a20dbcfbdc31f23"
+        }
+      },
+      {
+        "source": "shaders/003d9f20.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "d2b33fd9ed20ca5eda2e7d9e73bb08f7b8b16819e3f4519f51e5ca3781ba54e3",
+            "binary_sha256": "64cd8247883d4ae0218e7b26d538e76ff446c3833d40c489bdfeae7ee20e6a6f",
+            "bytes": 52884
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "89cfbe7018fee570f30fcb1cd0bcf706417303690c793e14181cc736a53eacbf",
+            "binary_sha256": "7eed34c199623849da75ec1c5c1243a97598bfa09818ec10aed23c15b48b1aa9",
+            "bytes": 52884
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "872a25c6e07466553f4b8069e620987aa405e9050d3126ba5abeb3549db9929a",
+          "exec_sha256": "ba14b3d7c04d10e59d49b8620027927b1e0aad07718ef663ef5451f5fc750ee1",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "260b5f6b3891045358227d7c674a4c0234488a7ba87ab5e566cb56a7c1d0a19e",
+          "sizes": {
+            "code_size": 52116,
+            "exec_size": 52096,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "64cd8247883d4ae0218e7b26d538e76ff446c3833d40c489bdfeae7ee20e6a6f"
+        },
+        "candidate": {
+          "code_sha256": "872a25c6e07466553f4b8069e620987aa405e9050d3126ba5abeb3549db9929a",
+          "exec_sha256": "ba14b3d7c04d10e59d49b8620027927b1e0aad07718ef663ef5451f5fc750ee1",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "260b5f6b3891045358227d7c674a4c0234488a7ba87ab5e566cb56a7c1d0a19e",
+          "sizes": {
+            "code_size": 52116,
+            "exec_size": 52096,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "7eed34c199623849da75ec1c5c1243a97598bfa09818ec10aed23c15b48b1aa9"
+        }
+      },
+      {
+        "source": "shaders/004f4de0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "8f52e5f65ab349c0113076a3eee60e41c3e414894ba144a753348c64cf86d28d",
+            "binary_sha256": "708e6dc34c66f5cf4e7e66c048baf3c7a3e37216c177a4e13fa3b017db1d9a41",
+            "bytes": 159736
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "f7784269f3be973f24a43a5f8f7dd85a4740aa60605599a0e81387d9599a1d81",
+            "binary_sha256": "447f410cbbad6f1db02371e6db080e7b90c0599baa446b25fd9d24101c5f56dd",
+            "bytes": 159736
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "b7a02fd2e7ef8b73c7f83a20e84cf02919f36c1c367d33111df2a6dbde1d427a",
+          "exec_sha256": "1b732f422c29466fa7b9e1b610cc8f087da679a6bf42111df33f50a1c941297b",
+          "config_sha256": "e426c1e8baf51d6ccfb713a279785dffa4c3329bc079c1098d3a34aa944c1907",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "2e8e0ac83857fcf9eb297af02d50cd57638452c7187f788f1edc2a0a7f44d9de",
+          "sizes": {
+            "code_size": 158968,
+            "exec_size": 150500,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "708e6dc34c66f5cf4e7e66c048baf3c7a3e37216c177a4e13fa3b017db1d9a41"
+        },
+        "candidate": {
+          "code_sha256": "b7a02fd2e7ef8b73c7f83a20e84cf02919f36c1c367d33111df2a6dbde1d427a",
+          "exec_sha256": "1b732f422c29466fa7b9e1b610cc8f087da679a6bf42111df33f50a1c941297b",
+          "config_sha256": "e426c1e8baf51d6ccfb713a279785dffa4c3329bc079c1098d3a34aa944c1907",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "2e8e0ac83857fcf9eb297af02d50cd57638452c7187f788f1edc2a0a7f44d9de",
+          "sizes": {
+            "code_size": 158968,
+            "exec_size": 150500,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "447f410cbbad6f1db02371e6db080e7b90c0599baa446b25fd9d24101c5f56dd"
+        }
+      }
+    ],
+    "all_machine_code_identical": true,
+    "all_hardware_config_identical": true,
+    "all_statistics_identical": true,
+    "scope": "All machine code and constant data, complete shader info, and hardware config; only compiler-confirmed C padding excluded from config. Whole serialized blobs may differ in outer-structure padding."
+  },
+  "port": {
+    "complete": true,
+    "driver_sha256": "f6fbeeb230ddc939786aaa3f5a5b9da7141594c1738d0b369f8062a24a02c058",
+    "layout": {
+      "legacy_bytes": 656,
+      "config": 4,
+      "config_bytes": 56,
+      "info": 64,
+      "total_size": 624,
+      "code_size": 632,
+      "exec_size": 636,
+      "ir_size": 640,
+      "disasm_size": 644,
+      "stats_size": 648,
+      "debug_info_size": 652,
+      "data": 656,
+      "wgp_mode": 40,
+      "rsrc1": 44,
+      "layout_source_sha256": "2d203a8787076e55bb94e8d97c9c3d13780bd1de33a5da516c22d24c3405c5c1"
+    },
+    "rows": [
+      {
+        "source": "shaders/00432db0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "c4ebb9050149baf71a90c5fb02de43cee9c4e2d825faed1e137b83d99ecef0a2",
+            "binary_sha256": "1de5f47c2c113cee3133d65f5dc2db4e2b5542d667a755b66689387380c6eb00",
+            "bytes": 50276
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "32db677aabcf8a60b5d450693e277f1575ca4c24762693e3129f3a1441b77152",
+            "binary_sha256": "1de5f47c2c113cee3133d65f5dc2db4e2b5542d667a755b66689387380c6eb00",
+            "bytes": 50276
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "eea65cdd80f8e6fedf0b5d172166cf0766cac9a570eb082905e6648a14e6cdbe",
+          "exec_sha256": "761afc2524cad32642f03cf72e449380c3835bc979808ff846105fbe641405df",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "93c8523864eca7b3fe94ed525c0303d97e699f61e267b0347e423618ffb06a75",
+          "sizes": {
+            "code_size": 49508,
+            "exec_size": 49488,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "1de5f47c2c113cee3133d65f5dc2db4e2b5542d667a755b66689387380c6eb00"
+        },
+        "candidate": {
+          "code_sha256": "eea65cdd80f8e6fedf0b5d172166cf0766cac9a570eb082905e6648a14e6cdbe",
+          "exec_sha256": "761afc2524cad32642f03cf72e449380c3835bc979808ff846105fbe641405df",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "93c8523864eca7b3fe94ed525c0303d97e699f61e267b0347e423618ffb06a75",
+          "sizes": {
+            "code_size": 49508,
+            "exec_size": 49488,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "1de5f47c2c113cee3133d65f5dc2db4e2b5542d667a755b66689387380c6eb00"
+        }
+      },
+      {
+        "source": "shaders/00278960.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "dc017a2baa5d1a399ef288316e7017a3a650ad329bada8b794ee19978158c2fe",
+            "binary_sha256": "b572d1379311c23fac36b21803dc76c7657dd1933d1bbbaa754dbfdd43d17623",
+            "bytes": 27032
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "4051abea652c8dfce21dfff6fe8bee17513dac36baaa393cb5f9fed437fae6ca",
+            "binary_sha256": "b572d1379311c23fac36b21803dc76c7657dd1933d1bbbaa754dbfdd43d17623",
+            "bytes": 27032
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "a08d7cb2b9dcd2f90c3d4e65385b754dfe3e275565bbc81b62478b9043937361",
+          "exec_sha256": "eb7bb112c3d9ff8f7452456699372e5d154c438db4b63214b64c61a2080f729c",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "e6af8ef87dfc4560bf15ad1da268b6848d9f0854b13a7fa8534fc6d021b204af",
+          "sizes": {
+            "code_size": 26264,
+            "exec_size": 26244,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "b572d1379311c23fac36b21803dc76c7657dd1933d1bbbaa754dbfdd43d17623"
+        },
+        "candidate": {
+          "code_sha256": "a08d7cb2b9dcd2f90c3d4e65385b754dfe3e275565bbc81b62478b9043937361",
+          "exec_sha256": "eb7bb112c3d9ff8f7452456699372e5d154c438db4b63214b64c61a2080f729c",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "e6af8ef87dfc4560bf15ad1da268b6848d9f0854b13a7fa8534fc6d021b204af",
+          "sizes": {
+            "code_size": 26264,
+            "exec_size": 26244,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "b572d1379311c23fac36b21803dc76c7657dd1933d1bbbaa754dbfdd43d17623"
+        }
+      },
+      {
+        "source": "shaders/0098e620.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "2f3449e3904158001426a8fd41699d1eff52475cc0a8ee8bd49ecf0964b7bc13",
+            "binary_sha256": "51030eb1d65aaa3d786c876203a895e48a5397baf729061ba4315eec478cb226",
+            "bytes": 159736
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "ab25efdb94d8c408881cc6f9d1e659de41152f486cdea6c579bf8a32ee973990",
+            "binary_sha256": "dfbe5c6efc1ae1305430635d527d156202245228cdfd77a11a33974d26c3a189",
+            "bytes": 159736
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "b786276dc9828cba389ddd708b8541111a375497e1604b344e9fee0ee6b04cfd",
+          "exec_sha256": "5e78e7cd7457eeb1d69306befd6f569baa0920191c48d049853bda3db63ac403",
+          "config_sha256": "e426c1e8baf51d6ccfb713a279785dffa4c3329bc079c1098d3a34aa944c1907",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "2e8e0ac83857fcf9eb297af02d50cd57638452c7187f788f1edc2a0a7f44d9de",
+          "sizes": {
+            "code_size": 158968,
+            "exec_size": 150500,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "51030eb1d65aaa3d786c876203a895e48a5397baf729061ba4315eec478cb226"
+        },
+        "candidate": {
+          "code_sha256": "b786276dc9828cba389ddd708b8541111a375497e1604b344e9fee0ee6b04cfd",
+          "exec_sha256": "5e78e7cd7457eeb1d69306befd6f569baa0920191c48d049853bda3db63ac403",
+          "config_sha256": "e426c1e8baf51d6ccfb713a279785dffa4c3329bc079c1098d3a34aa944c1907",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "2e8e0ac83857fcf9eb297af02d50cd57638452c7187f788f1edc2a0a7f44d9de",
+          "sizes": {
+            "code_size": 158968,
+            "exec_size": 150500,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "dfbe5c6efc1ae1305430635d527d156202245228cdfd77a11a33974d26c3a189"
+        }
+      },
+      {
+        "source": "shaders/00522900.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "e6f7d6bad0e057e98138d66b226adf6f1c396c90488ee1f42b0cca2a41a0f3aa",
+            "binary_sha256": "1aaf601e4923fd6e533d0569963d59c651a26462f608a7750d32352036be4293",
+            "bytes": 143480
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "d82b601be75b0ac5377e635e654243bfd9efadce0079fb505522f8e12f381a3b",
+            "binary_sha256": "70f3fc73a081c5013a9074376f74f1999c66665ae87306ee5dedb294ae921f6e",
+            "bytes": 143480
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "c173568f215927477057620ad367a1db5c45a5fe90a62f9c84581b03049c5ef6",
+          "exec_sha256": "62037b7e4b98c6160af6f8cb0ef921414244f39cf2cbf263c29c2a158d6c270c",
+          "config_sha256": "86fdbb167c76ef809a262899e8e33de0a4793eacaf4708c10db1e71efe577e14",
+          "info_sha256": "47e3eb5ac2d14182d3f486c32a09aca4760dc7c7e81adeee552372f3b393a2ea",
+          "stats_sha256": "1d1db54b58912508f1d2ae606c856af95e2049284b35567b0e6750791ac8007a",
+          "sizes": {
+            "code_size": 142712,
+            "exec_size": 120804,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "1aaf601e4923fd6e533d0569963d59c651a26462f608a7750d32352036be4293"
+        },
+        "candidate": {
+          "code_sha256": "c173568f215927477057620ad367a1db5c45a5fe90a62f9c84581b03049c5ef6",
+          "exec_sha256": "62037b7e4b98c6160af6f8cb0ef921414244f39cf2cbf263c29c2a158d6c270c",
+          "config_sha256": "86fdbb167c76ef809a262899e8e33de0a4793eacaf4708c10db1e71efe577e14",
+          "info_sha256": "47e3eb5ac2d14182d3f486c32a09aca4760dc7c7e81adeee552372f3b393a2ea",
+          "stats_sha256": "1d1db54b58912508f1d2ae606c856af95e2049284b35567b0e6750791ac8007a",
+          "sizes": {
+            "code_size": 142712,
+            "exec_size": 120804,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "70f3fc73a081c5013a9074376f74f1999c66665ae87306ee5dedb294ae921f6e"
+        }
+      },
+      {
+        "source": "shaders/00647fd0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "f43b85fb4bc2d07e507af1f6299a51f2d79358da2866272b04518df98ce4e627",
+            "binary_sha256": "87efe7f89038654f4fd4f3c3b2d0d40094adcd09b28b31feb7e8be6ef52fd631",
+            "bytes": 25812
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "6326a9152b85a004f5f18265c74dd20fb9108a69b7347c5b897d9cc84268d0a8",
+            "binary_sha256": "b84a4f905b95265fba6b20d2623600a63c67c6e33f707368ad4c7050211ffe6e",
+            "bytes": 25812
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "1b1ad4460bd1f3947a3fad266bd442c76088f5c47f3da0d2cd0dcd560e6bf320",
+          "exec_sha256": "eaee26e73856502b6388049e66b9182df2a34eaeb5bf577f8caa9bd71604a57b",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "a30b2f3b039dbb995228155e5ab81fd178cf463af151bc4eda2b876983b1a20f",
+          "sizes": {
+            "code_size": 25044,
+            "exec_size": 25024,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "87efe7f89038654f4fd4f3c3b2d0d40094adcd09b28b31feb7e8be6ef52fd631"
+        },
+        "candidate": {
+          "code_sha256": "1b1ad4460bd1f3947a3fad266bd442c76088f5c47f3da0d2cd0dcd560e6bf320",
+          "exec_sha256": "eaee26e73856502b6388049e66b9182df2a34eaeb5bf577f8caa9bd71604a57b",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "a30b2f3b039dbb995228155e5ab81fd178cf463af151bc4eda2b876983b1a20f",
+          "sizes": {
+            "code_size": 25044,
+            "exec_size": 25024,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "b84a4f905b95265fba6b20d2623600a63c67c6e33f707368ad4c7050211ffe6e"
+        }
+      },
+      {
+        "source": "shaders/007a62f0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "20b2e34291f40823f2ae4b6797e1ee07b7b3608788ce8da3791c78c6cd33f689",
+            "binary_sha256": "710cebc3544b750e11209f89786e7ee1e3bc2548f1990e4c988b98e1671d6bc0",
+            "bytes": 208520
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "c4995f0a85034d3c04ede6634391f7eb4f6dfd806b6173bd8bdd4ff986664471",
+            "binary_sha256": "adbc4373bdc67756303707c9c96f5e969d0cd533f9dd5805b35b308e3b8dc835",
+            "bytes": 208520
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "ab3ce90d2f5f521585fb63fd79de225b29aa7eda038ebfc5621c0fd10875f0ca",
+          "exec_sha256": "0a0ee9f21ee7020139d9ac5c4ff473336a7202c28e6a649ccc11631822431de6",
+          "config_sha256": "4590cca13736ee72ac38da1c3f0de40b7f2e742b730249d2489d541bbcb47817",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "dece2f9e342ccfdffe2c4ebed0941944870e602c7c87740bd3fed6bd7037574f",
+          "sizes": {
+            "code_size": 207752,
+            "exec_size": 177524,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "710cebc3544b750e11209f89786e7ee1e3bc2548f1990e4c988b98e1671d6bc0"
+        },
+        "candidate": {
+          "code_sha256": "ab3ce90d2f5f521585fb63fd79de225b29aa7eda038ebfc5621c0fd10875f0ca",
+          "exec_sha256": "0a0ee9f21ee7020139d9ac5c4ff473336a7202c28e6a649ccc11631822431de6",
+          "config_sha256": "4590cca13736ee72ac38da1c3f0de40b7f2e742b730249d2489d541bbcb47817",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "dece2f9e342ccfdffe2c4ebed0941944870e602c7c87740bd3fed6bd7037574f",
+          "sizes": {
+            "code_size": 207752,
+            "exec_size": 177524,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "adbc4373bdc67756303707c9c96f5e969d0cd533f9dd5805b35b308e3b8dc835"
+        }
+      },
+      {
+        "source": "shaders/0014cb60.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "352d07692a2d8d69f20a8ea9dfff90f2ff876c7bb3e67a32d27036fa1351a99d",
+            "binary_sha256": "6ac3cbeb7518e6159602354fd73ed0f2578ca67bb8c5076f25e9deeeba0ea256",
+            "bytes": 52480
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "ed4a6fa5d8a44fb7c101423b10b9cc105f7c399fc8fa78620d67307b76b09ef8",
+            "binary_sha256": "4c2e071ca7eb2ac36ebebc6d96aaea6311112d7be774fc763dfbc16c7a6b1edd",
+            "bytes": 52480
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "e52e25deade7aae3b15ddb673eab0a000a7d8d7d529c27f7e5fa4b15ccd910e8",
+          "exec_sha256": "3fc6e5436046b40dcbe9206e7a3522d4a89d82c9e8f720688986d8b0c3761277",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "00806b035aeea693df484e16f5abdbf8b8fc5a5a9d58e77583a56b98073ddb86",
+          "sizes": {
+            "code_size": 51712,
+            "exec_size": 51692,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "6ac3cbeb7518e6159602354fd73ed0f2578ca67bb8c5076f25e9deeeba0ea256"
+        },
+        "candidate": {
+          "code_sha256": "e52e25deade7aae3b15ddb673eab0a000a7d8d7d529c27f7e5fa4b15ccd910e8",
+          "exec_sha256": "3fc6e5436046b40dcbe9206e7a3522d4a89d82c9e8f720688986d8b0c3761277",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "00806b035aeea693df484e16f5abdbf8b8fc5a5a9d58e77583a56b98073ddb86",
+          "sizes": {
+            "code_size": 51712,
+            "exec_size": 51692,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "4c2e071ca7eb2ac36ebebc6d96aaea6311112d7be774fc763dfbc16c7a6b1edd"
+        }
+      },
+      {
+        "source": "shaders/006855c0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "31a9c979086185b366c5576847669a74b68ef3e912fbd31c2e01752d3863851d",
+            "binary_sha256": "b9760bf9f136cc8a20f33a7a09ab7ef98a6e95923c52d436bb192622464ca378",
+            "bytes": 144756
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "4a9af4fdf3ba7448ef173573ba7a90e61813a69c6fa93f02c54cf20a1627e6c6",
+            "binary_sha256": "e440da7082764fa53e71136a10a65a805b6a7094aca8fc03a67e73a609e88303",
+            "bytes": 144756
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "46f2a45989151a4314245aec99036555188dc98398b2feb4fd10a319b5c8ad1c",
+          "exec_sha256": "a44aee3e2775dc919d85f3efd49751df9a12a4016c456bbcb88c51d795888cf3",
+          "config_sha256": "86fdbb167c76ef809a262899e8e33de0a4793eacaf4708c10db1e71efe577e14",
+          "info_sha256": "47e3eb5ac2d14182d3f486c32a09aca4760dc7c7e81adeee552372f3b393a2ea",
+          "stats_sha256": "9346a2bb428c752be0678b408b2bda30c7a0020405e86213e5ee2ab3ba17d6ed",
+          "sizes": {
+            "code_size": 143988,
+            "exec_size": 122080,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "b9760bf9f136cc8a20f33a7a09ab7ef98a6e95923c52d436bb192622464ca378"
+        },
+        "candidate": {
+          "code_sha256": "46f2a45989151a4314245aec99036555188dc98398b2feb4fd10a319b5c8ad1c",
+          "exec_sha256": "a44aee3e2775dc919d85f3efd49751df9a12a4016c456bbcb88c51d795888cf3",
+          "config_sha256": "86fdbb167c76ef809a262899e8e33de0a4793eacaf4708c10db1e71efe577e14",
+          "info_sha256": "47e3eb5ac2d14182d3f486c32a09aca4760dc7c7e81adeee552372f3b393a2ea",
+          "stats_sha256": "9346a2bb428c752be0678b408b2bda30c7a0020405e86213e5ee2ab3ba17d6ed",
+          "sizes": {
+            "code_size": 143988,
+            "exec_size": 122080,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "e440da7082764fa53e71136a10a65a805b6a7094aca8fc03a67e73a609e88303"
+        }
+      },
+      {
+        "source": "shaders/00bd2c80.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "a6eca5b876d95f88447b85e2ca44701d559c243a0a65201d4a878dc2fd4ac46e",
+            "binary_sha256": "873ddd9bdb6565cb6dd1adba9329e4cddd375d5567244ea9ed81d8e6ce6feaac",
+            "bytes": 52884
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "654980717c9be3f02d0a94cd52b2cdbbec4b3c5789e2a4fe2767a2aa96aeaffa",
+            "binary_sha256": "87ca7bbfd0e9801d10dcde8c2203f86f0aab8b80f58cb4647ea0bc9bee9a8665",
+            "bytes": 52884
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "6536b918dab252a529c70c5f8169c8d600a916fd508daf173aa52d2db8f2c955",
+          "exec_sha256": "5ba146c34e73ca3589cef61f589cefe98d744fdb680abd412d2cdd11b0326515",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "260b5f6b3891045358227d7c674a4c0234488a7ba87ab5e566cb56a7c1d0a19e",
+          "sizes": {
+            "code_size": 52116,
+            "exec_size": 52096,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "873ddd9bdb6565cb6dd1adba9329e4cddd375d5567244ea9ed81d8e6ce6feaac"
+        },
+        "candidate": {
+          "code_sha256": "6536b918dab252a529c70c5f8169c8d600a916fd508daf173aa52d2db8f2c955",
+          "exec_sha256": "5ba146c34e73ca3589cef61f589cefe98d744fdb680abd412d2cdd11b0326515",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "260b5f6b3891045358227d7c674a4c0234488a7ba87ab5e566cb56a7c1d0a19e",
+          "sizes": {
+            "code_size": 52116,
+            "exec_size": 52096,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "87ca7bbfd0e9801d10dcde8c2203f86f0aab8b80f58cb4647ea0bc9bee9a8665"
+        }
+      },
+      {
+        "source": "shaders/002cce40.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "b851040818cb103d54173fef5c7dbd795a72a1375e7cfc53868dc243deb5e5c5",
+            "binary_sha256": "6dd6d4697929d4bc2cfe45d33ea72324eec6d6a924c8a89a60ba3813e3c25ee1",
+            "bytes": 28840
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "d3c654481614c4a3258f8e96bc5d2760021a6d706928cc274a5b594419b52036",
+            "binary_sha256": "6633ecda1f911781e298e9f71c98fee688d6cdeb8dff8a6de1ead4d4c2982460",
+            "bytes": 28840
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "0a4451bfcaa6b643bbb273278f0c72c648f983db8ac8e223ab7c40f614693bb4",
+          "exec_sha256": "c5bfab406929901a25c1f80c0b7db2185d3781b36351e78b1f66901d740a020c",
+          "config_sha256": "e1efae4bac4f35d566a6ee662587e2b2fa50e89a2f8539e7231bebbae46ed159",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "ee0833a7511959a75079880c9005128c7dd10eb4db185fc50546c8e8dc918241",
+          "sizes": {
+            "code_size": 28072,
+            "exec_size": 28052,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "6dd6d4697929d4bc2cfe45d33ea72324eec6d6a924c8a89a60ba3813e3c25ee1"
+        },
+        "candidate": {
+          "code_sha256": "0a4451bfcaa6b643bbb273278f0c72c648f983db8ac8e223ab7c40f614693bb4",
+          "exec_sha256": "c5bfab406929901a25c1f80c0b7db2185d3781b36351e78b1f66901d740a020c",
+          "config_sha256": "e1efae4bac4f35d566a6ee662587e2b2fa50e89a2f8539e7231bebbae46ed159",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "ee0833a7511959a75079880c9005128c7dd10eb4db185fc50546c8e8dc918241",
+          "sizes": {
+            "code_size": 28072,
+            "exec_size": 28052,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "6633ecda1f911781e298e9f71c98fee688d6cdeb8dff8a6de1ead4d4c2982460"
+        }
+      },
+      {
+        "source": "shaders/0066ed50.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "01c2236c366365892dbcd8db074ee5fa917aa2bdd5fdeaf325bf19f432a33157",
+            "binary_sha256": "7d97437d1c40d04ef37d9667e52c3cd64ce8127fc84f11f743b8e5e4858ad64d",
+            "bytes": 48240
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "422af8d7b5247a9c9a88e5cda108bde4f4d81a5eba990ec281bbad0d6ca44ac3",
+            "binary_sha256": "7412b9151486f9114ccaaddeb3dd91767d18b0efd14d9b9a3dcf7f9da696405f",
+            "bytes": 48240
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "64d65b98c6f05ee3808691136a8487bd32669d47239a93e096d0d712612d1004",
+          "exec_sha256": "e61cae10f3bbe294d42f863a8dfa9fbb79d7dab3dde3aade36ce41618fd14b24",
+          "config_sha256": "ac6019f82595ebc00dbc4925291487318da64956b287ec5f0d1eb03eff2f011f",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "47b8d64e347167e2d79d9f78a7f7c604e4f4274b35d5849222081ffac6c2f9f5",
+          "sizes": {
+            "code_size": 47472,
+            "exec_size": 45276,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "7d97437d1c40d04ef37d9667e52c3cd64ce8127fc84f11f743b8e5e4858ad64d"
+        },
+        "candidate": {
+          "code_sha256": "64d65b98c6f05ee3808691136a8487bd32669d47239a93e096d0d712612d1004",
+          "exec_sha256": "e61cae10f3bbe294d42f863a8dfa9fbb79d7dab3dde3aade36ce41618fd14b24",
+          "config_sha256": "ac6019f82595ebc00dbc4925291487318da64956b287ec5f0d1eb03eff2f011f",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "47b8d64e347167e2d79d9f78a7f7c604e4f4274b35d5849222081ffac6c2f9f5",
+          "sizes": {
+            "code_size": 47472,
+            "exec_size": 45276,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "7412b9151486f9114ccaaddeb3dd91767d18b0efd14d9b9a3dcf7f9da696405f"
+        }
+      },
+      {
+        "source": "shaders/00820540.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "5eb6f90520f09677cc8f83e8e3eda5ef1d1648a9896d27af6d1a8529d8ee3b35",
+            "binary_sha256": "b8966edc02dcc7beea2ff09bac1d07a8653700d618e9356d5d645a7bb7fd80ea",
+            "bytes": 110312
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "ec4f437d42b5d3746831136859e2ff5b8737081553a49430be6fb4d9f39c9b1f",
+            "binary_sha256": "784335540bdbfcf72027a00f45e874713f168e153e56c96fa0f0c8ada093bde5",
+            "bytes": 110312
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "389ee249d8de43190c47a667ad9340e78f67a2ae12b88f9bd9530bb1bec8f098",
+          "exec_sha256": "0f666926d61b6ef7e8a07078b4a0f1d15e16b4987705c0920927db11641c6523",
+          "config_sha256": "13ffbb86b136eda0fe29c6530e9f89a7e61e096600010000b400d8dae5445939",
+          "info_sha256": "2049aff847599da97525e72a6400e789ca239b4a2eebf8267acb258ae0af717a",
+          "stats_sha256": "5e46779c32a45fa98ff568ac34f54f44fcc4c76d6de5ebf2456fcf6fa4f9826e",
+          "sizes": {
+            "code_size": 109544,
+            "exec_size": 100500,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "b8966edc02dcc7beea2ff09bac1d07a8653700d618e9356d5d645a7bb7fd80ea"
+        },
+        "candidate": {
+          "code_sha256": "389ee249d8de43190c47a667ad9340e78f67a2ae12b88f9bd9530bb1bec8f098",
+          "exec_sha256": "0f666926d61b6ef7e8a07078b4a0f1d15e16b4987705c0920927db11641c6523",
+          "config_sha256": "13ffbb86b136eda0fe29c6530e9f89a7e61e096600010000b400d8dae5445939",
+          "info_sha256": "2049aff847599da97525e72a6400e789ca239b4a2eebf8267acb258ae0af717a",
+          "stats_sha256": "5e46779c32a45fa98ff568ac34f54f44fcc4c76d6de5ebf2456fcf6fa4f9826e",
+          "sizes": {
+            "code_size": 109544,
+            "exec_size": 100500,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "784335540bdbfcf72027a00f45e874713f168e153e56c96fa0f0c8ada093bde5"
+        }
+      },
+      {
+        "source": "shaders/007de1d0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "3d3f16a58fa9c50e7c3457b67cda2d86d99ca379ad47a74e93268396e7e7ee11",
+            "binary_sha256": "7aa51f9c4b933a8f8b925acdb37bc718e7b665d97e28b7a9a68efc4b52c972f2",
+            "bytes": 36164
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "e7a99c5a0a12922829216063e81a83cc186a6b2e801d1123918a4fd48ec681cf",
+            "binary_sha256": "197d98992ae28dcc812704cd982d9e57f729deb947df856fcdc8dadf89d41059",
+            "bytes": 36164
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "3047e00353550ea99f96fe0ea107b94b08e8828401ad8949144212c60a99a1ec",
+          "exec_sha256": "c5445d3cbaf64f2e6b813d36b076eed305d3b7ecb400132bd255d4a639046c40",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "2ef74eacfd5cfc5f8b7a2c8c044215ec94c670df401d895d4458bd55dccefd2f",
+          "sizes": {
+            "code_size": 35396,
+            "exec_size": 35376,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "7aa51f9c4b933a8f8b925acdb37bc718e7b665d97e28b7a9a68efc4b52c972f2"
+        },
+        "candidate": {
+          "code_sha256": "3047e00353550ea99f96fe0ea107b94b08e8828401ad8949144212c60a99a1ec",
+          "exec_sha256": "c5445d3cbaf64f2e6b813d36b076eed305d3b7ecb400132bd255d4a639046c40",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "2ef74eacfd5cfc5f8b7a2c8c044215ec94c670df401d895d4458bd55dccefd2f",
+          "sizes": {
+            "code_size": 35396,
+            "exec_size": 35376,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "197d98992ae28dcc812704cd982d9e57f729deb947df856fcdc8dadf89d41059"
+        }
+      },
+      {
+        "source": "shaders/0092fc80.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "ca80321738e290b0b7d09dd57a60843548e88481671acf5d3e0e8f405422375a",
+            "binary_sha256": "b709379bfb81b16e5bce943c1cb9126b8362187612b0e79068a95a65882bb9ed",
+            "bytes": 194716
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "60c48309ef202fd6039934582e787f3348c9a32bb836b7dae472563f10b871bc",
+            "binary_sha256": "21f70756b8fce8b76f2ed6f52643a7e950f653201f51e4fc976144d437a70987",
+            "bytes": 194716
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "eee4ce9dcbf24498ad182ebe43d55e7c9a704c87e248a92c5a81c6af743764e9",
+          "exec_sha256": "db07d2f21341ff803587af160c98f9fd13842041b43ecfe9f61185af7339e2ad",
+          "config_sha256": "5268f171f715f899f710cd6d2285d50b9e830d4db1e149fd74ca70a5dc62a57c",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "2a8c218269ab851765c48a09a84e805670667d1641bc42958bdd565c0b46d736",
+          "sizes": {
+            "code_size": 193948,
+            "exec_size": 172040,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "b709379bfb81b16e5bce943c1cb9126b8362187612b0e79068a95a65882bb9ed"
+        },
+        "candidate": {
+          "code_sha256": "eee4ce9dcbf24498ad182ebe43d55e7c9a704c87e248a92c5a81c6af743764e9",
+          "exec_sha256": "db07d2f21341ff803587af160c98f9fd13842041b43ecfe9f61185af7339e2ad",
+          "config_sha256": "5268f171f715f899f710cd6d2285d50b9e830d4db1e149fd74ca70a5dc62a57c",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "2a8c218269ab851765c48a09a84e805670667d1641bc42958bdd565c0b46d736",
+          "sizes": {
+            "code_size": 193948,
+            "exec_size": 172040,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "21f70756b8fce8b76f2ed6f52643a7e950f653201f51e4fc976144d437a70987"
+        }
+      },
+      {
+        "source": "shaders/0061e090.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "d4f6cd7592b59fbf137bc306c7143d8c143d8994769a84863543ad73fc5cd287",
+            "binary_sha256": "17dfe74790f9fd293d67c3d958f4f565ec3babd5894d64fb318c26184e0c8348",
+            "bytes": 61568
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "bb4cd9f5f0ea8d2097a68a3d19a2f87c9474d5c5f21ce576bf67e77785826724",
+            "binary_sha256": "45af135c1c0db66c2f7f1c953e1afd13b1ed6a74458e342aaa7b8060648a6fdb",
+            "bytes": 61568
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "dc6863c5a03af13d024b471defbee538cb8b13df19fbdb26f47678e52d16cdcb",
+          "exec_sha256": "7ccec972e76ff25289d502705bd7c61fba85c64d1e31e614ccc1f5ec05bc05e8",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "84c6f922c5ccfdc2eebefd4adb15091b6201622f206ad4634ea8bc4d75e4bf9b",
+          "sizes": {
+            "code_size": 60800,
+            "exec_size": 60780,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "17dfe74790f9fd293d67c3d958f4f565ec3babd5894d64fb318c26184e0c8348"
+        },
+        "candidate": {
+          "code_sha256": "dc6863c5a03af13d024b471defbee538cb8b13df19fbdb26f47678e52d16cdcb",
+          "exec_sha256": "7ccec972e76ff25289d502705bd7c61fba85c64d1e31e614ccc1f5ec05bc05e8",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "84c6f922c5ccfdc2eebefd4adb15091b6201622f206ad4634ea8bc4d75e4bf9b",
+          "sizes": {
+            "code_size": 60800,
+            "exec_size": 60780,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "45af135c1c0db66c2f7f1c953e1afd13b1ed6a74458e342aaa7b8060648a6fdb"
+        }
+      },
+      {
+        "source": "shaders/0011a890.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "dee317375bf05a7d7f7cbe19c3e18b4e9459aa448686504b58102479bbaf0109",
+            "binary_sha256": "5c61e55f4795ef16bfadae01a9474e4caf949b128b30110a17c5cbf4b2a9da94",
+            "bytes": 48068
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "1a272781c068fca547ed12a3eb6d7df6a5e6811568e9d6019b5dac706a8f74a8",
+            "binary_sha256": "4c13f4804acd8d6dc7cbd8fca4b4b749d5540a75785f8e2fe5aada6bc0460e08",
+            "bytes": 48068
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "dd651f77dfdcd36b6dedc582dabf26cdcb2e324833fb561237b2728baec3cd10",
+          "exec_sha256": "4a501634cee20f6522ba6f909c149e3a4b34299aff5d6a2992c829eb5fdfed89",
+          "config_sha256": "ac6019f82595ebc00dbc4925291487318da64956b287ec5f0d1eb03eff2f011f",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "47b8d64e347167e2d79d9f78a7f7c604e4f4274b35d5849222081ffac6c2f9f5",
+          "sizes": {
+            "code_size": 47300,
+            "exec_size": 45104,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "5c61e55f4795ef16bfadae01a9474e4caf949b128b30110a17c5cbf4b2a9da94"
+        },
+        "candidate": {
+          "code_sha256": "dd651f77dfdcd36b6dedc582dabf26cdcb2e324833fb561237b2728baec3cd10",
+          "exec_sha256": "4a501634cee20f6522ba6f909c149e3a4b34299aff5d6a2992c829eb5fdfed89",
+          "config_sha256": "ac6019f82595ebc00dbc4925291487318da64956b287ec5f0d1eb03eff2f011f",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "47b8d64e347167e2d79d9f78a7f7c604e4f4274b35d5849222081ffac6c2f9f5",
+          "sizes": {
+            "code_size": 47300,
+            "exec_size": 45104,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "4c13f4804acd8d6dc7cbd8fca4b4b749d5540a75785f8e2fe5aada6bc0460e08"
+        }
+      },
+      {
+        "source": "shaders/0049a0c0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "4857047affd2bab8b53c2c9ca535a1fc9e6150c7442be672306aadb3f1444e4e",
+            "binary_sha256": "3207ca9c1cbc48d82881b1ab9e3bcce92b21308280ef7b90e5486b7c9ebd38c7",
+            "bytes": 191772
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "d4bf28f87a7a8468a4887dbfe5f9829e19f74b3b0c531a5279ccdd3f81e7b1cb",
+            "binary_sha256": "2643eec269b4f401540b3c2b17d0d2e1292b4ed0f1aefa2759b88a6f210a1d7c",
+            "bytes": 191772
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "8e19eb5f29b62dff656a8cdda69ec34981bb3bb617c6f4c7684295569bd5d5e0",
+          "exec_sha256": "b7c55829c0ba3cdf8d1893299734b49fc5301d8952370e8968e8662195fcc497",
+          "config_sha256": "5268f171f715f899f710cd6d2285d50b9e830d4db1e149fd74ca70a5dc62a57c",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "8644c7186801cdfa3202ba331565bd3214e5e6bece138053cb98131484578168",
+          "sizes": {
+            "code_size": 191004,
+            "exec_size": 169096,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "3207ca9c1cbc48d82881b1ab9e3bcce92b21308280ef7b90e5486b7c9ebd38c7"
+        },
+        "candidate": {
+          "code_sha256": "8e19eb5f29b62dff656a8cdda69ec34981bb3bb617c6f4c7684295569bd5d5e0",
+          "exec_sha256": "b7c55829c0ba3cdf8d1893299734b49fc5301d8952370e8968e8662195fcc497",
+          "config_sha256": "5268f171f715f899f710cd6d2285d50b9e830d4db1e149fd74ca70a5dc62a57c",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "8644c7186801cdfa3202ba331565bd3214e5e6bece138053cb98131484578168",
+          "sizes": {
+            "code_size": 191004,
+            "exec_size": 169096,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "2643eec269b4f401540b3c2b17d0d2e1292b4ed0f1aefa2759b88a6f210a1d7c"
+        }
+      },
+      {
+        "source": "shaders/00337550.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "77b63b9ce7206ba6838c7a4f19c04d6ceaf2e26e89f937d779859a53802bfb7f",
+            "binary_sha256": "ae9a7501d097aeb035f1cae1bbae811ef257a154e24aff0fba0d278fe0770b2f",
+            "bytes": 230752
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "6a38a4bff153918e53ff432ab47753ca27afbb34c4323c0d2f2b691b7a3850db",
+            "binary_sha256": "cf247f97f08bb9e672a63b98fe93019c8be910f26738ad32e6b9480eb7bc3410",
+            "bytes": 230752
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "74b184ad168e3c2878eadff39c5bade5a5855af338b16d646373043cfded409d",
+          "exec_sha256": "ac33395c8e4efb7e53d5fc5a2a1322d4da9892b41f3f62d351f3db5755898ec3",
+          "config_sha256": "6a71304d708b3da670a1951eeacc67bbe073b69dca0ad65eb740f70dc3c3445c",
+          "info_sha256": "ea1eed47acb7965dee5e1d86729ebc2a423ff0ce6562e4daa4cc19ddc29df579",
+          "stats_sha256": "39ef2358b974bb18e9a23a71bdbd37062d6a5f0d0a9b0d1df91773a0fb3e736f",
+          "sizes": {
+            "code_size": 229984,
+            "exec_size": 199756,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "ae9a7501d097aeb035f1cae1bbae811ef257a154e24aff0fba0d278fe0770b2f"
+        },
+        "candidate": {
+          "code_sha256": "74b184ad168e3c2878eadff39c5bade5a5855af338b16d646373043cfded409d",
+          "exec_sha256": "ac33395c8e4efb7e53d5fc5a2a1322d4da9892b41f3f62d351f3db5755898ec3",
+          "config_sha256": "6a71304d708b3da670a1951eeacc67bbe073b69dca0ad65eb740f70dc3c3445c",
+          "info_sha256": "ea1eed47acb7965dee5e1d86729ebc2a423ff0ce6562e4daa4cc19ddc29df579",
+          "stats_sha256": "39ef2358b974bb18e9a23a71bdbd37062d6a5f0d0a9b0d1df91773a0fb3e736f",
+          "sizes": {
+            "code_size": 229984,
+            "exec_size": 199756,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "cf247f97f08bb9e672a63b98fe93019c8be910f26738ad32e6b9480eb7bc3410"
+        }
+      },
+      {
+        "source": "shaders/00234860.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "3f439bcd27d6533826053f2f246cbee135cf407920e59511cddb9260072a898e",
+            "binary_sha256": "28f49ecabc8042683f133046ac57f625e94c07570fb9af8e1bf362fe89c6bf5d",
+            "bytes": 102796
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "364fcf29b51a9ac6553efe612b90844d0e5152f9a301c1ff52857f3a76fd4a03",
+            "binary_sha256": "446a229769ce9e682667c4b712f71ae748dc8cc80d120dbe633a0b6af531f8b6",
+            "bytes": 102796
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "522b58c74913cddbdb8af3adf47a5c2889244c7059883061896dbeaf3773c53a",
+          "exec_sha256": "a58dccedea6a032424fe576463dce71fae234a10741645cfb4e5b5c06d496055",
+          "config_sha256": "13ffbb86b136eda0fe29c6530e9f89a7e61e096600010000b400d8dae5445939",
+          "info_sha256": "2049aff847599da97525e72a6400e789ca239b4a2eebf8267acb258ae0af717a",
+          "stats_sha256": "55c18270b59cb7f73a470f2da96de8b2c0830fc9bac3262ff907e1fc94248e16",
+          "sizes": {
+            "code_size": 102028,
+            "exec_size": 92984,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "28f49ecabc8042683f133046ac57f625e94c07570fb9af8e1bf362fe89c6bf5d"
+        },
+        "candidate": {
+          "code_sha256": "522b58c74913cddbdb8af3adf47a5c2889244c7059883061896dbeaf3773c53a",
+          "exec_sha256": "a58dccedea6a032424fe576463dce71fae234a10741645cfb4e5b5c06d496055",
+          "config_sha256": "13ffbb86b136eda0fe29c6530e9f89a7e61e096600010000b400d8dae5445939",
+          "info_sha256": "2049aff847599da97525e72a6400e789ca239b4a2eebf8267acb258ae0af717a",
+          "stats_sha256": "55c18270b59cb7f73a470f2da96de8b2c0830fc9bac3262ff907e1fc94248e16",
+          "sizes": {
+            "code_size": 102028,
+            "exec_size": 92984,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "446a229769ce9e682667c4b712f71ae748dc8cc80d120dbe633a0b6af531f8b6"
+        }
+      },
+      {
+        "source": "shaders/007b6f00.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "fc533c62583b62b966a28bebd38ca235b9c8baf0c45e63d63a73c037fbc79dc3",
+            "binary_sha256": "480174a97afd2be8c74a9c506eacfa46b12378ae26f39efa237d213979bea1a9",
+            "bytes": 52916
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "1e676795f243bf2014f51f2d376bf1e96ed67066c7c04e3f74751e0d083fd9b5",
+            "binary_sha256": "480174a97afd2be8c74a9c506eacfa46b12378ae26f39efa237d213979bea1a9",
+            "bytes": 52916
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "d990d2200e3064d6cfbc4ad478dcbd24780dce2b375114bca24022926655be65",
+          "exec_sha256": "51a748ab01764569701524c8ce28cdbff29a434b33bf952ab8bb45925abee307",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "a30b2f3b039dbb995228155e5ab81fd178cf463af151bc4eda2b876983b1a20f",
+          "sizes": {
+            "code_size": 52148,
+            "exec_size": 52128,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "480174a97afd2be8c74a9c506eacfa46b12378ae26f39efa237d213979bea1a9"
+        },
+        "candidate": {
+          "code_sha256": "d990d2200e3064d6cfbc4ad478dcbd24780dce2b375114bca24022926655be65",
+          "exec_sha256": "51a748ab01764569701524c8ce28cdbff29a434b33bf952ab8bb45925abee307",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "a30b2f3b039dbb995228155e5ab81fd178cf463af151bc4eda2b876983b1a20f",
+          "sizes": {
+            "code_size": 52148,
+            "exec_size": 52128,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "480174a97afd2be8c74a9c506eacfa46b12378ae26f39efa237d213979bea1a9"
+        }
+      },
+      {
+        "source": "shaders/00593780.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "251caf038a9c0f058adeea7d5bb7e63f35ace2506a8e53865d01d563ace52ed1",
+            "binary_sha256": "90e5f48ab6b59192b658f0a57a9d107b2100d1b8f46644fba09f472bce712d0b",
+            "bytes": 62108
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "99cf2f590dde4f369c9e92f44ccc9bd30a171a1dfa3dc65eac61ad54b7885c60",
+            "binary_sha256": "6437f511157adf087db7bb3603e1e97496e6e6a2783cf8676e524af3c075dad8",
+            "bytes": 62108
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "5c40682a5d9bb9dcffe2f61b72c17dbbd3e32897e55155d942e721dd1454f602",
+          "exec_sha256": "26efc2ec8a9cea07b92553bf5953441ea02a28d43a22c386a710524156729909",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "626574bc40b3ca49090e8642f0999fcb0bbb50ac2760be189ad3b67d87cd6501",
+          "sizes": {
+            "code_size": 61340,
+            "exec_size": 61320,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "90e5f48ab6b59192b658f0a57a9d107b2100d1b8f46644fba09f472bce712d0b"
+        },
+        "candidate": {
+          "code_sha256": "5c40682a5d9bb9dcffe2f61b72c17dbbd3e32897e55155d942e721dd1454f602",
+          "exec_sha256": "26efc2ec8a9cea07b92553bf5953441ea02a28d43a22c386a710524156729909",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "626574bc40b3ca49090e8642f0999fcb0bbb50ac2760be189ad3b67d87cd6501",
+          "sizes": {
+            "code_size": 61340,
+            "exec_size": 61320,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "6437f511157adf087db7bb3603e1e97496e6e6a2783cf8676e524af3c075dad8"
+        }
+      },
+      {
+        "source": "shaders/008f3770.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "3525942370c3b3ff4697da2fe3de9f9216d8a08fbe1c4dbbfa9cc951b8890a6c",
+            "binary_sha256": "e4c51d35de1e193ea5f6b1bde2c3261cdd3894a06a97db13485b8aa8d80c7c95",
+            "bytes": 159188
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "d01cf0416f9e13a092c36fce8f248ac43b24f45bd280a6aee36bc656440bbb82",
+            "binary_sha256": "e9f961345dcc548a3dbdf1302d4e752a6b107b4732f74cdddb3b23c7553e46ad",
+            "bytes": 159188
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "bf485b0dc0bcc552405bd7a4287838f30c8b2904bdbdb7467d2ecbf968fc6442",
+          "exec_sha256": "e96c7c4e99f97cef195b099f09b5f8d29a4b8500bbc73c48965c440cf824aef3",
+          "config_sha256": "e426c1e8baf51d6ccfb713a279785dffa4c3329bc079c1098d3a34aa944c1907",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "2e8e0ac83857fcf9eb297af02d50cd57638452c7187f788f1edc2a0a7f44d9de",
+          "sizes": {
+            "code_size": 158420,
+            "exec_size": 149952,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "e4c51d35de1e193ea5f6b1bde2c3261cdd3894a06a97db13485b8aa8d80c7c95"
+        },
+        "candidate": {
+          "code_sha256": "bf485b0dc0bcc552405bd7a4287838f30c8b2904bdbdb7467d2ecbf968fc6442",
+          "exec_sha256": "e96c7c4e99f97cef195b099f09b5f8d29a4b8500bbc73c48965c440cf824aef3",
+          "config_sha256": "e426c1e8baf51d6ccfb713a279785dffa4c3329bc079c1098d3a34aa944c1907",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "2e8e0ac83857fcf9eb297af02d50cd57638452c7187f788f1edc2a0a7f44d9de",
+          "sizes": {
+            "code_size": 158420,
+            "exec_size": 149952,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "e9f961345dcc548a3dbdf1302d4e752a6b107b4732f74cdddb3b23c7553e46ad"
+        }
+      },
+      {
+        "source": "shaders/00482860.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "e6ae27536712fb0d98969dbe68a00878f0749b4b8acc680115b435dd0962b8ee",
+            "binary_sha256": "e742d7ef1ffef20b950b6223347c64533c4ee02d882f31e255fa060a991cafb0",
+            "bytes": 36512
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "b194f058fa6faa994a8f40409122ae255be29c7cdf1bff1df04dc0431970cafa",
+            "binary_sha256": "c268d6c6d4eb8f4e584fcb4c6e65c827aa7e5b39d584758d46a47bf3fde80dbd",
+            "bytes": 36512
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "cced9dce8237341b409eed26b1c82e9af4f344877e56334ff3eecd2d5d0e90d2",
+          "exec_sha256": "f2aa94b9902ccf29ccf5a68652ccea2c11b67dd606e5720645ca202a7e247d22",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "2ef74eacfd5cfc5f8b7a2c8c044215ec94c670df401d895d4458bd55dccefd2f",
+          "sizes": {
+            "code_size": 35744,
+            "exec_size": 35724,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "e742d7ef1ffef20b950b6223347c64533c4ee02d882f31e255fa060a991cafb0"
+        },
+        "candidate": {
+          "code_sha256": "cced9dce8237341b409eed26b1c82e9af4f344877e56334ff3eecd2d5d0e90d2",
+          "exec_sha256": "f2aa94b9902ccf29ccf5a68652ccea2c11b67dd606e5720645ca202a7e247d22",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "2ef74eacfd5cfc5f8b7a2c8c044215ec94c670df401d895d4458bd55dccefd2f",
+          "sizes": {
+            "code_size": 35744,
+            "exec_size": 35724,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "c268d6c6d4eb8f4e584fcb4c6e65c827aa7e5b39d584758d46a47bf3fde80dbd"
+        }
+      },
+      {
+        "source": "shaders/00b14220.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "efff7b3efb2082eba07c08a8273dd8e441945fd223c3707df31e3d61499f6218",
+            "binary_sha256": "512998f935bd751b4ad5fb37d80796847baf26f0f40c9cb852a1e3331188bb7b",
+            "bytes": 35012
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "5618e4416b9697cce978ba237b5360d0a250050d13900fc7d058e4e0d944e072",
+            "binary_sha256": "57c516c875cb4fe3b134467d47cbc3eb4c0ef18d29d62de2a8fe283938ee628c",
+            "bytes": 35012
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "17a30053e4cabae96ee8ab9648a2379edfc539fa28f4df15a42ce79c02b43ca8",
+          "exec_sha256": "6f75193c29126b8909de67bc6364083b08ba4884f1132f9e21cef6f89515f60b",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "ed4a04cd757a8fec5668a9b4854a8ea71c125a1fbf888bb4a5e4f8bfe5ff57fd",
+          "sizes": {
+            "code_size": 34244,
+            "exec_size": 34224,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "512998f935bd751b4ad5fb37d80796847baf26f0f40c9cb852a1e3331188bb7b"
+        },
+        "candidate": {
+          "code_sha256": "17a30053e4cabae96ee8ab9648a2379edfc539fa28f4df15a42ce79c02b43ca8",
+          "exec_sha256": "6f75193c29126b8909de67bc6364083b08ba4884f1132f9e21cef6f89515f60b",
+          "config_sha256": "fcec1b0c013f4ac5087da6d9cdfa13b5372c926bcd77a6a889c3da49fbaf9e46",
+          "info_sha256": "65ea1371e9b710b2a2f8efb36aa43e8862ff9e3474939e0680d2d4bc259fe726",
+          "stats_sha256": "ed4a04cd757a8fec5668a9b4854a8ea71c125a1fbf888bb4a5e4f8bfe5ff57fd",
+          "sizes": {
+            "code_size": 34244,
+            "exec_size": 34224,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "57c516c875cb4fe3b134467d47cbc3eb4c0ef18d29d62de2a8fe283938ee628c"
+        }
+      },
+      {
+        "source": "shaders/009739d0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "eb0debb1fbe99789aa6d757ffa9e100e1c9d1469aa0b660068fd6e6ea05c1464",
+            "binary_sha256": "e4d15d8ed9132dbbad0949dfa281b0be74aeb6f2955a8c0b8050b36129a4d602",
+            "bytes": 27032
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "c23d27c08a4f31a054ad77e813a98d94badd9a66777903466209940970f54d9c",
+            "binary_sha256": "25fcc2023017841c7bc8a2101f43c9f115b56599ec8c58d67894735287fa2d77",
+            "bytes": 27032
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "fb9df0d008e45048120a982bdae259dcda24f8e867606d0ea7c0cb95a88de8ac",
+          "exec_sha256": "6d695c774a91dcb3c4baa94bd0453152afd4a921935cd2ec95cdd3650497c157",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "e6af8ef87dfc4560bf15ad1da268b6848d9f0854b13a7fa8534fc6d021b204af",
+          "sizes": {
+            "code_size": 26264,
+            "exec_size": 26244,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "e4d15d8ed9132dbbad0949dfa281b0be74aeb6f2955a8c0b8050b36129a4d602"
+        },
+        "candidate": {
+          "code_sha256": "fb9df0d008e45048120a982bdae259dcda24f8e867606d0ea7c0cb95a88de8ac",
+          "exec_sha256": "6d695c774a91dcb3c4baa94bd0453152afd4a921935cd2ec95cdd3650497c157",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "e6af8ef87dfc4560bf15ad1da268b6848d9f0854b13a7fa8534fc6d021b204af",
+          "sizes": {
+            "code_size": 26264,
+            "exec_size": 26244,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "25fcc2023017841c7bc8a2101f43c9f115b56599ec8c58d67894735287fa2d77"
+        }
+      },
+      {
+        "source": "shaders/0010fcd0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "60543f8e723ea6f49eab8765a314a34bcfae78cfe0221789689b81f0d99b6627",
+            "binary_sha256": "423f0dd6cf76e35ee0a5fbf8d539181eabd7e30aa3db687ef9676e2a4c06c50a",
+            "bytes": 143480
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "dede305f1c1f7975846b8c286bce9d09d4d5213cc2ec1f40f40c8d3814d7d1f1",
+            "binary_sha256": "a7dc3f2496d3fb6043545cbced9cf8bf4add88e00b6fe1f826e8cd26a713a85f",
+            "bytes": 143480
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "4bd47b7d9423aca21b3ffc49bb556445caf98e5a785734c0e28e252c7a07e33a",
+          "exec_sha256": "add8d7e66135e8ac177ed6f64ee6ae1e21caf2473b0c2963e98ea8e9270c9aca",
+          "config_sha256": "86fdbb167c76ef809a262899e8e33de0a4793eacaf4708c10db1e71efe577e14",
+          "info_sha256": "47e3eb5ac2d14182d3f486c32a09aca4760dc7c7e81adeee552372f3b393a2ea",
+          "stats_sha256": "1d1db54b58912508f1d2ae606c856af95e2049284b35567b0e6750791ac8007a",
+          "sizes": {
+            "code_size": 142712,
+            "exec_size": 120804,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "423f0dd6cf76e35ee0a5fbf8d539181eabd7e30aa3db687ef9676e2a4c06c50a"
+        },
+        "candidate": {
+          "code_sha256": "4bd47b7d9423aca21b3ffc49bb556445caf98e5a785734c0e28e252c7a07e33a",
+          "exec_sha256": "add8d7e66135e8ac177ed6f64ee6ae1e21caf2473b0c2963e98ea8e9270c9aca",
+          "config_sha256": "86fdbb167c76ef809a262899e8e33de0a4793eacaf4708c10db1e71efe577e14",
+          "info_sha256": "47e3eb5ac2d14182d3f486c32a09aca4760dc7c7e81adeee552372f3b393a2ea",
+          "stats_sha256": "1d1db54b58912508f1d2ae606c856af95e2049284b35567b0e6750791ac8007a",
+          "sizes": {
+            "code_size": 142712,
+            "exec_size": 120804,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "a7dc3f2496d3fb6043545cbced9cf8bf4add88e00b6fe1f826e8cd26a713a85f"
+        }
+      },
+      {
+        "source": "shaders/009b99a0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "613ba3a13f5437f6706b9094256fa7c6e7dac68c351ce63c2be7a996a0c0b600",
+            "binary_sha256": "fe1919b8dce864481faf383a5e2073c61ff0583d21538c3e5a2f046d6908846e",
+            "bytes": 110312
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "d18f00f736b908a87ebffe85ff45268e4e35f519ed64e8d5af5aac2a9752e0e0",
+            "binary_sha256": "d3bf9e6932988148f2914c2099c86164ca4d10e8e9b23b8fd2f5227658d2397e",
+            "bytes": 110312
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "e2df0fda5e723b93b24edddd77935693c8ee3cac83846e94d91d276026985cd5",
+          "exec_sha256": "6a314e1a77cd6b388ca88757414cf67be440b815988b8e8c8a3097d47b1ec051",
+          "config_sha256": "13ffbb86b136eda0fe29c6530e9f89a7e61e096600010000b400d8dae5445939",
+          "info_sha256": "2049aff847599da97525e72a6400e789ca239b4a2eebf8267acb258ae0af717a",
+          "stats_sha256": "5e46779c32a45fa98ff568ac34f54f44fcc4c76d6de5ebf2456fcf6fa4f9826e",
+          "sizes": {
+            "code_size": 109544,
+            "exec_size": 100500,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "fe1919b8dce864481faf383a5e2073c61ff0583d21538c3e5a2f046d6908846e"
+        },
+        "candidate": {
+          "code_sha256": "e2df0fda5e723b93b24edddd77935693c8ee3cac83846e94d91d276026985cd5",
+          "exec_sha256": "6a314e1a77cd6b388ca88757414cf67be440b815988b8e8c8a3097d47b1ec051",
+          "config_sha256": "13ffbb86b136eda0fe29c6530e9f89a7e61e096600010000b400d8dae5445939",
+          "info_sha256": "2049aff847599da97525e72a6400e789ca239b4a2eebf8267acb258ae0af717a",
+          "stats_sha256": "5e46779c32a45fa98ff568ac34f54f44fcc4c76d6de5ebf2456fcf6fa4f9826e",
+          "sizes": {
+            "code_size": 109544,
+            "exec_size": 100500,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "d3bf9e6932988148f2914c2099c86164ca4d10e8e9b23b8fd2f5227658d2397e"
+        }
+      },
+      {
+        "source": "shaders/00aed1d0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "34c3d98ead7622c30672f23d36e514f76a4719aa801e402435ed8505e9529e04",
+            "binary_sha256": "b155e761b1a0a50de5b974b4007c3e2a3eb91153ed5caea3c8678d999abd694b",
+            "bytes": 25812
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "33d0aac0e148c2c9cee147fbd72fe01af0560dc7dde89b732c9f370330f62116",
+            "binary_sha256": "ee59865bcc9baed0e7fe3a4fa60c7dab737ae3b92cbeb2702edd56dc3b6a0f30",
+            "bytes": 25812
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "210cce8fcd0b303701c247e976610e57f994de43a357f9079aea43f34538378c",
+          "exec_sha256": "24b0c400eb650ba61cd97c9cb9d5eedc975551cbcfd77809cf50092445fbd5a4",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "a30b2f3b039dbb995228155e5ab81fd178cf463af151bc4eda2b876983b1a20f",
+          "sizes": {
+            "code_size": 25044,
+            "exec_size": 25024,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "b155e761b1a0a50de5b974b4007c3e2a3eb91153ed5caea3c8678d999abd694b"
+        },
+        "candidate": {
+          "code_sha256": "210cce8fcd0b303701c247e976610e57f994de43a357f9079aea43f34538378c",
+          "exec_sha256": "24b0c400eb650ba61cd97c9cb9d5eedc975551cbcfd77809cf50092445fbd5a4",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "a30b2f3b039dbb995228155e5ab81fd178cf463af151bc4eda2b876983b1a20f",
+          "sizes": {
+            "code_size": 25044,
+            "exec_size": 25024,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "ee59865bcc9baed0e7fe3a4fa60c7dab737ae3b92cbeb2702edd56dc3b6a0f30"
+        }
+      },
+      {
+        "source": "shaders/00793060.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "df79e93b0521df0c6295abd11ecdd0afbe5382add1b8b75fcd3bf17267336717",
+            "binary_sha256": "dd56e911a73e849463389019e9993d0f2b1e01e819a596a7526b8a7ab094cdc0",
+            "bytes": 144756
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "3bb6b7b602dfb919a3f3876e6d47b8bdedf064a5418fa7e6482d18d5fd2e1146",
+            "binary_sha256": "9f46cc6348b2ca19158a50405e5f703334611f020a0d8c19c8abbb9724398d07",
+            "bytes": 144756
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "aba6603f67a02c79d0bc7522bf66b89720f81ca9fc9cbccd6ada3d99bcdec36f",
+          "exec_sha256": "2e6623b57e22d86cd077b768c65f3884a5dd85b774e3c5f48c287a8190583437",
+          "config_sha256": "86fdbb167c76ef809a262899e8e33de0a4793eacaf4708c10db1e71efe577e14",
+          "info_sha256": "47e3eb5ac2d14182d3f486c32a09aca4760dc7c7e81adeee552372f3b393a2ea",
+          "stats_sha256": "9346a2bb428c752be0678b408b2bda30c7a0020405e86213e5ee2ab3ba17d6ed",
+          "sizes": {
+            "code_size": 143988,
+            "exec_size": 122080,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "dd56e911a73e849463389019e9993d0f2b1e01e819a596a7526b8a7ab094cdc0"
+        },
+        "candidate": {
+          "code_sha256": "aba6603f67a02c79d0bc7522bf66b89720f81ca9fc9cbccd6ada3d99bcdec36f",
+          "exec_sha256": "2e6623b57e22d86cd077b768c65f3884a5dd85b774e3c5f48c287a8190583437",
+          "config_sha256": "86fdbb167c76ef809a262899e8e33de0a4793eacaf4708c10db1e71efe577e14",
+          "info_sha256": "47e3eb5ac2d14182d3f486c32a09aca4760dc7c7e81adeee552372f3b393a2ea",
+          "stats_sha256": "9346a2bb428c752be0678b408b2bda30c7a0020405e86213e5ee2ab3ba17d6ed",
+          "sizes": {
+            "code_size": 143988,
+            "exec_size": 122080,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "9f46cc6348b2ca19158a50405e5f703334611f020a0d8c19c8abbb9724398d07"
+        }
+      },
+      {
+        "source": "shaders/00abcc10.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "0a6b7c9ac5843b39cae30de0f51d334c9c8b5dc8126ae01402a25203b6580fd7",
+            "binary_sha256": "ec4c353d95fd4d3d6c79113d62176fdeebdc9a23c20c96991ac9472e8bdd6065",
+            "bytes": 50276
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "25bffb316bbb20739ecc292e9491e4ceace9fe0a338dbf6c375b56a1d5503c16",
+            "binary_sha256": "7f8f688e8e3d6e8d5f98e25c388bdb7bb2ca3f18157d2b9341ac23b39073c721",
+            "bytes": 50276
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "3de2e4f16639934b2555e9bf01c74bbe9b52bb754b88070091df79e24b0d892a",
+          "exec_sha256": "ec0ba2673a1453c201285b77b06de3837b67bdf102f0478422e8f2287ebab1ac",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "93c8523864eca7b3fe94ed525c0303d97e699f61e267b0347e423618ffb06a75",
+          "sizes": {
+            "code_size": 49508,
+            "exec_size": 49488,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "ec4c353d95fd4d3d6c79113d62176fdeebdc9a23c20c96991ac9472e8bdd6065"
+        },
+        "candidate": {
+          "code_sha256": "3de2e4f16639934b2555e9bf01c74bbe9b52bb754b88070091df79e24b0d892a",
+          "exec_sha256": "ec0ba2673a1453c201285b77b06de3837b67bdf102f0478422e8f2287ebab1ac",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "93c8523864eca7b3fe94ed525c0303d97e699f61e267b0347e423618ffb06a75",
+          "sizes": {
+            "code_size": 49508,
+            "exec_size": 49488,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "7f8f688e8e3d6e8d5f98e25c388bdb7bb2ca3f18157d2b9341ac23b39073c721"
+        }
+      },
+      {
+        "source": "shaders/00166450.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "3cfa0d1ac7c87c29fc3d8268e75b467b47d6408a606c6a737c4b0ce4f4ad988e",
+            "binary_sha256": "c0d2e837225d5a44469f414e3beef8f9d0afca4bb86539fe3f8496f67fcb7641",
+            "bytes": 48256
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "cbd425329686111cf99dd51a04bf78597004e1a4dd959776063d755c79dc3b61",
+            "binary_sha256": "411d2830685a000cd0dc9404ea85db4225d9d06395cbde94f5b88f74ff38a1e4",
+            "bytes": 48256
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "dcf3905ea9ed15032f20a0fef0752c73cdd40632ca861930c2f0d2b5fad6c5f9",
+          "exec_sha256": "4799f229e41ee777316a6386074f1b5c1302ec31f2ba47939c329116f8694590",
+          "config_sha256": "ac6019f82595ebc00dbc4925291487318da64956b287ec5f0d1eb03eff2f011f",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "47b8d64e347167e2d79d9f78a7f7c604e4f4274b35d5849222081ffac6c2f9f5",
+          "sizes": {
+            "code_size": 47488,
+            "exec_size": 45292,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "c0d2e837225d5a44469f414e3beef8f9d0afca4bb86539fe3f8496f67fcb7641"
+        },
+        "candidate": {
+          "code_sha256": "dcf3905ea9ed15032f20a0fef0752c73cdd40632ca861930c2f0d2b5fad6c5f9",
+          "exec_sha256": "4799f229e41ee777316a6386074f1b5c1302ec31f2ba47939c329116f8694590",
+          "config_sha256": "ac6019f82595ebc00dbc4925291487318da64956b287ec5f0d1eb03eff2f011f",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "47b8d64e347167e2d79d9f78a7f7c604e4f4274b35d5849222081ffac6c2f9f5",
+          "sizes": {
+            "code_size": 47488,
+            "exec_size": 45292,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "411d2830685a000cd0dc9404ea85db4225d9d06395cbde94f5b88f74ff38a1e4"
+        }
+      },
+      {
+        "source": "shaders/00135760.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "62c4b1d81650d48c0e915bf35a51d2d7f72cc7b69bcd7237c4a92001cf54de31",
+            "binary_sha256": "31a50813cd81ad0932a5518360e93eb7fb920f2376d3c0dd91422e41c38ca2ef",
+            "bytes": 52480
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "0d0f3a398cc6b41274e03eaa1a6f8c54ea9bf55914a468fce2bb75f53f5e755d",
+            "binary_sha256": "1ebb9d753e5ff0b1032aace9c3fd4413f3bbd438e014055c1be41ee4796f1703",
+            "bytes": 52480
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "b003f47457da2dbd50331959235dcf645dd3e64a90092e8661d2dadc6704d0d2",
+          "exec_sha256": "a26e08321f9707e37f72adb2421afc5fc700be6d305fd47f70b56ae233078688",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "00806b035aeea693df484e16f5abdbf8b8fc5a5a9d58e77583a56b98073ddb86",
+          "sizes": {
+            "code_size": 51712,
+            "exec_size": 51692,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "31a50813cd81ad0932a5518360e93eb7fb920f2376d3c0dd91422e41c38ca2ef"
+        },
+        "candidate": {
+          "code_sha256": "b003f47457da2dbd50331959235dcf645dd3e64a90092e8661d2dadc6704d0d2",
+          "exec_sha256": "a26e08321f9707e37f72adb2421afc5fc700be6d305fd47f70b56ae233078688",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "00806b035aeea693df484e16f5abdbf8b8fc5a5a9d58e77583a56b98073ddb86",
+          "sizes": {
+            "code_size": 51712,
+            "exec_size": 51692,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "1ebb9d753e5ff0b1032aace9c3fd4413f3bbd438e014055c1be41ee4796f1703"
+        }
+      },
+      {
+        "source": "shaders/004bee10.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "7dd1ac1f8b5ba368b9adbe99c94c61de9641a0fc40c2c3ddc2b340af7f80ef69",
+            "binary_sha256": "f3ab6745887918c8864573f5b994429127a2f37b51e6ff2505fee78156715b31",
+            "bytes": 28844
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "b1b9333aacd7bafb6be97ae68a07d2937d3fbbaeb2a3a79963a8fce0cfc7a584",
+            "binary_sha256": "fe1a3d1cf832f6b5299c8435263c2323fb85a45dcbd601c073bf2e154a4cd4ad",
+            "bytes": 28844
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "d0dafc185ca0e18ca5a240688600129d622253ea0f1f97436fce2703349c3b41",
+          "exec_sha256": "90b884b27485bcbe2f798ca7bcaaaa117c91365a93978a06795ca6ecbf8534a4",
+          "config_sha256": "e1efae4bac4f35d566a6ee662587e2b2fa50e89a2f8539e7231bebbae46ed159",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "ee0833a7511959a75079880c9005128c7dd10eb4db185fc50546c8e8dc918241",
+          "sizes": {
+            "code_size": 28076,
+            "exec_size": 28056,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "f3ab6745887918c8864573f5b994429127a2f37b51e6ff2505fee78156715b31"
+        },
+        "candidate": {
+          "code_sha256": "d0dafc185ca0e18ca5a240688600129d622253ea0f1f97436fce2703349c3b41",
+          "exec_sha256": "90b884b27485bcbe2f798ca7bcaaaa117c91365a93978a06795ca6ecbf8534a4",
+          "config_sha256": "e1efae4bac4f35d566a6ee662587e2b2fa50e89a2f8539e7231bebbae46ed159",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "ee0833a7511959a75079880c9005128c7dd10eb4db185fc50546c8e8dc918241",
+          "sizes": {
+            "code_size": 28076,
+            "exec_size": 28056,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "fe1a3d1cf832f6b5299c8435263c2323fb85a45dcbd601c073bf2e154a4cd4ad"
+        }
+      },
+      {
+        "source": "shaders/001460c0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "2209719020e324a3c43bacc224273a1008e4914360ddfac6e58b17848a985ed3",
+            "binary_sha256": "24ecf5f5a612d3fe971cd01d4cf7857c5da18fa7bf6edc472d9669e570cd540f",
+            "bytes": 208520
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "b3c65840cddf9fd40852c2d2db1b3a779c13beee00bf9a5ec52ae2a31639f66a",
+            "binary_sha256": "047ab3f1974b54afecefd4eefd1cab0f67e552b712d847f3e63521f116c157c9",
+            "bytes": 208520
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "ceeb0f8461143d0b07578a839c882cdc05a9d357335440cfd718045b459bbf11",
+          "exec_sha256": "514c7078dd5912767000702729968fe3f693dfbde59874788e2ef001a87b845f",
+          "config_sha256": "4590cca13736ee72ac38da1c3f0de40b7f2e742b730249d2489d541bbcb47817",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "dece2f9e342ccfdffe2c4ebed0941944870e602c7c87740bd3fed6bd7037574f",
+          "sizes": {
+            "code_size": 207752,
+            "exec_size": 177524,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "24ecf5f5a612d3fe971cd01d4cf7857c5da18fa7bf6edc472d9669e570cd540f"
+        },
+        "candidate": {
+          "code_sha256": "ceeb0f8461143d0b07578a839c882cdc05a9d357335440cfd718045b459bbf11",
+          "exec_sha256": "514c7078dd5912767000702729968fe3f693dfbde59874788e2ef001a87b845f",
+          "config_sha256": "4590cca13736ee72ac38da1c3f0de40b7f2e742b730249d2489d541bbcb47817",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "dece2f9e342ccfdffe2c4ebed0941944870e602c7c87740bd3fed6bd7037574f",
+          "sizes": {
+            "code_size": 207752,
+            "exec_size": 177524,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "047ab3f1974b54afecefd4eefd1cab0f67e552b712d847f3e63521f116c157c9"
+        }
+      },
+      {
+        "source": "shaders/003d9f20.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "d2b33fd9ed20ca5eda2e7d9e73bb08f7b8b16819e3f4519f51e5ca3781ba54e3",
+            "binary_sha256": "b3c7c666e27bf98ac9fc1140d309ac4541ddef68a973f5157379f9c2d38b3ecc",
+            "bytes": 52884
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "89cfbe7018fee570f30fcb1cd0bcf706417303690c793e14181cc736a53eacbf",
+            "binary_sha256": "673dc1e8a4b4b812a79283c6d9b1b50b18640791b286cba1522aef742096c0f4",
+            "bytes": 52884
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "872a25c6e07466553f4b8069e620987aa405e9050d3126ba5abeb3549db9929a",
+          "exec_sha256": "ba14b3d7c04d10e59d49b8620027927b1e0aad07718ef663ef5451f5fc750ee1",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "260b5f6b3891045358227d7c674a4c0234488a7ba87ab5e566cb56a7c1d0a19e",
+          "sizes": {
+            "code_size": 52116,
+            "exec_size": 52096,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "b3c7c666e27bf98ac9fc1140d309ac4541ddef68a973f5157379f9c2d38b3ecc"
+        },
+        "candidate": {
+          "code_sha256": "872a25c6e07466553f4b8069e620987aa405e9050d3126ba5abeb3549db9929a",
+          "exec_sha256": "ba14b3d7c04d10e59d49b8620027927b1e0aad07718ef663ef5451f5fc750ee1",
+          "config_sha256": "20dc70d890f7c40f17bac0cde4adc4379f115cc82a271c69e79bef62359c47a7",
+          "info_sha256": "5806f3636959bd24c3fc63681c92debe8c46f51b22658627fbacc4f4a19a0c17",
+          "stats_sha256": "260b5f6b3891045358227d7c674a4c0234488a7ba87ab5e566cb56a7c1d0a19e",
+          "sizes": {
+            "code_size": 52116,
+            "exec_size": 52096,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "673dc1e8a4b4b812a79283c6d9b1b50b18640791b286cba1522aef742096c0f4"
+        }
+      },
+      {
+        "source": "shaders/004f4de0.ll",
+        "shader_pairs": [
+          {
+            "variant": "a",
+            "shader_sha256": "8f52e5f65ab349c0113076a3eee60e41c3e414894ba144a753348c64cf86d28d",
+            "binary_sha256": "59dd0050b999d7dc6a1326bf314dddf607559bff1a287c4e433d379c2b863a06",
+            "bytes": 159736
+          },
+          {
+            "variant": "cse",
+            "shader_sha256": "f7784269f3be973f24a43a5f8f7dd85a4740aa60605599a0e81387d9599a1d81",
+            "binary_sha256": "59dd0050b999d7dc6a1326bf314dddf607559bff1a287c4e433d379c2b863a06",
+            "bytes": 159736
+          }
+        ],
+        "comparisons": {
+          "code_sha256": true,
+          "exec_sha256": true,
+          "config_sha256": true,
+          "info_sha256": true,
+          "stats_sha256": true,
+          "sizes": true
+        },
+        "original": {
+          "code_sha256": "b7a02fd2e7ef8b73c7f83a20e84cf02919f36c1c367d33111df2a6dbde1d427a",
+          "exec_sha256": "1b732f422c29466fa7b9e1b610cc8f087da679a6bf42111df33f50a1c941297b",
+          "config_sha256": "e426c1e8baf51d6ccfb713a279785dffa4c3329bc079c1098d3a34aa944c1907",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "2e8e0ac83857fcf9eb297af02d50cd57638452c7187f788f1edc2a0a7f44d9de",
+          "sizes": {
+            "code_size": 158968,
+            "exec_size": 150500,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "59dd0050b999d7dc6a1326bf314dddf607559bff1a287c4e433d379c2b863a06"
+        },
+        "candidate": {
+          "code_sha256": "b7a02fd2e7ef8b73c7f83a20e84cf02919f36c1c367d33111df2a6dbde1d427a",
+          "exec_sha256": "1b732f422c29466fa7b9e1b610cc8f087da679a6bf42111df33f50a1c941297b",
+          "config_sha256": "e426c1e8baf51d6ccfb713a279785dffa4c3329bc079c1098d3a34aa944c1907",
+          "info_sha256": "b755e339e58c527f35f565de0a5f661491f3ae63617a29426ec03ab5e1ab6a13",
+          "stats_sha256": "2e8e0ac83857fcf9eb297af02d50cd57638452c7187f788f1edc2a0a7f44d9de",
+          "sizes": {
+            "code_size": 158968,
+            "exec_size": 150500,
+            "ir_size": 0,
+            "disasm_size": 0,
+            "stats_size": 112,
+            "debug_info_size": 0
+          },
+          "serialized_sha256": "59dd0050b999d7dc6a1326bf314dddf607559bff1a287c4e433d379c2b863a06"
+        }
+      }
+    ],
+    "all_machine_code_identical": true,
+    "all_hardware_config_identical": true,
+    "all_statistics_identical": true,
+    "scope": "All machine code and constant data, complete shader info, and hardware config; only compiler-confirmed C padding excluded from config. Whole serialized blobs may differ in outer-structure padding."
+  }
+}

@@ -1,0 +1,845 @@
+{
+  "schema": 1,
+  "experimental": true,
+  "release_qualified": false,
+  "base_source_manifest_sha256": "5f6809df51db8d76adebe450c2ae080100b2f0ad8a0d91fbbf40f94f6f6a212a",
+  "source_overlay_sha256": "4170a6b79577be2dcc3261aef913be90593c53f602ab1fdc6485eb2baeab2bd9",
+  "source_files": {
+    "src/amd/vulkan/bc250_rc9_shaders.h": {
+      "sha256": "5794cd5198418f4f81a368199c502174d9a6ef024574afddff74aa6caeca6234",
+      "bytes": 40735674,
+      "before_sha256": null
+    },
+    "src/amd/vulkan/radv_shader.c": {
+      "sha256": "49cf9705c258fd951b716de652f4ed2d238d8462ab47fafd697d75e3befb5b11",
+      "bytes": 1548247,
+      "before_sha256": "ae39b1b52bcd368638668cde7bb4265014163c09faa2f2d1facfd7dec6fdd567"
+    },
+    "src/amd/vulkan/radv_physical_device.c": {
+      "sha256": "6838fc892728430c29e69e4a3b9947d9138ceb4ea6a08794129551fbf874aedb",
+      "bytes": 154245,
+      "before_sha256": "49b9301a584e3e267bb399d98429b3cb96b8618f2a5f37e2acaaacc215a752e9"
+    }
+  },
+  "library_sha256": "f6fbeeb230ddc939786aaa3f5a5b9da7141594c1738d0b369f8062a24a02c058",
+  "shader_entries": [
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass6",
+      "original": [
+        0,
+        87181,
+        497604,
+        2795531994705506479
+      ],
+      "target": [
+        87181,
+        264516,
+        1652616,
+        15050715589076676267
+      ],
+      "wave": 0,
+      "original_spirv_sha256": "020929f63d8a70f90bd628a92c50b4049db89155d5e062bf03eb1e8cb8ee7c60",
+      "target_spirv_sha256": "7e7da06c4ce0d19c2eb4d6daa6c92a2a37a1a29afb32be573c2e2fb644144b04",
+      "shader_sha256": "2f3449e3904158001426a8fd41699d1eff52475cc0a8ee8bd49ecf0964b7bc13"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass11",
+      "original": [
+        351697,
+        11564,
+        61308,
+        10226516499320641525
+      ],
+      "target": [
+        363261,
+        164431,
+        795992,
+        5371536026555888994
+      ],
+      "wave": 0,
+      "original_spirv_sha256": "10a8d37f7ffa11a5db3c5d424051927b192b6ad5c823d50814c433c730a6f3bc",
+      "target_spirv_sha256": "0494adf695aa5ca660e54573823865c824be51cb0e91dceb0ade1c99eec794f9",
+      "shader_sha256": "3f439bcd27d6533826053f2f246cbee135cf407920e59511cddb9260072a898e"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass4",
+      "original": [
+        527692,
+        39628,
+        190032,
+        4401297267692234591
+      ],
+      "target": [
+        567320,
+        86728,
+        439032,
+        12757105169867302181
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "159594f219485d06d144bf949617a7a05fea1be98892f42be198574fd927f1cf",
+      "target_spirv_sha256": "307573c2680aa090c75d40d3ff5b79aa3eb74381ae2884b8bae187d286322e49",
+      "shader_sha256": "62c4b1d81650d48c0e915bf35a51d2d7f72cc7b69bcd7237c4a92001cf54de31"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass2",
+      "original": [
+        654048,
+        23150,
+        109048,
+        3534657104614055322
+      ],
+      "target": [
+        677198,
+        51884,
+        257800,
+        4846006296001209221
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "247bc7a7ccd2cdaf818e28f6d93f6a68b581a29eec2e877ed5f05fdd20e11a68",
+      "target_spirv_sha256": "61c853720e534663152853f92c99f9e15f9e2bcb4c03f604e50c72300858ad09",
+      "shader_sha256": "e6ae27536712fb0d98969dbe68a00878f0749b4b8acc680115b435dd0962b8ee"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass10",
+      "original": [
+        729082,
+        39250,
+        189952,
+        15596214161681655632
+      ],
+      "target": [
+        768332,
+        90774,
+        459000,
+        2598842795278106704
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "278dce8bc9ec4478c88bc3a57ff5c73ddef1b4d793948b0cd7edf409f140f5f4",
+      "target_spirv_sha256": "b10dee80eb23505950e1a49c99e22146136cccfbd88d7c094dd2620f75f585bc",
+      "shader_sha256": "d4f6cd7592b59fbf137bc306c7143d8c143d8994769a84863543ad73fc5cd287"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass12",
+      "original": [
+        859106,
+        22981,
+        109064,
+        7550466964628374927
+      ],
+      "target": [
+        882087,
+        43445,
+        220140,
+        16577570367993118788
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "2a7ebe6c72dacca6571e6f422d58b44da4c26e7904dce65a7a422b79b9eb031e",
+      "target_spirv_sha256": "5efe88565c7e8ec222ceb24cfc66cab4972eb0b9b45ccaf47db2bda16e223987",
+      "shader_sha256": "34c3d98ead7622c30672f23d36e514f76a4719aa801e402435ed8505e9529e04"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_prepass",
+      "original": [
+        925532,
+        11714,
+        58172,
+        12267973701500741853
+      ],
+      "target": [
+        937246,
+        17864,
+        90560,
+        16225017836575844065
+      ],
+      "wave": 0,
+      "original_spirv_sha256": "2cbe55497b8ffe7054fab1bcbed55b51e626061e78f60ffb8ee36e0261862995",
+      "target_spirv_sha256": "4965b3aeb2ecce4ad4619e496d141c404b189756a62f38d34b6e7902dc430a43",
+      "shader_sha256": "e1f91b8de37a4964717637a34ac5f274394350db7c7547773215894cd7308c7e"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_prepass",
+      "original": [
+        955110,
+        11699,
+        58172,
+        9140092306353997953
+      ],
+      "target": [
+        966809,
+        17898,
+        90560,
+        12786525717440805434
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "2e0ba98cdd86e676cf06f1391bca75fee0d313bc22cd3bcef30ba9328e8c5bcb",
+      "target_spirv_sha256": "9a33cf03c7e83c344d85e5bb6d7408e52646d11ea5b67099de6e04c7aea7113f",
+      "shader_sha256": "70ae04dce8f9198c95840d8c2e8ac356958c689c5c825c414dad29f3f792b96f"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_postpass",
+      "original": [
+        984707,
+        28920,
+        125196,
+        10371835815150940347
+      ],
+      "target": [
+        1013627,
+        73602,
+        432124,
+        8181965645826122271
+      ],
+      "wave": 0,
+      "original_spirv_sha256": "4158595de2bd6e630390256803d2197f111827706f1826fd98b195fd5f357c26",
+      "target_spirv_sha256": "0bcc41d004eb8188cabe310c4ac90658ffe618a6baebedae742b481782f6bcf0",
+      "shader_sha256": "9a924eebe1d554ef14ce7751eff907daaffe039adb4406a370491256957e4f80"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass9",
+      "original": [
+        1087229,
+        15581,
+        84476,
+        18135453102717078945
+      ],
+      "target": [
+        1102810,
+        494197,
+        2835008,
+        2975969518055674578
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "4a15feba7489bd575fd9ee1544855c2343b42e1278a6f404316028343496e72c",
+      "target_spirv_sha256": "18fddbf3311510eae383ede7939550ec112adbeaf6f2344b29a9b07e017704dd",
+      "shader_sha256": "77b63b9ce7206ba6838c7a4f19c04d6ceaf2e26e89f937d779859a53802bfb7f"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass6",
+      "original": [
+        1597007,
+        88141,
+        497620,
+        8416154276416560506
+      ],
+      "target": [
+        1685148,
+        268788,
+        1661108,
+        12734133104653858397
+      ],
+      "wave": 0,
+      "original_spirv_sha256": "4ac572a06637a9b31eebc30736b9385d83f499328081356aced41748c61acc67",
+      "target_spirv_sha256": "37bc271d1dd77eef78bce4a6f9be05924d2b9f6f6e4696c4a61ffdab95970189",
+      "shader_sha256": "3525942370c3b3ff4697da2fe3de9f9216d8a08fbe1c4dbbfa9cc951b8890a6c"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass4",
+      "original": [
+        1953936,
+        39637,
+        190016,
+        16058194037392982061
+      ],
+      "target": [
+        1993573,
+        92935,
+        467472,
+        6238757641712971118
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "55076a18f23f132ece1557cf3023bb37c49bd1302c5f0bc390a7da884e5800b6",
+      "target_spirv_sha256": "d425d744b4578ed19a8588cdcab6258500c2b4563d305303a5de0914a4562d18",
+      "shader_sha256": "251caf038a9c0f058adeea7d5bb7e63f35ace2506a8e53865d01d563ace52ed1"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass10",
+      "original": [
+        2086508,
+        39255,
+        189952,
+        8597276963434599977
+      ],
+      "target": [
+        2125763,
+        81776,
+        417580,
+        937889263616144004
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "5dff81b7f2a1a20fc0b791770ec589264607a6e833b588f1b97d31e4cf4115cb",
+      "target_spirv_sha256": "8bc32714e5777b3336e553077bb515a44bdf6860f293676ded2a178aaffd7804",
+      "shader_sha256": "0a6b7c9ac5843b39cae30de0f51d334c9c8b5dc8126ae01402a25203b6580fd7"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass12",
+      "original": [
+        2207539,
+        22978,
+        109064,
+        1577309040647361587
+      ],
+      "target": [
+        2230517,
+        43420,
+        220140,
+        8490288009996840879
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "6292dd68a4da9370c7dabb3b192fe6958b1a12daffd92b7fa80ed6fe231e1e5d",
+      "target_spirv_sha256": "2e8337f31ac255b6321b6ee3fe78aaad816bfe754469b542cfc866bf9b99007b",
+      "shader_sha256": "f43b85fb4bc2d07e507af1f6299a51f2d79358da2866272b04518df98ce4e627"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass11",
+      "original": [
+        2273937,
+        11578,
+        61308,
+        9947102170169248397
+      ],
+      "target": [
+        2285515,
+        196434,
+        895988,
+        3725567957229421184
+      ],
+      "wave": 0,
+      "original_spirv_sha256": "64d391923fb217202f7efd738736522a7c05a34b314e241b21cc199376ca51ae",
+      "target_spirv_sha256": "8881933d75b6754aa5349b7fa1b7b59ebced07d3195d3877a52973923823f39b",
+      "shader_sha256": "613ba3a13f5437f6706b9094256fa7c6e7dac68c351ce63c2be7a996a0c0b600"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass2",
+      "original": [
+        2481949,
+        23143,
+        109048,
+        14072804650067665812
+      ],
+      "target": [
+        2505092,
+        45296,
+        229292,
+        1852275032634541958
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "6b6dee8137d3bb0aa290be359d641072d02e69d98ca633e3affce1386289752f",
+      "target_spirv_sha256": "c466059a548f9a8c273e074983f796f520b9765288681c4f181833a14f2ddac1",
+      "shader_sha256": "eb0debb1fbe99789aa6d757ffa9e100e1c9d1469aa0b660068fd6e6ea05c1464"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass5",
+      "original": [
+        2550388,
+        38899,
+        190032,
+        4422795900032990768
+      ],
+      "target": [
+        2589287,
+        87101,
+        441132,
+        18277687062468706150
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "73e05c6727408d5b1f472112c5d68060e9db9aaf918e892055e6619d5f0e4edc",
+      "target_spirv_sha256": "4ff28fb6c035160a8573b167ac78c4a17c9ab32b553c1ebba2dfbf5b3dbb95b1",
+      "shader_sha256": "a6eca5b876d95f88447b85e2ca44701d559c243a0a65201d4a878dc2fd4ac46e"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass8",
+      "original": [
+        2676388,
+        16062,
+        79128,
+        15825945270046272742
+      ],
+      "target": [
+        2692450,
+        376372,
+        2256480,
+        17157507362310354179
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "810636645f52d5b8c019206deb046e954af730fc13edaa6a00ebf66e686c3ac0",
+      "target_spirv_sha256": "f1bca2f4640bea801234c351fd57fc5d8f7834fd046204356e7358e9d3369c56",
+      "shader_sha256": "31a9c979086185b366c5576847669a74b68ef3e912fbd31c2e01752d3863851d"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_prepass",
+      "original": [
+        3068822,
+        11693,
+        58172,
+        2195032285653261321
+      ],
+      "target": [
+        3080515,
+        17893,
+        90560,
+        10505693970499648051
+      ],
+      "wave": 0,
+      "original_spirv_sha256": "8cea215dae39552cf1f249037c029d2584a034102cc411d1966f91009e1a8ce2",
+      "target_spirv_sha256": "fe568d787f4dd68fcc4fa54befdae44d3ee7bdcb2c25c7751de326fa81f7cbd7",
+      "shader_sha256": "652ce0c2f754d46cdf6f381cdf9c5417c5cb3a1fab891d516963b598f60ec56e"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass9",
+      "original": [
+        3098408,
+        15568,
+        84476,
+        11648624832235504215
+      ],
+      "target": [
+        3113976,
+        521942,
+        3130220,
+        15040754500209553370
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "92e8d5a471e06a694dffe12663ac74bcf638c3309fadcadf6dc9fe50635a35e8",
+      "target_spirv_sha256": "5a228c05ad5ca3245f88b18f4965e6f7bc1efd20f7a562d6527621f03e12e779",
+      "shader_sha256": "2209719020e324a3c43bacc224273a1008e4914360ddfac6e58b17848a985ed3"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass7",
+      "original": [
+        3635918,
+        16049,
+        79128,
+        14616602632878744028
+      ],
+      "target": [
+        3651967,
+        376435,
+        2251840,
+        947078674072747699
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "9487c52cec7e259f4cb212335e84db43c52902b4e3243afcd34305b95ad1b83b",
+      "target_spirv_sha256": "a41a4ea2d09183e3bd574155fc68112513650f47b9a52249bb6668fb9e1f3a83",
+      "shader_sha256": "e6f7d6bad0e057e98138d66b226adf6f1c396c90488ee1f42b0cca2a41a0f3aa"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass1",
+      "original": [
+        4028402,
+        23195,
+        108840,
+        13687714710383313236
+      ],
+      "target": [
+        4051597,
+        49562,
+        244896,
+        5366867509052186178
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "9988a8e0ed54cc3902c89994ec6fc171f98ff1aaa6f3881b8590beaef24d39ed",
+      "target_spirv_sha256": "d9c49c6dd53b6f49c508a18395ead7069cf8a21eadb54fda65bd86d3ad28f5c1",
+      "shader_sha256": "3d3f16a58fa9c50e7c3457b67cda2d86d99ca379ad47a74e93268396e7e7ee11"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass3",
+      "original": [
+        4101159,
+        24183,
+        132572,
+        6582129114265745586
+      ],
+      "target": [
+        4125342,
+        74048,
+        400692,
+        10823984238038226516
+      ],
+      "wave": 0,
+      "original_spirv_sha256": "a1a3842e0cbcacbe3c838ccbb64bb95f8cc407a4658a1f26973e6b32526a1d4e",
+      "target_spirv_sha256": "c63d18ccf72bba74cd9388a5553f43bed80ed6af954b58892f2fc3079f3f1b2f",
+      "shader_sha256": "3cfa0d1ac7c87c29fc3d8268e75b467b47d6408a606c6a737c4b0ce4f4ad988e"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass12",
+      "original": [
+        4199390,
+        23010,
+        109064,
+        17912088907237201403
+      ],
+      "target": [
+        4222400,
+        49194,
+        242864,
+        16655037560242534494
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "a376f2d14c21fd7951fe712c1d1200138943fffd87ebd8044e00793e4cc96ee8",
+      "target_spirv_sha256": "e7b686becd6f584be38735f3e23eea7bcf5243ceefd69185796fc046519425f4",
+      "shader_sha256": "efff7b3efb2082eba07c08a8273dd8e441945fd223c3707df31e3d61499f6218"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass3",
+      "original": [
+        4271594,
+        24158,
+        132572,
+        1672630208631563967
+      ],
+      "target": [
+        4295752,
+        74031,
+        400692,
+        8576261705409272769
+      ],
+      "wave": 0,
+      "original_spirv_sha256": "a873b766b2b8923aeb7d325a61cbea251cbac6450e708a23a7714c553ce577ff",
+      "target_spirv_sha256": "5a8a755db6d549ce62a0297334b5f8ad1bb29c1aa70892c616dc63031b8476cb",
+      "shader_sha256": "01c2236c366365892dbcd8db074ee5fa917aa2bdd5fdeaf325bf19f432a33157"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass7",
+      "original": [
+        4369783,
+        15969,
+        79128,
+        11524099053260480737
+      ],
+      "target": [
+        4385752,
+        375816,
+        2251840,
+        2071557935857444250
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "b4023b7bfadd12ca8e4af1fb126fee26bba6a56b0b93fd294e41024a10efef2f",
+      "target_spirv_sha256": "7ed31a8d975e5193fb71a2d854be8087861615b5b4b6b7a35b107392ec8f32eb",
+      "shader_sha256": "60543f8e723ea6f49eab8765a314a34bcfae78cfe0221789689b81f0d99b6627"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass5",
+      "original": [
+        4761568,
+        38881,
+        190032,
+        2579832436494275953
+      ],
+      "target": [
+        4800449,
+        86824,
+        441192,
+        3077180594879959267
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "b75a99c61554662e8963bc33ec29622d62bf5cf4198b3839be426c921e36f185",
+      "target_spirv_sha256": "4160a63acc7a4ba69a5056d6df2b5a7fb1294d8d15f4e9513ed603a761ecc8fe",
+      "shader_sha256": "fc533c62583b62b966a28bebd38ca235b9c8baf0c45e63d63a73c037fbc79dc3"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass10",
+      "original": [
+        4887273,
+        39261,
+        189952,
+        17368167548122807842
+      ],
+      "target": [
+        4926534,
+        81767,
+        417580,
+        6541066750447399590
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "bb1798794d6c8b0ad3760059bf36e2c396594226c0835202040a4a515a8beb01",
+      "target_spirv_sha256": "411cb840d24cfa2e8c282aeeb8fde72ab4749a3a73560fad3dba319a3130528a",
+      "shader_sha256": "c4ebb9050149baf71a90c5fb02de43cee9c4e2d825faed1e137b83d99ecef0a2"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass1",
+      "original": [
+        5008301,
+        23190,
+        108840,
+        16180263159376336544
+      ],
+      "target": [
+        5031491,
+        49974,
+        253444,
+        17410870137573971535
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "bcb4d1d01e33114c68bb13059577c280bb05b5a3af7218fdbc38e99883e0632d",
+      "target_spirv_sha256": "7b705419db4c3ba6351cb9464b947843bb403a3fa2d09b20fd8b7eef30c8230f",
+      "shader_sha256": "b851040818cb103d54173fef5c7dbd795a72a1375e7cfc53868dc243deb5e5c5"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_postpass",
+      "original": [
+        5081465,
+        28925,
+        125196,
+        13857018196026305680
+      ],
+      "target": [
+        5110390,
+        65889,
+        338116,
+        8808023910096252111
+      ],
+      "wave": 64,
+      "original_spirv_sha256": "c4c00737ccf8a94cc9b3ec48557f96a84b92530ef574fbc34140b6296d367c77",
+      "target_spirv_sha256": "8ed9910b71c953fabe10e76d7576a788357209cacccab495e026c9f94fb2a7ed",
+      "shader_sha256": "f3a75a1eb9d227d36cafeea672bdc2455d7966e85ffdf1b0aadd6d0a739ee6db"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass8",
+      "original": [
+        5176279,
+        16057,
+        79128,
+        7015030505440136884
+      ],
+      "target": [
+        5192336,
+        376118,
+        2256496,
+        4760955377204738810
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "cc7f9d4a52d79ba6d62c1aba27b97455a73f627e1af277b56e38345cea0b1b16",
+      "target_spirv_sha256": "2caac9f188d62fc3efe29dd14293dc8dedce59274ef319d5547f46af689be72d",
+      "shader_sha256": "df79e93b0521df0c6295abd11ecdd0afbe5382add1b8b75fcd3bf17267336717"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass8",
+      "original": [
+        5568454,
+        15999,
+        79128,
+        5933121262072281213
+      ],
+      "target": [
+        5584453,
+        295160,
+        1399456,
+        5352043622251186180
+      ],
+      "wave": 64,
+      "original_spirv_sha256": "cc8ec2a3d747793454425c0a5362c67fceb98897254c27a6f6f671ee9ef6a8b7",
+      "target_spirv_sha256": "cb73440c442215979a0894ddc7be9b51693a8e7289eec2173b9b4550f7febcfc",
+      "shader_sha256": "ca80321738e290b0b7d09dd57a60843548e88481671acf5d3e0e8f405422375a"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass3",
+      "original": [
+        5879613,
+        24175,
+        132572,
+        12672966161139555426
+      ],
+      "target": [
+        5903788,
+        73762,
+        402876,
+        7105016582943071519
+      ],
+      "wave": 0,
+      "original_spirv_sha256": "cfe31d3045e2e24dea0394261b0a4d807b6c07bf9ff96c6e0d9062f6bdc81d2c",
+      "target_spirv_sha256": "859ea8e84804a5308db0c35d115afa1197e4b4809b00ddede971b51f476f20a5",
+      "shader_sha256": "dee317375bf05a7d7f7cbe19c3e18b4e9459aa448686504b58102479bbaf0109"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass4",
+      "original": [
+        5977550,
+        39629,
+        190032,
+        1075692000603497024
+      ],
+      "target": [
+        6017179,
+        86741,
+        439032,
+        10213494318964467650
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "d757fd28efbd09259f82918de5d3765784933d5b26eea56babe45fd6fefc5cfa",
+      "target_spirv_sha256": "c7e6b4be2cfd9f6509622aba5e5462719e062ea25f0c7b8d0adafcb19b377d31",
+      "shader_sha256": "352d07692a2d8d69f20a8ea9dfff90f2ff876c7bb3e67a32d27036fa1351a99d"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass5",
+      "original": [
+        6103920,
+        38885,
+        190032,
+        14585526498281823065
+      ],
+      "target": [
+        6142805,
+        87101,
+        441132,
+        8076355235028323881
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "dd2f5bf3c110b77cdf328ad497d0b4708f49cbeb9ef3dff7d068f6d6f387e66e",
+      "target_spirv_sha256": "35015b07ed00b46a2509c2e2e6ec1ad2bd354c7d097012fa862cc5628348af84",
+      "shader_sha256": "d2b33fd9ed20ca5eda2e7d9e73bb08f7b8b16819e3f4519f51e5ca3781ba54e3"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass9",
+      "original": [
+        6229906,
+        15570,
+        84476,
+        17939491821382140301
+      ],
+      "target": [
+        6245476,
+        521800,
+        3130220,
+        6502571508416026542
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "e1b576f7e8cedc46615a90f5d2026a43a525a2e43cfc66b62def8e700f55688a",
+      "target_spirv_sha256": "57b7b6f61b37190ede4151a85b1526b4cd5dd7633e014057b962d7b6aedfdd90",
+      "shader_sha256": "20b2e34291f40823f2ae4b6797e1ee07b7b3608788ce8da3791c78c6cd33f689"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass6",
+      "original": [
+        6767276,
+        88224,
+        497620,
+        15224260449926568499
+      ],
+      "target": [
+        6855500,
+        266379,
+        1652648,
+        12062245398206260527
+      ],
+      "wave": 0,
+      "original_spirv_sha256": "e438da85e0a4e80208ac3b5637de0ab8833383b13f1bfeb6114af17e663714b4",
+      "target_spirv_sha256": "475c0401fde7da0f060f58ba9b16b306327f410da8b0afcb69ddcb474436df6c",
+      "shader_sha256": "8f52e5f65ab349c0113076a3eee60e41c3e414894ba144a753348c64cf86d28d"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass2",
+      "original": [
+        7121879,
+        23127,
+        109048,
+        15572162131223328026
+      ],
+      "target": [
+        7145006,
+        45294,
+        229292,
+        16551004537920937238
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "e44f0ccd272e4a85ad38894a38db7adae019d18660b166e6c28e82b328d7cc84",
+      "target_spirv_sha256": "22ac6f56ea5aca14337e600fad77c177e70d264058b28e3d7969389744c56f56",
+      "shader_sha256": "dc017a2baa5d1a399ef288316e7017a3a650ad329bada8b794ee19978158c2fe"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass11",
+      "original": [
+        7190300,
+        11591,
+        61308,
+        11927240305650109496
+      ],
+      "target": [
+        7201891,
+        196422,
+        895988,
+        15373922919283293262
+      ],
+      "wave": 0,
+      "original_spirv_sha256": "e9aee05cec78f0659fa570bfc0f495a51d00d2bc80c4e99cde4106a3df51c35e",
+      "target_spirv_sha256": "c1c881f37ad57b3daa97afdd54c4bcfd4b20ef1bf219438dd4a0a71a3b1f229e",
+      "shader_sha256": "5eb6f90520f09677cc8f83e8e3eda5ef1d1648a9896d27af6d1a8529d8ee3b35"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass7",
+      "original": [
+        7398313,
+        16071,
+        79128,
+        329416071986385790
+      ],
+      "target": [
+        7414384,
+        292491,
+        1374064,
+        14082302979513957111
+      ],
+      "wave": 64,
+      "original_spirv_sha256": "f91a692a53dcea29b6dd58499b72a55a74411e0aeee7c2b44866e5f98955775a",
+      "target_spirv_sha256": "e1b61a3913bfadb2a0a9a2828a4d34527987a635e6d1fc872f0963ac39b203fe",
+      "shader_sha256": "4857047affd2bab8b53c2c9ca535a1fc9e6150c7442be672306aadb3f1444e4e"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_pass1",
+      "original": [
+        7706875,
+        23195,
+        108840,
+        18299696627622783643
+      ],
+      "target": [
+        7730070,
+        50149,
+        253444,
+        2492323941453209015
+      ],
+      "wave": 32,
+      "original_spirv_sha256": "fa04827c143e217e3d38f97c466eee8de84bb1dff9f08bfda853650c9eedb46a",
+      "target_spirv_sha256": "b9c2e27e8321bf11dff35d79903062134fbc0b1ec8acbfe1fbec00c6d62915e2",
+      "shader_sha256": "7dd1ac1f8b5ba368b9adbe99c94c61de9641a0fc40c2c3ddc2b340af7f80ef69"
+    },
+    {
+      "entry": "fsr4_model_v07_fp8_no_scale_postpass",
+      "original": [
+        7780219,
+        28919,
+        125196,
+        16409988490973137487
+      ],
+      "target": [
+        7809138,
+        73638,
+        432124,
+        10816778477696957143
+      ],
+      "wave": 0,
+      "original_spirv_sha256": "fa5fc1de4625915c25a637b091f26f32c398f4985a14392a48505cfac111aaea",
+      "target_spirv_sha256": "ca76fe6221f29ef6551e9529d4d4edb2390e9b6010a2ffb4e54886eb4271a370",
+      "shader_sha256": "4d290512602025019aaa32a54de43069891f48b28dc8a2420240b3ed37571c9f"
+    }
+  ],
+  "compressed_shader_bytes": 7882776,
+  "cache_identity_keyed": true,
+  "target": {
+    "mesa": "26.2.2",
+    "glibc_maximum": "2.36",
+    "glibcxx_maximum": "3.4.30",
+    "abi_checks_pass": true
+  },
+  "origin": {
+    "original_sdk_sha256": "d0dcccc74a43c44ba435b7a369b456e0970d8a4464e4bd683119b374f2c9fb46",
+    "rc9_dll_sha256": "eefcac03ab17b04a29a5bb16e3f3e9c3181ba9ea46b05a61cb49a5003e1516ef",
+    "proton": "GE-Proton11-6-x86_64",
+    "scope": "56 captured original/RC9 interface pairs; 42 distinct matches across three resolution families"
+  },
+  "acceptance_pending": [
+    "Additional game and translator qualification",
+    "Release manifest/package and install/rollback qualification"
+  ],
+  "synthetic_runtime_qualified": true,
+  "provider_resize_scope": "Preserves the older provider output exactly; that route has a pre-existing difference from the primary SDK during dynamic resolution."
+}

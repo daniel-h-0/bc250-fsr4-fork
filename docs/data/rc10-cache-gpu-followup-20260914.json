@@ -1,0 +1,119 @@
+{
+  "complete": true,
+  "scope": "Post-reboot Mesa multi-file cache reuse through independent views",
+  "kernel": "7.2.5-1.163-cachyos-bc250",
+  "all_images_equal": true,
+  "original_foz_files_unchanged": true,
+  "original_foz_files": 4,
+  "helper_sha256": "9c3c4e24e0aac3a7cfa4bd5bd03ed3da976ee3a94e64cf882f7ecc566d7c172b",
+  "rows": [
+    {
+      "name": "helper-seed-sf",
+      "valid": true,
+      "pixels_sha256": "ee96b6efa3e35302de766ed8560534fa323a29e1e4eda2d041ab002b2b194a5e",
+      "first_dispatch_seconds": 22.3184089,
+      "mesa_hit_miss": [
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "64"
+        ],
+        [
+          "0",
+          "6"
+        ]
+      ],
+      "helper_sha256": "9c3c4e24e0aac3a7cfa4bd5bd03ed3da976ee3a94e64cf882f7ecc566d7c172b"
+    },
+    {
+      "name": "helper-preserve-sf",
+      "valid": true,
+      "pixels_sha256": "ee96b6efa3e35302de766ed8560534fa323a29e1e4eda2d041ab002b2b194a5e",
+      "first_dispatch_seconds": 0.0337322,
+      "mesa_hit_miss": [
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "123",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "6"
+        ]
+      ],
+      "helper_sha256": "9c3c4e24e0aac3a7cfa4bd5bd03ed3da976ee3a94e64cf882f7ecc566d7c172b"
+    },
+    {
+      "name": "helper-b-populate-shared",
+      "valid": true,
+      "pixels_sha256": "ee96b6efa3e35302de766ed8560534fa323a29e1e4eda2d041ab002b2b194a5e",
+      "first_dispatch_seconds": 22.5460241,
+      "mesa_hit_miss": [
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "64"
+        ],
+        [
+          "13",
+          "0"
+        ]
+      ],
+      "helper_sha256": "9c3c4e24e0aac3a7cfa4bd5bd03ed3da976ee3a94e64cf882f7ecc566d7c172b"
+    },
+    {
+      "name": "helper-a-new-view-shared",
+      "valid": true,
+      "pixels_sha256": "ee96b6efa3e35302de766ed8560534fa323a29e1e4eda2d041ab002b2b194a5e",
+      "first_dispatch_seconds": 1.4466785,
+      "mesa_hit_miss": [
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "123",
+          "0"
+        ],
+        [
+          "13",
+          "0"
+        ]
+      ],
+      "helper_sha256": "9c3c4e24e0aac3a7cfa4bd5bd03ed3da976ee3a94e64cf882f7ecc566d7c172b"
+    }
+  ]
+}

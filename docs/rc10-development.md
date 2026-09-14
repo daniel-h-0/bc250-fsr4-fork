@@ -73,13 +73,13 @@ See the [probe instructions](../dll/probe/README.md), current
 ## Shared-cache launcher under qualification
 
 `scripts/shared-cache.py` is an optional Linux launch wrapper under development.
-It directs newly compiled shaders into one bounded Mesa database and presents
+It directs newly compiled shaders into one bounded Mesa multi-file cache and presents
 each game's original Fossilize caches to Mesa as read-only sources. Mesa retains
 its own driver, GPU, compiler-option and pipeline cache keys. The wrapper does
 not merge prefixes, move existing caches or share vkd3d's application cache.
 It affects Mesa shaders in the opted-in application, including shaders other
 than FSR. Existing cached shaders read from Fossilize are not automatically
-copied into the shared database; the shared database fills as new compilation
+copied into the shared cache; the shared cache fills as new compilation
 occurs. Changing driver/compiler inputs can still require recompilation.
 
 The wrapper creates links only inside its own cache storage. Its `--show`
@@ -89,14 +89,22 @@ cache preparation fails, it starts the application with the original settings.
 No game or Steam configuration has been changed by adding this helper.
 
 ```sh
-python3 /path/to/bc250-fsr4/scripts/shared-cache.py --show
-python3 /path/to/bc250-fsr4/scripts/shared-cache.py -- ORIGINAL-COMMAND ARGUMENTS
+sh /path/to/bc250-fsr4/scripts/shared-cache.sh --show
+sh /path/to/bc250-fsr4/scripts/shared-cache.sh -- ORIGINAL-COMMAND ARGUMENTS
 ```
 
 Undo consists of removing the wrapper from the launch command. The original
 cache locations and files remain available. Keep the shared cache while any
 opted-in application is running; its default location is
 `$XDG_CACHE_HOME/bc250-fsr4` or `~/.cache/bc250-fsr4`.
+
+The [Linux cache guide](shared-shader-cache.md) describes distro independence,
+Flatpak/container limits, the shell fallback, cache size and undo. The current
+helper defaults to the multi-file backend, handles late Steam cache creation
+and concurrent launchers, and flushes fallback notices on older Python. It
+passes launch/filesystem tests in Debian Bullseye/Python 3.8, Debian Bookworm/
+Python 3.11, Alpine/Python 3.12 and the Arch-based builder/Python 3.14. These
+userspace tests do not qualify their complete graphics stacks.
 
 ## September 14 development results
 
@@ -117,7 +125,7 @@ application/prefix boundaries, not a qualification of every game's launch
 route. Sharing the translation cache adds no measured benefit here, so the
 launcher leaves it at its original location.
 
-The launch helper separately passes four real probe runs. Existing per-game
+The initial database-backend launch helper separately passes four real probe runs. Existing per-game
 Fossilize data remains byte-identical and gives a 0.015-second first dispatch.
 A different application populates the shared database in 22.754 seconds;
 another cache view reuses it in 1.520 seconds. All outputs match.
@@ -128,9 +136,10 @@ source from 52,019 to 32,206 lines while leaving the other 346 shader slots
 unchanged. Four cold runs in control/candidate/candidate/control order give
 23.089 → 22.619 seconds, a 2.03% reduction in this preliminary screen.
 The complete native GPU code is identical at 169,092 bytes, with identical
-register/spill statistics. Four 600-frame runs also match output; their
-scoring clocks include both 1750 and 1850 MHz, so the small GPU timing
-difference is not claimed as a speedup. The candidate remains a private
+register/spill statistics. Four 600-frame runs also match output; all observed
+scoring-period clock samples are 1850 MHz. The small GPU timing
+difference is not claimed as a speedup. Earlier clock metadata mistakenly
+included shutdown samples after frame 600; the recorded timings are unchanged. The candidate remains a private
 experiment, not an RC10 release or a change to the maintained RC9 shaders.
 
 The [recorded inputs](data/rc10-startup-study-20260914.json) include CPU counter
@@ -141,18 +150,123 @@ identities. Recompute the results with:
 python3 scripts/check-startup-study.py
 ```
 
-## Driver parity work remaining
+## Post-reboot compiler and cache follow-up
 
-The original and RC9 captures at 1080p, 1440p and 4K provide 42 paired shader
-observations, covering 28 unique original SPIR-V programs. The audit found
-compatible descriptor/push-constant layouts and matching workgroup sizes,
-with no ambiguous original-to-replacement mappings in that set. This supports
-an exact-match replacement approach inside RADV using the RC9 programs.
+The follow-up campaign uses kernel 7.2.5-1.163 with the newly active CPU
+`mitigations=off` setting. Its results are separate from the earlier boot.
+All 72 convolution shader slots pass the pinned DXC assembler and validator
+after early CSE, dead-code elimination and unused-prototype cleanup. Their
+combined textual IR falls from 2,842,592 to 1,438,020 lines; the other 276
+shader slots remain unchanged.
 
-The driver still needs its implementation and qualification. Preserve exact
-input matching, explicit Wave32/Wave64 policy, model-weight guards and
-unknown-shader fallbacks; cover the remaining permutations and intended
-translator versions. Verify SDK ordering through the driver-provider route
-as well as arithmetic. A new ELF then needs image/runtime parity, portable
-ABI and clean installation/rollback checks. The existing RC1/RC6 recovery
-components do not satisfy these new acceptance targets.
+Eight cold runs, ordered control/candidate/candidate/control/candidate/control/
+control/candidate, give median context-plus-first-dispatch CPU times of
+**22.195 → 19.479 seconds**, a **12.24% reduction**. Every four-frame output
+matches. Six 64-frame preflights at 1080p/1440p/4K and four 600-frame runs also
+match. All 36 convolution programs exercised across the three resolution families
+produce identical complete native machine code and register/spill statistics.
+
+The sustained GPU medians are 5.450 and 5.440 ms. All observed scoring-period clock samples are 1850 MHz in both
+arms; that small difference is not claimed as a runtime speedup. The native
+code equality is the stronger evidence that runtime behavior is preserved on
+this compiler/hardware path. The reserved 8K family also passes its image
+and native-code comparisons. All 72 slots were assembled and validated; native
+code comparison covers 36 of the candidate’s 60 distinct shader bytecodes,
+corresponding to the paths selected by the tested BC250 configuration. The candidate has
+not replaced the maintained RC9 shader sources or installed DLL.
+
+The current multi-file cache helper separately passes four GPU runs: original
+Fossilize data stays unchanged, its first dispatch takes 0.034 seconds, another
+application populates the shared cache in 22.546 seconds, and a new view reuses
+it in 1.447 seconds. These are first-dispatch CPU times rather than complete
+game-launch times. All four output images match.
+
+The [compiler follow-up](data/rc10-compiler-followup-20260914.json),
+[cache GPU record](data/rc10-cache-gpu-followup-20260914.json) and
+[userspace matrix](data/rc10-cache-portability-20260914.json) retain the inputs
+and measurements. Recompute their consistency alongside the driver image checks:
+
+```sh
+python3 scripts/check-rc10-followup.py
+```
+
+## Narrowed DLL proposal
+
+The proposed DLL retains only the 48 shader slots covered by the 36 native-code
+comparisons. The other 300 slots use their RC9 bytecodes. Its private label is
+`4.1.1d5`; it is not the maintained release DLL. This avoids changing alternate
+variants that the tested hardware configuration did not exercise.
+
+Four additional cold runs of this exact packed candidate give
+**22.244 → 19.383 seconds**, a **12.87% reduction**. Its output matches RC9 at
+1080p, 1440p, 4K and the reserved 8K context. It also passes image checks with
+the retained custom driver and the new prototype. Twelve sustained 600-frame
+runs cover standard Mesa and both custom drivers, with all outputs matching.
+Individual slower runs appear in both reference and candidate data; all are
+retained, and no GPU speedup is claimed from their small or noisy differences.
+
+The stronger runtime check compares every changed program directly: all GPU
+instructions, constant data, shader information and hardware configuration match
+RC9 on **standard Mesa, the retained custom driver and the new prototype**—
+36 programs on each driver build.
+The portable custom builds have no disassembler, so their comparison uses the
+actual executable data returned by Vulkan's pipeline-binary API. C structure
+alignment padding is distinguished from code and hardware fields using offsets
+compiled from the exact driver headers; no machine-code bytes are ignored.
+
+The [source proposal](../v4/experimental/compile-cse/README.md),
+[packed-candidate measurements](data/rc10-selected-compiler-20260914.json) and
+[custom-driver executable comparisons](data/rc10-custom-driver-code-20260914.json)
+are included in the complete source/evidence export. A release still requires
+integrating the proposal into a coherent new manifest, label, package and
+installation guide, then checking that exact release artifact. RC9 stays intact.
+
+## Driver prototype qualification
+
+The second private Mesa 26.2.2 prototype contains 42 exact shader pairs across
+all three resolution families. It matches the complete input after a hash
+prefilter, preserves explicit subgroup constraints, and leaves unknown or
+modified shaders on the original path. The C selector passes all 42 pairs
+and its hardware, stage, entry, specialization, internal-shader, opt-out and
+subgroup-conflict guards.
+
+The pinned Debian 12 build passes glibc 2.36 / GLIBCXX 3.4.30 ABI checks.
+Its experimental opt-out has a distinct Vulkan pipeline-cache UUID; repeated
+enabled queries produce the same UUID. The complete additional driver sources
+and checksums are retained in the [source capsule](../v4/experimental/rc9-port/README.md),
+which is included in complete-source exports rather than uploaded separately.
+
+Eight preflights compare the original-shader SDK route and the actual AMD
+4.1.1 driver-provider route at 1080p, 1440p, 4K and a reserved 8K context.
+All match the primary RC9 output. The provider route uses the pinned upstream
+OptiScaler INT8-selection hook: the ordinary GE/older SDK bridge alone selected
+FSR 3.1.5, which correctly failed qualification. The retained provider contains
+all 348 original SDK shader programs byte-for-byte.
+
+Twenty 600-frame performance runs compare the actual provider route against
+RC9 on the same boot, with the first 300 frames discarded:
+
+| Output | RC9 DLL / standard Mesa | Provider / new driver |
+| --- | ---: | ---: |
+| 1080p, six runs per route | 3.687 ms | 3.662 ms |
+| 1440p, two runs per route | 5.434 ms | 5.418 ms |
+| 4K, two runs per route | 11.978 ms | 11.965 ms |
+
+These are comparable GPU costs, not claimed runtime speedups. One initial
+1080p provider run was slower; eight additional balanced trials were collected,
+and every original and follow-up result remains in the summary and raw data.
+All scoring-period clock samples are retained separately from startup/shutdown.
+
+SDR, HDR, motion, reset and sharpening outputs also match RC9. Dynamic resolution
+has a **pre-existing difference between the SDK and older provider routes**.
+The new driver exactly reproduces that provider's output with the retained
+original driver. The SDK route, including the compiler candidate, continues
+to match RC9 during resizing. This establishes preservation of the provider's
+existing behavior, not universal pixel identity between distinct API routes.
+
+See the [initial prototype evidence](data/rc10-driver-prototype-20260914.json)
+and [completed driver follow-up](data/rc10-driver-followup-20260914.json).
+This is synthetic qualification on the recorded BC250/GE configuration.
+Additional games/translators and the release package's installation/recovery
+still require qualification. The installed system driver, RC1/RC6 recovery
+components and published RC9 integrations remain unchanged. No RC10 is published.

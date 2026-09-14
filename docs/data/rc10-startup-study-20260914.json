@@ -1249,7 +1249,6 @@
         "median_ms": 5.779059999999999,
         "discard_first_frames": 300,
         "scoring_clock_hz": [
-          1750000000,
           1850000000
         ],
         "pixels_sha256": "576258f877229f93aaffe88fcd83b02ab121ad15b73d8c75ececc6656a95a10a",
@@ -1863,7 +1862,6 @@
         "median_ms": 5.7653,
         "discard_first_frames": 300,
         "scoring_clock_hz": [
-          1750000000,
           1850000000
         ],
         "pixels_sha256": "576258f877229f93aaffe88fcd83b02ab121ad15b73d8c75ececc6656a95a10a",
@@ -2477,7 +2475,6 @@
         "median_ms": 5.76136,
         "discard_first_frames": 300,
         "scoring_clock_hz": [
-          1750000000,
           1850000000
         ],
         "pixels_sha256": "576258f877229f93aaffe88fcd83b02ab121ad15b73d8c75ececc6656a95a10a",
@@ -3091,7 +3088,6 @@
         "median_ms": 5.78154,
         "discard_first_frames": 300,
         "scoring_clock_hz": [
-          1750000000,
           1850000000
         ],
         "pixels_sha256": "576258f877229f93aaffe88fcd83b02ab121ad15b73d8c75ececc6656a95a10a",
@@ -3245,8 +3241,9 @@
     "Synthetic workloads, two executable names and two isolated Proton prefixes; not a multi-game launch qualification.",
     "Cold FSR context/first-dispatch CPU timing excludes Proton startup and later GPU completion.",
     "The CSE test is a four-run development screen, not a release acceptance campaign.",
-    "Warm CSE scoring sampled both 1750 and 1850 MHz; small timing differences are not claimed as a GPU speedup.",
+    "Warm CSE scoring-period samples were all 1850 MHz; small timing differences are not claimed as a GPU speedup.",
     "Native machine-code equality is verified for this pass on the tested compiler/hardware configuration.",
     "RC9 installation and release measurements are unchanged."
-  ]
+  ],
+  "clock_analysis_correction": "Scoring clocks include only samples with 300 <= completed_frames < 600. Earlier metadata included shutdown samples after frame 600. Raw timings, image hashes and native code are unchanged."
 }

@@ -810,6 +810,8 @@ def check_startup_study(root):
     result = summarize(load(root / "docs/data/rc10-startup-study-20260914.json"))
     require(result["native_machine_code_identical"], "Startup experiment changed native code")
     require(not result["driver_qualified"], "Static driver audit is not runtime qualification")
+    runpy.run_path(str(root / "scripts/check-rc10-followup.py"))["main"]()
+    runpy.run_path(str(root / "v4/experimental/rc9-port/verify.py"))["verify"]()
     return "RC10 startup development counters, GPU samples and native-code comparison verified"
 
 
