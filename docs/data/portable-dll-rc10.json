@@ -4,8 +4,7 @@
   "provider_name": "4.1.1r10",
   "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
   "dll_bytes": 94840832,
-  "published": false,
-  "synthetic_only": true,
+  "synthetic_only": false,
   "boot_id": "ebfbc2b0-5934-4824-9886-bc3b13718e00",
   "kernel": "7.2.5-1.163-cachyos-bc250",
   "compiler_cleanup": {
@@ -445,5 +444,7 @@
       "gameplay_qualified": false,
       "scope": "DLL mapped in the game process; exited before a rendered-scene check. This is not gameplay qualification."
     }
-  ]
+  ],
+  "prepublication_qualification_record": true,
+  "driver_gameplay_record": "docs/data/rc10-driver-gameplay-20260914.json"
 }

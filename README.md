@@ -1,16 +1,17 @@
-# BC250 FSR4 — portable DLL, RC10 candidate
+# BC250 FSR4 — portable DLL, RC10
 
 **FSR 4.1.1 INT8 optimizations in one Windows x64 DLL.** Install it through a
 working OptiScaler adapter or a compatible native FidelityFX game.
 
-RC10 is under review; [RC9 remains the published release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc9).
+[Download RC10](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc10).
+[RC9 remains available](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc9).
 The RC10 DLL identifies itself as **4.1.1r10**. Its shader cleanup reduces cold
 compilation work while retaining RC9's model and arithmetic. BC250/Linux is
 the tested platform; Windows and other GPUs remain unqualified.
 
 ## Install
 
-The primary RC10 download is `bc250-fsr4-dll-4.0.0-rc10.zip`. It contains the
+The primary download is the [RC10 DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc10/bc250-fsr4-dll-4.0.0-rc10.zip). It contains the
 DLL, instructions, notices, checksums and optional Linux cache helpers. Keep
 an original DLL backup and the previous launch-option text.
 
@@ -62,6 +63,10 @@ motion and HDR scenarios. Reserved 8K contexts exercise another shader family;
 that is not full 8K gameplay. The older AMD-provider route retains a pre-existing
 dynamic-resolution difference from the direct SDK route.
 
+The driver option passed [Control gameplay qualification](docs/driver-gameplay-rc10.md)
+through its original AMD-provider route. System Shock's additional DX11 result
+covers menu rendering only. Game files, saves and original settings were restored.
+
 The [historical seven-game checks](docs/portable-dll-rc7.md) belong to RC7.
 Do not read the RC10 synthetic matrix as a new playthrough of every game.
 Frame generation and unlisted integrations need separate qualification.
@@ -80,7 +85,7 @@ python3 dll/build.py --sdk /path/to/original/amd_fidelityfx_upscaler_dx12.dll \
 python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll
 ```
 
-[Release-note draft](docs/release-notes-rc10.md) ·
+[RC10 release notes](docs/release-notes-rc10.md) ·
 [Four-asset distribution](docs/releases.md) ·
 [Full development evidence](docs/rc10-development.md) ·
 [Contributing](CONTRIBUTING.md) · [Notices](THIRD_PARTY.md)

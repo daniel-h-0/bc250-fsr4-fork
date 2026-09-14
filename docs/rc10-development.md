@@ -1,9 +1,10 @@
-# RC10 preparation
+# RC10 development record
 
-This is development work toward v4, beginning September 14, 2026. RC9 remains
-the published candidate. No RC10 tag or release is authorized by this document.
-The maintainer requested a review of the finished release presentation before
-RC10 publication.
+This record follows development toward v4 beginning September 14, 2026.
+Earlier checkpoints retain their original qualification limits and publication
+status. The completed [release notes](release-notes-rc10.md) and
+[gameplay record](driver-gameplay-rc10.md) describe the final RC10 scope;
+the publication authorization is recorded at the end of this document.
 
 ## Acceptance targets
 
@@ -40,8 +41,7 @@ at their original URLs and retain their original identities.
 It requires the packagers' matching checksum sidecars, verifies copied bytes
 and emits a single checksum list. It does not publish, claim qualification,
 change version labels or modify the original archives. The driver argument
-is optional for an intermediate DLL-only preview; the planned RC10 driver
-download still requires independent parity and compatibility qualification.
+is optional for an intermediate DLL-only preview; the RC10 driver has separate parity, installer and gameplay evidence below.
 
 ```sh
 python3 scripts/release-assets.py \
@@ -288,7 +288,7 @@ not scored startup benchmarks. The compilation timings above retain their
 original candidates, boot records and measurements.
 
 The [RC10 release record](portable-dll-rc10.md) and
-[draft release notes](release-notes-rc10.md) track final packaging, additional
+[release notes](release-notes-rc10.md) track final packaging, additional
 Proton checks and the publication boundary. The actual driver recipe requires
 GE-Proton 11-6; the installed Valve Proton 11 trial removed the manually supplied
 provider and fell back to FSR3, while the primary RC10 DLL passed.
@@ -299,3 +299,14 @@ install rollback. Its cache UUID matches R2 and separates the opt-out mode.
 The additional Experimental 11.0-20260910b 1440p provider check matches all
 14 expected substitutions. An offline Control clone mapped the RC10 DLL but
 exited before rendered-scene verification; it is not a gameplay pass.
+
+## Gameplay qualification and release
+
+The maintainer authorized publication after gameplay qualification and a final
+documentation review. The driver route subsequently passed Control saved-scene
+rendering and navigation through a normal Steam launch, with the unmodified AMD
+provider and exact release driver mapped together. All 14 expected substitutions
+were logged. System Shock's D3D11 adapter route rendered its title/menu with
+13 substitutions but did not reach gameplay. The [separate record](driver-gameplay-rc10.md)
+keeps that limit explicit and verifies original saves/settings were restored.
+The original synthetic/compiler/cache results and earlier attempts remain intact.

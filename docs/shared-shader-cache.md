@@ -108,6 +108,6 @@ They cover argument boundaries, read-only storage, missing Python, concurrent
 preparation, late Steam cache creation and existing-cache preservation. These
 are isolated userspace tests, not full graphics qualification of those distros.
 
-The separate [RC10 development record](rc10-development.md) records actual BC250
+The separate [RC10 development record](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/rc10-development.md) records actual BC250
 GPU cache-reuse measurements, compiler experiments and their limits. Native
 Windows and proprietary Vulkan drivers are outside this launcher's scope.

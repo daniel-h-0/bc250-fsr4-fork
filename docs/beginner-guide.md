@@ -20,7 +20,7 @@ placement, not a promise that the DLL will render on that platform.
 
 | Download | What it provides |
 | --- | --- |
-| `bc250-fsr4-dll-4.0.0-rc10.zip` from the RC10 release | The RC10 DLL, instructions, optional Linux cache helpers, checksums and notices. |
+| [RC10 DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc10/bc250-fsr4-dll-4.0.0-rc10.zip) | The RC10 DLL, instructions, optional Linux cache helpers, checksums and notices. |
 | [OptiScaler 10.0.0-pre1, September 4, 2026](https://github.com/optiscaler/OptiScaler-nightly/releases/download/nightly-20260904/OptiScaler_v10.0.0-pre1_20260904.7z) | The separately maintained adapter. This guide uses this exact nightly's `OptiScaler/` subfolder layout. |
 | [OptiPatcher 0.41](https://github.com/optiscaler/OptiPatcher/releases/download/v0.41/OptiPatcher_v0.41.asi) | The input-unlocking plug-in used with the recorded adapter setup. Save it as `OptiScaler/plugins/OptiPatcher.asi`. |
 | [Signed NVIDIA `nvngx_dlss.dll` 310.7.0](https://raw.githubusercontent.com/NVIDIA/DLSS/a291cc7d2cc642a51566f3dfd5376f635cd1b284/lib/Windows_x86_64/rel/nvngx_dlss.dll) | A helper to place beside the game executable **if that folder does not already contain one**. Keep an existing game-provided copy. |
@@ -64,8 +64,8 @@ Pinned upstream SHA256 values:
 | Downloaded `nvngx_dlss.dll` | `be6e434a94ca32499515eb62ca0e6c274526055d568d0426e4c652dcdfb6ee6e` |
 
 The [historical RC9 guide](beginner-guide-rc9.md) and RC9 releases retain the
-older DLL identity and documentation refresh history. RC10 is currently under
-review; use the published RC9 release until RC10 is available.
+older DLL identity and documentation refresh history. Use the archive whose
+version and checksum match the instructions you are following.
 
 </details>
 

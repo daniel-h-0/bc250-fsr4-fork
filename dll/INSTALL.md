@@ -8,7 +8,7 @@ performance changes are already compiled into it.
 other GPUs need separate testing.
 
 **First installation?** Use the
-[illustrated beginner walkthrough](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md)
+[illustrated beginner walkthrough](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/beginner-guide.md)
 for the pinned OptiScaler download, exact game folders, Steam/Heroic steps and
 the real RC10 watermark reference. This short guide is also the archive README.
 
@@ -40,7 +40,7 @@ In one RC7 No Man's Sky check, the first dispatch stalled for about 66 seconds
 and triggered the game's hang detector; a restart with the same files and cache
 rendered successfully. That diagnostic run is an example, not a promised wait
 time or a guarantee for another game.
-[Details and troubleshooting](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/first-run-shader-compilation.md).
+[Details and troubleshooting](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/first-run-shader-compilation.md).
 
 ## With OptiScaler
 
@@ -125,13 +125,15 @@ applying that rename elsewhere.
 
 This release covers upscaling. Frame generation, ray regeneration and
 unlisted game or mod combinations need separate testing. The seven recorded
-game-route checks belong to RC7; RC10 has synthetic D3D12 image/performance
-checks at 1080p, 1440p and 4K and has not been retested in games.
+game-route checks for the portable DLL belong to RC7; the primary RC10 DLL has
+synthetic D3D12 image/performance checks at 1080p, 1440p and 4K. The separate Linux
+driver option has a new Control gameplay check; that is a different installation
+route and does not retest every game with this DLL.
 
 Native Windows requires a D3D12 runtime and
 driver accepting DXIL 1.9 / Shader Model 6.9.
 
-[Tested configurations and details](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/portable-dll-rc10.md)
+[Tested configurations and details](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/portable-dll-rc10.md)
 
 ## Update, undo and checksums
 
@@ -140,7 +142,7 @@ update, close the game and replace only the recipe's upscaler/loader DLL. To und
 restore that backup and the launch settings you changed. Remove a newly added
 adapter only using your record of added files; preserve game-provided helpers,
 other mods, saves and prefixes. The
-[complete undo steps](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md#undo)
+[complete undo steps](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/beginner-guide.md#undo)
 cover Steam and Heroic. Game updates may restore their own DLL.
 
 The DLL is 94,840,832 bytes, SHA256:

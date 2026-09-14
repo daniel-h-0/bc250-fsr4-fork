@@ -1,28 +1,22 @@
 # Changelog
 
-## 4.0.0-rc10 — under review
+## 4.0.0-rc10 — 2026-09-14
 
 - Reduce intermediate shader work in 48 native-code-compared slots; selected
   candidate cold synthetic setup improves about 13%, with RC9 arithmetic retained.
 - Include the optional portable Linux shared-cache launcher.
 - Add the private Mesa 26.2.2 driver option carrying RC9 optimizations, with
   exact provider/translator matching and separately keyed opt-out behavior.
-- Stage four uploads and retain full source/evidence and historical recovery pins.
+- Verify driver-route Control saved-scene navigation and restoration; retain
+  System Shock's additional DX11 result as menu rendering only.
+- Consolidate releases into four uploads while retaining full source/evidence
+  and historical recovery pins.
 - Relocate the longer `4.1.1r10` display label without overwriting adjacent SDK data.
+- Add an optional CPU startup-timing mode to the standalone probe, preserving
+  its normal benchmark build, and inspect DLL sources in automatic source archives.
 
-See [the draft release notes](docs/release-notes-rc10.md) and
+See [the release notes](docs/release-notes-rc10.md) and
 [qualification scope](docs/portable-dll-rc10.md).
-
-## Unreleased — RC10 preparation
-
-- Add an optional CPU startup-timing mode to the standalone probe; preserve
-  its normal benchmark build.
-- Add local release-asset staging with one archive per role and a consolidated
-  checksum list, retaining the complete source download and original artifacts.
-- Add an opt-in shared Mesa cache launcher with preserved per-game Fossilize
-  reads. Record isolated startup and shader-simplification development results.
-- Include the DLL source directory when inspecting GitHub's automatic source
-  archives. Document pending driver parity and the accepted four-upload layout.
 
 ## RC9 documentation refresh 1 — 2026-09-11
 

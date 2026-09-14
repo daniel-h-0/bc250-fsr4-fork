@@ -1,7 +1,8 @@
 # Releases and distribution
 
-RC10 is staged for review. Publication requires approval of the
-[release-note draft](release-notes-rc10.md). RC9 remains the published release.
+[RC10](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc10)
+uses the four uploads below. Read the [release notes](release-notes-rc10.md)
+and [driver gameplay scope](driver-gameplay-rc10.md). Existing RC9 assets remain available.
 
 ## Four RC10 uploads
 
@@ -40,7 +41,7 @@ produce the RC10 driver. Do not relabel or reuse an older binary as RC10.
 
 ## Historical RC9 documentation refreshes
 
-## Documentation refresh 2
+### Documentation refresh 2
 
 The September 12 `-docs2` packages correct watermark removal: close the game,
 set `Fsr4EnableWatermark=auto`, remove any `MLSR-WATERMARK` launch variable,
@@ -49,7 +50,7 @@ which still enables the SDK banner. The DLL, release tag and shader sources
 are unchanged. Use the current packages for the corrected instructions;
 the original and `-docs1` assets remain available with their own checksums.
 
-## Documentation refresh 1
+### Documentation refresh 1
 
 The original September 11 RC9 ZIP and tar.xz contain the correct DLL and
 internal `SHA256SUMS`, but their README footer mistakenly lists RC8's size and
@@ -87,7 +88,7 @@ through the earlier integration. A source version label does not prove that
 a rebuilt ELF is the same binary. FSR **4.1.1 INT8** identifies the provider;
 it is distinct from both project versions and the newer 4.1.1b mod.
 
-## End-user setup bundle
+### End-user setup bundle
 
 The distribution release tag is `v4.0.0-rc6`. Its small
 `bc250-fsr4-setup-4.0.0-rc6.tar.gz` bundle contains the installer tools,
@@ -120,7 +121,7 @@ Build the small distribution from a clean reviewed checkout:
 python3 scripts/source-release.py --setup --output dist/setup
 ```
 
-## Driver artifacts
+### Driver artifacts
 
 The default RC4–RC6 private artifact is
 `bc250-fsr4-v4.0.0-rc1-linux-glibc236-x86_64.tar.gz`, attached to the RC4

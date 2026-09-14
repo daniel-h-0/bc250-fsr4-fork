@@ -2,7 +2,7 @@
 
 RC10 prepares FSR4 shaders for faster cold compilation and adds an optional
 shared Mesa cache plus a Linux driver compatibility download. It retains the
-RC9 model and arithmetic. This is a release candidate for review, not v4 final.
+RC9 model and arithmetic. This is a release candidate toward v4 final.
 
 ## Compiler cleanup
 
@@ -87,10 +87,12 @@ retained RC1 driver, Vulkan initialization, bad-checksum rejection and ordered
 rollback to RC1 and then no selected driver. Enabled/disabled cache UUIDs are
 distinct and repeat consistently. The system driver was not replaced.
 
-An offline Control clone mapped the new DLL but exited before a rendered-scene
-check. That attempt is not counted as gameplay qualification. A normal-launch
-gameplay pass for the driver remains a useful final confidence check; the
-release's established coverage is the synthetic matrix above.
+The driver option subsequently passed normal Steam gameplay in Control,
+including saved-scene navigation and all 14 expected substitutions. System
+Shock's DX11 route passed animated menu rendering with 13 substitutions; it is
+not a gameplay pass. The [gameplay record](driver-gameplay-rc10.md) distinguishes
+those results from the earlier incomplete offline smoke test. These driver
+checks do not establish a new gameplay matrix for the primary DLL.
 
 Use the [installation guide](../dll/INSTALL.md), retain the original DLL backup
 and launch options, and leave watermark control at `auto` with `MLSR-WATERMARK`

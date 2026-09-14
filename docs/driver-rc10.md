@@ -66,8 +66,21 @@ provider route uses ordinary GE-Proton **11-6**, upstream OptiScaler
 **10.0.0-pre1 (September 4)** with **OptiPatcher 0.41**, the original AMD
 **4.1.1** provider and the older SDK **4.0.2** bridge. The exact upstream
 URLs and hashes are retained in
-[the runtime input manifest](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/runtime/manifest.json).
+[the runtime input manifest](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/runtime/manifest.json).
 The retained runtime's driver selection is a separate RC1 recovery pin.
+
+The two AMD downloads for this recipe are:
+
+| Download | Use / SHA256 of the DLL |
+| --- | --- |
+| [SDK 4.0.2 bridge](https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/f4c1da8e92f3fe563b5c28c44e6267ce6b6b8eb2/Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_dx12.dll) | Save as `amd_fidelityfx_upscaler_dx12.dll`; `241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0` |
+| [Original FSR 4.1.1 provider, xz-compressed](https://loathingKernel.github.io/proton-upscalers/amdxcffx64_v4.1.1_398EA93C15D554EFB7ECE1F4CD057554.xz) | Decompress and rename the result to `amdxcffx64.dll`; `4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e` |
+
+The compressed provider archive itself has SHA256
+`5de9b6d9f5475a0f2622e4cbce88cde46c68929d9bd0bbc353c70056997bb771`. Keep the upstream notices linked in the input
+manifest. Verify the extracted DLL hashes before replacing files. For Steam,
+the game's prefix is usually under `steamapps/compatdata/APPID/pfx` in its
+Steam library; Heroic uses the configured Wine-prefix path.
 
 For that route, close the game, back up the current integration and use the
 pinned SDK bridge as `OptiScaler/amd_fidelityfx_upscaler_dx12.dll`. The
@@ -109,6 +122,12 @@ variables after checking. Leave `MLSR-WATERMARK` absent for a hidden watermark.
 
 ## Qualification and limitations
 
+Control passed a normal Steam driver-route gameplay check, with saved-scene
+navigation, the source DRIVER watermark, exact loaded component hashes and
+14 logged shader substitutions. System Shock's additional DX11 check reached
+animated menu rendering with 13 substitutions, but did not establish gameplay.
+[Gameplay evidence and limits](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/driver-gameplay-rc10.md).
+
 The RC9 parity work includes exact shader/interface matching, native-code
 comparisons, three-resolution sustained synthetic rendering, SDR/HDR, motion,
 history reset and sharpening. A reserved 8K context exercises the third shader
@@ -117,7 +136,7 @@ resolution output differs from the direct SDK route; the new driver preserves
 the older provider's result exactly. Universal image identity between those
 API routes is not claimed.
 
-[Detailed results and source](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/rc10-development.md)
+[Detailed results and source](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/rc10-development.md)
 remain in the complete source/evidence archive. Real-game coverage is narrower
 than the synthetic matrix. Windows, other GPUs, frame generation and arbitrary
 provider/Proton versions are unqualified. The driver's generated header contains
@@ -129,7 +148,7 @@ cold-compilation reduction.
 The included `scripts/shared-cache.sh` and adjacent Python helper optionally
 share compatible Mesa compilations. They can wrap the existing launch command;
 keep all driver and adapter settings. See the
-[shared-cache guide](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/shared-shader-cache.md)
+[shared-cache guide](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/shared-shader-cache.md)
 for XDG paths, sandbox visibility, concurrency and fallbacks.
 
 To stop using the private driver, remove its wrapper from the game's launch

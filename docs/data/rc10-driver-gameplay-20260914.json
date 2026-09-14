@@ -1,0 +1,265 @@
+{
+  "schema": 1,
+  "date": "2026-09-14",
+  "release_version": "4.0.0-rc10",
+  "hardware": "AMD BC250 / GFX1013",
+  "kernel": "7.2.5-1.163-cachyos-bc250",
+  "boot_id": "ebfbc2b0-5934-4824-9886-bc3b13718e00",
+  "driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+  "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+  "sdk_bridge_sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+  "proton": "GE-Proton11-6-x86_64",
+  "optiscaler": "10.0.0-pre1-20260904",
+  "optipatcher": "0.41",
+  "qualification_complete": true,
+  "scope": "One gameplay-qualified D3D12 title; one additional D3D11 menu-only check. Synthetic quality/performance evidence remains separate.",
+  "games": [
+    {
+      "game": "Control Ultimate Edition",
+      "appid": 870780,
+      "api": "D3D12",
+      "normal_steam_launch": true,
+      "gameplay_qualified": true,
+      "scope": "Saved-scene rendering and scripted movement/turn/jump observed.",
+      "test_session_seconds": 901.585578229,
+      "session_includes_startup_menus_and_diagnostics": true,
+      "ended_by_bounded_supervisor": true,
+      "rendering_fps_claim": false,
+      "provider_name": "4.1.1",
+      "provider_source": "DRIVER",
+      "processes": [
+        {
+          "driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+          "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+          "bridge_sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+          "adapter_sha256": "469bcfe59108f04f8b8cf45953e515f0a0cd24b00717be62b7dcf5c20430410d",
+          "all_in_same_process": true,
+          "lsfg_layer_absent": true
+        }
+      ],
+      "exact_shader_matches": [
+        {
+          "index": 1,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass11",
+          "original_spirv_sha256": "10a8d37f7ffa11a5db3c5d424051927b192b6ad5c823d50814c433c730a6f3bc",
+          "rc9_spirv_sha256": "0494adf695aa5ca660e54573823865c824be51cb0e91dceb0ade1c99eec794f9"
+        },
+        {
+          "index": 3,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass2",
+          "original_spirv_sha256": "247bc7a7ccd2cdaf818e28f6d93f6a68b581a29eec2e877ed5f05fdd20e11a68",
+          "rc9_spirv_sha256": "61c853720e534663152853f92c99f9e15f9e2bcb4c03f604e50c72300858ad09"
+        },
+        {
+          "index": 4,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass10",
+          "original_spirv_sha256": "278dce8bc9ec4478c88bc3a57ff5c73ddef1b4d793948b0cd7edf409f140f5f4",
+          "rc9_spirv_sha256": "b10dee80eb23505950e1a49c99e22146136cccfbd88d7c094dd2620f75f585bc"
+        },
+        {
+          "index": 7,
+          "entry": "fsr4_model_v07_fp8_no_scale_prepass",
+          "original_spirv_sha256": "2e0ba98cdd86e676cf06f1391bca75fee0d313bc22cd3bcef30ba9328e8c5bcb",
+          "rc9_spirv_sha256": "9a33cf03c7e83c344d85e5bb6d7408e52646d11ea5b67099de6e04c7aea7113f"
+        },
+        {
+          "index": 9,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass9",
+          "original_spirv_sha256": "4a15feba7489bd575fd9ee1544855c2343b42e1278a6f404316028343496e72c",
+          "rc9_spirv_sha256": "18fddbf3311510eae383ede7939550ec112adbeaf6f2344b29a9b07e017704dd"
+        },
+        {
+          "index": 10,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass6",
+          "original_spirv_sha256": "4ac572a06637a9b31eebc30736b9385d83f499328081356aced41748c61acc67",
+          "rc9_spirv_sha256": "37bc271d1dd77eef78bce4a6f9be05924d2b9f6f6e4696c4a61ffdab95970189"
+        },
+        {
+          "index": 11,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass4",
+          "original_spirv_sha256": "55076a18f23f132ece1557cf3023bb37c49bd1302c5f0bc390a7da884e5800b6",
+          "rc9_spirv_sha256": "d425d744b4578ed19a8588cdcab6258500c2b4563d305303a5de0914a4562d18"
+        },
+        {
+          "index": 21,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass1",
+          "original_spirv_sha256": "9988a8e0ed54cc3902c89994ec6fc171f98ff1aaa6f3881b8590beaef24d39ed",
+          "rc9_spirv_sha256": "d9c49c6dd53b6f49c508a18395ead7069cf8a21eadb54fda65bd86d3ad28f5c1"
+        },
+        {
+          "index": 23,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass12",
+          "original_spirv_sha256": "a376f2d14c21fd7951fe712c1d1200138943fffd87ebd8044e00793e4cc96ee8",
+          "rc9_spirv_sha256": "e7b686becd6f584be38735f3e23eea7bcf5243ceefd69185796fc046519425f4"
+        },
+        {
+          "index": 26,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass5",
+          "original_spirv_sha256": "b75a99c61554662e8963bc33ec29622d62bf5cf4198b3839be426c921e36f185",
+          "rc9_spirv_sha256": "4160a63acc7a4ba69a5056d6df2b5a7fb1294d8d15f4e9513ed603a761ecc8fe"
+        },
+        {
+          "index": 29,
+          "entry": "fsr4_model_v07_fp8_no_scale_postpass",
+          "original_spirv_sha256": "c4c00737ccf8a94cc9b3ec48557f96a84b92530ef574fbc34140b6296d367c77",
+          "rc9_spirv_sha256": "8ed9910b71c953fabe10e76d7576a788357209cacccab495e026c9f94fb2a7ed"
+        },
+        {
+          "index": 31,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass8",
+          "original_spirv_sha256": "cc8ec2a3d747793454425c0a5362c67fceb98897254c27a6f6f671ee9ef6a8b7",
+          "rc9_spirv_sha256": "cb73440c442215979a0894ddc7be9b51693a8e7289eec2173b9b4550f7febcfc"
+        },
+        {
+          "index": 32,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass3",
+          "original_spirv_sha256": "cfe31d3045e2e24dea0394261b0a4d807b6c07bf9ff96c6e0d9062f6bdc81d2c",
+          "rc9_spirv_sha256": "859ea8e84804a5308db0c35d115afa1197e4b4809b00ddede971b51f476f20a5"
+        },
+        {
+          "index": 39,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass7",
+          "original_spirv_sha256": "f91a692a53dcea29b6dd58499b72a55a74411e0aeee7c2b44866e5f98955775a",
+          "rc9_spirv_sha256": "e1b61a3913bfadb2a0a9a2828a4d34527987a635e6d1fc872f0963ac39b203fe"
+        }
+      ],
+      "logged_shader_count": 14,
+      "screenshots": [
+        {
+          "path": "docs/assets/rc10-driver-control-scene.png",
+          "sha256": "91f02c66eae99d70b244183be16b5728dc568a525d4c792a1118d8f7829dd7d9",
+          "pixels_unedited": true
+        },
+        {
+          "path": "docs/assets/rc10-driver-control-movement.png",
+          "sha256": "f39d14434c784ae3d23a8a895afb2013a49a2c7f4d4fdf305cd84a3895c1f001",
+          "pixels_unedited": true
+        }
+      ],
+      "original_files_and_settings_restored": true,
+      "save_payloads_rechecked_after_cloud_restore": true,
+      "cloud_disabled_during_trial": true,
+      "save_writer_scope": "Private game/prefix/userdata copies; Steam client could still write local app userdata. Such writes were preserved separately and original bytes restored before cloud re-enable.",
+      "native_renderer_metadata": "Control HDR setting enabled; captures are retained without exposure/color edits."
+    },
+    {
+      "game": "System Shock",
+      "appid": 482400,
+      "api": "D3D11 \u2192 D3D12 through OptiScaler",
+      "normal_steam_launch": true,
+      "gameplay_qualified": false,
+      "scope": "Title/menu rendering only; the automated run did not reach gameplay. Not a gameplay pass.",
+      "test_session_seconds": 900.3968328319997,
+      "session_includes_startup_menus_and_diagnostics": true,
+      "ended_by_bounded_supervisor": true,
+      "rendering_fps_claim": false,
+      "provider_name": "4.1.1",
+      "provider_source": "DRIVER",
+      "processes": [
+        {
+          "driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+          "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
+          "bridge_sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+          "adapter_sha256": "469bcfe59108f04f8b8cf45953e515f0a0cd24b00717be62b7dcf5c20430410d",
+          "all_in_same_process": true,
+          "lsfg_layer_absent": true
+        }
+      ],
+      "exact_shader_matches": [
+        {
+          "index": 1,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass11",
+          "original_spirv_sha256": "10a8d37f7ffa11a5db3c5d424051927b192b6ad5c823d50814c433c730a6f3bc",
+          "rc9_spirv_sha256": "0494adf695aa5ca660e54573823865c824be51cb0e91dceb0ade1c99eec794f9"
+        },
+        {
+          "index": 3,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass2",
+          "original_spirv_sha256": "247bc7a7ccd2cdaf818e28f6d93f6a68b581a29eec2e877ed5f05fdd20e11a68",
+          "rc9_spirv_sha256": "61c853720e534663152853f92c99f9e15f9e2bcb4c03f604e50c72300858ad09"
+        },
+        {
+          "index": 4,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass10",
+          "original_spirv_sha256": "278dce8bc9ec4478c88bc3a57ff5c73ddef1b4d793948b0cd7edf409f140f5f4",
+          "rc9_spirv_sha256": "b10dee80eb23505950e1a49c99e22146136cccfbd88d7c094dd2620f75f585bc"
+        },
+        {
+          "index": 9,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass9",
+          "original_spirv_sha256": "4a15feba7489bd575fd9ee1544855c2343b42e1278a6f404316028343496e72c",
+          "rc9_spirv_sha256": "18fddbf3311510eae383ede7939550ec112adbeaf6f2344b29a9b07e017704dd"
+        },
+        {
+          "index": 10,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass6",
+          "original_spirv_sha256": "4ac572a06637a9b31eebc30736b9385d83f499328081356aced41748c61acc67",
+          "rc9_spirv_sha256": "37bc271d1dd77eef78bce4a6f9be05924d2b9f6f6e4696c4a61ffdab95970189"
+        },
+        {
+          "index": 11,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass4",
+          "original_spirv_sha256": "55076a18f23f132ece1557cf3023bb37c49bd1302c5f0bc390a7da884e5800b6",
+          "rc9_spirv_sha256": "d425d744b4578ed19a8588cdcab6258500c2b4563d305303a5de0914a4562d18"
+        },
+        {
+          "index": 21,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass1",
+          "original_spirv_sha256": "9988a8e0ed54cc3902c89994ec6fc171f98ff1aaa6f3881b8590beaef24d39ed",
+          "rc9_spirv_sha256": "d9c49c6dd53b6f49c508a18395ead7069cf8a21eadb54fda65bd86d3ad28f5c1"
+        },
+        {
+          "index": 23,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass12",
+          "original_spirv_sha256": "a376f2d14c21fd7951fe712c1d1200138943fffd87ebd8044e00793e4cc96ee8",
+          "rc9_spirv_sha256": "e7b686becd6f584be38735f3e23eea7bcf5243ceefd69185796fc046519425f4"
+        },
+        {
+          "index": 26,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass5",
+          "original_spirv_sha256": "b75a99c61554662e8963bc33ec29622d62bf5cf4198b3839be426c921e36f185",
+          "rc9_spirv_sha256": "4160a63acc7a4ba69a5056d6df2b5a7fb1294d8d15f4e9513ed603a761ecc8fe"
+        },
+        {
+          "index": 29,
+          "entry": "fsr4_model_v07_fp8_no_scale_postpass",
+          "original_spirv_sha256": "c4c00737ccf8a94cc9b3ec48557f96a84b92530ef574fbc34140b6296d367c77",
+          "rc9_spirv_sha256": "8ed9910b71c953fabe10e76d7576a788357209cacccab495e026c9f94fb2a7ed"
+        },
+        {
+          "index": 31,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass8",
+          "original_spirv_sha256": "cc8ec2a3d747793454425c0a5362c67fceb98897254c27a6f6f671ee9ef6a8b7",
+          "rc9_spirv_sha256": "cb73440c442215979a0894ddc7be9b51693a8e7289eec2173b9b4550f7febcfc"
+        },
+        {
+          "index": 32,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass3",
+          "original_spirv_sha256": "cfe31d3045e2e24dea0394261b0a4d807b6c07bf9ff96c6e0d9062f6bdc81d2c",
+          "rc9_spirv_sha256": "859ea8e84804a5308db0c35d115afa1197e4b4809b00ddede971b51f476f20a5"
+        },
+        {
+          "index": 39,
+          "entry": "fsr4_model_v07_fp8_no_scale_pass7",
+          "original_spirv_sha256": "f91a692a53dcea29b6dd58499b72a55a74411e0aeee7c2b44866e5f98955775a",
+          "rc9_spirv_sha256": "e1b61a3913bfadb2a0a9a2828a4d34527987a635e6d1fc872f0963ac39b203fe"
+        }
+      ],
+      "logged_shader_count": 13,
+      "screenshots": [
+        {
+          "path": "docs/assets/rc10-driver-system-shock-menu.png",
+          "sha256": "cd098b503c4f9e1f00d1715f3ca7cc570841ee2a68dd8ad791ed9b2dda21e8c7",
+          "pixels_unedited": true
+        }
+      ],
+      "original_files_and_settings_restored": true,
+      "save_payloads_rechecked_after_cloud_restore": true,
+      "cloud_disabled_during_trial": true,
+      "save_writer_scope": "Private game/prefix/userdata copies; Steam client could still write local app userdata. Such writes were preserved separately and original bytes restored before cloud re-enable.",
+      "native_renderer_metadata": "Existing game rendering preset retained."
+    }
+  ],
+  "system_driver_changed": false,
+  "published_game_source_or_save_payloads": false
+}
