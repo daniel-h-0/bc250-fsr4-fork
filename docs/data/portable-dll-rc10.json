@@ -1,0 +1,366 @@
+{
+  "schema": 1,
+  "release_version": "4.0.0-rc10",
+  "provider_name": "4.1.1r10",
+  "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+  "dll_bytes": 94840832,
+  "published": false,
+  "synthetic_only": true,
+  "boot_id": "ebfbc2b0-5934-4824-9886-bc3b13718e00",
+  "kernel": "7.2.5-1.163-cachyos-bc250",
+  "compiler_cleanup": {
+    "changed_slots": 48,
+    "unchanged_slots": 300,
+    "proven_distinct_programs": 36,
+    "proposal_dll_sha256": "b1f4b181536bdd87f26a6ac1d61ff0edd6be2044d2666aefabe70be8c0623c31",
+    "evidence": "docs/data/rc10-selected-compiler-20260914.json",
+    "native_code_evidence": "docs/data/rc10-custom-driver-code-20260914.json"
+  },
+  "rebuild": {
+    "validated_shaders": 348,
+    "sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+    "bytes": 94840832
+  },
+  "label": {
+    "instruction_file_offset": "0x4a5",
+    "old_reference": "488d2d54840c00",
+    "new_label_rva": 94856412,
+    "original_string_and_adjacent_watermark_preserved": true
+  },
+  "driver": {
+    "sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+    "bytes": 26717064,
+    "source_manifest_sha256": "4398c6e228809fc809d03e7e3212b7c0e510e39cb67a6d2b2b1982ee933f1b0d",
+    "glibc_maximum": "2.36",
+    "glibcxx_maximum": "3.4.30",
+    "same_stripped_output_from_final_recipe": true
+  },
+  "preflight": {
+    "complete": true,
+    "rows": [
+      {
+        "name": "release-final-1080p-release",
+        "provider": "4.1.1r10",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "e6833d91a27bf277092c78c9157460dfdd94670bea498034e4c98774f76a2e84",
+        "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+        "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "e6833d91a27bf277092c78c9157460dfdd94670bea498034e4c98774f76a2e84"
+      },
+      {
+        "name": "release-final-1080p-paired",
+        "provider": "4.1.1r10",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "e6833d91a27bf277092c78c9157460dfdd94670bea498034e4c98774f76a2e84",
+        "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+        "driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "e6833d91a27bf277092c78c9157460dfdd94670bea498034e4c98774f76a2e84"
+      },
+      {
+        "name": "release-final-1080p-original_port",
+        "provider": "4.1.1d4",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "e6833d91a27bf277092c78c9157460dfdd94670bea498034e4c98774f76a2e84",
+        "dll_sha256": "5f3ca278e9a187221c8c0ede0fedce249cb368564cf9236c90aa6b2273a7db49",
+        "driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "e6833d91a27bf277092c78c9157460dfdd94670bea498034e4c98774f76a2e84"
+      },
+      {
+        "name": "release-final-1440p-release",
+        "provider": "4.1.1r10",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+        "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+        "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1"
+      },
+      {
+        "name": "release-final-1440p-paired",
+        "provider": "4.1.1r10",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+        "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+        "driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1"
+      },
+      {
+        "name": "release-final-1440p-original_port",
+        "provider": "4.1.1d4",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+        "dll_sha256": "5f3ca278e9a187221c8c0ede0fedce249cb368564cf9236c90aa6b2273a7db49",
+        "driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1"
+      },
+      {
+        "name": "release-final-4k-release",
+        "provider": "4.1.1r10",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "59957d2dd10bfd04f50489bec80a37fb05905cffdf342e7e20eedd4795eeacc9",
+        "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+        "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "59957d2dd10bfd04f50489bec80a37fb05905cffdf342e7e20eedd4795eeacc9"
+      },
+      {
+        "name": "release-final-4k-paired",
+        "provider": "4.1.1r10",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "59957d2dd10bfd04f50489bec80a37fb05905cffdf342e7e20eedd4795eeacc9",
+        "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+        "driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "59957d2dd10bfd04f50489bec80a37fb05905cffdf342e7e20eedd4795eeacc9"
+      },
+      {
+        "name": "release-final-4k-original_port",
+        "provider": "4.1.1d4",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "59957d2dd10bfd04f50489bec80a37fb05905cffdf342e7e20eedd4795eeacc9",
+        "dll_sha256": "5f3ca278e9a187221c8c0ede0fedce249cb368564cf9236c90aa6b2273a7db49",
+        "driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "59957d2dd10bfd04f50489bec80a37fb05905cffdf342e7e20eedd4795eeacc9"
+      },
+      {
+        "name": "release-final-8k-reserved-release",
+        "provider": "4.1.1r10",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+        "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+        "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1"
+      },
+      {
+        "name": "release-final-8k-reserved-paired",
+        "provider": "4.1.1r10",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+        "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+        "driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1"
+      },
+      {
+        "name": "release-final-8k-reserved-original_port",
+        "provider": "4.1.1d4",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+        "dll_sha256": "5f3ca278e9a187221c8c0ede0fedce249cb368564cf9236c90aa6b2273a7db49",
+        "driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1"
+      },
+      {
+        "name": "release-final-sdr",
+        "provider": "4.1.1r10",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+        "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+        "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1"
+      },
+      {
+        "name": "release-final-hdr",
+        "provider": "4.1.1r10",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "1413b1c5fb874743b95d334ccf981b5f1c622a9a139e9d62a077b44e40755b92",
+        "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+        "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "1413b1c5fb874743b95d334ccf981b5f1c622a9a139e9d62a077b44e40755b92"
+      },
+      {
+        "name": "release-final-motion",
+        "provider": "4.1.1r10",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "3fbb28792799b49ba7bdeacdd1c0f41c5680c91331faca44a1c94f9334f2dd17",
+        "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+        "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "3fbb28792799b49ba7bdeacdd1c0f41c5680c91331faca44a1c94f9334f2dd17"
+      },
+      {
+        "name": "release-final-reset",
+        "provider": "4.1.1r10",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "ee96b6efa3e35302de766ed8560534fa323a29e1e4eda2d041ab002b2b194a5e",
+        "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+        "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "ee96b6efa3e35302de766ed8560534fa323a29e1e4eda2d041ab002b2b194a5e"
+      },
+      {
+        "name": "release-final-resize",
+        "provider": "4.1.1r10",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "15130d3d7c1dcde1d90608145f9d064411b178cad2bb7f17c1c808b9d0b7f458",
+        "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+        "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "15130d3d7c1dcde1d90608145f9d064411b178cad2bb7f17c1c808b9d0b7f458"
+      },
+      {
+        "name": "release-final-rcas",
+        "provider": "4.1.1r10",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "4452aa913c9dd5b6a96fe9025f80b59a8763db020a5949a60cf250d6219fae4f",
+        "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+        "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "4452aa913c9dd5b6a96fe9025f80b59a8763db020a5949a60cf250d6219fae4f"
+      },
+      {
+        "name": "release-provider-1080p",
+        "provider": "4.1.1",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "e6833d91a27bf277092c78c9157460dfdd94670bea498034e4c98774f76a2e84",
+        "dll_sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+        "driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "e6833d91a27bf277092c78c9157460dfdd94670bea498034e4c98774f76a2e84"
+      },
+      {
+        "name": "release-provider-1440p",
+        "provider": "4.1.1",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+        "dll_sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+        "driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1"
+      },
+      {
+        "name": "release-provider-4k",
+        "provider": "4.1.1",
+        "valid": true,
+        "frames": 64,
+        "pixels_sha256": "59957d2dd10bfd04f50489bec80a37fb05905cffdf342e7e20eedd4795eeacc9",
+        "dll_sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+        "driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+        "loaded_dll_path_matches": true,
+        "expected_pixels_sha256": "59957d2dd10bfd04f50489bec80a37fb05905cffdf342e7e20eedd4795eeacc9"
+      }
+    ],
+    "performance_qualified": false
+  },
+  "interruption": {
+    "previous_boot": "1e08ff08-73a9-4b27-abd7-136ccb1130f0",
+    "completed_checks_retained": 1,
+    "incomplete_check_excluded": true
+  },
+  "installer": null,
+  "additional_translators": {
+    "complete": true,
+    "rows": [
+      {
+        "label": "proton11",
+        "version": "1788504981 proton-11.0-2c-x86_64",
+        "dll_valid": true,
+        "dll_pixels": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+        "provider_valid": false,
+        "provider_selected": "3.1.5",
+        "provider_pixels": "d46a5f870818110fc8f27ce32433d3e518d43b2023f4e03a8a3995aefcffd285",
+        "provider_matches": [],
+        "provider_pixels_match_rc9": false
+      },
+      {
+        "label": "experimental",
+        "version": "1789159601 experimental-11.0-20260910b-x86_64",
+        "dll_valid": true,
+        "dll_pixels": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+        "provider_valid": true,
+        "provider_selected": "4.1.1",
+        "provider_pixels": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+        "provider_matches": [
+          [
+            "7",
+            "replaced original, wave=32"
+          ],
+          [
+            "21",
+            "replaced original, wave=32"
+          ],
+          [
+            "3",
+            "replaced original, wave=32"
+          ],
+          [
+            "32",
+            "replaced original, wave=0"
+          ],
+          [
+            "11",
+            "replaced original, wave=32"
+          ],
+          [
+            "26",
+            "replaced original, wave=32"
+          ],
+          [
+            "10",
+            "replaced original, wave=0"
+          ],
+          [
+            "39",
+            "replaced original, wave=64"
+          ],
+          [
+            "31",
+            "replaced original, wave=64"
+          ],
+          [
+            "9",
+            "replaced original, wave=32"
+          ],
+          [
+            "4",
+            "replaced original, wave=32"
+          ],
+          [
+            "1",
+            "replaced original, wave=0"
+          ],
+          [
+            "23",
+            "replaced original, wave=32"
+          ],
+          [
+            "29",
+            "replaced original, wave=64"
+          ]
+        ],
+        "provider_pixels_match_rc9": true
+      }
+    ]
+  },
+  "real_game_checks": []
+}

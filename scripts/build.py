@@ -106,6 +106,35 @@ def verify_inputs(root=ROOT):
     return manifest
 
 
+def apply_source_overlays(source, manifest, root=ROOT):
+    """Install pinned regular source files after the ordered textual patches."""
+    for relative in manifest.get("source_overlays", []):
+        if relative not in manifest["source_inputs"]:
+            raise RuntimeError("Unpinned source overlay: " + relative)
+        with tarfile.open(root / "v4" / relative) as archive:
+            members = archive.getmembers()
+            if len({m.name for m in members}) != len(members):
+                raise RuntimeError("Duplicate source overlay member")
+            for member in members:
+                name = Path(member.name)
+                target = source / name
+                if (
+                    not member.isfile()
+                    or name.is_absolute()
+                    or ".." in name.parts
+                    or member.name not in manifest["sources"]
+                    or target.is_symlink()
+                    or not target.resolve().is_relative_to(source.resolve())
+                ):
+                    raise RuntimeError("Unsafe source overlay member: " + member.name)
+                data = archive.extractfile(member).read()
+                if hashlib.sha256(data).hexdigest() != manifest["sources"][member.name]:
+                    raise RuntimeError("Source overlay member hash mismatch: " + member.name)
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(data)
+                target.chmod(0o644)
+
+
 def recipe_hashes(root=ROOT):
     return {name: digest(root / name) for name in ("scripts/build.py", "requirements-build.txt")}
 
@@ -415,6 +444,7 @@ def main():
                 cwd=source,
                 check=True,
             )
+        apply_source_overlays(source, manifest)
         cache = source / "subprojects/packagecache"
         cache.mkdir(exist_ok=True)
         for relative in manifest["source_inputs"]:

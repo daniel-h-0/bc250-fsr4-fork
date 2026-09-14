@@ -87,12 +87,17 @@ def build(sdk, manifest, output):
         raise ValueError("Unexpected SDK buffer-UAV skip-barrier instruction")
     data[0x4789] = 0
     host_changes.append(dict(offset=0x4789, before="01", after="00"))
-    # Match the reference's bounded display-label convention. Numeric FFX
-    # provider/API versions and the adjacent FSR4-i8 watermark stay unchanged.
+    # RC10 no longer fits the original eight-byte string slot. Its only code
+    # reference is this RIP-relative LEA, consumed as the provider name pointer.
+    # Put the terminated name in our read-only section and redirect that LEA;
+    # the adjacent FSR4-i8 string and numeric provider/API versions stay intact.
     label_offset = 0xC8300
-    if data[label_offset : label_offset + 8] != b"4.1.1\0\0\0":
+    if data[label_offset : label_offset + 16] != b"4.1.1\0\0\0FSR4-i8\0":
         raise ValueError("The SDK provider label differs from the pinned layout")
-    data[label_offset : label_offset + 8] = b"4.1.1r9\0"
+    label_instruction = 0x4A5
+    if data[label_instruction : label_instruction + 7] != bytes.fromhex("488d2d54840c00"):
+        raise ValueError("The SDK provider label reference differs from the pinned layout")
+    provider_name = "4.1.1r10"
     cert, size = struct.unpack_from("<II", data, optional + 112 + 4 * 8)
     if cert < max(s["offset"] + s["size"] for s in sections) or cert + size != len(data):
         raise ValueError("Unexpected SDK certificate placement")
@@ -158,6 +163,17 @@ def build(sdk, manifest, output):
         )
     if not records:
         raise ValueError("Empty replacement set")
+    label_rva = va + len(appended)
+    appended.extend(provider_name.encode("ascii") + b"\0")
+    displacement = label_rva - (to_rva(label_instruction) + 7)
+    struct.pack_into("<i", data, label_instruction + 3, displacement)
+    host_changes.append(
+        dict(
+            offset=label_instruction + 3,
+            before="54840c00",
+            after=struct.pack("<i", displacement).hex(),
+        )
+    )
     size = align(len(appended), file_alignment)
     data.extend(bytes(raw - len(data)))
     data.extend(appended)
@@ -196,7 +212,8 @@ def build(sdk, manifest, output):
         sha256=sha(data),
         bytes=len(data),
         host_changes=host_changes,
-        provider_name="4.1.1r9",
+        provider_name=provider_name,
+        provider_name_rva=label_rva,
         replacements=records,
     )
     with output.with_suffix(".json").open("x") as stream:

@@ -2,6 +2,7 @@
 """Build provenance and source-distribution contracts without a GPU or Mesa build."""
 
 import importlib.util
+import io
 import os
 import shlex
 import shutil
@@ -18,6 +19,35 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import build
 import driver
 import release_common
+
+
+class SourceOverlayTests(unittest.TestCase):
+    def test_overlay_cannot_escape_or_follow_an_existing_source_link(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "v4").mkdir()
+            source = root / "mesa"
+            source.mkdir()
+            outside = root / "preserve.c"
+            outside.write_bytes(b"original")
+            archive = root / "v4/overlay.tar"
+            for name in ("../preserve.c", "linked.c"):
+                with self.subTest(name=name):
+                    with tarfile.open(archive, "w") as bundle:
+                        member = tarfile.TarInfo(name)
+                        member.size = 7
+                        bundle.addfile(member, io.BytesIO(b"changed"))
+                    if name == "linked.c":
+                        (source / name).symlink_to(outside)
+                    manifest = {
+                        "source_overlays": ["overlay.tar"],
+                        "source_inputs": {"overlay.tar": build.digest(archive)},
+                        "sources": {name: "0" * 64},
+                    }
+                    with self.assertRaisesRegex(RuntimeError, "Unsafe source overlay"):
+                        build.apply_source_overlays(source, manifest, root)
+                    self.assertEqual(outside.read_bytes(), b"original")
+
 
 spec = importlib.util.spec_from_file_location(
     "release_package", Path(build.__file__).with_name("package.py")

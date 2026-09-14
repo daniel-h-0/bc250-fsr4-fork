@@ -270,3 +270,25 @@ This is synthetic qualification on the recorded BC250/GE configuration.
 Additional games/translators and the release package's installation/recovery
 still require qualification. The installed system driver, RC1/RC6 recovery
 components and published RC9 integrations remain unchanged. No RC10 is published.
+
+## RC10 release integration
+
+The proposed 48-slot compiler cleanup is now integrated into the release DLL
+manifest and editable sources. The remaining 300 slots retain RC9 bytes.
+The longer `4.1.1r10` provider label has an audited reference relocation; it
+does not overwrite the adjacent watermark. A complete 348-shader rebuild
+reproduces the shipping candidate. The current driver manifest uses the exact
+three-file R2 overlay, with the old RC1 manifest retained for RC6 recovery.
+Two portable builds produce the same stripped driver bytes.
+
+After a second routine reboot on kernel 7.2.5, a new boot record qualified
+21 final-artifact image checks. The earlier boot's one completed check remains
+separate; its interrupted second run is not counted. These are API/image checks,
+not scored startup benchmarks. The compilation timings above retain their
+original candidates, boot records and measurements.
+
+The [RC10 release record](portable-dll-rc10.md) and
+[draft release notes](release-notes-rc10.md) track final packaging, additional
+Proton checks and the publication boundary. The actual driver recipe requires
+GE-Proton 11-6; the installed Valve Proton 11 trial removed the manually supplied
+provider and fell back to FSR3, while the primary RC10 DLL passed.

@@ -12,9 +12,9 @@ This fork does not relicense inherited files. New Python/shell tools explicitly
 marked SPDX MIT use [LICENSE.new-code](LICENSE.new-code); that limited grant
 does not label the entire repository MIT.
 
-## Portable DLL distribution (RC7)
+## Portable DLL distribution (RC7 onward)
 
-The RC7 archive redistributes the modified AMD FidelityFX SDK 2.3.0 upscaler
+The portable DLL archive redistributes the modified AMD FidelityFX SDK 2.3.0 upscaler
 DLL and its compiled shader/model material from commit
 `60f4ea81909200d8542eca14dccb2628b763a9a3`. The complete
 [AMD notice](dll/notices/AMD-SDK-LICENSE.md), including the explicit exception
@@ -24,14 +24,14 @@ The [DLL provenance notice](dll/notices/PROVENANCE.md) and
 [build source](dll/README.md) record the v4/Mesa lineage, Microsoft DXC inputs
 and limited MIT grant for new tools. DXC is a build dependency. No custom Mesa,
 Proton, OptiScaler, NVIDIA helper or driver-provider binary is bundled in the
-RC7 DLL archive. Users obtain an optional OptiScaler adapter separately under
+portable DLL archive. Users obtain an optional OptiScaler adapter separately under
 its upstream terms. The runtime-distribution section below describes retained RC6.
 
 ## Source inventory
 
 | Material | Provenance and notices |
 | --- | --- |
-| RC7 upscaler DLL and editable shader assembly | `dll/manifest.json`, full AMD SDK notice and `dll/notices/PROVENANCE.md` |
+| Portable upscaler DLL and editable shader assembly | `dll/manifest.json`, full AMD SDK notice and `dll/notices/PROVENANCE.md` |
 | New SPDX-marked tools | MIT under `LICENSE.new-code` |
 | Inherited BC250 material | Original Git history and `legacy/`; retain existing notices |
 | Mesa 26.2.2 and patches | Inputs in `v4/manifest.json`; retain original per-file licenses and copyright notices |
@@ -53,6 +53,14 @@ New driver archives include Mesa's license summary and full license-text
 directory under `licenses/`. The original rc1 archive contained the summary;
 later packaging does not replace its published contents. Source exports retain
 tracked provenance and notices.
+
+## RC10 driver shader payload
+
+The RC10 driver additionally contains exact original/optimized SPIR-V pairs
+from the AMD SDK/RC9 shader implementation. Its compact download includes the
+complete shader notices under `notices/`, Mesa/libdrm notices under `licenses/`,
+and [driver provenance](docs/driver-notices.md). The full source/evidence archive
+retains the complete source overlay and upstream input hashes.
 
 ## Runtime distribution
 

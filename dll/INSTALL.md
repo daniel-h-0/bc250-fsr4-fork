@@ -1,6 +1,6 @@
-# FSR 4.1.1 INT8 — RC9 DLL
+# FSR 4.1.1 INT8 — RC10 DLL
 
-Project version **4.0.0-rc9**; SDK display name **4.1.1r9**.
+Project version **4.0.0-rc10**; SDK display name **4.1.1r10**.
 This archive contains one modified Windows x64 upscaler DLL. The v4
 performance changes are already compiled into it.
 
@@ -10,11 +10,14 @@ other GPUs need separate testing.
 **First installation?** Use the
 [illustrated beginner walkthrough](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md)
 for the pinned OptiScaler download, exact game folders, Steam/Heroic steps and
-the real RC9 watermark reference. This short guide is also the archive README.
+the real RC10 watermark reference. This short guide is also the archive README.
 
-The `-docs1` archives refresh documentation only. Original RC9 archives had
-RC8's size/hash in this README footer; their DLL and `SHA256SUMS` were correct.
-The current DLL identity appears below and is checked against the build manifest.
+RC10 removes redundant intermediate shader operations to reduce cold compilation
+work. Its 48 changed shader slots produce the same native BC250 code as RC9
+on the three compared Mesa builds. The download also includes an optional
+Linux shared-cache launcher under `linux/`; see `linux/README.md`. Copy only
+the DLL into the game. Keep the Linux helpers in a permanent user directory
+if you choose to use them.
 
 ## First launch: shader compilation can look like a freeze
 
@@ -87,14 +90,14 @@ variables. `PROTON_USE_XALIA=0` avoids the adapter being inherited by the Window
 UI accessibility helper in the recorded Proton setup.
 For Heroic or another Wine launcher, enter these as environment-variable
 name/value pairs instead of using Steam’s `%command%` placeholder. There is
-no RC9-specific Heroic switch; Heroic launch behavior has not been separately
+no RC10-specific Heroic switch; Heroic launch behavior has not been separately
 qualified with this candidate.
 These variables load the adapter and keep competing automatic upscaler
 integrations off. Keep OptiScaler's other files installed, including its
 signed `nvngx_dlss.dll` helper beside the proxy when required.
 
 For a visual check, temporarily set `[FSR] Fsr4EnableWatermark=true` and restart.
-The rendered image should identify **4.1.1r9**, INT8 and the local source.
+The rendered image should identify **4.1.1r10**, INT8 and the local source.
 The game's own DLSS/FSR menu label can stay unchanged. After checking, close the
 game, set **`Fsr4EnableWatermark=auto`**, and restart. In the pinned OptiScaler
 build, `false` sets `MLSR-WATERMARK=0`, which still enables the SDK banner because
@@ -106,7 +109,7 @@ SDK metadata; use the provider label and DLL hash to identify this release.
 
 Close the game, back up the compatible game DLL, then replace it and select
 native FSR in the graphics menu. These replacement locations were verified
-with RC7; they have not been retested with RC9:
+with RC7; they have not been retested with RC10:
 
 | Game | Replace this file |
 | --- | --- |
@@ -122,13 +125,13 @@ applying that rename elsewhere.
 
 This release covers upscaling. Frame generation, ray regeneration and
 unlisted game or mod combinations need separate testing. The seven recorded
-game-route checks belong to RC7; RC9 has synthetic D3D12 image/performance
+game-route checks belong to RC7; RC10 has synthetic D3D12 image/performance
 checks at 1080p, 1440p and 4K and has not been retested in games.
 
 Native Windows requires a D3D12 runtime and
 driver accepting DXIL 1.9 / Shader Model 6.9.
 
-[Tested configurations and details](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc9/docs/portable-dll-rc9.md)
+[Tested configurations and details](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/portable-dll-rc10.md)
 
 ## Update, undo and checksums
 
@@ -140,10 +143,10 @@ other mods, saves and prefixes. The
 [complete undo steps](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md#undo)
 cover Steam and Heroic. Game updates may restore their own DLL.
 
-The DLL is 111,815,680 bytes, SHA256:
+The DLL is 94,840,832 bytes, SHA256:
 
 ```text
-eefcac03ab17b04a29a5bb16e3f3e9c3181ba9ea46b05a61cb49a5003e1516ef
+a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89
 ```
 
 Verify with `sha256sum -c SHA256SUMS` on Linux, or PowerShell

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1120" height="620" viewBox="0 0 1120 620" role="img" aria-labelledby="title description">
-  <title id="title">Find the executable folder, then put the adapter and RC9 in their separate places</title>
-  <desc id="description">Illustration, not a Steam screenshot. Steam Library, Properties, Installed Files, Browse opens the game root. Follow the recipe to the executable. For Cyberpunk, open bin then x64. OptiScaler.dll is renamed dxgi.dll beside Cyberpunk2077.exe. The RC9 DLL keeps the name amd_fidelityfx_upscaler_dx12.dll inside the OptiScaler subfolder.</desc>
+  <title id="title">Find the executable folder, then put the adapter and FSR4 DLL in their separate places</title>
+  <desc id="description">Illustration, not a Steam screenshot. Steam Library, Properties, Installed Files, Browse opens the game root. Follow the recipe to the executable. For Cyberpunk, open bin then x64. OptiScaler.dll is renamed dxgi.dll beside Cyberpunk2077.exe. The FSR4 DLL DLL keeps the name amd_fidelityfx_upscaler_dx12.dll inside the OptiScaler subfolder.</desc>
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0 0 L7 3 L0 6" fill="none" stroke="#64748b" stroke-width="1.5"/></marker>
   </defs>
@@ -26,7 +26,7 @@
     <circle cx="805" cy="123" r="15" fill="#38702e"/><text x="800" y="129" font-size="17" fill="white" font-weight="700">3</text>
     <text x="831" y="130" font-size="18" font-weight="700">Use the two DLLs</text>
     <text x="801" y="167" font-size="16">Adapter: rename OptiScaler.dll</text>
-    <text x="801" y="200" font-size="16">RC9: keep its upscaler filename</text>
+    <text x="801" y="200" font-size="16">FSR4 DLL: keep its upscaler filename</text>
     <text x="801" y="245" font-size="15" fill="#526176">Their locations are different.</text>
     <rect x="32" y="311" width="1056" height="271" rx="12" fill="#fff" stroke="#cbd5e1"/>
     <text x="54" y="345" font-size="18" font-weight="700">Inside bin/x64</text>
@@ -43,7 +43,7 @@
     <text x="680" y="447" font-size="17" fill="#526176">Edit the existing settings</text>
     <text x="680" y="480" font-size="17" fill="#526176">Keep the game's copy, if present</text>
     <path d="M504 545 H651" stroke="#38702e" stroke-width="2" marker-end="url(#arrow)"/>
-    <text x="680" y="551" font-size="17" fill="#38702e" font-weight="700">Replace this with RC9</text>
+    <text x="680" y="551" font-size="17" fill="#38702e" font-weight="700">Replace this with FSR4 DLL</text>
     <text x="32" y="607" font-size="14" fill="#526176">Native recipes use the game's original DLL path instead. Always make a backup first.</text>
   </g>
 </svg>

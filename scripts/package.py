@@ -41,6 +41,11 @@ def main():
     p.add_argument("--work", type=Path, default=ROOT / ".work/native")
     p.add_argument("--output", type=Path, default=ROOT / "dist")
     p.add_argument("--label", default="linux-x86_64", help="ABI/build label, e.g. cachyos-x86_64")
+    p.add_argument(
+        "--runtime-only",
+        action="store_true",
+        help="Compact driver/tools download; complete source is a separate asset",
+    )
     args = p.parse_args()
     if not args.label or any(c not in "abcdefghijklmnopqrstuvwxyz0123456789-_" for c in args.label):
         p.error("Use lowercase letters, digits, - or _ in the build label.")
@@ -69,15 +74,35 @@ def main():
         subprocess.run(
             ["strip", "--strip-unneeded", str(root / "lib/libvulkan_radeon.so")], check=True
         )
-        for relative in inventory:
+        selected = inventory
+        if args.runtime_only:
+            selected = [
+                "scripts/driver.py",
+                "scripts/vulkan_probe.py",
+                "scripts/safe_archive.py",
+                "scripts/shared-cache.py",
+                "scripts/shared-cache.sh",
+                "run-bc250-fsr4.sh",
+                "LICENSE.new-code",
+                "THIRD_PARTY.md",
+                "v4/manifest.json",
+            ]
+            if not set(selected).issubset(inventory):
+                raise RuntimeError("Missing compact driver source files")
+        for relative in selected:
             destination = root / relative
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / relative, destination)
         copied_manifest_sha256 = driver.digest(root / "v4/manifest.json")
         if copied_manifest_sha256 != built["manifest_sha256"]:
             raise RuntimeError("Source manifest changed while packaging.")
-        build.verify_inputs(root)
-        if build.recipe_hashes(root) != built["recipe_hashes"]:
+        if args.runtime_only:
+            shutil.copy2(ROOT / "docs/driver-rc10.md", root / "README.md")
+            shutil.copy2(ROOT / "docs/driver-notices.md", root / "THIRD_PARTY.md")
+            shutil.copytree(ROOT / "dll/notices", root / "notices")
+        else:
+            build.verify_inputs(root)
+        if not args.runtime_only and build.recipe_hashes(root) != built["recipe_hashes"]:
             raise RuntimeError("Source recipe changed while packaging.")
         (root / "licenses").mkdir()
         shutil.copy2(

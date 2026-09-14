@@ -1,4 +1,4 @@
-# Rebuilding the RC9 DLL
+# Rebuilding the RC10 DLL
 
 The ordinary download is one DLL. This directory is its developer source:
 348 complete editable LLVM/DXIL assembly files, the pinned input manifest,
@@ -24,15 +24,13 @@ python3 dll/build.py \
   --dxcompiler /path/to/dxc/lib/libdxcompiler.so \
   --output .work/dll --jobs 2
 python3 scripts/package-dll.py \
-  --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --output dist/dll --documentation-revision 1
-python3 scripts/package-dll.py \
-  --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --output dist/dll --format tar.xz --documentation-revision 1
+  --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --output dist/dll
 ```
 
 The output directory must be new and outside `dll/`. Nothing is installed.
 Every assembly source is hashed, assembled, validated by DXC, and compared
-against its expected shader hash. The complete DLL must be **111,815,680 bytes**,
-SHA256 **eefcac03ab17b04a29a5bb16e3f3e9c3181ba9ea46b05a61cb49a5003e1516ef**.
+against its expected shader hash. The complete DLL must be **94,840,832 bytes**,
+SHA256 **a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89**.
 Compiler diagnostics or any mismatch stop the build.
 
 `source-inventory.json` records all source files in this directory except
@@ -76,6 +74,14 @@ preparation/final-output wave choices carry forward the accepted RC8 work.
 Complete model guards and dynamic-weight fallbacks remain intact. The other
 329 slots keep their RC7 compiled hashes; 336 keep their RC8 hashes.
 
+RC10 runs pinned LLVM `early-cse`, `dce` and `strip-dead-prototypes` passes
+on 48 shader slots. All 36 distinct changed bytecodes produce identical native
+instructions, constants and hardware configuration on three compared Mesa builds.
+The other 300 slots retain RC9 bytes, including 24 alternative convolution slots
+without that native-code comparison. The precomputed model, arithmetic, weight
+guards and fallback computations are retained. See the
+[RC10 record](../docs/portable-dll-rc10.md) for compilation timings and scope.
+
 The shaders retain DXIL 1.9 / Shader Model 6.9. The DLL does not disguise them as
 older shader-model bytecode. Native Windows driver support needs separate
 qualification; success through Proton does not establish native driver support.
@@ -85,7 +91,9 @@ qualification; success through Proton does not establish native driver support.
 [repack_dll.py](repack_dll.py) accepts only the pinned SDK image. It preserves
 the SDK's five public FFX exports, numeric provider version, imports and host
 implementation. It makes the audited 18-byte INT8 eligibility change, and
-changes the existing eight-byte display-label slot to `4.1.1r9` plus its NUL.
+redirects the audited RIP-relative provider-name reference at file offset
+`0x4a5` to `4.1.1r10` plus its NUL in the appended read-only section. The
+original eight-byte slot and adjacent `FSR4-i8` watermark remain untouched.
 It does not add a compatibility loader shim or frame-generation implementation.
 
 One additional instruction-immediate byte repairs SDK synchronization. The

@@ -11,6 +11,7 @@ import re
 import runpy
 import subprocess
 import sys
+import tarfile
 from pathlib import Path, PurePosixPath
 from statistics import mean, median
 from urllib.parse import unquote, urlsplit
@@ -94,6 +95,22 @@ def check_inputs(root):
         touched.update(
             re.findall(r"^\+\+\+ b/(\S+)", (root / "v4" / relative).read_text(), re.MULTILINE)
         )
+    for relative in manifest.get("source_overlays", []):
+        require(relative in inputs, "Unpinned source overlay")
+        with tarfile.open(root / "v4" / relative) as archive:
+            members = archive.getmembers()
+            require(len({m.name for m in members}) == len(members), "Duplicate overlay member")
+            for member in members:
+                require(
+                    member.isfile() and member.name in manifest["sources"],
+                    "Unexpected overlay source",
+                )
+                require(
+                    hashlib.sha256(archive.extractfile(member).read()).hexdigest()
+                    == manifest["sources"][member.name],
+                    "Overlay source hash mismatch",
+                )
+                touched.add(member.name)
     require(touched == set(manifest["sources"]), "Patched files/final source hashes mismatch")
     for relative, expected in manifest["sources"].items():
         require(bool(SHA256.fullmatch(expected)), "Invalid final source hash: " + relative)
@@ -113,7 +130,10 @@ def check_inputs(root):
         "Driver/runtime provider mismatch",
     )
     require(
-        runtime["driver"]["source_manifest_sha256"] == digest(manifest_path),
+        runtime["driver"]["source_manifest_sha256"]
+        == digest(
+            relative_file(root, runtime["driver"].get("source_manifest", "v4/manifest.json"))
+        ),
         "Runtime targets another driver source",
     )
     require(runtime["preset"]["FSR.Fsr4ForceModel"] == "2", "Runtime must select INT8 model 2")
@@ -787,8 +807,8 @@ def check_dll(root):
         load(root / "docs/data/portable-dll-rc8.json"),
         load(root / "docs/data/portable-dll-rc8-manifest.json"),
     )
-    rc9 = load(root / manifest["qualification_record"])
-    check_rc9_record(rc9, manifest)
+    rc9 = load(root / "docs/data/portable-dll-rc9.json")
+    check_rc9_record(rc9, load(root / "docs/data/portable-dll-rc9-manifest.json"))
     chart_dir = root / rc9["performance"]["chart_data"]
     chart = runpy.run_path(str(chart_dir / "summarize.py"))["summarize"]()
     require(chart == load(chart_dir / "results.json"), "RC9 chart results changed")
@@ -812,6 +832,7 @@ def check_startup_study(root):
     require(not result["driver_qualified"], "Static driver audit is not runtime qualification")
     runpy.run_path(str(root / "scripts/check-rc10-followup.py"))["main"]()
     runpy.run_path(str(root / "v4/experimental/rc9-port/verify.py"))["verify"]()
+    runpy.run_path(str(root / "scripts/check-rc10-release.py"))["main"]()
     return "RC10 startup development counters, GPU samples and native-code comparison verified"
 
 

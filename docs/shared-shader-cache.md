@@ -1,7 +1,7 @@
 # Shared shader caching on Linux
 
 The optional launcher lets applications reuse compatible Mesa shader compilations.
-It is under RC10 qualification; RC9 remains the published release. The launcher
+RC10 includes the launcher as an opt-in feature. The launcher
 works through Mesa's cache environment variables and ordinary user directories,
 without distro-specific package managers, services or changes to Wine prefixes.
 
@@ -36,8 +36,8 @@ See [Mesa's cache variables](https://docs.mesa3d.org/envvars.html#mesa-shader-ca
 
 ## Use
 
-Keep `shared-cache.sh` and `shared-cache.py` together in the repository's
-`scripts` directory. Inspect the proposed cache settings with:
+Keep `shared-cache.sh` and `shared-cache.py` together. The DLL ZIP supplies
+them under `linux/`; the source and driver archives use `scripts/`. Inspect the proposed cache settings with:
 
 ```sh
 sh "/path/to/bc250-fsr4/scripts/shared-cache.sh" --show

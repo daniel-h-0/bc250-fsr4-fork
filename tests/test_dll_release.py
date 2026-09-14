@@ -210,6 +210,29 @@ class DllPackageTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "source inventory"):
             package_dll.release_files(self.root, self.dll)
 
+    def test_optional_launcher_is_pinned_and_cannot_replace_the_dll(self):
+        helper = self.root / "helper.sh"
+        helper.write_bytes(b"exec true\n")
+        path = self.root / "dll/manifest.json"
+        manifest = json.loads(path.read_text())
+        metadata = {
+            "source": "helper.sh",
+            "sha256": hashlib.sha256(helper.read_bytes()).hexdigest(),
+        }
+        manifest["optional_files"] = {"linux/helper.sh": metadata}
+        path.write_text(json.dumps(manifest))
+        self.assertEqual(
+            package_dll.release_files(self.root, self.dll)[1]["linux/helper.sh"],
+            helper.read_bytes(),
+        )
+        helper.write_bytes(b"changed launch command\n")
+        with self.assertRaisesRegex(ValueError, "Optional package file differs"):
+            package_dll.release_files(self.root, self.dll)
+        manifest["optional_files"] = {package_dll.DLL_NAME: metadata}
+        path.write_text(json.dumps(manifest))
+        with self.assertRaisesRegex(ValueError, "Invalid optional package path"):
+            package_dll.release_files(self.root, self.dll)
+
     def test_missing_license_cannot_silently_disappear_from_a_release(self):
         (self.root / "dll/notices/license.txt").unlink()
         with self.assertRaisesRegex(ValueError, "notice inventory"):

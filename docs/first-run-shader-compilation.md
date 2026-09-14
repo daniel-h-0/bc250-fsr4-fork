@@ -39,10 +39,9 @@ GPU model. [vkd3d-proton cache documentation](https://github.com/HansKristian-Wo
    expected compilation. A pause does not establish compatibility on an
    otherwise untested platform.
 
-## Optional shared caching under development
+## Optional shared caching
 
-The [Linux shared-cache launcher](shared-shader-cache.md) is being qualified
-for RC10. It shares compatible Mesa compilations across opted-in applications
+The [Linux shared-cache launcher](shared-shader-cache.md) is included as an opt-in RC10 feature. It shares compatible Mesa compilations across opted-in applications
 while retaining their existing Steam caches. The guide covers supported cache
 backends, sandbox path requirements, failure fallbacks and undo. No production
 launch setting is changed automatically.

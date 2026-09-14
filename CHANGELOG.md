@@ -1,5 +1,18 @@
 # Changelog
 
+## 4.0.0-rc10 — under review
+
+- Reduce intermediate shader work in 48 native-code-compared slots; selected
+  candidate cold synthetic setup improves about 13%, with RC9 arithmetic retained.
+- Include the optional portable Linux shared-cache launcher.
+- Add the private Mesa 26.2.2 driver option carrying RC9 optimizations, with
+  exact provider/translator matching and separately keyed opt-out behavior.
+- Stage four uploads and retain full source/evidence and historical recovery pins.
+- Relocate the longer `4.1.1r10` display label without overwriting adjacent SDK data.
+
+See [the draft release notes](docs/release-notes-rc10.md) and
+[qualification scope](docs/portable-dll-rc10.md).
+
 ## Unreleased — RC10 preparation
 
 - Add an optional CPU startup-timing mode to the standalone probe; preserve

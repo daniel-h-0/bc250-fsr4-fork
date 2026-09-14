@@ -89,7 +89,7 @@ class RepositoryCheckTests(unittest.TestCase):
 class RC9PublicationTests(unittest.TestCase):
     def setUp(self):
         self.record = copy.deepcopy(checks.load(ROOT / "docs/data/portable-dll-rc9.json"))
-        self.manifest = checks.load(ROOT / "dll/manifest.json")
+        self.manifest = checks.load(ROOT / "docs/data/portable-dll-rc9-manifest.json")
 
     def test_release_run_cannot_use_the_development_provider_label(self):
         self.record["performance"]["rows"][0]["provider"] = "4.1.1d1"

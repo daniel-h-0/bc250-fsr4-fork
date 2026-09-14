@@ -63,6 +63,24 @@ def release_files(root, dll):
             raise ValueError("Release documentation differs from the source inventory")
         files[name] = content
     validate_install_guide(files["README.md"].decode(), manifest)
+    for name, metadata in manifest.get("optional_files", {}).items():
+        destination = Path(name)
+        relative = Path(metadata["source"])
+        if (
+            destination.is_absolute()
+            or ".." in destination.parts
+            or name in files
+            or relative.is_absolute()
+            or ".." in relative.parts
+        ):
+            raise ValueError("Invalid optional package path")
+        path = root / relative
+        if path.is_symlink() or not path.is_file():
+            raise ValueError("Missing regular optional package file")
+        content = path.read_bytes()
+        if digest(content) != metadata["sha256"]:
+            raise ValueError("Optional package file differs from manifest: " + name)
+        files[name] = content
     files["SHA256SUMS"] = "".join(
         f"{digest(data)}  {name}\n" for name, data in sorted(files.items())
     ).encode()

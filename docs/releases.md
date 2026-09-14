@@ -1,36 +1,44 @@
 # Releases and distribution
 
-RC9 is the portable DLL release candidate. Its primary artifact is
-`bc250-fsr4-dll-4.0.0-rc9-docs2.zip`, with an equivalent smaller `.tar.xz` option.
-Each contains one DLL, the short installation guide, checksums and notices.
-Follow the [beginner walkthrough](beginner-guide.md), [DLL quickstart](../README.md) and
-[compatibility scope](portable-dll-rc9.md). The retained RC6 installer is separate.
+RC10 is staged for review. Publication requires approval of the
+[release-note draft](release-notes-rc10.md). RC9 remains the published release.
 
-## RC9 DLL and complete source
+## Four RC10 uploads
 
-From a reviewed source tree, rebuild the exact candidate using the
-[DLL build instructions](../dll/README.md), then package it:
+| Asset | Contents |
+| --- | --- |
+| `bc250-fsr4-dll-4.0.0-rc10.zip` | Primary DLL, instructions, optional Linux cache helpers and notices |
+| `bc250-fsr4-v4.0.0-rc10-linux-glibc236-x86_64.tar.gz` | Private Linux driver, install/launch helpers, provenance and notices |
+| `bc250-fsr4-v4.0.0-rc10-source-COMMIT.tar.gz` | Complete editable sources, build tools, detailed docs, charts and evidence |
+| `SHA256SUMS` | Hashes for those three uploaded archives |
+
+GitHub also provides its two automatic source downloads. Detailed documentation
+and charts remain linked and included in the complete source archive; they do
+not need separate release-page uploads. RC9 assets remain available under RC9.
+
+From a reviewed clean source tree:
 
 ```sh
-python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --documentation-revision 2
-python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --format tar.xz --documentation-revision 2
+python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll
+python3 scripts/package.py --work .work/linux-glibc236/mesa \
+  --label linux-glibc236-x86_64 --runtime-only
 python3 scripts/source-release.py --output dist/source
+python3 scripts/release-assets.py --dll PATH_TO_DLL_ZIP --driver PATH_TO_DRIVER_TAR \
+  --source PATH_TO_COMPLETE_SOURCE_TAR --output dist/upload-rc10
 ```
 
-The binary packager refuses a mismatched DLL, instructions whose release
-version/provider/size/checksum disagree with the manifest, unrecorded instructions, missing
-notices and existing output assets. It includes SHA256SUMS inside the archive
-and an adjacent archive checksum. ZIP and tar.xz contain the same files; they
-are two compression formats for the same DLL. The complete source archive
-takes its release identity from `dll/manifest.json`, includes all 348 editable
-shader sources and retains the older runtime/driver source for recovery.
+The DLL packager verifies the DLL, guide identity, notices and optional helper
+hashes. The driver packager verifies complete build/source provenance and strips
+only the copied library. The staging tool checks the original archive sidecars
+and emits one combined list; it never publishes or replaces existing files.
+Qualify the final archive's driver and installation/rollback before publication.
 
-`runtime/manifest.json` remains at RC6. `source-release.py --setup` still
-exports the retained RC6 installer with its own guide; it does not install RC9.
-Do not attach a relabeled RC6 installer or driver bundle as an RC9 DLL asset.
-The CI DLL job downloads hash-pinned public SDK/DXC inputs and checks all
-rebuilt shader hashes and the complete DLL hash. GPU/platform qualification
-is separate from a successful source build.
+`runtime/manifest.json` remains at RC6, with its exact historical driver-source
+manifest in `v4/legacy/rc1-manifest.json`. The old setup/install bootstraps retain
+those recovery pins. The current `v4/manifest.json` and ordinary source build
+produce the RC10 driver. Do not relabel or reuse an older binary as RC10.
+
+## Historical RC9 documentation refreshes
 
 ## Documentation refresh 2
 
