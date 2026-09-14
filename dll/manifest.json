@@ -3191,11 +3191,11 @@
     },
     "linux/shared-cache.py": {
       "source": "scripts/shared-cache.py",
-      "sha256": "e6678e9b7f430455e01dd67acfcda8851350bc2163d8bf6916a177816c318e67"
+      "sha256": "d2f7550e3d93e524f629b02297657f7d002253ddd0149423394f847f6d977ca4"
     },
     "linux/README.md": {
       "source": "docs/shared-shader-cache.md",
-      "sha256": "dfb62c926b6ab8cb9875f7bbf08f728035cc8a6cba358f91d4df27ce9e5f85eb"
+      "sha256": "9c73ecf6b212f7c9266617dac686525401383d53d234fe30d3164eed7e39ee94"
     }
   }
 }

@@ -39,12 +39,15 @@ component hashes, observed cache settings, exact substitution lists, cache-entry
 hashes and screenshot hashes. It distinguishes the installed test-tool hashes
 from the final helper source: subsequent installer changes retain the tooling
 license and keep unselected interrupted staging data during uninstall. The cache
-preparation/launch functions and imports compare identically as parsed code;
-current installer and userspace tests cover the final full helper.
+preparation/launch functions and imports compare identically as parsed code.
+The full helper and driver-tool hashes in this record are retained under
+`legacy/cache-setup-tools`, from commit `67870df`. The subsequent
+[installer review](cache-review.md) has its own source hashes and tests; the
+measured cache preparation code remains identical.
 
 ## Setup, diagnostics and portability
 
-The helper's 21 filesystem/launch tests pass in four isolated userspaces as an
+At that revision, the helper's 21 filesystem/launch tests passed in four isolated userspaces as an
 unprivileged user: Debian Bullseye/Python 3.8, Debian Bookworm/Python 3.11,
 Alpine/Python 3.12 and the Arch-based builder/Python 3.14. They cover existing
 unwritable stores, full-disk write failure, non-mutating status, concurrent view

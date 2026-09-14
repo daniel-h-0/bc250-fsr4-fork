@@ -75,6 +75,11 @@ def main():
             ["strip", "--strip-unneeded", str(root / "lib/libvulkan_radeon.so")], check=True
         )
         selected = inventory
+        launcher_sources = {"scripts/" + name for name in driver.LAUNCHER_TOOLS} | {
+            "LICENSE.new-code"
+        }
+        if not launcher_sources.issubset(inventory):
+            raise RuntimeError("Missing driver launcher source files")
         if args.runtime_only:
             selected = [
                 "scripts/driver.py",
@@ -144,6 +149,7 @@ def main():
             "version": manifest["version"],
             "mesa": manifest["mesa"],
             "architecture": "x86_64",
+            "launcher_tools_api": driver.LAUNCHER_TOOLS_API,
             "label": args.label,
             "driver_sha256": driver.digest(root / "lib/libvulkan_radeon.so"),
             "source_manifest_sha256": copied_manifest_sha256,

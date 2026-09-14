@@ -7,6 +7,12 @@
 - Include shared caching in the private driver installer's permanent launcher;
   retain explicit opt-out and transactionally restore launcher/cache settings.
 - Add read-only status, write diagnostics and recorded fallback reasons.
+- Keep games launching with the selected driver when optional cache settings are
+  malformed; report damaged diagnostics without a traceback.
+- Update permanent driver tools from verified compatible bundles, retaining exact
+  rollback and a documented recovery path after interrupted launcher removal.
+- Clarify helper updates, per-user diagnostic scope and the difference between
+  a cache directory's presence, successful writes and observed game cache hits.
 - Check actual writes even when cache directories already exist; preserve the
   original environment if storage is unavailable. Keep RC10's historical evidence
   tied to its exact retained helper sources.

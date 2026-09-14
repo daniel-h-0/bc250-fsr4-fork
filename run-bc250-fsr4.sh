@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
+#!/bin/sh
 # SPDX-License-Identifier: MIT
-set -euo pipefail
-root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+set -eu
+root=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 exec python3 "$root/scripts/driver.py" run "$@"

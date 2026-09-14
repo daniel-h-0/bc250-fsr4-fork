@@ -188,6 +188,8 @@ class BuildFixture(unittest.TestCase):
         self.work.mkdir()
         for name, data in {
             "scripts/build.py": "fixture build recipe",
+            **{"scripts/" + name: "fixture tool" for name in driver.LAUNCHER_TOOLS},
+            "LICENSE.new-code": "fixture tool license",
             "requirements-build.txt": "fixture dependencies",
             "v4/patches/test.patch": "patch",
             "README.md": "readme",
@@ -493,6 +495,10 @@ class BuildFixture(unittest.TestCase):
         destination = Path(self.temporary.name) / "extracted"
         destination.mkdir()
         payload, release = driver.extract_verified(archive, destination, checksum)
+        self.assertEqual(release["launcher_tools_api"], driver.LAUNCHER_TOOLS_API)
+        self.assertTrue(
+            {"scripts/" + name for name in driver.LAUNCHER_TOOLS}.issubset(release["files"])
+        )
         for name in [
             "licenses/Mesa/MIT",
             "CONTRIBUTING.md",

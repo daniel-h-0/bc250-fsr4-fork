@@ -31,14 +31,20 @@ class InstallerTests(unittest.TestCase):
     def tearDown(self):
         self.tmp.cleanup()
 
-    def make_archive(self):
+    def make_archive(self, launcher_tools_api=None):
         release = dict(
             schema=1,
             version="4.0.0-test",
             architecture="x86_64",
             driver_sha256=driver.digest(self.library),
-            files={"lib/libvulkan_radeon.so": driver.digest(self.library)},
+            files={
+                str(path.relative_to(self.payload)): driver.digest(path)
+                for path in self.payload.rglob("*")
+                if path.is_file() and path != self.payload / "release.json"
+            },
         )
+        if launcher_tools_api is not None:
+            release["launcher_tools_api"] = launcher_tools_api
         (self.payload / "release.json").write_text(json.dumps(release))
         self.archive = self.root / "fixture.tar.gz"
         with tarfile.open(self.archive, "w:gz") as t:
@@ -334,6 +340,101 @@ class InstallerTests(unittest.TestCase):
         self.assertEqual(driver.current_target(self.prefix), target)
         self.assertEqual((self.prefix / "bc250-fsr4-run").read_text(), "user change")
 
+    def test_optional_cache_metadata_cannot_block_the_driver_launch(self):
+        self.args.shared_cache = True
+        self.install()
+        launcher = self.prefix / "bc250-fsr4-run"
+        env = dict(
+            os.environ,
+            HOME=str(self.root / "home"),
+            XDG_STATE_HOME=str(self.root / "state"),
+            XDG_CACHE_HOME=str(self.root / "cache"),
+            MESA_SHADER_CACHE_DIR=str(self.root / "original"),
+        )
+        settings = self.prefix / "cache-settings.json"
+        for text in ("[]", "null", "{", '{"schema":1,"enabled":"yes"}'):
+            with self.subTest(settings=text):
+                settings.write_text(text)
+                child = subprocess.run(
+                    [
+                        str(launcher),
+                        "run",
+                        "--",
+                        sys.executable,
+                        "-c",
+                        "import json,os;print(json.dumps(dict(os.environ)))",
+                    ],
+                    env=env,
+                    capture_output=True,
+                    text=True,
+                    check=True,
+                )
+                launched = json.loads(child.stdout)
+                self.assertEqual(launched["MESA_SHADER_CACHE_DIR"], env["MESA_SHADER_CACHE_DIR"])
+                self.assertTrue(Path(launched["VK_DRIVER_FILES"]).is_file())
+                self.assertIn("keeping the selected driver", child.stderr)
+                self.assertFalse(driver.status(self.prefix)["shared_cache"]["available"])
+        settings.write_text('{"schema":1,"enabled":true}')
+        self.assertIsNone(driver.cache_settings(self.prefix)["directory"])
+        settings.unlink()
+        settings.symlink_to(self.root / "missing")
+        with self.assertRaisesRegex(RuntimeError, "regular file"):
+            driver.cache_settings(self.prefix)
+
+    def tool_archive(self, api=1):
+        scripts = self.payload / "scripts"
+        scripts.mkdir(exist_ok=True)
+        for name in driver.LAUNCHER_TOOLS:
+            data = Path(driver.__file__).with_name(name).read_bytes()
+            (scripts / name).write_bytes(data + b"\n# verified update fixture\n")
+        (self.payload / "LICENSE.new-code").write_text("License from the verified fixture bundle\n")
+        self.make_archive(launcher_tools_api=api)
+        self.args.shared_cache = None
+
+    def test_installed_updater_adopts_verified_bundle_tools_and_rolls_them_back(self):
+        self.args.shared_cache = True
+        self.install()
+        launcher = self.prefix / "bc250-fsr4-run"
+        before = launcher.read_bytes()
+        first_tools = next((self.prefix / "launcher-tools").iterdir())
+        self.tool_archive()
+        with patch.object(driver, "__file__", str(first_tools / "driver.py")):
+            self.install()
+        self.assertNotEqual(launcher.read_bytes(), before)
+        selected = next(p for p in (self.prefix / "launcher-tools").iterdir() if p != first_tools)
+        for name in driver.LAUNCHER_TOOLS:
+            self.assertEqual(
+                (selected / name).read_bytes(), (self.payload / "scripts" / name).read_bytes()
+            )
+        self.assertEqual(
+            (selected / "LICENSE.new-code").read_bytes(),
+            (self.payload / "LICENSE.new-code").read_bytes(),
+        )
+        self.assertTrue(driver.cache_settings(self.prefix)["enabled"])
+        driver.rollback(self.prefix)
+        self.assertEqual(launcher.read_bytes(), before)
+
+    def test_fresh_source_installer_retains_its_tools_for_older_archives(self):
+        self.tool_archive()
+        self.install()
+        selected = next((self.prefix / "launcher-tools").iterdir())
+        self.assertEqual((selected / "driver.py").read_bytes(), Path(driver.__file__).read_bytes())
+
+    def test_installed_update_refuses_unknown_or_incomplete_tool_contract(self):
+        self.install()
+        target = driver.current_target(self.prefix)
+        first_tools = next((self.prefix / "launcher-tools").iterdir())
+        for api, missing in ((2, False), (1, True)):
+            with self.subTest(api=api, missing=missing):
+                self.tool_archive(api)
+                if missing:
+                    (self.payload / "scripts/shared-cache.sh").unlink()
+                    self.make_archive(launcher_tools_api=api)
+                with patch.object(driver, "__file__", str(first_tools / "driver.py")):
+                    with self.assertRaisesRegex(RuntimeError, "new download|missing its declared"):
+                        self.install()
+                self.assertEqual(driver.current_target(self.prefix), target)
+
     def test_status_does_not_create_an_installation(self):
         absent = self.root / "absent"
         child = subprocess.run(
@@ -388,6 +489,31 @@ class RecoveryAndAbiTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "edited independently"):
             self.install()
         self.assertEqual((self.prefix / "current.json").read_text(), "{}")
+
+    def test_interrupted_first_rollback_recovers_using_retained_tools(self):
+        self.install()
+        tools = next((self.prefix / "launcher-tools").iterdir())
+        write_json = driver.write_json
+
+        def interrupt_commit(path, value):
+            if value.get("state") == "rolled-back":
+                raise OSError("simulated interruption after launcher removal")
+            write_json(path, value)
+
+        with patch.object(driver, "write_json", side_effect=interrupt_commit):
+            with self.assertRaisesRegex(OSError, "simulated interruption"):
+                driver.rollback(self.prefix)
+        self.assertFalse((self.prefix / "bc250-fsr4-run").exists())
+        self.assertEqual(len(driver.pending(self.prefix)), 1)
+        child = subprocess.run(
+            [sys.executable, str(tools / "driver.py"), "--prefix", str(self.prefix), "recover"],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        self.assertIn("restored to its previous selection", child.stdout)
+        self.assertFalse(driver.pending(self.prefix))
+        self.assertIsNone(driver.current_target(self.prefix))
 
 
 if __name__ == "__main__":

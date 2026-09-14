@@ -32,6 +32,16 @@ launch options when asked. For automation, use `install --launch-options 'TEXT'`
 or `steam --launch-options 'TEXT'`; noninteractive calls otherwise assume empty
 launch options. Keep exactly one unquoted `%command%` placeholder.
 
+To update the DLL cache helper, run `install` from the **new download**, using
+the same `--prefix` if you chose a custom installation directory. The permanent
+launcher path stays the same, so existing game launch options keep working.
+
+If switching from the old portable RC10 wrapper, remove that old wrapper from
+the launch-option text before giving it to setup. Retain unrelated variables,
+wrappers and game arguments; carry any custom `--cache-dir` option onto the new
+cache launcher. Keeping the old invocation would still require its downloaded
+files, even after the new launcher is installed.
+
 **First use can still compile shaders.** Existing ordinary caches are not imported,
 and hits in a game's preserved Steam cache do not automatically fill the shared
 store for other games. Keep the new shared cache between launches.
@@ -54,11 +64,17 @@ Use the exact installed command printed by setup:
 ```
 
 `status` is read-only. It shows storage, the size limit and the last recorded launch
-preparation or fallback. `doctor` creates and removes small temporary files to test
+preparation or fallback **for this user**, which may be from another game or
+launcher. A present directory is not a successful write check. `doctor` creates
+and removes small temporary files to test
 writing in the current environment. Neither command claims a game used the cache
 or observed hits. Steam or a sandbox can supply a different launch environment;
 the last-launch record includes the view prepared for that invocation. Add `--json`
 for structured diagnostics.
+
+Damaged diagnostic records produce a readable explanation. Invalid installed-tool
+metadata is reported as an installation error and gives a failing status; it is
+not silently repaired or mistaken for a working installation.
 
 If storage is unwritable or a write fails, the game launches with its original
 cache settings and the reason is recorded when possible. This is a check at launch,

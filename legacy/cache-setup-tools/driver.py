@@ -24,15 +24,6 @@ from pathlib import Path
 sys.dont_write_bytecode = True
 import safe_archive
 
-LAUNCHER_TOOLS_API = 1
-LAUNCHER_TOOLS = (
-    "driver.py",
-    "safe_archive.py",
-    "vulkan_probe.py",
-    "shared-cache.py",
-    "shared-cache.sh",
-)
-
 
 def cache_helper():
     path = Path(__file__).with_name("shared-cache.py")
@@ -44,45 +35,22 @@ def cache_helper():
 
 def cache_settings(prefix):
     path = prefix / "cache-settings.json"
-    if path.is_symlink() or (path.exists() and not path.is_file()):
-        raise RuntimeError("Cache settings must be a regular file")
     if not path.exists():
         return {"schema": 1, "enabled": False, "directory": None}
+    if path.is_symlink():
+        raise RuntimeError("Cache settings must be a regular file")
     value = json.loads(path.read_text())
-    if (
-        not isinstance(value, dict)
-        or value.get("schema") != 1
-        or type(value.get("enabled")) is not bool
-    ):
+    if value.get("schema") != 1 or type(value.get("enabled")) is not bool:
         raise RuntimeError("Invalid shared-cache settings")
     directory = value.get("directory")
     if directory is not None and (
         not isinstance(directory, str) or not Path(directory).is_absolute()
     ):
         raise RuntimeError("Shared-cache storage must be an absolute path")
-    return {"schema": 1, "enabled": value["enabled"], "directory": directory}
+    return value
 
 
-def launcher_source(root, manifest):
-    """An installed updater adopts tools from an explicitly compatible verified bundle.
-
-    A caller in a fresh source/download tree is already the user's selected
-    installer. Keep its tools, including when installing a legacy driver archive.
-    """
-    if Path(__file__).resolve().parent.parent.name != "launcher-tools":
-        return None, None
-    api = manifest.get("launcher_tools_api")
-    if api is None:
-        return None, None  # Published legacy archives do not carry this contract.
-    if type(api) is not int or api != LAUNCHER_TOOLS_API:
-        raise RuntimeError("Use the installer from the new download to update these launcher tools")
-    required = {"scripts/" + name for name in LAUNCHER_TOOLS} | {"LICENSE.new-code"}
-    if not required.issubset(manifest["files"]):
-        raise RuntimeError("Release is missing its declared launcher tools")
-    return root / "scripts", (root / "LICENSE.new-code").read_text()
-
-
-def launcher_changes(args, prefix, source=None, license_text=None):
+def launcher_changes(args, prefix):
     """Install tools outside the selected driver so legacy driver archives work too."""
     helper = cache_helper()
     previous = cache_settings(prefix)
@@ -118,9 +86,7 @@ def launcher_changes(args, prefix, source=None, license_text=None):
         )
     tools = helper.stage_tools(
         prefix,
-        LAUNCHER_TOOLS,
-        source=source,
-        license_text=license_text,
+        ["driver.py", "safe_archive.py", "vulkan_probe.py", "shared-cache.py", "shared-cache.sh"],
     )
     script = (
         "#!/bin/sh\n"
@@ -399,7 +365,7 @@ def install(args, prefix):
         unpack.mkdir()
         root, manifest = extract_verified(archive, unpack, checksum)
         result = probe(root / "lib/libvulkan_radeon.so", stage)
-        launch_files = launcher_changes(args, prefix, *launcher_source(root, manifest))
+        launch_files = launcher_changes(args, prefix)
         release_id = (
             manifest["version"]
             + "-"

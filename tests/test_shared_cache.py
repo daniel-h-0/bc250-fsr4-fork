@@ -1,8 +1,10 @@
 # SPDX-License-Identifier: MIT
 """Shared-cache opt-in keeps per-game source caches and launch settings intact."""
 
+import contextlib
 import errno
 import importlib.util
+import io
 import json
 import os
 import subprocess
@@ -344,3 +346,60 @@ class SharedCacheTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "changed"):
             cache.install(prefix)
         self.assertEqual((prefix / "current/shared-cache.py").read_text(), "modified")
+
+    def test_damaged_diagnostics_are_reported_without_crashing_status(self):
+        path = cache.last_launch_path(self.env)
+        path.parent.mkdir(parents=True)
+        for value in ([], "broken", {"time": None}, {"time": "bad"}, {"time": 10**100}):
+            with self.subTest(record=value):
+                path.write_text(json.dumps(value))
+                report = cache.inspect(self.env, self.shared)
+                output = io.StringIO()
+                with contextlib.redirect_stdout(output):
+                    cache.print_status(report)
+                self.assertIn(
+                    "unavailable" if not isinstance(value, dict) else "unknown time",
+                    output.getvalue(),
+                )
+        path.write_text('{"time":0,"result":"prepared","steam_appid":"870780"}')
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            cache.print_status(cache.inspect(self.env, self.shared))
+        self.assertIn("for this user", output.getvalue())
+        self.assertIn("Steam AppID: 870780", output.getvalue())
+
+    def test_invalid_installed_manifest_is_actionable_and_status_fails(self):
+        prefix = self.root / "installed"
+        cache.install(prefix)
+        manifest = prefix / "current/tool-set.json"
+        for value in ([], {"schema": 1}, {"schema": 1, "files": []}):
+            with self.subTest(manifest=value):
+                manifest.write_text(json.dumps(value))
+                child = subprocess.run(
+                    [
+                        sys.executable,
+                        str(ROOT / "scripts/shared-cache.py"),
+                        "status",
+                        "--prefix",
+                        str(prefix),
+                        "--json",
+                    ],
+                    env=dict(os.environ, **self.env),
+                    text=True,
+                    capture_output=True,
+                )
+                self.assertEqual(child.returncode, 1)
+                self.assertIn("installation_error", json.loads(child.stdout))
+                self.assertNotIn("Traceback", child.stderr)
+
+    def test_installation_prefix_is_canonical_and_root_aliases_are_rejected(self):
+        parent = self.root / "parent"
+        parent.mkdir()
+        requested = parent / ".." / "installed"
+        launcher = cache.install(requested)
+        self.assertEqual(launcher, self.root / "installed/bc250-fsr4-cache")
+        for prefix in (Path("/tmp/nonexistent/.."), self.root / "root-link"):
+            if prefix.name == "root-link":
+                prefix.symlink_to("/")
+            with self.subTest(prefix=prefix), self.assertRaisesRegex(ValueError, "dedicated"):
+                cache.install(prefix)

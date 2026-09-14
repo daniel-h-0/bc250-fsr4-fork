@@ -1,0 +1,105 @@
+{
+  "complete": true,
+  "scope": "Installer, fallback and status review; no new shader, gameplay, loading-time or FPS measurements",
+  "reviewed_baseline": "67870dfc97f581597fbe4debfa1e8db67d30baeb",
+  "cache_core_unchanged": true,
+  "cache_core_ast_sha256": "337e74d3ad6046425fcda05a972fc28527b6180963dc3093bff30265c8373925",
+  "source_sha256": {
+    "scripts/driver.py": "1d5025f67ff21bd2900bf8a4e92510d08fa0227b7514b44eabd74d14836c4dc3",
+    "scripts/shared-cache.py": "d2f7550e3d93e524f629b02297657f7d002253ddd0149423394f847f6d977ca4",
+    "scripts/shared-cache.sh": "88c7726a1191548a362534aace08ae31ada2547a1b325fb6629b7f55546d2391",
+    "scripts/safe_archive.py": "e9f1e17563b12c1e6a86a2c49e5502d9946bd9de9da5dc8999cd40249102e587",
+    "scripts/vulkan_probe.py": "7dfbd934c4cbe35fdfeb3bf4f1160ec6fa62d4639812ab0ce85da7a0d6777801",
+    "scripts/package.py": "1b509ca3d3dc2a85fe13b75f73668ba3e8ed3a4742b29c1dd445bcb76dce361f",
+    "run-bc250-fsr4.sh": "c996baa7aa57831a00bd5726b0edd89f412edba665415b55a3d2a23ed34773d0",
+    "tests/test_shared_cache.py": "2bbb50a378fa9a156eca49d1a4cd76ed7ff7eb729737ef28128a97705ace398e",
+    "tests/test_installer.py": "7dc1a9ca6373f702b72827a87e7cd34c24a817247d418f44c6a7e845564ff2f2",
+    "tests/test_build.py": "c028ca5935106016b5462dfb22dccb00c542481dbec4fdb220b9c4f994aad949"
+  },
+  "userspaces": [
+    {
+      "image": "docker.io/library/python:3.8-slim-bullseye",
+      "image_id": "9c59e82e76c988bdb9266394696ec761b6f8e3e0544300d21414b645a2a4e0e6",
+      "metadata": {
+        "python": "3.8.20",
+        "libc": [
+          "glibc",
+          "2.31"
+        ],
+        "os": "PRETTY_NAME=\"Debian GNU/Linux 11 (bullseye)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"11\"\nVERSION=\"11 (bullseye)\"\nVERSION_CODENAME=bullseye\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\n"
+      },
+      "tests_pass": true,
+      "cache_tests": 24,
+      "driver_tests": 33,
+      "readonly_fallback": true,
+      "readonly_output": "Shared cache unavailable: read-only storage; original command ran successfully.",
+      "skipped_driver_tests": 1,
+      "skip_reason": "Minimal image has no C compiler for the undefined-symbol ABI fixture; it passes on the host and Arch builder."
+    },
+    {
+      "image": "docker.io/library/python:3.11-slim-bookworm",
+      "image_id": "9356cb064a7cbecce9a3ccba46e7fd5459d3a3e939db884ef7fbf3f757cc5ec8",
+      "metadata": {
+        "python": "3.11.16",
+        "libc": [
+          "glibc",
+          "2.36"
+        ],
+        "os": "PRETTY_NAME=\"Debian GNU/Linux 12 (bookworm)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"12\"\nVERSION=\"12 (bookworm)\"\nVERSION_CODENAME=bookworm\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\n"
+      },
+      "tests_pass": true,
+      "cache_tests": 24,
+      "driver_tests": 33,
+      "readonly_fallback": true,
+      "readonly_output": "Shared cache unavailable: read-only storage; original command ran successfully.",
+      "skipped_driver_tests": 1,
+      "skip_reason": "Minimal image has no C compiler for the undefined-symbol ABI fixture; it passes on the host and Arch builder."
+    },
+    {
+      "image": "docker.io/library/python:3.12-alpine",
+      "image_id": "28eb0cb65acb65b970e85c0dc57d10067868fae8dd00d072413df273132123ac",
+      "metadata": {
+        "python": "3.12.14",
+        "libc": [
+          "",
+          ""
+        ],
+        "os": "NAME=\"Alpine Linux\"\nID=alpine\nVERSION_ID=3.24.1\nPRETTY_NAME=\"Alpine Linux v3.24\"\nHOME_URL=\"https://alpinelinux.org/\"\nBUG_REPORT_URL=\"https://gitlab.alpinelinux.org/alpine/aports/-/issues\"\n"
+      },
+      "tests_pass": true,
+      "cache_tests": 24,
+      "driver_tests": 33,
+      "readonly_fallback": true,
+      "readonly_output": "Shared cache unavailable: read-only storage; original command ran successfully.",
+      "skipped_driver_tests": 1,
+      "skip_reason": "Minimal image has no C compiler for the undefined-symbol ABI fixture; it passes on the host and Arch builder."
+    },
+    {
+      "image": "localhost/bc250-fsr4-v4-builder:latest",
+      "image_id": "7d8d95f2e34a39d6196f3f82959b2507e893533cda80d8bfcc7ec20615f66e4a",
+      "metadata": {
+        "python": "3.14.7",
+        "libc": [
+          "glibc",
+          "2.44"
+        ],
+        "os": "NAME=\"Arch Linux\"\nPRETTY_NAME=\"Arch Linux\"\nID=arch\nBUILD_ID=rolling\nVERSION_ID=20260830.0.582275\nANSI_COLOR=\"38;2;23;147;209\"\nHOME_URL=\"https://archlinux.org/\"\nDOCUMENTATION_URL=\"https://wiki.archlinux.org/\"\nSUPPORT_URL=\"https://bbs.archlinux.org/\"\nBUG_REPORT_URL=\"https://gitlab.archlinux.org/groups/archlinux/-/issues\"\nPRIVACY_POLICY_URL=\"https://terms.archlinux.org/docs/privacy-policy/\"\nLOGO=archlinux-logo\n"
+      },
+      "tests_pass": true,
+      "cache_tests": 24,
+      "driver_tests": 33,
+      "readonly_fallback": true,
+      "readonly_output": "Shared cache unavailable: read-only storage; original command ran successfully.",
+      "skipped_driver_tests": 0,
+      "skip_reason": null
+    }
+  ],
+  "regressions": [
+    "Invalid optional cache settings no longer prevent launching with the private driver",
+    "Installed updates adopt complete verified bundle tools and licenses; rollback restores prior tools",
+    "Old archives retain maintained tools; incompatible or incomplete update contracts preserve selection",
+    "Damaged status records and installed manifests produce actionable diagnostics",
+    "Interrupted first rollback is recoverable from retained tools after launcher removal",
+    "Legacy convenience launcher works without Bash"
+  ]
+}

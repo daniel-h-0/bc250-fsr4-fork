@@ -36,6 +36,31 @@ launcher to enable both.
 The first enrolled game may still compile shaders. Keep the shared cache between
 launches. Existing Steam caches are preserved; ordinary old caches are not imported.
 
+## Update an installation
+
+For an existing installation made with the original RC10 tools or the first
+development launcher, run the **new download's** `scripts/driver.py install`
+command above once, using the same `--prefix`. This updates its permanent tools.
+The earlier installed command cannot update its own helper code.
+When replacing an old `python3 .../scripts/driver.py ... run --` invocation,
+remove that invocation from the text you give setup, retaining unrelated variables,
+wrappers and game arguments. Otherwise the generated line will still depend on
+the old extracted files. Set any custom shared-cache location with `install --cache-dir`.
+
+After installing these reviewed tools, future compatible driver packages can be
+installed through the permanent command:
+
+```sh
+"$HOME/.local/share/bc250-fsr4-rc10/bc250-fsr4-run" install \
+  /path/to/new-driver-archive.tar.gz --sha256 ARCHIVE_SHA256_FROM_SHA256SUMS
+```
+
+The installer verifies the complete archive before adopting its driver and
+launcher tools. Updates preserve the cache preference and storage location;
+rollback restores the previous driver, launcher and preference together. Old
+archives without bundled-update support retain the current tools. If a future
+package needs a newer installer, the command tells you to use the new download.
+
 ## Status and controls
 
 Use the exact installed path printed by setup. For the example prefix above:
@@ -46,13 +71,19 @@ Use the exact installed path printed by setup. For the example prefix above:
 ```
 
 `status` is read-only and explains the driver selection, cache preference, storage
-and last launch preparation. `steam` generates another complete launch-option line.
+and last launch preparation recorded for this user, which may belong to another
+game or launcher. Directory presence does not verify writability or cache hits.
+`steam` generates another complete launch-option line.
 Pass `status --json` for structured diagnostics.
 
 To bypass shared caching for one game, put `--no-shared-cache` after `run` and before
 `--` in its launch options. That retains the private driver. Cache setup failures
 also fall back to the game's original cache settings while retaining the selected
 driver. The rest of the game command is unchanged.
+
+Malformed cache settings also leave the selected driver and original cache
+environment available for launch. Setup and rollback still preserve independently
+edited settings instead of overwriting them.
 
 To roll back the driver, installed launcher and cache preference together:
 
@@ -63,7 +94,17 @@ To roll back the driver, installed launcher and cache preference together:
 First-install rollback removes that launcher. Remove its invocation from Steam
 before launching again, and restore any provider/bridge files changed for the
 driver route. Shader caches and retained driver/tool payloads remain available.
-If an install was interrupted, use `recover` before another install or rollback.
+If an install or rollback was interrupted, use `recover` before another install
+or rollback. If first-install rollback already removed the launcher, use a fresh
+copy of these tools with the same prefix:
+
+```sh
+python3 scripts/driver.py --prefix "$HOME/.local/share/bc250-fsr4-rc10" recover
+```
+
+The retained `launcher-tools/<tool-set-id>/driver.py` also supports that command
+without the original download. Recovery restores the prior selection; it does
+not finish an interrupted upgrade. Do not delete its transaction records.
 Independent edits to managed launcher/settings files are preserved and reported.
 
 Cache sharing still requires compatible driver/compiler inputs and paths visible

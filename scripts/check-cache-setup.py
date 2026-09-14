@@ -53,22 +53,35 @@ def main():
     assert helper["TOOL_LICENSE"] == (ROOT / "LICENSE.new-code").read_text()
     record = json.loads((ROOT / "docs/data/cache-setup-game-reuse-20260914.json").read_text())
     userspaces = json.loads((ROOT / "docs/data/cache-setup-userspaces-20260914.json").read_text())
+    baseline = ROOT / "legacy/cache-setup-tools"
     assert (
         record["helper_sha256"]
         == userspaces["helper_sha256"]
-        == digest(ROOT / "scripts/shared-cache.py")
+        == digest(baseline / "shared-cache.py")
     )
     assert (
         record["bootstrap_sha256"]
         == userspaces["bootstrap_sha256"]
-        == digest(ROOT / "scripts/shared-cache.sh")
+        == digest(baseline / "shared-cache.sh")
     )
-    assert record["driver_tool_sha256"] == digest(ROOT / "scripts/driver.py")
+    assert record["driver_tool_sha256"] == digest(baseline / "driver.py")
     assert record["cache_core_ast_sha256"] == core_fingerprint(
         ROOT / "scripts/shared-cache.py", record["cache_core_functions"]
     )
     assert len(userspaces["rows"]) == 4 and userspaces["tests_per_userspace"] == 21
     assert all(row["tests_pass"] and row["readonly_fallback"] for row in userspaces["rows"])
+    review = json.loads((ROOT / "docs/data/cache-review-20260914.json").read_text())
+    assert review["complete"] and review["cache_core_unchanged"]
+    for name, expected in review["source_sha256"].items():
+        assert digest(ROOT / name) == expected, name
+    assert len(review["userspaces"]) == 4
+    assert all(
+        row["tests_pass"]
+        and row["readonly_fallback"]
+        and row["cache_tests"] >= 24
+        and row["driver_tests"] >= 33
+        for row in review["userspaces"]
+    )
     games = record["games"]
     assert [len(game["substitutions"]) for game in games] == [14, 13, 0]
     assert len(record["read_entry_sha256"]) == record["control_entries_read_by_system_shock"] == 166
@@ -86,7 +99,7 @@ def main():
         assert game["screenshot"]["pixels_unedited"]
         assert digest(ROOT / game["screenshot"]["path"]) == game["screenshot"]["sha256"]
     print(
-        "PASS: cache setup source, four userspaces, real game-to-game reuse and restoration evidence"
+        "PASS: retained game-to-game evidence, unchanged cache core and reviewed tools in four userspaces"
     )
 
 

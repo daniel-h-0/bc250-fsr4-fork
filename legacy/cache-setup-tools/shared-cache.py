@@ -222,10 +222,7 @@ def inspect(environment, shared_root=None, backend="multi-file"):
     try:
         record = last_launch_path(environment)
         if record.is_file():
-            previous = json.loads(record.read_text())
-            if not isinstance(previous, dict):
-                raise ValueError("Invalid last-launch record")
-            report["last_launch"] = previous
+            report["last_launch"] = json.loads(record.read_text())
     except (OSError, ValueError, RuntimeError) as error:
         report["record_error"] = str(error)
     return report
@@ -234,9 +231,9 @@ def inspect(environment, shared_root=None, backend="multi-file"):
 def print_status(report):
     if report.get("available"):
         print(
-            "Shared cache directory: present"
+            "Shared cache: configured"
             if report["store_exists"]
-            else "Shared cache directory: not created yet"
+            else "Shared cache: not created yet"
         )
         print("Storage: " + report["directory"])
         print("Limit: " + report["size_limit"] + " per architecture (all enrolled Mesa shaders)")
@@ -248,26 +245,12 @@ def print_status(report):
         print("Shared cache unavailable: " + report["reason"])
     previous = report.get("last_launch")
     if isinstance(previous, dict):
-        try:
-            if type(previous.get("time")) not in (int, float):
-                raise ValueError("Invalid timestamp")
-            stamp = time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime(previous["time"]))
-        except (KeyError, TypeError, ValueError, OverflowError, OSError):
-            stamp = "unknown time"
-        print(
-            "Last launch preparation for this user: "
-            + str(previous.get("result", "unknown"))
-            + " at "
-            + stamp
-        )
-        if previous.get("steam_appid"):
-            print("Steam AppID: " + str(previous["steam_appid"]))
+        stamp = time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime(previous.get("time", 0)))
+        print("Last launch preparation: " + str(previous.get("result", "unknown")) + " at " + stamp)
         if previous.get("reason"):
             print("Reason: " + str(previous["reason"]))
         if previous.get("view"):
             print("Last prepared view: " + str(previous["view"]))
-    if report.get("record_error"):
-        print("Last-launch record unavailable: " + report["record_error"])
     print("Preparation in this environment does not establish cache hits inside the game.")
 
 
@@ -303,25 +286,9 @@ def existing_steam_options(supplied):
 def verify_tools(directory):
     if directory.is_symlink() or not directory.is_dir():
         raise ValueError("Installed tools are not a regular directory")
-    path = directory / "tool-set.json"
-    if path.is_symlink() or not path.is_file():
-        raise ValueError("Installed tool manifest is not a regular file")
-    manifest = json.loads(path.read_text())
-    if not isinstance(manifest, dict) or manifest.get("schema") != 1:
+    manifest = json.loads((directory / "tool-set.json").read_text())
+    if manifest.get("schema") != 1:
         raise ValueError("Unknown installed tool format")
-    files = manifest.get("files")
-    if (
-        not isinstance(files, dict)
-        or not files
-        or any(
-            not isinstance(name, str)
-            or Path(name).name != name
-            or not isinstance(expected, str)
-            or not re.fullmatch(r"[0-9a-f]{64}", expected)
-            for name, expected in files.items()
-        )
-    ):
-        raise ValueError("Invalid installed tool file list")
     if {p.name for p in directory.iterdir()} != set(manifest["files"]) | {"tool-set.json"}:
         raise ValueError("Installed tools contain missing or unexpected files")
     for name, expected in manifest["files"].items():
@@ -333,14 +300,11 @@ def verify_tools(directory):
     return manifest
 
 
-def stage_tools(prefix, names, source=None, license_text=None):
+def stage_tools(prefix, names):
     """Stage an immutable complete tool set before any launcher points at it."""
-    source = SOURCE if source is None else source
-    payload = {
-        "LICENSE.new-code": (TOOL_LICENSE if license_text is None else license_text).encode()
-    }
+    payload = {"LICENSE.new-code": TOOL_LICENSE.encode()}
     for name in names:
-        path = source / name
+        path = SOURCE / name
         if path.is_symlink() or not path.is_file() or Path(name).name != name:
             raise ValueError("Missing regular installation source: " + name)
         payload[name] = path.read_bytes()
@@ -383,24 +347,11 @@ def installed(prefix):
     return launcher
 
 
-def installation_prefix(prefix):
-    requested = prefix.expanduser().absolute()
-    prefix = requested.resolve()
-    if requested.is_symlink() or prefix in (
-        Path("/"),
-        Path.home().resolve(),
-        Path("/usr"),
-        Path("/etc"),
-        Path("/tmp"),
-    ):
-        raise ValueError("Choose a dedicated tool installation directory")
-    return prefix
-
-
 def install(prefix, original="%command%"):
-    prefix = installation_prefix(prefix)
     launcher = prefix / "bc250-fsr4-cache"
     command = steam_command(original, [launcher, "--"])
+    if prefix.is_symlink() or prefix in (Path("/"), Path.home(), Path("/tmp")):
+        raise ValueError("Choose a dedicated tool installation directory")
     prefix.mkdir(parents=True, exist_ok=True, mode=0o700)
     with (prefix / ".install.lock").open("a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
@@ -426,7 +377,6 @@ def install(prefix, original="%command%"):
 
 
 def uninstall(prefix):
-    prefix = installation_prefix(prefix)
     if not prefix.exists():
         return
     with (prefix / ".install.lock").open("a") as lock:
@@ -468,7 +418,7 @@ def management(action, arguments):
             help="Existing Steam launch-option text to preserve",
         )
     args = parser.parse_args(arguments)
-    prefix = installation_prefix(args.prefix)
+    prefix = args.prefix.expanduser().absolute()
     if action == "install":
         install(prefix, existing_steam_options(args.launch_options))
     elif action == "uninstall":
@@ -505,7 +455,7 @@ def management(action, arguments):
             print_status(report)
             if action == "doctor":
                 print("Write check: " + report["write_probe"])
-        return 0 if report.get("available") and not report.get("installation_error") else 1
+        return 0 if report.get("available") else 1
     return 0
 
 
