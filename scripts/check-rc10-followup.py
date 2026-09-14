@@ -33,8 +33,8 @@ def main():
     portability = load("rc10-cache-portability-20260914.json")
     require(portability["complete"], "Incomplete cache userspace record")
     require(
-        portability["helper_sha256"] == digest(ROOT / "scripts/shared-cache.py")
-        and portability["bootstrap_sha256"] == digest(ROOT / "scripts/shared-cache.sh"),
+        portability["helper_sha256"] == digest(ROOT / "legacy/rc10-tools/shared-cache.py")
+        and portability["bootstrap_sha256"] == digest(ROOT / "legacy/rc10-tools/shared-cache.sh"),
         "Cache launcher changed since portability qualification",
     )
     require(

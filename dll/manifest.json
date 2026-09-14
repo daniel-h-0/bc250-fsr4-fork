@@ -3187,15 +3187,15 @@
   "optional_files": {
     "linux/shared-cache.sh": {
       "source": "scripts/shared-cache.sh",
-      "sha256": "7682a73554009c1e93087e819fefc0d874408da52c588c4b1bd7f813b23c0571"
+      "sha256": "88c7726a1191548a362534aace08ae31ada2547a1b325fb6629b7f55546d2391"
     },
     "linux/shared-cache.py": {
       "source": "scripts/shared-cache.py",
-      "sha256": "9c3c4e24e0aac3a7cfa4bd5bd03ed3da976ee3a94e64cf882f7ecc566d7c172b"
+      "sha256": "e6678e9b7f430455e01dd67acfcda8851350bc2163d8bf6916a177816c318e67"
     },
     "linux/README.md": {
       "source": "docs/shared-shader-cache.md",
-      "sha256": "17b6dd3b846c6eada9cb71d76c4ae7019cefec75beaf3a80b3017d2277af6c7a"
+      "sha256": "dfb62c926b6ab8cb9875f7bbf08f728035cc8a6cba358f91d4df27ce9e5f85eb"
     }
   }
 }

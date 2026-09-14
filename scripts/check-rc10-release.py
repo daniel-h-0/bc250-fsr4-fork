@@ -53,7 +53,7 @@ def main():
     assert installer["bad_checksum_preserved_selection"] and not installer["system_driver_changed"]
     assert (
         installer["helper_sha256"]
-        == hashlib.sha256((ROOT / "scripts/driver.py").read_bytes()).hexdigest()
+        == hashlib.sha256((ROOT / "legacy/rc10-tools/driver.py").read_bytes()).hexdigest()
     )
     assert installer["cache_uuid"]["enabled"] != installer["cache_uuid"]["disabled"]
     assert installer["cache_uuid"]["enabled_repeats"]

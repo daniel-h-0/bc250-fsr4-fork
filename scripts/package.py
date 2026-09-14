@@ -97,7 +97,13 @@ def main():
         if copied_manifest_sha256 != built["manifest_sha256"]:
             raise RuntimeError("Source manifest changed while packaging.")
         if args.runtime_only:
-            shutil.copy2(ROOT / "docs/driver-rc10.md", root / "README.md")
+            guide = (ROOT / "docs/driver-cache-setup.md").read_text()
+            for name in ("driver-rc10.md", "shared-shader-cache.md"):
+                guide = guide.replace("](" + name + ")", "](docs/" + name + ")")
+            (root / "README.md").write_text(guide)
+            (root / "docs").mkdir(exist_ok=True)
+            for name in ("driver-rc10.md", "driver-cache-setup.md", "shared-shader-cache.md"):
+                shutil.copy2(ROOT / "docs" / name, root / "docs" / name)
             shutil.copy2(ROOT / "docs/driver-notices.md", root / "THIRD_PARTY.md")
             shutil.copytree(ROOT / "dll/notices", root / "notices")
         else:

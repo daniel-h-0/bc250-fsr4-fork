@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: MIT
 """Shared-cache opt-in keeps per-game source caches and launch settings intact."""
 
+import errno
 import importlib.util
 import json
 import os
@@ -10,6 +11,7 @@ import tempfile
 import unittest
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("shared_cache", ROOT / "scripts/shared-cache.py")
@@ -28,6 +30,8 @@ class SharedCacheTests(unittest.TestCase):
         self.fossilize.mkdir(parents=True)
         (self.fossilize / "existing.foz").write_bytes(b"retain original compiled shaders")
         self.env = {
+            "HOME": str(self.root / "home"),
+            "XDG_STATE_HOME": str(self.root / "state"),
             "XDG_CACHE_HOME": str(self.root / "xdg"),
             "MESA_SHADER_CACHE_DIR": str(self.original),
             "MESA_DISK_CACHE_SINGLE_FILE": "1",
@@ -217,3 +221,126 @@ class SharedCacheTests(unittest.TestCase):
         self.assertEqual(child.stdout.strip(), "preserved argument")
         self.assertIn("launching with original cache settings", child.stderr)
         self.assertFalse(self.shared.exists())
+
+    def test_status_and_show_do_not_create_paths(self):
+        before = sorted(str(p) for p in self.root.rglob("*"))
+        report = cache.inspect(self.env, self.shared)
+        self.assertFalse(report["store_exists"])
+        child = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts/shared-cache.py"),
+                "--cache-dir",
+                str(self.shared),
+                "--show",
+            ],
+            env=dict(os.environ, **self.env),
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        self.assertIn("MESA_SHADER_CACHE_DIR", json.loads(child.stdout))
+        self.assertEqual(before, sorted(str(p) for p in self.root.rglob("*")))
+
+    def test_existing_unwritable_store_falls_back_and_records_reason(self):
+        if os.geteuid() == 0:
+            self.skipTest("Real mode-bit write failure requires an unprivileged user")
+        cache.prepare(self.env, self.shared)
+        store = self.shared / "mesa_shader_cache"
+        store.chmod(0o500)
+        try:
+            result = cache.launch_environment(self.env, self.shared)
+        finally:
+            store.chmod(0o700)
+        self.assertEqual(result, self.env)
+        record = cache.inspect(self.env, self.shared)["last_launch"]
+        self.assertEqual(record["result"], "fallback")
+        self.assertIn("Permission denied", record["reason"])
+
+    def test_full_disk_write_failure_cleans_probe_and_preserves_environment(self):
+        with patch.object(cache.os, "write", side_effect=OSError(errno.ENOSPC, "No space left")):
+            self.assertEqual(cache.launch_environment(self.env, self.shared), self.env)
+        self.assertFalse(list(self.shared.rglob(".bc250-write-*")))
+        self.assertIn(
+            "No space left", cache.inspect(self.env, self.shared)["last_launch"]["reason"]
+        )
+
+    def test_legacy_size_limit_is_preserved(self):
+        result = cache.prepare(dict(self.env, MESA_GLSL_CACHE_MAX_SIZE="4G"), self.shared)
+        self.assertEqual(result["MESA_SHADER_CACHE_MAX_SIZE"], "4G")
+
+    def test_steam_options_preserve_assignments_wrappers_and_spaces(self):
+        original = 'WINEDLLOVERRIDES="winmm=n,b" ~/.lsfg %command% -dx12'
+        launcher = self.root / "a space/cache"
+        result = cache.steam_command(original, [launcher, "--"])
+        self.assertTrue(result.startswith('WINEDLLOVERRIDES="winmm=n,b" ~/.lsfg '))
+        self.assertTrue(result.endswith(" -- %command% -dx12"))
+        self.assertEqual(cache.steam_command(result, [launcher, "--"]), result)
+        for invalid in [
+            "%command% %command%",
+            '"%command%"',
+            "echo ' %command% '",
+            "no-placeholder",
+            "%command%\nexit",
+        ]:
+            with self.subTest(options=invalid), self.assertRaises(ValueError):
+                cache.steam_command(invalid, [launcher, "--"])
+
+    def test_installed_pair_survives_download_removal_and_uninstall_keeps_caches(self):
+        downloads = self.root / "download"
+        downloads.mkdir()
+        for name in ["shared-cache.py", "shared-cache.sh"]:
+            (downloads / name).write_bytes((ROOT / "scripts" / name).read_bytes())
+        prefix = self.root / "installed tools"
+        with patch.object(cache, "SOURCE", downloads):
+            launcher = cache.install(prefix)
+        self.assertEqual(
+            (prefix / "current/LICENSE.new-code").read_bytes(),
+            (ROOT / "LICENSE.new-code").read_bytes(),
+        )
+        for path in downloads.iterdir():
+            path.unlink()
+        downloads.rmdir()
+        child = subprocess.run(
+            [
+                str(launcher),
+                "--cache-dir",
+                str(self.shared),
+                "--",
+                sys.executable,
+                "-c",
+                "import os;print(os.environ['MESA_SHADER_CACHE_DIR'])",
+            ],
+            env=dict(os.environ, **self.env),
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        self.assertTrue(Path(child.stdout.strip()).is_dir())
+        marker = self.shared / "retained-cache"
+        marker.write_text("cache remains")
+        (prefix / "unrelated-note").write_text("retain")
+        # A killed earlier setup may leave an unselected staging directory.
+        interrupted = prefix / "launcher-tools/.stage-interrupted"
+        interrupted.mkdir()
+        (interrupted / "partial").write_text("retain unselected data")
+        cache.uninstall(prefix)
+        self.assertFalse(launcher.exists())
+        self.assertEqual(marker.read_text(), "cache remains")
+        self.assertEqual((prefix / "unrelated-note").read_text(), "retain")
+        self.assertEqual((interrupted / "partial").read_text(), "retain unselected data")
+
+    def test_installer_preserves_unrelated_launcher_and_tampered_payload(self):
+        prefix = self.root / "installed"
+        prefix.mkdir()
+        launcher = prefix / "bc250-fsr4-cache"
+        launcher.write_text("unrelated")
+        with self.assertRaisesRegex(ValueError, "unrelated"):
+            cache.install(prefix)
+        self.assertEqual(launcher.read_text(), "unrelated")
+        launcher.unlink()
+        cache.install(prefix)
+        (prefix / "current/shared-cache.py").write_text("modified")
+        with self.assertRaisesRegex(ValueError, "changed"):
+            cache.install(prefix)
+        self.assertEqual((prefix / "current/shared-cache.py").read_text(), "modified")

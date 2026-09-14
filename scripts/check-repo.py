@@ -833,6 +833,7 @@ def check_startup_study(root):
     runpy.run_path(str(root / "scripts/check-rc10-followup.py"))["main"]()
     runpy.run_path(str(root / "v4/experimental/rc9-port/verify.py"))["verify"]()
     runpy.run_path(str(root / "scripts/check-rc10-release.py"))["main"]()
+    runpy.run_path(str(root / "scripts/check-cache-setup.py"))["main"]()
     return "RC10 startup development counters, GPU samples and native-code comparison verified"
 
 

@@ -451,6 +451,14 @@ The game's DLSS/FSR menu label can stay unchanged. A file checksum or the
 OptiScaler menu opening proves installation, but a rendered banner identifies
 the active provider.
 
+## Optional: shared shader caching on Linux
+
+Once FSR4 is working, the [updated cache setup](shared-shader-cache.md) can install
+a permanent launcher and generate complete Steam launch options from your current
+line. Driver users get caching in their [integrated launcher](driver-cache-setup.md).
+This is development tooling after RC10; the original RC10 downloads keep their
+earlier helper. Sharing is optional, and its first use can still require compilation.
+
 ## If the check fails
 
 | Symptom | Check |

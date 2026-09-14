@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased — simpler Linux caching
+
+- Install the DLL cache helper once and generate Steam launch text while preserving
+  existing variables, wrapper ordering and arguments.
+- Include shared caching in the private driver installer's permanent launcher;
+  retain explicit opt-out and transactionally restore launcher/cache settings.
+- Add read-only status, write diagnostics and recorded fallback reasons.
+- Check actual writes even when cache directories already exist; preserve the
+  original environment if storage is unavailable. Keep RC10's historical evidence
+  tied to its exact retained helper sources.
+
 ## 4.0.0-rc10 — 2026-09-14
 
 - Reduce intermediate shader work in 48 native-code-compared slots; selected

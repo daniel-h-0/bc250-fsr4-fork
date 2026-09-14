@@ -18,12 +18,11 @@ fi
 while [ "$#" -gt 0 ]; do
     case "$1" in
         --) shift; break ;;
-        --show|--help|-h|install|uninstall|status|doctor|steam)
+        --show|--help|-h)
             printf '%s\n' 'Python 3 is required to inspect or configure shared caching.' >&2
             exit 127 ;;
         --cache-dir|--backend) shift; [ "$#" -gt 0 ] || exit 2; shift ;;
         --cache-dir=*|--backend=*) shift ;;
-        --disable) shift ;;
         *) break ;;
     esac
 done

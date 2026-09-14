@@ -7,7 +7,6 @@ from __future__ import annotations
 import argparse
 import fcntl
 import hashlib
-import importlib.util
 import json
 import os
 import platform
@@ -21,117 +20,7 @@ import tempfile
 import time
 from pathlib import Path
 
-sys.dont_write_bytecode = True
 import safe_archive
-
-
-def cache_helper():
-    path = Path(__file__).with_name("shared-cache.py")
-    spec = importlib.util.spec_from_file_location("bc250_shared_cache", path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
-
-
-def cache_settings(prefix):
-    path = prefix / "cache-settings.json"
-    if not path.exists():
-        return {"schema": 1, "enabled": False, "directory": None}
-    if path.is_symlink():
-        raise RuntimeError("Cache settings must be a regular file")
-    value = json.loads(path.read_text())
-    if value.get("schema") != 1 or type(value.get("enabled")) is not bool:
-        raise RuntimeError("Invalid shared-cache settings")
-    directory = value.get("directory")
-    if directory is not None and (
-        not isinstance(directory, str) or not Path(directory).is_absolute()
-    ):
-        raise RuntimeError("Shared-cache storage must be an absolute path")
-    return value
-
-
-def launcher_changes(args, prefix):
-    """Install tools outside the selected driver so legacy driver archives work too."""
-    helper = cache_helper()
-    previous = cache_settings(prefix)
-    requested = getattr(args, "shared_cache", False)
-    enabled = (
-        requested
-        if requested is not None
-        else (previous["enabled"] if (prefix / "cache-settings.json").exists() else True)
-    )
-    directory = getattr(args, "cache_dir", None)
-    directory = str(directory.expanduser().absolute()) if directory else previous.get("directory")
-    launcher = prefix / "bc250-fsr4-run"
-    helper.steam_command(getattr(args, "launch_options", "%command%"), [launcher, "run", "--"])
-    known = {}
-    for record in sorted((prefix / "transactions").glob("*.json")):
-        journal = json.loads(record.read_text())
-        if journal.get("state") == "active":
-            known.update({item["name"]: item for item in journal.get("launcher_files", [])})
-    changes = []
-    for name in ("bc250-fsr4-run", "cache-settings.json"):
-        path = prefix / name
-        if path.is_symlink() or (path.exists() and not path.is_file()):
-            raise RuntimeError("Launcher path contains unrelated data: " + str(path))
-        before = path.read_bytes() if path.exists() else None
-        if before is not None and (name not in known or before.hex() != known[name]["after_hex"]):
-            raise RuntimeError("Launcher/settings changed independently; preserving " + str(path))
-        changes.append(
-            {
-                "name": name,
-                "before_hex": before.hex() if before is not None else None,
-                "before_mode": path.stat().st_mode & 0o777 if before is not None else None,
-            }
-        )
-    tools = helper.stage_tools(
-        prefix,
-        ["driver.py", "safe_archive.py", "vulkan_probe.py", "shared-cache.py", "shared-cache.sh"],
-    )
-    script = (
-        "#!/bin/sh\n"
-        'if [ "$#" -eq 0 ]; then set -- status --human; fi\n'
-        'if [ "$#" -eq 1 ] && [ "$1" = status ]; then set -- status --human; fi\n'
-        "exec python3 "
-        + shlex.quote(str(tools / "driver.py"))
-        + " --prefix "
-        + shlex.quote(str(prefix))
-        + ' "$@"\n'
-    )
-    settings = {"schema": 1, "enabled": enabled, "directory": directory}
-    payloads = {
-        "bc250-fsr4-run": (script.encode(), 0o755),
-        "cache-settings.json": ((json.dumps(settings, indent=2) + "\n").encode(), 0o600),
-    }
-    for item in changes:
-        data, mode = payloads[item["name"]]
-        item.update(after_hex=data.hex(), after_mode=mode)
-    return changes
-
-
-def launcher_file_state(prefix, item):
-    if item["name"] not in {"bc250-fsr4-run", "cache-settings.json"}:
-        raise RuntimeError("Unknown managed launcher path")
-    path = prefix / item["name"]
-    if path.is_symlink() or (path.exists() and not path.is_file()):
-        raise RuntimeError("Managed launcher path changed independently")
-    return path.read_bytes().hex() if path.exists() else None
-
-
-def restore_launcher_files(prefix, items):
-    for item in items:
-        if launcher_file_state(prefix, item) not in (item["before_hex"], item["after_hex"]):
-            raise RuntimeError(
-                "Launcher/settings changed independently; preserving " + item["name"]
-            )
-    for item in items:
-        path = prefix / item["name"]
-        if item["before_hex"] is None:
-            if path.exists():
-                path.unlink()
-        else:
-            atomic(path, bytes.fromhex(item["before_hex"]))
-            path.chmod(item["before_mode"])
 
 
 def digest(path):
@@ -365,7 +254,6 @@ def install(args, prefix):
         unpack.mkdir()
         root, manifest = extract_verified(archive, unpack, checksum)
         result = probe(root / "lib/libvulkan_radeon.so", stage)
-        launch_files = launcher_changes(args, prefix)
         release_id = (
             manifest["version"]
             + "-"
@@ -403,7 +291,6 @@ def install(args, prefix):
             "target": target,
             "icd": str(driver_icd),
             "migrations": migrations,
-            "launcher_files": launch_files,
             "probe": result,
             "archive_sha256": checksum,
             "state": "prepared",
@@ -425,19 +312,12 @@ def install(args, prefix):
                     raise RuntimeError("Legacy ICD changed while installing: " + str(path))
                 atomic(path, bytes.fromhex(item["after_hex"]))
                 changed.append(item)
-            for item in launch_files:
-                if launcher_file_state(prefix, item) != item["before_hex"]:
-                    raise RuntimeError("Launcher/settings changed while installing")
-                path = prefix / item["name"]
-                atomic(path, bytes.fromhex(item["after_hex"]))
-                path.chmod(item["after_mode"])
             switch(prefix, target)
             journal["state"] = "active"
             write_json(record, journal)
         except BaseException:
             for item in reversed(changed):
                 atomic(item["path"], bytes.fromhex(item["before_hex"]))
-            restore_launcher_files(prefix, launch_files)
             if previous is not None:
                 switch(prefix, previous)
             elif current_target(prefix) is not None:
@@ -448,17 +328,11 @@ def install(args, prefix):
     if not getattr(args, "quiet", False):
         print("Installed and validated " + release_id)
         print(
-            "Steam launch options:\n"
-            + cache_helper().steam_command(
-                getattr(args, "launch_options", "%command%"),
-                [prefix / "bc250-fsr4-run", "run", "--"],
-            )
+            "Steam launch option: VK_DRIVER_FILES="
+            + shlex.quote(str(prefix / "current.json"))
+            + " %command%"
         )
-        print("Shared cache: " + ("enabled" if cache_settings(prefix)["enabled"] else "disabled"))
-        print("Status: " + shlex.quote(str(prefix / "bc250-fsr4-run")) + " status")
-        print("The launcher is installed permanently. First cache use may compile shaders.")
-        if migrations:
-            print("The explicitly migrated v3 launch paths now select v4. Restart the game.")
+        print("Existing explicitly migrated v3 launch paths now select v4. Restart the game.")
     return record
 
 
@@ -481,16 +355,10 @@ def rollback(prefix):
             raise RuntimeError(
                 "Legacy ICD was modified after installation; preserving it: " + item["path"]
             )
-    for item in journal.get("launcher_files", []):
-        if launcher_file_state(prefix, item) != item["after_hex"]:
-            raise RuntimeError(
-                "Launcher/settings changed independently; preserving " + item["name"]
-            )
     journal["state"] = "rolling-back"
     write_json(record, journal)
     for item in journal["migrations"]:
         atomic(item["path"], bytes.fromhex(item["before_hex"]))
-    restore_launcher_files(prefix, journal.get("launcher_files", []))
     if journal["previous"] is not None:
         switch(prefix, journal["previous"])
     else:
@@ -516,14 +384,8 @@ def recover(prefix):
         current = Path(item["path"]).read_bytes().hex()
         if current not in (item["before_hex"], item["after_hex"]):
             raise RuntimeError("Legacy ICD changed independently; preserving it: " + item["path"])
-    for item in journal.get("launcher_files", []):
-        if launcher_file_state(prefix, item) not in (item["before_hex"], item["after_hex"]):
-            raise RuntimeError(
-                "Launcher/settings changed independently; preserving " + item["name"]
-            )
     for item in journal["migrations"]:
         atomic(item["path"], bytes.fromhex(item["before_hex"]))
-    restore_launcher_files(prefix, journal.get("launcher_files", []))
     if journal["previous"] is not None:
         switch(prefix, journal["previous"])
     elif current_target(prefix) is not None:
@@ -544,7 +406,7 @@ def status(prefix):
         prefix / "current/lib/libvulkan_radeon.so"
     ):
         raise RuntimeError("Stable ICD differs from the managed selection.")
-    report = {
+    return {
         "active": True,
         "prefix": str(prefix),
         "version": manifest["version"],
@@ -552,28 +414,6 @@ def status(prefix):
         "library": str(prefix / target / "lib/libvulkan_radeon.so"),
         "scope": "Private 64-bit selection; use the wrapper or printed ICD. Does not change system RADV.",
     }
-    try:
-        settings = cache_settings(prefix)
-        report["shared_cache"] = {
-            "enabled": settings["enabled"],
-            **cache_helper().inspect(os.environ, settings["directory"]),
-        }
-    except (OSError, ValueError, RuntimeError) as error:
-        report["shared_cache"] = {"available": False, "reason": str(error)}
-    return report
-
-
-def print_driver_status(report):
-    if not report["active"]:
-        print("Driver: no private release selected")
-        return
-    print("Driver: " + report["version"])
-    print("Library: " + report["library"])
-    shared = report["shared_cache"]
-    print(
-        "Shared caching for this launcher: " + ("enabled" if shared.get("enabled") else "disabled")
-    )
-    cache_helper().print_status(shared)
 
 
 def main():
@@ -590,40 +430,12 @@ def main():
     p.add_argument("archive", type=Path)
     p.add_argument("--sha256", help="Expected archive SHA256 (default: adjacent .sha256 file)")
     p.add_argument("--upgrade-v3-icd", type=Path, action="append", default=[])
-    cache_group = p.add_mutually_exclusive_group()
-    cache_group.add_argument("--shared-cache", dest="shared_cache", action="store_true")
-    cache_group.add_argument("--no-shared-cache", dest="shared_cache", action="store_false")
-    p.set_defaults(shared_cache=None)
-    p.add_argument("--cache-dir", type=Path, help="Advanced: shared cache storage")
-    p.add_argument(
-        "--launch-options",
-        default=None,
-        help="Existing Steam options to preserve in the printed command",
-    )
     sub.add_parser("rollback")
     sub.add_parser("recover")
-    p = sub.add_parser("status")
-    p.add_argument(
-        "--human",
-        action="store_true",
-        help="Readable status (default through the installed launcher)",
-    )
-    p.add_argument("--json", action="store_true", help="Machine-readable status")
-    p = sub.add_parser("steam", help="Generate launch options without editing Steam")
-    p.add_argument("--launch-options", default=None)
+    sub.add_parser("status")
     p = sub.add_parser("run")
-    p.add_argument(
-        "--no-shared-cache",
-        action="store_true",
-        help="Use the original cache settings for this launch",
-    )
-    p.add_argument(
-        "--cache-dir", type=Path, help="Advanced: override shared cache storage for this launch"
-    )
     p.add_argument("program", nargs=argparse.REMAINDER)
     args = parser.parse_args()
-    if args.command in {"install", "steam"}:
-        args.launch_options = cache_helper().existing_steam_options(args.launch_options)
     requested_prefix = args.prefix.expanduser().absolute()
     prefix = requested_prefix.resolve()
     if requested_prefix.is_symlink() or prefix in [
@@ -636,22 +448,6 @@ def main():
         raise RuntimeError(
             "Choose a dedicated installation directory, not a system/home root or symlink."
         )
-    if args.command == "status":
-        report = status(prefix)
-        if args.human and not args.json:
-            print_driver_status(report)
-        else:
-            print(json.dumps(report, indent=2))
-        return 0 if report["active"] else 1
-    if args.command == "steam":
-        if not status(prefix)["active"] or not (prefix / "bc250-fsr4-run").is_file():
-            raise RuntimeError("Install the driver with the updated tools first")
-        print(
-            cache_helper().steam_command(
-                args.launch_options, [prefix / "bc250-fsr4-run", "run", "--"]
-            )
-        )
-        return 0
     prefix.mkdir(parents=True, exist_ok=True)
     fd = os.open(prefix / ".lock", os.O_WRONLY | os.O_CREAT | os.O_NOFOLLOW, 0o600)
     with os.fdopen(fd, "a") as lock:
@@ -664,6 +460,10 @@ def main():
             rollback(prefix)
         elif args.command == "recover":
             recover(prefix)
+        elif args.command == "status":
+            report = status(prefix)
+            print(json.dumps(report, indent=2))
+            return 0 if report["active"] else 1
         elif args.command == "run":
             report = status(prefix)
             if args.program[:1] == ["--"]:
@@ -677,20 +477,6 @@ def main():
             env.pop("VK_ICD_FILENAMES", None)
             env.pop("VK_ADD_DRIVER_FILES", None)
             env["VK_DRIVER_FILES"] = str(path)
-            try:
-                settings = cache_settings(prefix)
-                env = cache_helper().launch_environment(
-                    env,
-                    args.cache_dir or settings["directory"],
-                    enabled=settings["enabled"] and not args.no_shared_cache,
-                )
-            except (OSError, ValueError, RuntimeError) as error:
-                print(
-                    "Shared cache unavailable; keeping the selected driver and original cache settings: "
-                    + str(error),
-                    file=sys.stderr,
-                    flush=True,
-                )
             # Close lock before exec: applications must not hold the installer lease.
             fcntl.flock(lock, fcntl.LOCK_UN)
             os.execvpe(args.program[0], args.program, env)

@@ -55,6 +55,8 @@ def setup_files(files, commit):
         "docs/legacy-rc6.md",
         "scripts/vulkan_probe.py",
         "scripts/safe_archive.py",
+        "scripts/shared-cache.py",
+        "scripts/shared-cache.sh",
     ):
         if guide in files:
             selected[guide] = files[guide]

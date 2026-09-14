@@ -100,6 +100,8 @@ class InstallerTests(unittest.TestCase):
         self.install()
         env = os.environ.copy()
         env.update(
+            HOME=str(self.root / "home"),
+            XDG_STATE_HOME=str(self.root / "state"),
             BC250_FSR4_PREFIX=str(self.prefix),
             VK_ICD_FILENAMES="stale.json",
             VK_ADD_DRIVER_FILES="extra.json",
@@ -268,6 +270,80 @@ class InstallerTests(unittest.TestCase):
         self.assertIsNone(driver.current_target(self.prefix))
         records = list((self.prefix / "transactions").glob("*.json"))
         self.assertEqual(json.loads(records[0].read_text())["state"], "aborted")
+
+    def test_integrated_launcher_defaults_on_and_can_opt_out_per_launch(self):
+        self.args.shared_cache = None
+        self.install()
+        self.assertTrue(driver.cache_settings(self.prefix)["enabled"])
+        launcher = self.prefix / "bc250-fsr4-run"
+        env = dict(
+            os.environ,
+            HOME=str(self.root / "home"),
+            XDG_CACHE_HOME=str(self.root / "cache"),
+            XDG_STATE_HOME=str(self.root / "state"),
+            MESA_SHADER_CACHE_DIR=str(self.root / "original-cache"),
+        )
+        for flags, shared in [([], True), (["--no-shared-cache"], False)]:
+            child = subprocess.run(
+                [
+                    str(launcher),
+                    "run",
+                    *flags,
+                    "--",
+                    sys.executable,
+                    "-c",
+                    "import json,os;print(json.dumps({k:os.environ[k] for k in ['VK_DRIVER_FILES','MESA_SHADER_CACHE_DIR']}))",
+                ],
+                env=env,
+                text=True,
+                capture_output=True,
+                check=True,
+            )
+            effective = json.loads(child.stdout)
+            self.assertTrue(Path(effective["VK_DRIVER_FILES"]).is_file())
+            self.assertEqual(
+                effective["MESA_SHADER_CACHE_DIR"] != env["MESA_SHADER_CACHE_DIR"], shared
+            )
+        status = subprocess.run(
+            [str(launcher), "status"], env=env, text=True, capture_output=True, check=True
+        )
+        self.assertIn("Shared caching for this launcher: enabled", status.stdout)
+
+    def test_cache_preference_and_launcher_roll_back_with_driver(self):
+        self.args.shared_cache = True
+        self.install()
+        before = (self.prefix / "bc250-fsr4-run").read_bytes()
+        self.library.write_bytes(b"updated driver fixture")
+        self.make_archive()
+        self.args.shared_cache = False
+        self.install()
+        self.assertFalse(driver.cache_settings(self.prefix)["enabled"])
+        driver.rollback(self.prefix)
+        self.assertTrue(driver.cache_settings(self.prefix)["enabled"])
+        self.assertEqual((self.prefix / "bc250-fsr4-run").read_bytes(), before)
+        driver.rollback(self.prefix)
+        self.assertFalse((self.prefix / "bc250-fsr4-run").exists())
+        self.assertFalse((self.prefix / "cache-settings.json").exists())
+
+    def test_launcher_edit_is_preserved_before_rollback_changes_selection(self):
+        self.install()
+        target = driver.current_target(self.prefix)
+        (self.prefix / "bc250-fsr4-run").write_text("user change")
+        with self.assertRaisesRegex(RuntimeError, "changed independently"):
+            driver.rollback(self.prefix)
+        self.assertEqual(driver.current_target(self.prefix), target)
+        self.assertEqual((self.prefix / "bc250-fsr4-run").read_text(), "user change")
+
+    def test_status_does_not_create_an_installation(self):
+        absent = self.root / "absent"
+        child = subprocess.run(
+            [sys.executable, str(Path(driver.__file__)), "--prefix", str(absent), "status"],
+            text=True,
+            capture_output=True,
+        )
+        self.assertEqual(child.returncode, 1)
+        self.assertFalse(json.loads(child.stdout)["active"])
+        self.assertFalse(absent.exists())
 
 
 class RecoveryAndAbiTests(unittest.TestCase):

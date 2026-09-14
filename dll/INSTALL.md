@@ -16,8 +16,10 @@ RC10 removes redundant intermediate shader operations to reduce cold compilation
 work. Its 48 changed shader slots produce the same native BC250 code as RC9
 on the three compared Mesa builds. The download also includes an optional
 Linux shared-cache launcher under `linux/`; see `linux/README.md`. Copy only
-the DLL into the game. Keep the Linux helpers in a permanent user directory
-if you choose to use them.
+the DLL into the game. With the updated helper in this source/package, run
+`sh linux/shared-cache.sh install` once. It installs its files permanently and
+generates launch options while preserving existing settings; follow `linux/README.md`.
+The originally published RC10 archives retain their earlier helper.
 
 ## First launch: shader compilation can look like a freeze
 
