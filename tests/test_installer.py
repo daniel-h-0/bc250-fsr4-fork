@@ -420,6 +420,47 @@ class InstallerTests(unittest.TestCase):
         selected = next((self.prefix / "launcher-tools").iterdir())
         self.assertEqual((selected / "driver.py").read_bytes(), Path(driver.__file__).read_bytes())
 
+    def test_rollback_and_recovery_check_retained_launcher_before_changing_selection(self):
+        spaced = self.root / "installed driver with spaces"
+        self.prefix.rename(spaced)
+        self.prefix = spaced
+        self.install()
+        previous_tools = next((self.prefix / "launcher-tools").iterdir())
+        old_script = previous_tools / "driver.py"
+        original = old_script.read_bytes()
+        self.tool_archive()
+        with patch.object(driver, "__file__", str(old_script)):
+            self.install()
+        target = driver.current_target(self.prefix)
+        launcher = self.prefix / "bc250-fsr4-run"
+        selected_launcher = launcher.read_bytes()
+        record = sorted((self.prefix / "transactions").glob("*.json"))[-1]
+        journal = json.loads(record.read_text())
+        for operation in (driver.rollback, driver.recover):
+            for damage in ("missing", "modified"):
+                with self.subTest(operation=operation.__name__, damage=damage):
+                    journal["state"] = "active" if operation == driver.rollback else "prepared"
+                    driver.write_json(record, journal)
+                    if damage == "missing":
+                        old_script.unlink()
+                    else:
+                        old_script.write_bytes(b"independent edit")
+                    with self.assertRaisesRegex(
+                        RuntimeError, "Restore the retained launcher tools"
+                    ):
+                        operation(self.prefix)
+                    self.assertEqual(driver.current_target(self.prefix), target)
+                    self.assertEqual(launcher.read_bytes(), selected_launcher)
+                    self.assertEqual(json.loads(record.read_text())["state"], journal["state"])
+                    old_script.write_bytes(original)
+        journal["state"] = "active"
+        driver.write_json(record, journal)
+        driver.rollback(self.prefix)
+        child = subprocess.run(
+            [str(launcher), "status", "--json"], text=True, capture_output=True, check=True
+        )
+        self.assertTrue(json.loads(child.stdout)["active"])
+
     def test_installed_update_refuses_unknown_or_incomplete_tool_contract(self):
         self.install()
         target = driver.current_target(self.prefix)

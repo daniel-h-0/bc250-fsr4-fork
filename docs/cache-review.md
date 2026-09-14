@@ -1,5 +1,9 @@
 # Cache installer and documentation review
 
+This records the first review, committed as `df5996d`. The subsequent
+[recovery and removal review](cache-review2.md) records additional fixes and
+current validation; the results below retain their original scope.
+
 The September 14 review of `67870df` found fixes in setup, updates and diagnostics.
 The shared Mesa store, per-game read-only Steam views, write probes and launch
 fallback retain their measured preparation code. Shader sources and binaries

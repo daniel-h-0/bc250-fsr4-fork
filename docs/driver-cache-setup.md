@@ -106,6 +106,10 @@ The retained `launcher-tools/<tool-set-id>/driver.py` also supports that command
 without the original download. Recovery restores the prior selection; it does
 not finish an interrupted upgrade. Do not delete its transaction records.
 Independent edits to managed launcher/settings files are preserved and reported.
+Rollback and recovery also verify the previous launcher's complete tool set
+before changing the selection. If retained tools are missing or modified, restore
+them from their matching verified source/download before retrying; the error names
+the affected directory. Keeping only the old driver library is insufficient.
 
 Cache sharing still requires compatible driver/compiler inputs and paths visible
 inside the game's launcher or sandbox. See the [cache guide](shared-shader-cache.md)

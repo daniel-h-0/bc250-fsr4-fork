@@ -86,6 +86,14 @@ Add `--disable` before `--` for a temporary bypass. `uninstall` removes the mana
 cache launcher and retains shader caches. Driver users instead use their installed
 driver launcher's `--no-shared-cache` switch or its rollback command.
 
+If helper removal is interrupted, rerun `uninstall --prefix /original/install/path`
+from the download; `install` from the download can also restore missing launcher
+links. Removed tool sets are detached before file cleanup, so a partial deletion
+does not block reinstalling the same version. Unselected partial staging/removal
+directories are preserved. If the managed `launcher-tools` directory has been
+moved or replaced by a symlink, setup and removal refuse to follow it; restore
+the original directory layout before retrying.
+
 For Heroic on Linux, add the installed launcher path in the game's **Wrapper**
 field and `--` in **Arguments**. For the integrated driver launcher, use `run --`
 as its arguments. Preserve existing wrappers and use the launcher inside the

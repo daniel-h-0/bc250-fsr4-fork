@@ -122,7 +122,19 @@ def launcher_changes(args, prefix, source=None, license_text=None):
         source=source,
         license_text=license_text,
     )
-    script = (
+    settings = {"schema": 1, "enabled": enabled, "directory": directory}
+    payloads = {
+        "bc250-fsr4-run": (launcher_script(prefix, tools), 0o755),
+        "cache-settings.json": ((json.dumps(settings, indent=2) + "\n").encode(), 0o600),
+    }
+    for item in changes:
+        data, mode = payloads[item["name"]]
+        item.update(after_hex=data.hex(), after_mode=mode)
+    return changes
+
+
+def launcher_script(prefix, tools):
+    return (
         "#!/bin/sh\n"
         'if [ "$#" -eq 0 ]; then set -- status --human; fi\n'
         'if [ "$#" -eq 1 ] && [ "$1" = status ]; then set -- status --human; fi\n'
@@ -131,16 +143,29 @@ def launcher_changes(args, prefix, source=None, license_text=None):
         + " --prefix "
         + shlex.quote(str(prefix))
         + ' "$@"\n'
-    )
-    settings = {"schema": 1, "enabled": enabled, "directory": directory}
-    payloads = {
-        "bc250-fsr4-run": (script.encode(), 0o755),
-        "cache-settings.json": ((json.dumps(settings, indent=2) + "\n").encode(), 0o600),
-    }
-    for item in changes:
-        data, mode = payloads[item["name"]]
-        item.update(after_hex=data.hex(), after_mode=mode)
-    return changes
+    ).encode()
+
+
+def verify_retained_launcher(prefix, script):
+    """Validate the tool payload before restoring the generated launcher that uses it."""
+    lines = script.decode().splitlines()
+    command = shlex.split(lines[-1]) if lines else []
+    if len(command) != 6 or command[:2] != ["exec", "python3"]:
+        raise RuntimeError("Unrecognized retained launcher; preserving the current selection")
+    tools = Path(command[2]).parent
+    helper = cache_helper()
+    if (
+        tools.parent != helper.tools_root(prefix)
+        or not re.fullmatch(r"[0-9a-f]{24}", tools.name)
+        or script != launcher_script(prefix, tools)
+    ):
+        raise RuntimeError("Retained launcher is outside its managed tool set")
+    try:
+        helper.verify_tools(tools)
+    except (OSError, ValueError, RuntimeError) as error:
+        raise RuntimeError(
+            "Restore the retained launcher tools at " + str(tools) + ": " + str(error)
+        ) from error
 
 
 def launcher_file_state(prefix, item):
@@ -351,6 +376,9 @@ def verify_previous(prefix, journal):
         # A retained release can be removed or edited between install and rollback.
         # Validate it before restoring migrated launch paths or switching current.
         verify_release(prefix / managed_target(prefix, journal["previous"]))
+    for item in journal.get("launcher_files", []):
+        if item["name"] == "bc250-fsr4-run" and item["before_hex"] is not None:
+            verify_retained_launcher(prefix, bytes.fromhex(item["before_hex"]))
 
 
 def archive_checksum(archive, checksum=None):

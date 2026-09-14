@@ -70,7 +70,11 @@ def main():
     )
     assert len(userspaces["rows"]) == 4 and userspaces["tests_per_userspace"] == 21
     assert all(row["tests_pass"] and row["readonly_fallback"] for row in userspaces["rows"])
-    review = json.loads((ROOT / "docs/data/cache-review-20260914.json").read_text())
+    # Prior tooling results are tied to their immutable source commit. The GPU
+    # cache-core comparison above remains against the retained measured source.
+    prior = ROOT / "docs/data/cache-review-20260914.json"
+    review = json.loads((ROOT / "docs/data/cache-review2-20260914.json").read_text())
+    assert digest(prior) == review["previous_review_record_sha256"]
     assert review["complete"] and review["cache_core_unchanged"]
     for name, expected in review["source_sha256"].items():
         assert digest(ROOT / name) == expected, name
@@ -78,8 +82,8 @@ def main():
     assert all(
         row["tests_pass"]
         and row["readonly_fallback"]
-        and row["cache_tests"] >= 24
-        and row["driver_tests"] >= 33
+        and row["cache_tests"] >= 27
+        and row["driver_tests"] >= 34
         for row in review["userspaces"]
     )
     games = record["games"]

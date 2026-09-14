@@ -77,7 +77,7 @@ The [RC9 GPU-cost chart](docs/gpu-cost.md) keeps its original measurements and d
 Current development also includes [simpler Linux cache setup](docs/shared-shader-cache.md)
 and a [driver installer with integrated caching](docs/driver-cache-setup.md).
 These tooling changes are separate from the published RC10 downloads.
-The [follow-up review](docs/cache-review.md) records update/fallback corrections,
+The [follow-up review](docs/cache-review2.md) records update/fallback corrections,
 portability checks and the unchanged scope of the gameplay evidence.
 
 The [DLL source](dll/README.md) includes all 348 editable LLVM/DXIL sources,

@@ -13,6 +13,10 @@
   rollback and a documented recovery path after interrupted launcher removal.
 - Clarify helper updates, per-user diagnostic scope and the difference between
   a cache directory's presence, successful writes and observed game cache hits.
+- Verify retained launcher tools before driver rollback/recovery; preserve the
+  current selection when the prior tool set is missing or changed.
+- Make interrupted cache-helper removal retryable and preserve relocated tool
+  directories. A launcher path in a game's arguments no longer suppresses setup.
 - Check actual writes even when cache directories already exist; preserve the
   original environment if storage is unavailable. Keep RC10's historical evidence
   tied to its exact retained helper sources.

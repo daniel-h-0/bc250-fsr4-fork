@@ -281,7 +281,7 @@ def steam_command(original, prefix):
     matches = list(re.finditer(r"(?<!\S)%command%(?!\S)", original))
     if len(matches) != 1:
         raise ValueError("Use an unquoted standalone %command% placeholder")
-    if str(prefix[0]) in tokens:
+    if str(prefix[0]) in tokens[: tokens.index("%command%")]:
         return original
     position = matches[0].start()
     return (
@@ -333,6 +333,13 @@ def verify_tools(directory):
     return manifest
 
 
+def tools_root(prefix):
+    tools = prefix / "launcher-tools"
+    if tools.is_symlink() or (tools.exists() and not tools.is_dir()):
+        raise ValueError("The installed tool directory must be a regular directory: " + str(tools))
+    return tools
+
+
 def stage_tools(prefix, names, source=None, license_text=None):
     """Stage an immutable complete tool set before any launcher points at it."""
     source = SOURCE if source is None else source
@@ -346,9 +353,7 @@ def stage_tools(prefix, names, source=None, license_text=None):
         payload[name] = path.read_bytes()
     hashes = {name: hashlib.sha256(data).hexdigest() for name, data in sorted(payload.items())}
     identity = hashlib.sha256(json.dumps(hashes, sort_keys=True).encode()).hexdigest()[:24]
-    tools = prefix / "launcher-tools"
-    if tools.is_symlink():
-        raise ValueError("The installed tool directory must not be a symlink")
+    tools = tools_root(prefix)
     tools.mkdir(parents=True, exist_ok=True, mode=0o700)
     destination = tools / identity
     if destination.exists():
@@ -367,9 +372,15 @@ def stage_tools(prefix, names, source=None, license_text=None):
     return destination
 
 
-def installed(prefix):
+def installed(prefix, allow_missing_launcher=False):
+    tools_root(prefix)
     current = prefix / "current"
     launcher = prefix / "bc250-fsr4-cache"
+    if launcher.is_symlink():
+        if os.readlink(launcher) != "current/shared-cache.sh":
+            raise ValueError("Installed launcher was changed")
+    elif launcher.exists():
+        raise ValueError("The launcher path contains unrelated data")
     if not current.is_symlink():
         if current.exists():
             raise ValueError("Installation selection contains unrelated data")
@@ -378,7 +389,7 @@ def installed(prefix):
     if target.parts[:1] != ("launcher-tools",) or len(target.parts) != 2 or ".." in target.parts:
         raise ValueError("Unexpected installed tool selection")
     verify_tools(prefix / target)
-    if not launcher.is_symlink() or os.readlink(launcher) != "current/shared-cache.sh":
+    if not launcher.is_symlink() and not allow_missing_launcher:
         raise ValueError("Installed launcher was changed")
     return launcher
 
@@ -404,7 +415,7 @@ def install(prefix, original="%command%"):
     prefix.mkdir(parents=True, exist_ok=True, mode=0o700)
     with (prefix / ".install.lock").open("a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
-        installed(prefix)
+        installed(prefix, allow_missing_launcher=True)
         if launcher.exists() or launcher.is_symlink():
             if not launcher.is_symlink() or os.readlink(launcher) != "current/shared-cache.sh":
                 raise ValueError("The launcher path contains unrelated data")
@@ -431,21 +442,30 @@ def uninstall(prefix):
         return
     with (prefix / ".install.lock").open("a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
-        if installed(prefix) is None:
-            return
+        installed(prefix, allow_missing_launcher=True)
+        tools = tools_root(prefix)
         payloads = [
             path
-            for path in (prefix / "launcher-tools").iterdir()
+            for path in (tools.iterdir() if tools.exists() else [])
             if re.fullmatch(r"[0-9a-f]{24}", path.name)
         ]
         for directory in payloads:
             verify_tools(directory)
-        (prefix / "bc250-fsr4-cache").unlink()
-        (prefix / "current").unlink()
+        # Detach selection first. Either link may already be absent after an
+        # interrupted uninstall; both were checked above before changing either.
+        for name in ("current", "bc250-fsr4-cache"):
+            path = prefix / name
+            if path.is_symlink():
+                path.unlink()
         for directory in payloads:
-            shutil.rmtree(directory)
-        if not any((prefix / "launcher-tools").iterdir()):
-            (prefix / "launcher-tools").rmdir()
+            # A killed cleanup must not leave a partially deleted immutable ID
+            # that prevents reinstalling this version. Unselected interrupted
+            # staging/removal directories remain outside the managed ID set.
+            temporary = Path(tempfile.mkdtemp(prefix=".remove-", dir=tools))
+            directory.rename(temporary / directory.name)
+            shutil.rmtree(temporary)
+        if tools.exists() and not any(tools.iterdir()):
+            tools.rmdir()
     print("Launcher removed. Shader caches are retained; remove the wrapper from launch options.")
 
 

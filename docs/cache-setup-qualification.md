@@ -42,7 +42,7 @@ license and keep unselected interrupted staging data during uninstall. The cache
 preparation/launch functions and imports compare identically as parsed code.
 The full helper and driver-tool hashes in this record are retained under
 `legacy/cache-setup-tools`, from commit `67870df`. The subsequent
-[installer review](cache-review.md) has its own source hashes and tests; the
+[installer reviews](cache-review2.md) have their own source hashes and tests; the
 measured cache preparation code remains identical.
 
 ## Setup, diagnostics and portability

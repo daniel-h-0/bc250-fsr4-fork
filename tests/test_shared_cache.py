@@ -278,6 +278,13 @@ class SharedCacheTests(unittest.TestCase):
         self.assertTrue(result.startswith('WINEDLLOVERRIDES="winmm=n,b" ~/.lsfg '))
         self.assertTrue(result.endswith(" -- %command% -dx12"))
         self.assertEqual(cache.steam_command(result, [launcher, "--"]), result)
+        # The same path after %command% belongs to the game's arguments. It is
+        # not evidence that the cache wrapper already surrounds the command.
+        argument = "%command% --file " + str(launcher).replace("a space", "nospace")
+        simple = Path(str(launcher).replace("a space", "nospace"))
+        self.assertEqual(
+            cache.steam_command(argument, [simple, "--"]), str(simple) + " -- " + argument
+        )
         for invalid in [
             "%command% %command%",
             '"%command%"',
@@ -403,3 +410,60 @@ class SharedCacheTests(unittest.TestCase):
                 prefix.symlink_to("/")
             with self.subTest(prefix=prefix), self.assertRaisesRegex(ValueError, "dedicated"):
                 cache.install(prefix)
+
+    def test_replaced_tool_directory_is_preserved_by_all_management_actions(self):
+        prefix = self.root / "installed"
+        cache.install(prefix)
+        moved = self.root / "moved-tools"
+        (prefix / "launcher-tools").rename(moved)
+        (prefix / "launcher-tools").symlink_to(moved)
+        before = {
+            str(p.relative_to(moved)): p.read_bytes() for p in moved.rglob("*") if p.is_file()
+        }
+        for action in (cache.installed, cache.install, cache.uninstall):
+            with self.subTest(action=action.__name__):
+                with self.assertRaisesRegex(ValueError, "regular directory"):
+                    action(prefix)
+        self.assertTrue((prefix / "current").is_symlink())
+        self.assertTrue((prefix / "bc250-fsr4-cache").is_symlink())
+        self.assertEqual(
+            before,
+            {str(p.relative_to(moved)): p.read_bytes() for p in moved.rglob("*") if p.is_file()},
+        )
+
+    def test_interrupted_control_link_removal_allows_uninstall_or_reinstall(self):
+        for removed in (("bc250-fsr4-cache",), ("current",), ("current", "bc250-fsr4-cache")):
+            for action in (cache.install, cache.uninstall):
+                with self.subTest(removed=removed, action=action.__name__):
+                    prefix = self.root / ("install-" + str(len(list(self.root.iterdir()))))
+                    cache.install(prefix)
+                    for name in removed:
+                        (prefix / name).unlink()
+                    action(prefix)
+                    if action == cache.install:
+                        self.assertIsNotNone(cache.installed(prefix))
+                    else:
+                        self.assertFalse((prefix / "current").is_symlink())
+                        self.assertFalse((prefix / "bc250-fsr4-cache").is_symlink())
+
+    def test_partial_payload_removal_does_not_block_reinstall(self):
+        prefix = self.root / "installed"
+        cache.install(prefix)
+        target = (prefix / "current").resolve()
+
+        def interrupted_delete(directory):
+            # Model a terminated cleanup that deleted one file after the
+            # immutable ID had been detached, leaving the remainder behind.
+            next(Path(directory).glob("*/shared-cache.py")).unlink()
+            raise OSError("interrupted cleanup")
+
+        with patch.object(cache.shutil, "rmtree", side_effect=interrupted_delete):
+            with self.assertRaisesRegex(OSError, "interrupted cleanup"):
+                cache.uninstall(prefix)
+        self.assertFalse(target.exists())
+        self.assertFalse((prefix / "current").is_symlink())
+        cache.install(prefix)
+        self.assertIsNotNone(cache.installed(prefix))
+        self.assertTrue(list((prefix / "launcher-tools").glob(".remove-*")))
+        cache.uninstall(prefix)
+        self.assertFalse((prefix / "current").is_symlink())
