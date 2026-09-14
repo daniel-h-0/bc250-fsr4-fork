@@ -24,7 +24,7 @@ The maintainer accepted this four-item upload list on September 14:
 | Asset | Contents |
 | --- | --- |
 | `bc250-fsr4-dll-VERSION.zip` | DLL, quick instructions, internal checksums and notices |
-| `bc250-fsr4-vVERSION-linux-glibc236-x86_64.tar.gz` | Qualified driver, installation/recovery tools, source and build provenance |
+| `bc250-fsr4-vVERSION-linux-glibc236-x86_64.tar.gz` | Driver, installation/recovery tools, notices and build provenance |
 | `bc250-fsr4-vVERSION-source-COMMIT.tar.gz` | Complete source snapshot, documentation, benchmark data and technical evidence |
 | `SHA256SUMS` | SHA256 of each of the three archives |
 
@@ -292,3 +292,10 @@ The [RC10 release record](portable-dll-rc10.md) and
 Proton checks and the publication boundary. The actual driver recipe requires
 GE-Proton 11-6; the installed Valve Proton 11 trial removed the manually supplied
 provider and fell back to FSR3, while the primary RC10 DLL passed.
+
+The final extracted package passes real installation, RC1-to-RC10 upgrade,
+bad-checksum preservation, Vulkan initialization, rollback to RC1 and first-
+install rollback. Its cache UUID matches R2 and separates the opt-out mode.
+The additional Experimental 11.0-20260910b 1440p provider check matches all
+14 expected substitutions. An offline Control clone mapped the RC10 DLL but
+exited before rendered-scene verification; it is not a gameplay pass.

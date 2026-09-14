@@ -30,7 +30,15 @@ weight guards and synchronization repair are retained. The driver option
 preserves a pre-existing dynamic-resolution difference in the older provider
 route; it does not promise identical images between every API integration.
 
-Qualification remains BC250/Linux focused. Windows, other GPUs, frame
+The final binaries pass 21 synthetic rendering checks and a complete DLL
+rebuild; the driver package passes real installation, upgrade and rollback.
+All 244 repository tests pass. Additional direct-DLL checks pass installed
+Proton 11 and Experimental. The driver recipe retains the tested GE-Proton pin;
+Valve Proton 11's provider fallback is documented.
+
+Qualification remains BC250/Linux focused. The isolated Control smoke test
+loads the DLL but is not gameplay qualification; earlier game evidence remains
+labeled with its original release. Windows, other GPUs, frame
 generation and unlisted game/Proton combinations are unqualified. Keep shader
 caches between launches. After a temporary watermark check, use
 `Fsr4EnableWatermark=auto` and remove `MLSR-WATERMARK`.

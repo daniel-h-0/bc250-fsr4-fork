@@ -82,6 +82,16 @@ matches RC9. Proton 11.0-2c removes the manually supplied provider and falls
 back to FSR3; that driver/provider check fails and remains recorded. These
 single-context checks do not replace the GE-Proton three-resolution matrix.
 
+The extracted driver package passed a real private install, upgrade from the
+retained RC1 driver, Vulkan initialization, bad-checksum rejection and ordered
+rollback to RC1 and then no selected driver. Enabled/disabled cache UUIDs are
+distinct and repeat consistently. The system driver was not replaced.
+
+An offline Control clone mapped the new DLL but exited before a rendered-scene
+check. That attempt is not counted as gameplay qualification. A normal-launch
+gameplay pass for the driver remains a useful final confidence check; the
+release's established coverage is the synthetic matrix above.
+
 Use the [installation guide](../dll/INSTALL.md), retain the original DLL backup
 and launch options, and leave watermark control at `auto` with `MLSR-WATERMARK`
 absent after any temporary visual check.

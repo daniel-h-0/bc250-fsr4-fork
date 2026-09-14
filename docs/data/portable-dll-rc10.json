@@ -277,7 +277,78 @@
     "completed_checks_retained": 1,
     "incomplete_check_excluded": true
   },
-  "installer": null,
+  "installer": {
+    "complete": true,
+    "scope": "Actual extracted release helper; isolated install, upgrade, Vulkan load, bad-checksum rejection and ordered rollback",
+    "archive_sha256": "1038ed4020017eaa766a52d47ed64073a71c06677eebcc62dfe9804d454b91cd",
+    "old_archive_sha256": "00fadb904d9f47fd4488b56756e8bc224d6f04603ff11b90416d574f720a0fc4",
+    "old_driver_sha256": "13163d1350d346f54d58b82863e5fc2f31ddfab0a0dd6495886c3fec286315d2",
+    "rc10_driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+    "helper_sha256": "9e8acb655fec88685b8441c102150bcd8e46d73f12402ee8ac104770969079b9",
+    "steps": [
+      {
+        "action": "install",
+        "returncode": 0
+      },
+      {
+        "action": "status",
+        "returncode": 0
+      },
+      {
+        "action": "install",
+        "returncode": 0
+      },
+      {
+        "action": "status",
+        "returncode": 0
+      },
+      {
+        "action": "run",
+        "returncode": 0
+      },
+      {
+        "action": "run",
+        "returncode": 0
+      },
+      {
+        "action": "run",
+        "returncode": 0
+      },
+      {
+        "action": "install",
+        "returncode": 1
+      },
+      {
+        "action": "status",
+        "returncode": 0
+      },
+      {
+        "action": "rollback",
+        "returncode": 0
+      },
+      {
+        "action": "status",
+        "returncode": 0
+      },
+      {
+        "action": "rollback",
+        "returncode": 0
+      },
+      {
+        "action": "status",
+        "returncode": 1
+      }
+    ],
+    "cache_uuid": {
+      "enabled": "992931b242530c001ebbae4faf1b9044",
+      "disabled": "dc332d67a0265cb40c2f8c0b2d011c13",
+      "enabled_repeats": true
+    },
+    "bad_checksum_preserved_selection": true,
+    "old_driver_restored": true,
+    "first_install_rolled_back": true,
+    "system_driver_changed": false
+  },
   "additional_translators": {
     "complete": true,
     "rows": [
@@ -362,5 +433,17 @@
       }
     ]
   },
-  "real_game_checks": []
+  "real_game_checks": [
+    {
+      "game": "Control Ultimate Edition",
+      "route": "RC10 DLL, private offline clone",
+      "returncode": 0,
+      "seconds": 16.134552993999932,
+      "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+      "host_root_read_only": true,
+      "network_isolated": true,
+      "gameplay_qualified": false,
+      "scope": "DLL mapped in the game process; exited before a rendered-scene check. This is not gameplay qualification."
+    }
+  ]
 }

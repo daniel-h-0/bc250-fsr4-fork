@@ -47,6 +47,32 @@ def main():
             assert row["dll_sha256"] == record["dll_sha256"]
         if "paired" in row["name"] or "original_port" in row["name"] or "provider" in row["name"]:
             assert row["driver_sha256"] == record["driver"]["sha256"]
+    installer = record["installer"]
+    assert installer["complete"] and installer["rc10_driver_sha256"] == record["driver"]["sha256"]
+    assert installer["old_driver_restored"] and installer["first_install_rolled_back"]
+    assert installer["bad_checksum_preserved_selection"] and not installer["system_driver_changed"]
+    assert (
+        installer["helper_sha256"]
+        == hashlib.sha256((ROOT / "scripts/driver.py").read_bytes()).hexdigest()
+    )
+    assert installer["cache_uuid"]["enabled"] != installer["cache_uuid"]["disabled"]
+    assert installer["cache_uuid"]["enabled_repeats"]
+    translators = record["additional_translators"]
+    assert translators["complete"] and len(translators["rows"]) == 2
+    assert all(r["dll_valid"] for r in translators["rows"])
+    assert translators["rows"][0]["provider_selected"] == "3.1.5"
+    assert not translators["rows"][0]["provider_valid"]
+    assert translators["rows"][1]["provider_valid"]
+    assert len({r[0] for r in translators["rows"][1]["provider_matches"]}) == 14
+    watermark = load("docs/data/beginner-watermark-rc10.json")
+    assert watermark["provider"] == record["provider_name"]
+    assert watermark["dll_sha256"] == record["dll_sha256"]
+    assert (
+        watermark["png_sha256"]
+        == hashlib.sha256(
+            (ROOT / "docs/assets/rc10-watermark-reference.png").read_bytes()
+        ).hexdigest()
+    )
     print("PASS: RC10 identity, 48 selected/300 retained slots and 21 final-artifact image checks")
 
 
