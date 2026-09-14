@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased — RC10 preparation
+
+- Add an optional CPU startup-timing mode to the standalone probe; preserve
+  its normal benchmark build.
+- Add local release-asset staging with one archive per role and a consolidated
+  checksum list, retaining the complete source download and original artifacts.
+- Add an opt-in shared Mesa cache launcher with preserved per-game Fossilize
+  reads. Record isolated startup and shader-simplification development results.
+- Include the DLL source directory when inspecting GitHub's automatic source
+  archives. Document pending driver parity and the accepted four-upload layout.
+
 ## RC9 documentation refresh 1 — 2026-09-11
 
 - Add an illustrated beginner walkthrough with pinned OptiScaler/helper downloads,

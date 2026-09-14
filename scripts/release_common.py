@@ -8,7 +8,7 @@ from pathlib import Path
 
 from build import digest
 
-SOURCE_DIRECTORIES = {".github", "scripts", "v4", "docs", "tests", "legacy", "runtime"}
+SOURCE_DIRECTORIES = {".github", "scripts", "v4", "dll", "docs", "tests", "legacy", "runtime"}
 SOURCE_FILES = {
     ".dockerignore",
     ".gitignore",

@@ -384,6 +384,8 @@ class BuildFixture(unittest.TestCase):
     def test_github_source_inventory_preserves_development_and_legacy(self):
         (self.root / ".work").mkdir()
         (self.root / ".work" / "private").write_text("excluded")
+        (self.root / "dll" / "shaders").mkdir(parents=True)
+        (self.root / "dll" / "shaders" / "fixture.ll").write_text("shader source fixture")
         files = release_common.source_files(self.root)
         for name in [
             "CONTRIBUTING.md",
@@ -392,6 +394,7 @@ class BuildFixture(unittest.TestCase):
             "legacy/v3/README.md",
             ".github/workflows/v4.yml",
             "pyproject.toml",
+            "dll/shaders/fixture.ll",
         ]:
             self.assertIn(name, files)
         self.assertNotIn(".work/private", files)

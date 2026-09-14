@@ -805,6 +805,14 @@ def check_dll(root):
     )
 
 
+def check_startup_study(root):
+    summarize = runpy.run_path(str(root / "scripts/check-startup-study.py"))["summarize"]
+    result = summarize(load(root / "docs/data/rc10-startup-study-20260914.json"))
+    require(result["native_machine_code_identical"], "Startup experiment changed native code")
+    require(not result["driver_qualified"], "Static driver audit is not runtime qualification")
+    return "RC10 startup development counters, GPU samples and native-code comparison verified"
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -822,6 +830,7 @@ def main():
         check_docs,
         check_performance,
         check_fsr_cost,
+        check_startup_study,
         check_syntax,
     ):
         print("PASS:", check(root), flush=True)

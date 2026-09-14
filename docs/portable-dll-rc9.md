@@ -47,7 +47,7 @@ RC9 changes twelve shader slots from RC8, or nineteen from RC7. It extends exact
 Winograd convolution to model passes 2, 4 and 10 and improves coefficient grouping
 in passes 1 and 12. Bounded packed accumulation also improves passes 5, 7, 9 and
 11. Final-output unsigned lane extraction preserves every 16-bit value. Earlier
-native dot products, shared model validation, vector weight checks, color reuse
+packed 16-bit dot-product arithmetic, shared model validation, vector weight checks, color reuse
 and measured wave choices remain. There are 348 complete editable shader sources;
 329 keep RC7's compiled hashes and 336 keep RC8's.
 

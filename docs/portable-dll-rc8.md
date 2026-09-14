@@ -34,7 +34,7 @@ pooled into this final-byte result.
 ## Implementation and correctness
 
 Sixteen of the 348 shader slots change from RC7. The checkpoint combines
-native packed integer dot products in model passes 7 and 8, streamed pass 11
+packed 16-bit evaluation of integer dot products in model passes 7 and 8, streamed pass 11
 arithmetic, Winograd convolution in passes 1 and 12, vector weight checks in
 passes 3 and 6, cooperative pass 9 weight validation, native final-output
 spatial/color math, and selected

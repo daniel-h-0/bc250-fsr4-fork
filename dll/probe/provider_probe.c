@@ -17,6 +17,11 @@ static UINT render_w=128,render_h=96,output_w=192,output_h=144,frame_count=4;
 static UINT maximum_w=192,maximum_h=144;
 static char scenario[32]="static";
 static void log_line(const char* text);
+#ifdef BC250_PROBE_STARTUP_TIMING
+#include "startup_timing.h"
+#else
+#define startup_mark(phase) ((void)0)
+#endif
 static bool trace_passes=false;
 static ID3D12QueryHeap* pass_queries=NULL;
 static UINT pass_count=0,pass_frame=0;
@@ -149,7 +154,9 @@ static void render(ID3D12Device* dev,ffxContext* context,PfnFfxDispatch dispatch
         if(!strcmp(scenario,"rcas")){d.enableSharpening=true;d.sharpness=.4f;}
         ID3D12GraphicsCommandList_EndQuery(list,queries,D3D12_QUERY_TYPE_TIMESTAMP,0);
         pass_count=0;pass_frame=frame;
+        if(frame==0)startup_mark("first_dispatch_begin");
         ffxReturnCode_t rc=dispatch(context,&d.header);char line[256];
+        if(frame==0)startup_mark("first_dispatch_end");
         snprintf(line,sizeof(line),"dispatch: frame=%u status=%u\n",frame,rc);log_line(line);if(rc)ExitProcess(12);
         ID3D12GraphicsCommandList_EndQuery(list,queries,D3D12_QUERY_TYPE_TIMESTAMP,1);
         ID3D12GraphicsCommandList_ResolveQueryData(list,queries,D3D12_QUERY_TYPE_TIMESTAMP,0,2,timestamps,0);
@@ -243,7 +250,9 @@ void mainCRTStartup(void) {
        .maxRenderSize={render_w,render_h},.maxUpscaleSize={maximum_w,maximum_h},.fpMessage=message};
     if(!strcmp(scenario,"sdr"))desc.flags&=~FFX_UPSCALE_ENABLE_HIGH_DYNAMIC_RANGE;
     if(!strcmp(scenario,"resize"))desc.flags|=FFX_UPSCALE_ENABLE_DYNAMIC_RESOLUTION;
+    startup_mark("context_begin");
     ffxContext context=NULL;rc=create(&context,&desc.header,NULL);
+    startup_mark("context_end");
     snprintf(line,sizeof(line),"create: status=%u context=%p\n",rc,context);log_line(line);
     if(rc || !context)ExitProcess(8);
     struct ffxQueryGetProviderVersion version={.header={FFX_API_QUERY_DESC_TYPE_GET_PROVIDER_VERSION,NULL}};
