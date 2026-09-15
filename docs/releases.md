@@ -1,16 +1,16 @@
 # Releases and distribution
 
-[RC10](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc10)
-uses the four uploads below. Read the [release notes](release-notes-rc10.md)
-and [driver gameplay scope](driver-gameplay-rc10.md). Existing RC9 assets remain available.
+[RC11](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11)
+uses the four uploads below. Read the [release notes](release-notes-rc11.md)
+and [validation scope](portable-dll-rc11.md). RC10 and RC9 assets remain available.
 
-## Four RC10 uploads
+## Four RC11 uploads
 
 | Asset | Contents |
 | --- | --- |
-| `bc250-fsr4-dll-4.0.0-rc10.zip` | Primary DLL, instructions, optional Linux cache helpers and notices |
-| `bc250-fsr4-v4.0.0-rc10-linux-glibc236-x86_64.tar.gz` | Private Linux driver, install/launch helpers, provenance and notices |
-| `bc250-fsr4-v4.0.0-rc10-source-COMMIT.tar.gz` | Complete editable sources, build tools, detailed docs, charts and evidence |
+| `bc250-fsr4-dll-4.0.0-rc11.zip` | Primary DLL, instructions, installable Linux cache helper and notices |
+| `bc250-fsr4-v4.0.0-rc11-linux-glibc236-x86_64.tar.gz` | Private Linux driver with integrated caching, install/launch tools, provenance and notices |
+| `bc250-fsr4-v4.0.0-rc11-source-COMMIT.tar.gz` | Complete editable sources, build tools, detailed docs, charts and evidence |
 | `SHA256SUMS` | Hashes for those three uploaded archives |
 
 GitHub also provides its two automatic source downloads. Detailed documentation
@@ -25,7 +25,7 @@ python3 scripts/package.py --work .work/linux-glibc236/mesa \
   --label linux-glibc236-x86_64 --runtime-only
 python3 scripts/source-release.py --output dist/source
 python3 scripts/release-assets.py --dll PATH_TO_DLL_ZIP --driver PATH_TO_DRIVER_TAR \
-  --source PATH_TO_COMPLETE_SOURCE_TAR --output dist/upload-rc10
+  --source PATH_TO_COMPLETE_SOURCE_TAR --output dist/upload-rc11
 ```
 
 The DLL packager verifies the DLL, guide identity, notices and optional helper
@@ -37,7 +37,9 @@ Qualify the final archive's driver and installation/rollback before publication.
 `runtime/manifest.json` remains at RC6, with its exact historical driver-source
 manifest in `v4/legacy/rc1-manifest.json`. The old setup/install bootstraps retain
 those recovery pins. The current `v4/manifest.json` and ordinary source build
-produce the RC10 driver. Do not relabel or reuse an older binary as RC10.
+produce the RC11 driver package. Its rebuilt ELF is byte-identical to RC10;
+RC11 versions the distribution and tools. Both release identities and their
+separate qualification records remain available.
 
 ## Historical RC9 documentation refreshes
 

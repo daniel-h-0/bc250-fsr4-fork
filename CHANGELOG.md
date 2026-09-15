@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased — simpler Linux caching
+## 4.0.0-rc11 — 2026-09-15
+
+- Keep all 348 RC10 shader programs and the exact RC10 driver binary; the DLL
+  changes only its provider label to `4.1.1r11` and its PE checksum.
 
 - Install the DLL cache helper once and generate Steam launch text while preserving
   existing variables, wrapper ordering and arguments.

@@ -1,0 +1,149 @@
+{
+  "schema": 1,
+  "release_version": "4.0.0-rc11",
+  "provider_name": "4.1.1r11",
+  "dll_sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+  "dll_bytes": 94840832,
+  "validated_shaders": 348,
+  "synthetic_only": true,
+  "binary_delta": {
+    "previous_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
+    "dll_sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+    "dll_bytes": 94840832,
+    "only_provider_label_and_pe_checksum_changed": true,
+    "label_offset": 94840540,
+    "checksum_offset": 352,
+    "changes": [
+      {
+        "offset": 353,
+        "before": 19,
+        "after": 20
+      },
+      {
+        "offset": 94840547,
+        "before": 48,
+        "after": 49
+      }
+    ],
+    "shader_slots_unchanged": 348
+  },
+  "driver": {
+    "sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+    "bytes": 26717064,
+    "source_manifest_sha256": "a7c90ccf97fa11866980dc5b24e917d0e404f53f83906b3aa9ba31e514c26dc9",
+    "rebuilt_byte_identical_to_rc10": true
+  },
+  "image_checks": [
+    {
+      "name": "rc11-1080p",
+      "provider": "4.1.1r11",
+      "valid": true,
+      "finite": true,
+      "frames": 64,
+      "pixels_sha256": "e6833d91a27bf277092c78c9157460dfdd94670bea498034e4c98774f76a2e84",
+      "dll_sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+      "loaded_dll_path_matches": true,
+      "rc10_reference": "release-final-1080p-release"
+    },
+    {
+      "name": "rc11-1440p",
+      "provider": "4.1.1r11",
+      "valid": true,
+      "finite": true,
+      "frames": 64,
+      "pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+      "dll_sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+      "loaded_dll_path_matches": true,
+      "rc10_reference": "release-final-1440p-release"
+    },
+    {
+      "name": "rc11-4k",
+      "provider": "4.1.1r11",
+      "valid": true,
+      "finite": true,
+      "frames": 64,
+      "pixels_sha256": "59957d2dd10bfd04f50489bec80a37fb05905cffdf342e7e20eedd4795eeacc9",
+      "dll_sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+      "loaded_dll_path_matches": true,
+      "rc10_reference": "release-final-4k-release"
+    },
+    {
+      "name": "rc11-sdr",
+      "provider": "4.1.1r11",
+      "valid": true,
+      "finite": true,
+      "frames": 64,
+      "pixels_sha256": "50aa13de263a8c5cac9cefdc1d3ffb223a7a17a3bcc308c03216df9754c985d1",
+      "dll_sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+      "loaded_dll_path_matches": true,
+      "rc10_reference": "release-final-sdr"
+    },
+    {
+      "name": "rc11-hdr",
+      "provider": "4.1.1r11",
+      "valid": true,
+      "finite": true,
+      "frames": 64,
+      "pixels_sha256": "1413b1c5fb874743b95d334ccf981b5f1c622a9a139e9d62a077b44e40755b92",
+      "dll_sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+      "loaded_dll_path_matches": true,
+      "rc10_reference": "release-final-hdr"
+    },
+    {
+      "name": "rc11-motion",
+      "provider": "4.1.1r11",
+      "valid": true,
+      "finite": true,
+      "frames": 64,
+      "pixels_sha256": "3fbb28792799b49ba7bdeacdd1c0f41c5680c91331faca44a1c94f9334f2dd17",
+      "dll_sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+      "loaded_dll_path_matches": true,
+      "rc10_reference": "release-final-motion"
+    },
+    {
+      "name": "rc11-reset",
+      "provider": "4.1.1r11",
+      "valid": true,
+      "finite": true,
+      "frames": 64,
+      "pixels_sha256": "ee96b6efa3e35302de766ed8560534fa323a29e1e4eda2d041ab002b2b194a5e",
+      "dll_sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+      "loaded_dll_path_matches": true,
+      "rc10_reference": "release-final-reset"
+    },
+    {
+      "name": "rc11-resize",
+      "provider": "4.1.1r11",
+      "valid": true,
+      "finite": true,
+      "frames": 64,
+      "pixels_sha256": "15130d3d7c1dcde1d90608145f9d064411b178cad2bb7f17c1c808b9d0b7f458",
+      "dll_sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+      "loaded_dll_path_matches": true,
+      "rc10_reference": "release-final-resize"
+    },
+    {
+      "name": "rc11-rcas",
+      "provider": "4.1.1r11",
+      "valid": true,
+      "finite": true,
+      "frames": 64,
+      "pixels_sha256": "4452aa913c9dd5b6a96fe9025f80b59a8763db020a5949a60cf250d6219fae4f",
+      "dll_sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "driver_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49",
+      "loaded_dll_path_matches": true,
+      "rc10_reference": "release-final-rcas"
+    }
+  ],
+  "tooling_review": "docs/data/cache-review2-20260914.json",
+  "inherited_gameplay_record": "docs/data/rc10-driver-gameplay-20260914.json",
+  "inherited_cross_game_cache_record": "docs/data/cache-setup-game-reuse-20260914.json"
+}

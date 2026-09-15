@@ -1,18 +1,22 @@
 # Driver installation with shared caching
 
-This is the updated installer in the development source after RC10. The published
-RC10 driver binary works with these tools; its original archive still contains
-the older installer. Shader/provider requirements remain in the
-[RC10 driver guide](driver-rc10.md).
+The RC11 archive includes the permanent driver launcher and shared-cache tools.
+The driver binary is identical to RC10. Its original AMD-provider requirements
+and gameplay limits remain in the [provider guide](driver-rc10.md).
 
 ## Install once
 
-Use the updated `scripts/driver.py` and its adjacent helper files from this source
-tree. Download the verified driver archive and checksum, then run:
+For an upgrade, reuse your existing `--prefix` as described under
+[Update an installation](#update-an-installation). The example below uses a
+dedicated directory for a new driver installation, separate from retained RC6 tools.
+
+Download the RC11 Linux driver archive and `SHA256SUMS`. Check the archive with
+`sha256sum --ignore-missing -c SHA256SUMS`, extract it, and open a terminal in the
+extracted directory. Run as your desktop user, without sudo:
 
 ```sh
-python3 scripts/driver.py --prefix "$HOME/.local/share/bc250-fsr4-rc10" install \
-  /path/to/bc250-fsr4-v4.0.0-rc10-linux-glibc236-x86_64.tar.gz \
+python3 scripts/driver.py --prefix "$HOME/.local/share/bc250-fsr4-driver" install \
+  /path/to/bc250-fsr4-v4.0.0-rc11-linux-glibc236-x86_64.tar.gz \
   --sha256 ARCHIVE_SHA256_FROM_SHA256SUMS
 ```
 
@@ -40,8 +44,11 @@ launches. Existing Steam caches are preserved; ordinary old caches are not impor
 
 For an existing installation made with the original RC10 tools or the first
 development launcher, run the **new download's** `scripts/driver.py install`
-command above once, using the same `--prefix`. This updates its permanent tools.
-The earlier installed command cannot update its own helper code.
+command above once, using the same `--prefix`. This updates its permanent tools. Keep an existing prefix such as
+`~/.local/share/bc250-fsr4-rc10`; do not create a second installation when upgrading.
+That early development command cannot update its own helper code. Installers
+from the later reviewed development snapshots can update through their permanent
+command, as can RC11.
 When replacing an old `python3 .../scripts/driver.py ... run --` invocation,
 remove that invocation from the text you give setup, retaining unrelated variables,
 wrappers and game arguments. Otherwise the generated line will still depend on
@@ -51,7 +58,7 @@ After installing these reviewed tools, future compatible driver packages can be
 installed through the permanent command:
 
 ```sh
-"$HOME/.local/share/bc250-fsr4-rc10/bc250-fsr4-run" install \
+"$HOME/.local/share/bc250-fsr4-driver/bc250-fsr4-run" install \
   /path/to/new-driver-archive.tar.gz --sha256 ARCHIVE_SHA256_FROM_SHA256SUMS
 ```
 
@@ -66,8 +73,8 @@ package needs a newer installer, the command tells you to use the new download.
 Use the exact installed path printed by setup. For the example prefix above:
 
 ```sh
-"$HOME/.local/share/bc250-fsr4-rc10/bc250-fsr4-run" status
-"$HOME/.local/share/bc250-fsr4-rc10/bc250-fsr4-run" steam
+"$HOME/.local/share/bc250-fsr4-driver/bc250-fsr4-run" status
+"$HOME/.local/share/bc250-fsr4-driver/bc250-fsr4-run" steam
 ```
 
 `status` is read-only and explains the driver selection, cache preference, storage
@@ -88,7 +95,7 @@ edited settings instead of overwriting them.
 To roll back the driver, installed launcher and cache preference together:
 
 ```sh
-"$HOME/.local/share/bc250-fsr4-rc10/bc250-fsr4-run" rollback
+"$HOME/.local/share/bc250-fsr4-driver/bc250-fsr4-run" rollback
 ```
 
 First-install rollback removes that launcher. Remove its invocation from Steam
@@ -99,7 +106,7 @@ or rollback. If first-install rollback already removed the launcher, use a fresh
 copy of these tools with the same prefix:
 
 ```sh
-python3 scripts/driver.py --prefix "$HOME/.local/share/bc250-fsr4-rc10" recover
+python3 scripts/driver.py --prefix "$HOME/.local/share/bc250-fsr4-driver" recover
 ```
 
 The retained `launcher-tools/<tool-set-id>/driver.py` also supports that command

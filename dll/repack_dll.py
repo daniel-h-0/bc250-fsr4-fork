@@ -97,7 +97,7 @@ def build(sdk, manifest, output):
     label_instruction = 0x4A5
     if data[label_instruction : label_instruction + 7] != bytes.fromhex("488d2d54840c00"):
         raise ValueError("The SDK provider label reference differs from the pinned layout")
-    provider_name = "4.1.1r10"
+    provider_name = "4.1.1r11"
     cert, size = struct.unpack_from("<II", data, optional + 112 + 4 * 8)
     if cert < max(s["offset"] + s["size"] for s in sections) or cert + size != len(data):
         raise ValueError("Unexpected SDK certificate placement")

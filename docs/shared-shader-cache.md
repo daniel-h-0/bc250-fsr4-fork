@@ -3,15 +3,12 @@
 Install the optional launcher once, then use it with the games you choose.
 It shares compatible Mesa shader compilations and preserves existing Steam caches.
 
-**These setup/status commands are new development tooling after RC10.** The
-published RC10 archives retain their original helper; its
-[original instructions](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/shared-shader-cache.md)
-remain available. The updated helper is included in this source tree and future
-packages built from it.
+These setup and status commands ship in **RC11**. The original RC10 archives
+retain their earlier helper and [original instructions](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/shared-shader-cache.md).
 
 ## DLL users: install once, copy one launch command
 
-From an updated DLL package's extracted directory, run:
+From the RC11 DLL package's extracted directory, run:
 
 ```sh
 sh linux/shared-cache.sh install

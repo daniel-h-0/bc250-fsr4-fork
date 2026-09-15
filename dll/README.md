@@ -1,4 +1,4 @@
-# Rebuilding the RC10 DLL
+# Rebuilding the RC11 DLL
 
 The ordinary download is one DLL. This directory is its developer source:
 348 complete editable LLVM/DXIL assembly files, the pinned input manifest,
@@ -30,7 +30,7 @@ python3 scripts/package-dll.py \
 The output directory must be new and outside `dll/`. Nothing is installed.
 Every assembly source is hashed, assembled, validated by DXC, and compared
 against its expected shader hash. The complete DLL must be **94,840,832 bytes**,
-SHA256 **a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89**.
+SHA256 **8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175**.
 Compiler diagnostics or any mismatch stop the build.
 
 `source-inventory.json` records all source files in this directory except
@@ -39,6 +39,10 @@ and symlinks are rejected. An edited candidate requires deliberate new
 shader/output identities and a regenerated inventory; never relabel changed
 bytes with the existing release hash. The complete Git source export adds its
 own independent file-hash/mode inventory.
+
+RC11 keeps all 348 RC10 shader programs. Its only DLL byte changes are the
+provider label and PE checksum; [RC11 validation](../docs/portable-dll-rc11.md)
+records the comparison and current synthetic checks.
 
 ## Shader implementation
 
@@ -92,7 +96,7 @@ qualification; success through Proton does not establish native driver support.
 the SDK's five public FFX exports, numeric provider version, imports and host
 implementation. It makes the audited 18-byte INT8 eligibility change, and
 redirects the audited RIP-relative provider-name reference at file offset
-`0x4a5` to `4.1.1r10` plus its NUL in the appended read-only section. The
+`0x4a5` to `4.1.1r11` plus its NUL in the appended read-only section. The
 original eight-byte slot and adjacent `FSR4-i8` watermark remain untouched.
 It does not add a compatibility loader shim or frame-generation implementation.
 

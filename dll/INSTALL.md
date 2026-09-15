@@ -1,6 +1,6 @@
-# FSR 4.1.1 INT8 — RC10 DLL
+# FSR 4.1.1 INT8 — RC11 DLL
 
-Project version **4.0.0-rc10**; SDK display name **4.1.1r10**.
+Project version **4.0.0-rc11**; SDK display name **4.1.1r11**.
 This archive contains one modified Windows x64 upscaler DLL. The v4
 performance changes are already compiled into it.
 
@@ -8,18 +8,17 @@ performance changes are already compiled into it.
 other GPUs need separate testing.
 
 **First installation?** Use the
-[illustrated beginner walkthrough](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/beginner-guide.md)
+[illustrated beginner walkthrough](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc11/docs/beginner-guide.md)
 for the pinned OptiScaler download, exact game folders, Steam/Heroic steps and
-the real RC10 watermark reference. This short guide is also the archive README.
+the real RC11 watermark reference. This short guide is also the archive README.
 
-RC10 removes redundant intermediate shader operations to reduce cold compilation
-work. Its 48 changed shader slots produce the same native BC250 code as RC9
-on the three compared Mesa builds. The download also includes an optional
-Linux shared-cache launcher under `linux/`; see `linux/README.md`. Copy only
-the DLL into the game. With the updated helper in this source/package, run
-`sh linux/shared-cache.sh install` once. It installs its files permanently and
-generates launch options while preserving existing settings; follow `linux/README.md`.
-The originally published RC10 archives retain their earlier helper.
+RC11 keeps RC10's shader programs and packages simpler Linux caching plus
+reviewed install/update/rollback tools. Its DLL differs from RC10 only in the
+provider label and PE checksum; this release does not claim another shader or
+FPS improvement. The optional Linux launcher is under `linux/`; see `linux/README.md`.
+Copy only the DLL into the game. Run `sh linux/shared-cache.sh install` once to
+install permanent helper files and generate Steam launch options from your
+existing settings. The published RC10 archives retain their earlier helper.
 
 ## First launch: shader compilation can look like a freeze
 
@@ -42,7 +41,7 @@ In one RC7 No Man's Sky check, the first dispatch stalled for about 66 seconds
 and triggered the game's hang detector; a restart with the same files and cache
 rendered successfully. That diagnostic run is an example, not a promised wait
 time or a guarantee for another game.
-[Details and troubleshooting](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/first-run-shader-compilation.md).
+[Details and troubleshooting](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc11/docs/first-run-shader-compilation.md).
 
 ## With OptiScaler
 
@@ -92,14 +91,14 @@ variables. `PROTON_USE_XALIA=0` avoids the adapter being inherited by the Window
 UI accessibility helper in the recorded Proton setup.
 For Heroic or another Wine launcher, enter these as environment-variable
 name/value pairs instead of using Steam’s `%command%` placeholder. There is
-no RC10-specific Heroic switch; Heroic launch behavior has not been separately
+no RC11-specific Heroic switch; Heroic launch behavior has not been separately
 qualified with this candidate.
 These variables load the adapter and keep competing automatic upscaler
 integrations off. Keep OptiScaler's other files installed, including its
 signed `nvngx_dlss.dll` helper beside the proxy when required.
 
 For a visual check, temporarily set `[FSR] Fsr4EnableWatermark=true` and restart.
-The rendered image should identify **4.1.1r10**, INT8 and the local source.
+The rendered image should identify **4.1.1r11**, INT8 and the local source.
 The game's own DLSS/FSR menu label can stay unchanged. After checking, close the
 game, set **`Fsr4EnableWatermark=auto`**, and restart. In the pinned OptiScaler
 build, `false` sets `MLSR-WATERMARK=0`, which still enables the SDK banner because
@@ -111,7 +110,7 @@ SDK metadata; use the provider label and DLL hash to identify this release.
 
 Close the game, back up the compatible game DLL, then replace it and select
 native FSR in the graphics menu. These replacement locations were verified
-with RC7; they have not been retested with RC10:
+with RC7; they have not been retested with RC11:
 
 | Game | Replace this file |
 | --- | --- |
@@ -127,15 +126,15 @@ applying that rename elsewhere.
 
 This release covers upscaling. Frame generation, ray regeneration and
 unlisted game or mod combinations need separate testing. The seven recorded
-game-route checks for the portable DLL belong to RC7; the primary RC10 DLL has
-synthetic D3D12 image/performance checks at 1080p, 1440p and 4K. The separate Linux
-driver option has a new Control gameplay check; that is a different installation
-route and does not retest every game with this DLL.
+game-route checks for the portable DLL belong to RC7; the primary RC11 DLL has
+fresh synthetic D3D12 image checks at 1080p, 1440p and 4K. Performance evidence
+is inherited from RC10. The unchanged Linux driver retains RC10's Control gameplay
+check; that is a different installation route and does not retest every game with this DLL.
 
 Native Windows requires a D3D12 runtime and
 driver accepting DXIL 1.9 / Shader Model 6.9.
 
-[Tested configurations and details](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/portable-dll-rc10.md)
+[Tested configurations and details](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc11/docs/portable-dll-rc11.md)
 
 ## Update, undo and checksums
 
@@ -144,13 +143,13 @@ update, close the game and replace only the recipe's upscaler/loader DLL. To und
 restore that backup and the launch settings you changed. Remove a newly added
 adapter only using your record of added files; preserve game-provided helpers,
 other mods, saves and prefixes. The
-[complete undo steps](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/beginner-guide.md#undo)
+[complete undo steps](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc11/docs/beginner-guide.md#undo)
 cover Steam and Heroic. Game updates may restore their own DLL.
 
 The DLL is 94,840,832 bytes, SHA256:
 
 ```text
-a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89
+8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175
 ```
 
 Verify with `sha256sum -c SHA256SUMS` on Linux, or PowerShell

@@ -13,7 +13,7 @@ def main():
     def load(name):
         return json.loads((ROOT / name).read_text())
 
-    manifest = load("dll/manifest.json")
+    manifest = load("docs/data/portable-dll-rc10-manifest.json")
     previous = load("docs/data/portable-dll-rc9-manifest.json")
     proposal = load("v4/experimental/compile-cse/manifest.json")["candidate"]
     record = load("docs/data/portable-dll-rc10.json")
@@ -36,7 +36,7 @@ def main():
             assert row == before[offset]
     assert (
         record["driver"]["source_manifest_sha256"]
-        == hashlib.sha256((ROOT / "v4/manifest.json").read_bytes()).hexdigest()
+        == hashlib.sha256((ROOT / "v4/legacy/rc10-manifest.json").read_bytes()).hexdigest()
     )
     assert record["driver"]["same_stripped_output_from_final_recipe"]
     assert record["preflight"]["complete"] and len(record["preflight"]["rows"]) == 21

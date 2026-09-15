@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "label": "bc250-fsr4-dll-4.0.0-rc11",
+  "label": "bc250-fsr4-dll-4.0.0-rc10",
   "sdk_sha256": "d0dcccc74a43c44ba435b7a369b456e0970d8a4464e4bd683119b374f2c9fb46",
   "sdk_url": "https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_dx12.dll",
   "dxcompiler_sha256": "be01593d3ff635fca6f20b044aa49c777f6409e50a28fb0242a0c87272620b62",
   "dxcompiler_release": "https://github.com/microsoft/DirectXShaderCompiler/releases/tag/v1.9.2607",
-  "expected_dll_sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+  "expected_dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89",
   "expected_dll_bytes": 94840832,
   "replacements": [
     {
@@ -3141,8 +3141,8 @@
       "source_sha256": "4c9c99b52aee87bc9df7641f459888b7b49dd29f5c03463f732df316da877ff3"
     }
   ],
-  "release_version": "4.0.0-rc11",
-  "provider_name": "4.1.1r11",
+  "release_version": "4.0.0-rc10",
+  "provider_name": "4.1.1r10",
   "base_optimization_manifest_sha256": "8d852d93670af582553ae6a11d02f8f7f7f40813a1049ad1a4c842231ca3ee97",
   "compatibility_lowering": {
     "description": "Per-lane integer extensions retain the RC7 compatibility repair; all new shader sources are already lowered.",
@@ -3164,10 +3164,10 @@
     "description": "Retain the SDK buffer-UAV addBarrier call for non-null bindings even when a compute job requests SKIP_BARRIERS; orders padding clears after the preceding model dispatch.",
     "upstream_source": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/backend/dx12/ffx_dx12.cpp#L3599"
   },
-  "qualification_record": "docs/data/portable-dll-rc11.json",
+  "qualification_record": "docs/data/portable-dll-rc10.json",
   "previous_release": {
-    "version": "4.0.0-rc10",
-    "dll_sha256": "a96040f8c0790a0d490f061b377a2ebb31cca1f2591ab5c9469f0ef8e6aa3d89"
+    "version": "4.0.0-rc9",
+    "dll_sha256": "eefcac03ab17b04a29a5bb16e3f3e9c3181ba9ea46b05a61cb49a5003e1516ef"
   },
   "historical_rc7_release": {
     "version": "4.0.0-rc7",
@@ -3187,15 +3187,15 @@
   "optional_files": {
     "linux/shared-cache.sh": {
       "source": "scripts/shared-cache.sh",
-      "sha256": "88c7726a1191548a362534aace08ae31ada2547a1b325fb6629b7f55546d2391"
+      "sha256": "7682a73554009c1e93087e819fefc0d874408da52c588c4b1bd7f813b23c0571"
     },
     "linux/shared-cache.py": {
       "source": "scripts/shared-cache.py",
-      "sha256": "ad20bb5bf02bf5aa6472599b62e80bfddff2ed7724bebb89ca966df4f9385411"
+      "sha256": "9c3c4e24e0aac3a7cfa4bd5bd03ed3da976ee3a94e64cf882f7ecc566d7c172b"
     },
     "linux/README.md": {
       "source": "docs/shared-shader-cache.md",
-      "sha256": "c97d96acab94aaf8c131ebb7ec0e7f87fac27661e00c9249fe6148ca09d72543"
+      "sha256": "17b6dd3b846c6eada9cb71d76c4ae7019cefec75beaf3a80b3017d2277af6c7a"
     }
   }
 }

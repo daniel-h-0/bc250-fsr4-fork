@@ -5,7 +5,7 @@ RC9 shader optimizations. The portable DLL remains the primary installation.
 Use this option for an existing AMD-provider integration that needs its
 optimizations supplied by the driver. It is Linux x86-64 only.
 
-The [updated development installer](driver-cache-setup.md) can install this binary
+The [RC11 installer](driver-cache-setup.md) can install this binary
 with an integrated shared-cache launcher and permanent tools. The instructions
 below describe the original RC10 archive's installer.
 

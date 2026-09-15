@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "id": "bc250-fsr4-v4.0.0-rc11",
+  "id": "bc250-fsr4-v4.0.0-rc10",
   "mesa": "26.2.2",
   "architecture": "x86_64",
   "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
-  "runtime_qualification": "RC11 distribution of the unchanged RC10 driver. RC9 shader parity and prior Control gameplay qualification retain their original scope; see docs/driver-cache-setup.md and docs/driver-rc10.md.",
+  "runtime_qualification": "RC10 release candidate. Exact original/RC9 SPIR-V matches qualified synthetically on BC250 GFX1013 using GE-Proton11-6. See docs/driver-rc10.md for translator and route limits.",
   "base_archive": {
     "name": "mesa-26.2.2.tar.xz",
     "sha256": "eeb29ca7e56cfaa8e8a79538dcf834e3b18e501c31bef5145e959ea437cc4216",
@@ -45,7 +45,7 @@
     "url": "https://github.com/dmorazasanchez/bc250-fsr4/tree/v3",
     "inspected_revision": "6173651fa3a5a557cba2c2ff802e2d6f49881bc1"
   },
-  "version": "4.0.0-rc11",
+  "version": "4.0.0-rc10",
   "source_overlays": [
     "experimental/rc9-port/source-overlay.tar.xz"
   ]
