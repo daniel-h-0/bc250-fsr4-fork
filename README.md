@@ -21,7 +21,7 @@ caches stay enabled; first use can still pause for compilation.
 
 BC250/Linux is the tested platform. Windows and other GPUs remain unqualified.
 [Native FidelityFX games](docs/beginner-guide.md#native-fidelityfx-games) can use
-direct DLL replacement instead.
+direct DLL replacement instead of OptiScaler to skip a setup step.
 
 ## Performance
 
@@ -30,11 +30,12 @@ direct DLL replacement instead.
 **RC9 costs 3.93 / 5.92 / 12.08 ms at 1080p / 1440p / 4K Quality.** These are
 upscaler GPU timings, not whole-game FPS. RC9 was measured on September 11, 2026;
 the three baselines retain September 10 data. [Method and raw data](docs/gpu-cost.md).
+Subsequent release candidates have not changed performance.
 
 **The custom driver is an alternative delivery method, not an extra performance
 upgrade for DLL users.** Both carry the same FSR optimizations; the tested
 three-resolution comparison found comparable GPU cost. The driver has stricter
-provider/Proton requirements.
+provider/Proton requirements, provided exclusively for compatibility and convenience.
 [DLL versus driver: results and limits](docs/driver-rc10.md#dll-versus-driver).
 
 RC10 reduced measured cold synthetic setup from **22.24 to 19.38 seconds** while
