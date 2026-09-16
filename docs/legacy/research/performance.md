@@ -8,10 +8,10 @@ in both driver arms.
 
 These results use the pinned **FSR 4.1.1** provider, not the newer **4.1.1b**
 mod. Do not co-install 4.1.1b with this setup. The measurements do not cover
-4.1.1b or mixed runtimes; see [runtime compatibility](games.md#runtime-compatibility).
+4.1.1b or mixed runtimes; see [runtime compatibility](../runtime/games.md#runtime-compatibility).
 
 For current direct measurements of FSR4's own GPU cost, see the
-[four-implementation comparison](gpu-cost.md). The older
+[four-implementation comparison](../../gpu-cost.md). The older
 [pass-cost reconstruction](fsr-cost.md) is retained separately. Neither
 campaign is mixed with the measured whole-frame results below.
 
@@ -21,7 +21,7 @@ campaign is mixed with the measured whole-frame results below.
 | 2560×1440 | 52.26 | 62.15 | +18.9% | 15.238 → 12.970 |
 | 3840×2160 | 28.52 | 33.43 | +17.2% | 30.292 → 25.149 |
 
-![Fresh matched FPS comparison](assets/deadzone-v3-v4-performance.png)
+![Fresh matched FPS comparison](../../assets/deadzone-v3-v4-performance.png)
 
 Two independent launches per driver at each resolution, in v3/v4/v4/v3 order:
 
@@ -139,9 +139,9 @@ workload, not a universal game-performance percentage. Earlier development-drive
 on/off results used a different baseline and scene/setup and are not pooled
 with these measurements.
 
-![Hardware ray tracing disabled and applied in the game menu](assets/deadzone-hwrt-off.png)
+![Hardware ray tracing disabled and applied in the game menu](../../assets/deadzone-hwrt-off.png)
 
-[v3 native INT8 proof](assets/deadzone-performance-v3-proof.png) · [quiet v4 4K game viewport, captured at physical 1440p](assets/deadzone-v4-4k-hwrt-off.png) · [all samples](data/performance-20260907/samples.csv) · [results and validation](data/performance-20260907/results.json) · [recompute averages](data/performance-20260907/summarize.py) · [v3 provenance](data/performance-20260907/v3-baseline.json) · [scoring plan](data/performance-20260907/scoring-plan.json) · [configuration](data/performance-20260907/configuration.json)
+[v3 native INT8 proof](../../assets/deadzone-performance-v3-proof.png) · [quiet v4 4K game viewport, captured at physical 1440p](../../assets/deadzone-v4-4k-hwrt-off.png) · [all samples](../../data/performance-20260907/samples.csv) · [results and validation](../../data/performance-20260907/results.json) · [recompute averages](../../data/performance-20260907/summarize.py) · [v3 provenance](../../data/performance-20260907/v3-baseline.json) · [scoring plan](../../data/performance-20260907/scoring-plan.json) · [configuration](../../data/performance-20260907/configuration.json)
 
 The host was restored after testing: original launch fields, runtime links,
 saves and other game preferences, with the requested HWRT Off setting retained.

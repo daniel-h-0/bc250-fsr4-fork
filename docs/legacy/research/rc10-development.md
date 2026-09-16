@@ -66,8 +66,8 @@ options and the translation implementation also matter. Never clear an
 installed game's cache to construct a cold test. Do not share Wine prefixes
 or application-managed pipeline-library files as a cache optimization.
 
-See the [probe instructions](../dll/probe/README.md), current
-[first-use guidance](first-run-shader-compilation.md), and
+See the [probe instructions](../../../dll/probe/README.md), current
+[first-use guidance](../../first-run-shader-compilation.md), and
 [RC9 qualification](portable-dll-rc9.md).
 
 ## Shared-cache launcher under qualification
@@ -98,7 +98,7 @@ cache locations and files remain available. Keep the shared cache while any
 opted-in application is running; its default location is
 `$XDG_CACHE_HOME/bc250-fsr4` or `~/.cache/bc250-fsr4`.
 
-The [Linux cache guide](shared-shader-cache.md) describes distro independence,
+The [Linux cache guide](../../shared-shader-cache.md) describes distro independence,
 Flatpak/container limits, the shell fallback, cache size and undo. The current
 helper defaults to the multi-file backend, handles late Steam cache creation
 and concurrent launchers, and flushes fallback notices on older Python. It
@@ -142,7 +142,7 @@ difference is not claimed as a speedup. Earlier clock metadata mistakenly
 included shutdown samples after frame 600; the recorded timings are unchanged. The candidate remains a private
 experiment, not an RC10 release or a change to the maintained RC9 shaders.
 
-The [recorded inputs](data/rc10-startup-study-20260914.json) include CPU counter
+The [recorded inputs](../../data/rc10-startup-study-20260914.json) include CPU counter
 values, image hashes, all 2,400 sustained GPU samples and native-code/resource
 identities. Recompute the results with:
 
@@ -181,9 +181,9 @@ application populates the shared cache in 22.546 seconds, and a new view reuses
 it in 1.447 seconds. These are first-dispatch CPU times rather than complete
 game-launch times. All four output images match.
 
-The [compiler follow-up](data/rc10-compiler-followup-20260914.json),
-[cache GPU record](data/rc10-cache-gpu-followup-20260914.json) and
-[userspace matrix](data/rc10-cache-portability-20260914.json) retain the inputs
+The [compiler follow-up](../../data/rc10-compiler-followup-20260914.json),
+[cache GPU record](../../data/rc10-cache-gpu-followup-20260914.json) and
+[userspace matrix](../../data/rc10-cache-portability-20260914.json) retain the inputs
 and measurements. Recompute their consistency alongside the driver image checks:
 
 ```sh
@@ -214,9 +214,9 @@ actual executable data returned by Vulkan's pipeline-binary API. C structure
 alignment padding is distinguished from code and hardware fields using offsets
 compiled from the exact driver headers; no machine-code bytes are ignored.
 
-The [source proposal](../v4/experimental/compile-cse/README.md),
-[packed-candidate measurements](data/rc10-selected-compiler-20260914.json) and
-[custom-driver executable comparisons](data/rc10-custom-driver-code-20260914.json)
+The [source proposal](../../../v4/experimental/compile-cse/README.md),
+[packed-candidate measurements](../../data/rc10-selected-compiler-20260914.json) and
+[custom-driver executable comparisons](../../data/rc10-custom-driver-code-20260914.json)
 are included in the complete source/evidence export. A release still requires
 integrating the proposal into a coherent new manifest, label, package and
 installation guide, then checking that exact release artifact. RC9 stays intact.
@@ -233,7 +233,7 @@ subgroup-conflict guards.
 The pinned Debian 12 build passes glibc 2.36 / GLIBCXX 3.4.30 ABI checks.
 Its experimental opt-out has a distinct Vulkan pipeline-cache UUID; repeated
 enabled queries produce the same UUID. The complete additional driver sources
-and checksums are retained in the [source capsule](../v4/experimental/rc9-port/README.md),
+and checksums are retained in the [source capsule](../../../v4/experimental/rc9-port/README.md),
 which is included in complete-source exports rather than uploaded separately.
 
 Eight preflights compare the original-shader SDK route and the actual AMD
@@ -264,8 +264,8 @@ original driver. The SDK route, including the compiler candidate, continues
 to match RC9 during resizing. This establishes preservation of the provider's
 existing behavior, not universal pixel identity between distinct API routes.
 
-See the [initial prototype evidence](data/rc10-driver-prototype-20260914.json)
-and [completed driver follow-up](data/rc10-driver-followup-20260914.json).
+See the [initial prototype evidence](../../data/rc10-driver-prototype-20260914.json)
+and [completed driver follow-up](../../data/rc10-driver-followup-20260914.json).
 This is synthetic qualification on the recorded BC250/GE configuration.
 Additional games/translators and the release package's installation/recovery
 still require qualification. The installed system driver, RC1/RC6 recovery

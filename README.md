@@ -1,7 +1,8 @@
 # BC250 FSR4
 
-**FSR 4.1.1 INT8 optimizations in one DLL.** Use it through OptiScaler with your
-normal graphics driver and Proton. Replace its bundled upscaler DLL.
+**FSR 4.1.1 INT8 optimizations in one DLL.** Replace the upscaler DLL in
+OptiScaler or a compatible native FidelityFX game. Use your normal graphics
+driver and Proton.
 
 **[Download RC11](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc11/bc250-fsr4-dll-4.0.0-rc11.zip)** ·
 **[Install with OptiScaler](docs/beginner-guide.md)** ·
@@ -30,6 +31,10 @@ RC9 was measured September 11, 2026; the baselines retain September 10 data.
 [Method and raw data](docs/gpu-cost.md).
 Subsequent release candidates have not changed performance.
 
+The optional [Linux driver package](docs/driver-cache-setup.md) is a private
+Mesa/RADV build for selected games. Paired with AMD's FSR provider, it applies
+the optimizations through the graphics driver.
+
 **The DLL and alternative driver deliver the same FSR optimizations**, with
 comparable measured GPU cost. The DLL is the simpler install. The driver needs
 specific provider/Proton versions and is provided exclusively for compatibility
@@ -37,7 +42,7 @@ and convenience. [Comparison](docs/driver-rc10.md#dll-versus-driver).
 
 RC10 reduced cold synthetic setup from **22.24 to 19.38 seconds**, preserving
 RC9's native shader code. RC11 retains RC10's shaders and improves optional tools.
-[Compilation results](docs/portable-dll-rc10.md) · [Release notes](docs/release-notes-rc11.md).
+[Compilation results](docs/legacy/research/portable-dll-rc10.md) · [Release notes](docs/release-notes-rc11.md).
 
 ## Support and development
 

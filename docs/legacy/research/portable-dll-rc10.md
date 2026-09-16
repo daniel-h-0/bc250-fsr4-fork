@@ -1,7 +1,7 @@
 # Portable DLL RC10
 
 Historical RC10 evidence. Current installation uses the
-[OptiScaler DLL replacement guide](beginner-guide.md).
+[OptiScaler DLL replacement guide](../../beginner-guide.md).
 
 RC10 prepares FSR4 shaders for faster cold compilation and adds an optional
 shared Mesa cache plus a Linux driver compatibility download. It retains the
@@ -28,7 +28,7 @@ outliers in sustained rendering, remain in the evidence.
 
 [Compiler and native-code evidence](rc10-development.md#narrowed-dll-proposal)
 includes the original candidates and method. No new GPU speedup over RC9 is
-claimed. The [RC9 GPU chart](gpu-cost.md) remains labeled with its original date
+claimed. The [RC9 GPU chart](../../gpu-cost.md) remains labeled with its original date
 and measurements.
 
 ## Shared caching
@@ -45,11 +45,11 @@ Launch/filesystem checks pass in four isolated userspaces, from Python 3.8 to
 Python and unwritable storage are covered. Full graphics stacks across all
 those distros are not qualified. Old multi-file/database caches are preserved
 but not imported; opting in may require an initial compilation. See the
-[shared-cache guide](shared-shader-cache.md).
+[shared-cache guide](../../shared-shader-cache.md).
 
 ## Driver option
 
-The [Linux driver guide](driver-rc10.md) describes the private Mesa 26.2.2 build,
+The [Linux driver guide](../../driver-rc10.md) describes the private Mesa 26.2.2 build,
 installation, provider/Proton pins and rollback. Its 42 exact original/RC9 shader
 pairs cover three resolution families. Synthetic GPU cost is comparable with
 the RC9 DLL at 1080p, 1440p and 4K. Unknown or changed translated inputs keep the
@@ -72,7 +72,7 @@ single audited provider-name LEA. The adjacent watermark and numeric SDK/API
 versions are unchanged. The actual FFX API reports the new label.
 
 Final artifact, installer and translator checks are recorded in
-[data/portable-dll-rc10.json](data/portable-dll-rc10.json). Synthetic API checks
+[data/portable-dll-rc10.json](../../data/portable-dll-rc10.json). Synthetic API checks
 are distinguished from real-game observations. The historical seven-game matrix
 belongs to RC7, and is not relabeled as new RC10 gameplay evidence. Native
 Windows, other GPUs, frame generation and unlisted combinations need separate
@@ -97,6 +97,6 @@ not a gameplay pass. The [gameplay record](driver-gameplay-rc10.md) distinguishe
 those results from the earlier incomplete offline smoke test. These driver
 checks do not establish a new gameplay matrix for the primary DLL.
 
-Use the [installation guide](../dll/INSTALL.md), retain the original DLL backup
+Use the [installation guide](../../../dll/INSTALL.md), retain the original DLL backup
 and launch options, and leave watermark control at `auto` with `MLSR-WATERMARK`
 absent after any temporary visual check.

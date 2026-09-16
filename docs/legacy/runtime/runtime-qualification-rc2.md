@@ -9,12 +9,12 @@ sessions normally.
 
 These two titles exercise the input routes; they are not an installation
 allowlist. This is a bounded functionality check, not broad compatibility,
-endurance or new performance qualification. The [older performance results](performance.md)
+endurance or new performance qualification. The [older performance results](../research/performance.md)
 used the previous integration and remain unchanged.
 
 ## Exact components and evidence
 
-[Machine-readable evidence](data/runtime-v4.0.0-rc2.json) records the runtime
+[Machine-readable evidence](../../data/runtime-v4.0.0-rc2.json) records the runtime
 lock, independently reproduced assembly inventory, observed process IDs,
 component and screenshot hashes. The [release evidence archive](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc2/bc250-fsr4-v4.0.0-rc2-runtime-proof.tar.gz)
 contains the unedited screenshots and focused log excerpts.

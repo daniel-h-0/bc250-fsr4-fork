@@ -26,14 +26,14 @@ cache preparation code and shader sources remain unchanged.
   `%command%` is a game argument, not an existing wrapper. It no longer prevents
   the command generator from inserting the requested launcher.
 
-The [driver guide](driver-cache-setup.md) and [DLL cache guide](shared-shader-cache.md)
+The [driver guide](../../driver-cache-setup.md) and [DLL cache guide](../../shared-shader-cache.md)
 explain recovery, retry and restoration requirements. The existing shared Mesa
 store with separate Steam/Fossilize views remains appropriate; these fixes require
 no extra service, global hook, cache backend or user-facing setup choice.
 
 ## Evidence and limits
 
-The [new review record](data/cache-review2-20260914.json) pins the current source
+The [new review record](../../data/cache-review2-20260914.json) pins the current source
 and fresh tooling test results. The earlier review record is unchanged; its
 runtime and tests are available at
 [the reviewed source commit](https://github.com/daniel-h-0/bc250-fsr4-fork/tree/df5996d838a2cf65cd94dee9e2b6121ce9bc8e73).

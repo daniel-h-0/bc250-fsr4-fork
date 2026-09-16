@@ -118,7 +118,7 @@ only. Keep it at its default zero for whole-upscaler timing. Keep shader dumps
 and game tracing off in scored runs; log writes do not flush on every line.
 Do not compare the earlier flush-heavy probe's numbers with this campaign.
 
-The [compatibility record](../../docs/portable-dll-rc7.md) lists the measured
+The [compatibility record](../../docs/legacy/research/portable-dll-rc7.md) lists the measured
 outputs and inconclusive arbitrary-size cases. Reproducing an API check on a
 new GPU or native Windows is useful new qualification, not an automatic claim
 of byte-identical floating-point results or BC250 performance on that device.

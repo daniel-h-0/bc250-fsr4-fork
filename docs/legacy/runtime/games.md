@@ -1,6 +1,6 @@
 # Legacy RC6 Steam compatibility tool
 
-New installs use [OptiScaler DLL replacement](beginner-guide.md). This page is
+New installs use [OptiScaler DLL replacement](../../beginner-guide.md). This page is
 for existing users of the RC6 compatibility tool.
 
 ## Install once

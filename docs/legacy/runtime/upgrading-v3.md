@@ -1,7 +1,7 @@
 # Upgrade a working v3 installation
 
 This page preserves the old driver/runtime migration. To use the current DLL,
-follow the [OptiScaler replacement guide](beginner-guide.md), retiring any old
+follow the [OptiScaler replacement guide](../../beginner-guide.md), retiring any old
 game integration through its recovery instructions first. The driver migration
 below is not part of that route.
 
@@ -63,7 +63,7 @@ Primary references: [Arch system maintenance](https://wiki.archlinux.org/title/S
 [libdisplay-info ABI 3 files](https://archlinux.org/packages/extra/x86_64/libdisplay-info/files/),
 and [Vulkan loader eager resolution](https://github.com/KhronosGroup/Vulkan-Loader/blob/main/docs/LoaderDriverInterface.md#additional-settings-for-driver-debugging).
 The exact tested binaries and environment are recorded in
-[qualification](qualification.md) and [performance](performance.md).
+[qualification](qualification.md) and [performance](../research/performance.md).
 
 ## Recovery and newer distributions
 

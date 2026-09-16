@@ -120,6 +120,46 @@ class SourceReleaseTests(unittest.TestCase):
             self.assertNotIn("[portable DLL quickstart](README.md)", readme)
             self.assertNotIn("4.0.0-rc7", readme)
 
+    def test_grouped_legacy_export_rebases_readme_and_keeps_older_refs_working(self):
+        for name in source_release.SETUP_FILES:
+            path = self.root / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("fixture\n")
+        (self.root / "runtime/manifest.json").write_text('{"release":{"version":"4.0.0-rc6"}}')
+        (self.root / "docs/legacy-rc6.md").write_text(
+            "# Retained RC6 guide\n[Games](games.md#select-it)\n"
+            "[DLL](../README.md#install)\n[Current guide](beginner-guide.md)\n"
+        )
+        (self.root / "docs/games.md").write_text("# Games\n## Select it\n")
+        self.git("add", ".")
+        self.git("commit", "-qm", "Flat historical documentation")
+        previous = self.git("rev-parse", "HEAD").decode().strip()
+        grouped = self.root / "docs/legacy/runtime"
+        grouped.mkdir(parents=True)
+        for path in list((self.root / "docs").glob("*.md")):
+            path.rename(grouped / path.name)
+        (grouped / "legacy-rc6.md").write_text(
+            "# Retained RC6 guide\n[Games](games.md#select-it)\n"
+            "[DLL](../../../README.md#install)\n[Current guide](../../beginner-guide.md)\n"
+        )
+        self.git("add", ".")
+        self.git("commit", "-qm", "Group legacy guides")
+        current = self.git("rev-parse", "HEAD").decode().strip()
+        for label, ref, target in (
+            ("grouped", current, "docs/legacy/runtime/games.md"),
+            ("historical", previous, "docs/games.md"),
+        ):
+            archive = source_release.create_archive(
+                self.root, Path(self.temporary.name) / label, ref, setup=True
+            )
+            with tarfile.open(archive) as bundle:
+                base = "bc250-fsr4-setup-4.0.0-rc6/"
+                readme = bundle.extractfile(base + "README.md").read().decode()
+                self.assertIn(f"[Games]({target}#select-it)", readme)
+                self.assertIn(f"/blob/{ref}/README.md#install", readme)
+                self.assertIn(f"/blob/{ref}/docs/beginner-guide.md", readme)
+                self.assertIsNotNone(bundle.getmember(base + target))
+
     def test_existing_output_is_never_replaced(self):
         archive = self.export("one")
         original = archive.read_bytes()

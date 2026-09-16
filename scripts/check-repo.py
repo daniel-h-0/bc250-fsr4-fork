@@ -199,18 +199,23 @@ def markdown_anchors(text):
 
 
 def check_docs(root):
-    # Archived upstream prose is historical; only its orientation index is maintained.
+    # Check our guides and experiments, including grouped historical records.
+    # The original upstream v3 archive retains its original links and bytes.
     documents = [*root.glob("*.md"), *(root / "docs").rglob("*.md"), *(root / "dll").rglob("*.md")]
-    if (root / "legacy/README.md").exists():
-        documents.append(root / "legacy/README.md")
+    documents.extend((root / "v4/experimental").rglob("*.md"))
+    documents.extend(
+        path
+        for path in (root / "legacy").rglob("*.md")
+        if not path.is_relative_to(root / "legacy/v3")
+    )
     if (root / "runtime/manifest.json").is_file():
         version = load(root / "runtime/manifest.json")["release"]["version"]
         for name in (
             "README.md",
-            "docs/games.md",
+            "docs/legacy/runtime/games.md",
             "docs/releases.md",
-            "docs/upgrading-rc1.md",
-            "docs/upgrading-rc2.md",
+            "docs/legacy/runtime/upgrading-rc1.md",
+            "docs/legacy/runtime/upgrading-rc2.md",
         ):
             for actual in re.findall(
                 r"bc250-fsr4-setup-([A-Za-z0-9.-]+)\.tar\.gz", (root / name).read_text()
@@ -221,9 +226,13 @@ def check_docs(root):
         for target in re.findall(r"\[[^\]\n]*\]\(([^)\n]+)\)", prose):
             target = target.split(' "', 1)[0].strip("<>")
             url = urlsplit(target)
+            maintained = "/daniel-h-0/bc250-fsr4-fork/blob/v4/"
             if url.scheme or url.netloc:
-                continue
-            resolved = (document.parent / unquote(url.path)).resolve() if url.path else document
+                if url.netloc != "github.com" or not url.path.startswith(maintained):
+                    continue
+                resolved = (root / unquote(url.path.removeprefix(maintained))).resolve()
+            else:
+                resolved = (document.parent / unquote(url.path)).resolve() if url.path else document
             label = f"{document.relative_to(root)}: {target}"
             require(resolved.is_relative_to(root.resolve()), "Link leaves source tree: " + label)
             require(resolved.exists(), "Broken documentation link: " + label)

@@ -59,6 +59,30 @@ class RepositoryCheckTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Missing Markdown heading"):
             checks.check_docs(self.root)
 
+    def test_maintained_online_links_follow_moves_but_frozen_refs_stay_historical(self):
+        folder = self.root / "docs/legacy/research"
+        folder.mkdir(parents=True)
+        guide = folder / "result.md"
+        guide.write_text("# Recorded result\n")
+        base = "https://github.com/daniel-h-0/bc250-fsr4-fork/blob/"
+        (self.root / "README.md").write_text(
+            f"[current]({base}v4/docs/legacy/research/result.md#recorded-result)\n"
+            f"[release]({base}v4.0.0-rc9/docs/old-path.md#old-heading)\n"
+        )
+        checks.check_docs(self.root)
+        guide.unlink()
+        with self.assertRaisesRegex(ValueError, "Broken documentation link"):
+            checks.check_docs(self.root)
+
+    def test_experimental_and_grouped_legacy_guides_are_checked(self):
+        for name in ("docs/legacy/runtime/guide.md", "v4/experimental/example/README.md"):
+            guide = self.root / name
+            guide.parent.mkdir(parents=True, exist_ok=True)
+            guide.write_text("[missing](absent.md)\n")
+            with self.assertRaisesRegex(ValueError, "Broken documentation link"):
+                checks.check_docs(self.root)
+            guide.unlink()
+
     def test_changed_scored_row_is_detected(self):
         folder = self.root / "docs/data/performance-20260907"
         shutil.copytree(ROOT / "docs/data/performance-20260907", folder)

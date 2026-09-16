@@ -33,11 +33,11 @@ verifies its byte comparison.
 
 | Topic | Evidence |
 | --- | --- |
-| Cold compilation | [RC10 measurements](portable-dll-rc10.md). |
-| DLL game routes | [Seven RC7 checks](portable-dll-rc7.md), with each game's actual scope. |
-| Alternative driver | [RC10 Control gameplay and System Shock menu rendering](driver-gameplay-rc10.md). |
-| Shared cache | [Control-to-System-Shock reuse](cache-setup-qualification.md); System Shock reached its menu. |
-| Tool portability | [Installer review](cache-review2.md): four isolated Linux userspaces. |
+| Cold compilation | [RC10 measurements](legacy/research/portable-dll-rc10.md). |
+| DLL game routes | [Seven RC7 checks](legacy/research/portable-dll-rc7.md), with each game's actual scope. |
+| Alternative driver | [RC10 Control gameplay and System Shock menu rendering](legacy/research/driver-gameplay-rc10.md). |
+| Shared cache | [Control-to-System-Shock reuse](legacy/research/cache-setup-qualification.md); System Shock reached its menu. |
+| Tool portability | [Installer review](legacy/research/cache-review2.md): four isolated Linux userspaces. |
 
 The rendering evidence covers **BC250/Linux**. Native Windows, other GPUs,
 frame generation and further game integrations await qualification. Dated

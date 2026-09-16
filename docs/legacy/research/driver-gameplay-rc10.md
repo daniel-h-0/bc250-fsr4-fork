@@ -28,9 +28,9 @@ The portable RC10 DLL was not used in these driver tests.
 
 ## Captures and shader evidence
 
-![Control saved scene with the AMD provider's source DRIVER watermark.](assets/rc10-driver-control-scene.png)
+![Control saved scene with the AMD provider's source DRIVER watermark.](../../assets/rc10-driver-control-scene.png)
 
-![Control after scripted movement and a jump.](assets/rc10-driver-control-movement.png)
+![Control after scripted movement and a jump.](../../assets/rc10-driver-control-movement.png)
 
 These are unedited Gamescope captures. Control's existing HDR setting was
 retained; an ordinary SDR image viewer does not reproduce the physical HDR
@@ -39,13 +39,13 @@ the fork's release by the driver hash, not those inherited lines. The original
 provider keeps the name **4.1.1** and source **DRIVER**; the primary portable
 DLL instead reports **4.1.1r10 / LOCAL**.
 
-[System Shock's menu capture](assets/rc10-driver-system-shock-menu.png) is
+[System Shock's menu capture](../../assets/rc10-driver-system-shock-menu.png) is
 retained separately. The automated trial did not enter a saved scene; its
 menu result is not promoted into gameplay coverage. Its logged replacements
 cover the twelve convolution passes and postpass. No prepass replacement was
 logged for that context, and the driver's existing unmatched-input policy remains.
 
-The [machine-readable record](data/rc10-driver-gameplay-20260914.json) includes
+The [machine-readable record](../../data/rc10-driver-gameplay-20260914.json) includes
 component hashes from the same process, shader-pair identities, capture hashes,
 session limits and restoration checks. No proprietary game shaders or save
 payloads are distributed in the evidence archive.
@@ -69,5 +69,5 @@ The earlier offline Control smoke test only mapped the DLL; it is retained as
 an earlier, incomplete attempt. These newer Steam-launched driver results are
 separate from it and from the historical RC7 seven-game matrix.
 
-Return to the [driver installation guide](driver-rc10.md) or
+Return to the [driver installation guide](../../driver-rc10.md) or
 [RC10 release notes](release-notes-rc10.md).

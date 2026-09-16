@@ -8,4 +8,4 @@ instructions; use the maintained files under `scripts/`.
 
 The current helper retains the same measured preparation/launch code. Later
 installer and diagnostic changes have separate review and userspace records in
-`docs/cache-review.md`. Do not update historical hashes to represent new tests.
+`docs/legacy/research/cache-review.md`. Do not update historical hashes to represent new tests.

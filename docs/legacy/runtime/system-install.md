@@ -1,6 +1,6 @@
 # Legacy driver-only system installation on Arch / CachyOS
 
-For a normal install, [replace OptiScaler's upscaler DLL](beginner-guide.md).
+For a normal install, [replace OptiScaler's upscaler DLL](../../beginner-guide.md).
 The system-driver operations below belong to the retained driver integration.
 
 **Already running the qualified rc1 system packages?** The retained RC6 runtime reuses
@@ -32,7 +32,7 @@ not remove a competing game-local runtime. Follow the
 ## Generate packages for your installation
 
 Use the maintained `v4` checkout's packaging tools; see
-[release identities](releases.md) for their relationship to the original rc1
+[release identities](../../releases.md) for their relationship to the original rc1
 driver. First build or obtain a compatible driver archive using the
 [retained driver guide](legacy-rc6.md#build-from-source). Locate
 the exact installed `vulkan-radeon` package in `/var/cache/pacman/pkg/` and

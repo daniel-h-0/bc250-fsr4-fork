@@ -1,7 +1,7 @@
 # RC7 portable DLL: compatibility and review
 
 This page preserves RC7's results and integration details. New installations
-use the [current OptiScaler DLL guide](beginner-guide.md); these historical results
+use the [current OptiScaler DLL guide](../../beginner-guide.md); these historical results
 do not qualify every later DLL in those games.
 
 RC7 makes the optimized **FSR 4.1.1 INT8 DLL** the primary product. Users
@@ -66,7 +66,7 @@ universal cold-start guarantee. Shader dumping and diagnostic logging were
 enabled for identification; these game checks are not performance trials.
 
 The exact runtime identities, shader/image hashes and measured results are
-in [the candidate record](data/portable-dll-rc7.json). A menu or scene check is
+in [the candidate record](../../data/portable-dll-rc7.json). A menu or scene check is
 bounded functionality evidence, not an endurance test or an installation
 allowlist. Untested game/renderer combinations need separate checks.
 Previous RC3 runtime gameplay results do not automatically transfer to this DLL.
@@ -117,7 +117,7 @@ with either zero or `0x3f` bytes. Its SHA256 is
 `d52cb63f378dc0eb3f90044884534f91c6fec208919c9060ab5618d5bf107c9b`.
 The final DLL produces that image without probe-supplied barriers. The earlier
 `d6b3c5...` hash belonged to the unsynchronized path and is superseded for this
-small test. The [optional probe audit](../dll/probe/README.md#observe-the-sdk-barrier-repair)
+small test. The [optional probe audit](../../../dll/probe/README.md#observe-the-sdk-barrier-repair)
 observes the SDK's barriers without adding GPU commands.
 
 The investigation also ruled out changing shader-cache bytes and rejected
@@ -250,7 +250,7 @@ and host-synchronization changes.
 
 ## Review and reproduction
 
-The [developer guide](../dll/README.md) describes the source inventory, SDK
+The [developer guide](../../../dll/README.md) describes the source inventory, SDK
 host-byte changes, PE pointer/relocation checks and exact rebuild. The new
 tests exercise integer-extension equivalence, input-boundary failures,
 deterministic packaging, checksum contents and separate DLL/runtime release
@@ -263,4 +263,4 @@ report also needs the actual native shader-compilation/dispatch outcome.
 Keep logs focused and omit account data, saves and proprietary game shaders.
 
 The older bundled integration has separate
-[RC6 upgrade and recovery notes](legacy-rc6.md#upgrade-a-game-to-rc7).
+[RC6 upgrade and recovery notes](../runtime/legacy-rc6.md#upgrade-a-game-to-rc7).

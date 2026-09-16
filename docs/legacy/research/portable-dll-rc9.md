@@ -3,16 +3,16 @@
 RC9 publishes the best retained 1440p development checkpoint as one Windows
 x64 DLL, labeled **4.1.1r9**. Fresh final-DLL measurements are **3.92825 ms at
 1080p, 5.91826 ms at 1440p and 12.08447 ms at 4K**, using Quality input.
-For current installation, use the [OptiScaler DLL guide](beginner-guide.md).
+For current installation, use the [OptiScaler DLL guide](../../beginner-guide.md).
 The [RC9 walkthrough](beginner-guide-rc9.md) retains this checkpoint's original
-setup and identity. [Documentation refresh 1](releases.md#documentation-refresh-1)
+setup and identity. [Documentation refresh 1](../../releases.md#documentation-refresh-1)
 corrects the original archive's README footer without changing the DLL.
 
 **First use may pause the game while shaders compile.** Without a usable cache
 for the current GPU/driver/Proton and shader combination, enabling this FSR path
 can take tens of seconds or longer and look like a freeze. This startup work is
 separate from the per-frame GPU costs below. Read the
-[first-launch guidance](first-run-shader-compilation.md) before interrupting it.
+[first-launch guidance](../../first-run-shader-compilation.md) before interrupting it.
 
 ## Fresh release measurements
 
@@ -28,7 +28,7 @@ launches runs 600 frames and scores frames 300–599. Every sampled scoring cloc
 is 1850 MHz. Tracing and shader dumping are off during timing. All complete
 images match the previously verified references at their respective resolutions.
 
-The [new four-way chart](gpu-cost.md) replaces only the RC7 arm with these RC9
+The [new four-way chart](../../gpu-cost.md) replaces only the RC7 arm with these RC9
 values. Its three baseline arms preserve all 36 original September 10 runs and
 every timestamp. The data checker rejects changes to those baseline records.
 The [old RC7 chart](gpu-cost-rc7.md) remains available. Against its RC7 values,
@@ -36,7 +36,7 @@ RC9 is 10.45% lower at 1440p and 13.32% lower at 4K, while 1080p is 2.18%
 higher. These are comparisons across measurement dates, not a fresh matched
 RC7/RC9 experiment. The 1080p and 4K run ranges are shown without exclusions.
 
-The [public release record](data/portable-dll-rc9.json) includes all 7,200 fresh
+The [public release record](../../data/portable-dll-rc9.json) includes all 7,200 fresh
 timestamps, observed shader identities, image hashes, sampled clocks and exact
 DLL/driver/probe identities. These measurements describe synthetic whole-upscaler
 GPU cost; they do not predict whole-game FPS.
@@ -78,11 +78,11 @@ and Balanced input at 1506×848. The RC7 reference images were already verified;
 the RC9 images are fresh. Every changed slot hash is observed at 1440p and 4K.
 1080p selects its own smaller model family.
 
-The [complete source build](../dll/README.md) assembles and validates all 348
+The [complete source build](../../../dll/README.md) assembles and validates all 348
 shaders with the pinned DXC input and must reproduce the exact release DLL.
 `scripts/check-repo.py` recomputes the published statistics, preserves historical
 RC7/RC8 record identities and verifies the new chart's unchanged baseline data.
-The historical [RC8 manifest](data/portable-dll-rc8-manifest.json) records RC8's
+The historical [RC8 manifest](../../data/portable-dll-rc8-manifest.json) records RC8's
 sources as they existed at its tag; its paths are not claims about RC9 contents.
 
 This release has no new game rendering or endurance checks. The seven

@@ -1,7 +1,7 @@
 # SteamOS driver compatibility
 
 Historical **custom-driver** investigation. The normal
-[OptiScaler DLL install](beginner-guide.md) uses your existing graphics driver.
+[OptiScaler DLL install](../../beginner-guide.md) uses your existing graphics driver.
 The driver fixes below are not steps in that install.
 
 The original CachyOS driver shipped with rc1 and reused by rc2/rc3 has
@@ -50,7 +50,7 @@ python scripts/package.py --work .work/steamos-3.8/mesa --label steamos-abi1-x86
 ```
 
 The builder downloads the exact package and libdrm source hashes in
-[`v4/build-targets/steamos-3.8.json`](../v4/build-targets/steamos-3.8.json).
+[`v4/build-targets/steamos-3.8.json`](../../../v4/build-targets/steamos-3.8.json).
 It extracts packages under the chosen `--work` directory and never invokes
 their install scripts. `--cache PATH --offline` reuses verified downloads;
 use a fresh `--work` directory for a new attempt. This does not install or
@@ -82,7 +82,7 @@ All 92 complete shader-program comparisons, 96 tensor-output checks,
 installation accepted the explicit replacement driver and rolled back to the
 original. A missing-cache failure also restored both prior selections.
 Detailed results are recorded in
-[`data/steamos-compatibility-20260908.json`](data/steamos-compatibility-20260908.json).
+[`data/steamos-compatibility-20260908.json`](../../data/steamos-compatibility-20260908.json).
 
 These checks establish specific ABI fixes. They do not qualify a SteamOS
 kernel, compositor, display mode, every game, Flatpak Steam or the external

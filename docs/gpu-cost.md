@@ -30,7 +30,7 @@ change the cost.
   final-pass shaders were identified by hash in the live D3D12 inputs.
 - **BC250 v3:** original SDK shaders with the exact upstream v3 Mesa 26.2.0
   implementation, rebuilt for this host's LLVM ABI. Its
-  [source and build audit](performance.md#what-the-baseline-represents) is
+  [source and build audit](legacy/research/performance.md#what-the-baseline-represents) is
   retained. This is the v3 implementation, rather than disabling one v4 flag.
 - **BC250 RC9:** the final RC9 DLL, SHA256
   `eefcac03ab17b04a29a5bb16e3f3e9c3181ba9ea46b05a61cb49a5003e1516ef`.
@@ -104,10 +104,10 @@ The first command uses Python's standard library. Plotting uses Matplotlib
 [PDF](assets/fsr4-four-way-gpu-cost-rc9.pdf). Vector geometry and displayed values
 are also recorded in [chart-geometry.json](data/fsr-cost-20260911-rc9/chart-geometry.json).
 
-The [September 8 reconstructed chart](fsr-cost.md) and
-[September 7 whole-game v3/v4 results](performance.md) remain historical,
+The [September 8 reconstructed chart](legacy/research/fsr-cost.md) and
+[September 7 whole-game v3/v4 results](legacy/research/performance.md) remain historical,
 separate campaigns; their values are not mixed into this figure.
 
-The [September 10 RC7 chart](gpu-cost-rc7.md) remains unchanged. See the
-[RC9 qualification](portable-dll-rc9.md) for its separate retained-checkpoint
+The [September 10 RC7 chart](legacy/research/gpu-cost-rc7.md) remains unchanged. See the
+[RC9 qualification](legacy/research/portable-dll-rc9.md) for its separate retained-checkpoint
 comparison, additional image cases and the slightly higher 1080p result.

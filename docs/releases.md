@@ -92,15 +92,15 @@ components, not competing version labels for the same DLL.
 ### End-user setup bundle
 
 The old `bc250-fsr4-setup-4.0.0-rc6.tar.gz` contains tools that fetch pinned
-runtime components. Use its [retained install/recovery guide](legacy-rc6.md)
-only for that tool. Offline options are in [legacy troubleshooting](game-troubleshooting.md).
+runtime components. Use its [retained install/recovery guide](legacy/runtime/legacy-rc6.md)
+only for that tool. Offline options are in [legacy troubleshooting](legacy/runtime/game-troubleshooting.md).
 Maintainers can export it with `python3 scripts/source-release.py --setup --output dist/setup`.
 
 ### Driver artifacts
 
 The RC4–RC6 tool's portable driver and the original CachyOS rc1 driver have
 different ELF identities despite their shared source version. Their
-[ABI record](rc4-compatibility.md) and [original qualification](qualification.md)
+[ABI record](legacy/runtime/rc4-compatibility.md) and [original qualification](legacy/runtime/qualification.md)
 retain those hashes. Do not infer binary identity or game support from a filename.
 
 </details>

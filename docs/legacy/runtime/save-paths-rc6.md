@@ -1,7 +1,7 @@
 # RC6: Steam save-folder registration
 
 This defect belonged to the old Steam compatibility tool.
-[Replacing OptiScaler's DLL](beginner-guide.md) keeps the existing Proton tool
+[Replacing OptiScaler's DLL](../../beginner-guide.md) keeps the existing Proton tool
 and does not require save-folder or prefix migration.
 
 RC5 users reported that Split Fiction and Cyberpunk started without their
@@ -53,9 +53,9 @@ ordinary GE-Proton. The diagnostic uses no game, Steam login or cloud writer.
 It is tied to the recorded Steam client binary, not a substitute implementation
 of the name check. The local evidence also retains the prefix comparisons and
 the initial probe's unrelated directory-scan failure.
-The [recorded results](data/save-paths-20260908.json),
-[Steam registration probe](data/save-paths-20260908/steam-registration-probe.py)
-and [Windows folder probe](data/save-paths-20260908/folder-probe.c) are retained.
+The [recorded results](../../data/save-paths-20260908.json),
+[Steam registration probe](../../data/save-paths-20260908/steam-registration-probe.py)
+and [Windows folder probe](../../data/save-paths-20260908/folder-probe.c) are retained.
 
 An RC5 installation upgraded to RC6, rolled back to the retained RC5 runtime,
 and returned to RC6 offline with an empty download cache. Host and Steam

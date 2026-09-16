@@ -2,6 +2,13 @@
 
 ## Documentation — 2026-09-16
 
+- Group 28 historical guides/reports under `docs/legacy/runtime/` and
+  `docs/legacy/research/`, with an archive index. Keep current guide URLs stable.
+- Preserve RC6 setup exports from both documentation layouts; validate maintained
+  online links as well as local links, including experimental source notes.
+- Introduce the alternative Linux driver in the README before comparing it
+  with the DLL; clarify old prototype status and current support instructions.
+
 - Consolidate download, cache, driver and developer instructions. Keep one current
   driver installer guide; link the archived RC9 tutorial and dated test records.
 - Replace incident narratives and defensive explanations in current guidance with
@@ -54,8 +61,8 @@
 - Add an optional CPU startup-timing mode to the standalone probe, preserving
   its normal benchmark build, and inspect DLL sources in automatic source archives.
 
-See [the release notes](docs/release-notes-rc10.md) and
-[qualification scope](docs/portable-dll-rc10.md).
+See [the release notes](docs/legacy/research/release-notes-rc10.md) and
+[qualification scope](docs/legacy/research/portable-dll-rc10.md).
 
 ## RC9 documentation refresh 1 — 2026-09-11
 
@@ -84,7 +91,7 @@ See [the release notes](docs/release-notes-rc10.md) and
   identity. This refresh shows a slightly higher 1080p value than the RC7 chart.
 - Verify three complete model/image preflights and seven additional 1440p image
   cases against sealed references. No new game or endurance claim.
-  See [RC9 measurements and scope](docs/portable-dll-rc9.md).
+  See [RC9 measurements and scope](docs/legacy/research/portable-dll-rc9.md).
 
 ## 4.0.0-rc8 — 2026-09-10 — 1440p performance checkpoint
 
@@ -102,7 +109,7 @@ See [the release notes](docs/release-notes-rc10.md) and
   arithmetic/fallback evidence separate from fresh release checks.
 - Keep RC7's chart and seven game-route checks as historical evidence. RC8
   has no fresh game, 1080p/4K, native-Windows or other-GPU qualification.
-  See [RC8 measurements and scope](docs/portable-dll-rc8.md).
+  See [RC8 measurements and scope](docs/legacy/research/portable-dll-rc8.md).
 
 ## 4.0.0-rc7 — 2026-09-10 — portable DLL candidate
 
@@ -126,7 +133,7 @@ See [the release notes](docs/release-notes-rc10.md) and
   native Deadzone/KCD2 loaders, DX12/DX11/Vulkan adapters and Roboquest’s
   existing Luma/ReShade setup. Record the No Man’s Sky first-compilation
   hang and successful restart; keep untested routes explicit.
-- Record [candidate compatibility and measurement limits](docs/portable-dll-rc7.md).
+- Record [candidate compatibility and measurement limits](docs/legacy/research/portable-dll-rc7.md).
   No Windows/other-GPU acceptance is implied by the portable format.
 
 ## 4.0.0-rc6 — 2026-09-08
@@ -140,7 +147,7 @@ See [the release notes](docs/release-notes-rc10.md) and
   `status` and `doctor`; an otherwise unchanged update also repairs it.
 - Include the source-build verification follow-up below. Driver, upstream
   runtime components and graphics preset are unchanged. See the
-  [save-path diagnosis, upgrade and validation](docs/save-paths-rc6.md).
+  [save-path diagnosis, upgrade and validation](docs/legacy/runtime/save-paths-rc6.md).
 
 ## Source-build review follow-up — 2026-09-08
 
@@ -162,7 +169,7 @@ See [the release notes](docs/release-notes-rc10.md) and
 - Pin imported build helpers and check setup-version/FSR-cost documentation drift.
 - Refresh current upgrade and recovery instructions. Reuse the unchanged RC4
   portable driver and RC3 upstream runtime components; see the
-  [review and validation scope](docs/review-rc5.md).
+  [review and validation scope](docs/legacy/runtime/review-rc5.md).
 
 ## v4.0.0-rc4 — portable installation and startup checks
 
@@ -179,7 +186,7 @@ See [the release notes](docs/release-notes-rc10.md) and
 - Reuse verified retained runtime files for offline driver rebinding, and honor
   explicit local replacement archives even when their Mesa source matches.
 - Keep RC3’s components and game preset unchanged. See the separate
-  [RC4 compatibility qualification](docs/rc4-compatibility.md); earlier game
+  [RC4 compatibility qualification](docs/legacy/runtime/rc4-compatibility.md); earlier game
   performance results and release assets retain their original scope and identity.
 
 ## v4.0.0-rc3 — DX11, Vulkan and mod-chain compatibility
@@ -193,9 +200,9 @@ See [the release notes](docs/release-notes-rc10.md) and
 - Advertise Vulkan DLSS input capabilities while excluding unsupported NVX
   extensions from vkd3d's D3D12 bridge. Preserve upstream vendor detection.
 - Qualify six loaded-save scenes across DX11, DX12 and Vulkan, including Luma;
-  document the [evidence and limits](docs/runtime-qualification.md).
+  document the [evidence and limits](docs/legacy/runtime/runtime-qualification.md).
 - Verify RC2 → RC3 → RC2 → RC3 prefix reconciliation, tracked-file removal,
-  offline reuse and [the existing-user update route](docs/upgrading-rc2.md).
+  offline reuse and [the existing-user update route](docs/legacy/runtime/upgrading-rc2.md).
 
 ## Documentation follow-up — rc1 transition
 
@@ -216,7 +223,7 @@ Driver/runtime pins, the rc2 release tag and published assets are unchanged.
   game allowlist, executable scan or Steam-account configuration writer.
 - Use pinned GE-Proton loader/prefix management with a narrow local-manifest
   patch, FSR 4.1.1 INT8 model 2, OptiScaler nightly 20260904 and OptiPatcher 0.41.
-  Both FSR and DLSS input routes passed [runtime gameplay checks](docs/runtime-qualification-rc2.md).
+  Both FSR and DLSS input routes passed [runtime gameplay checks](docs/legacy/runtime/runtime-qualification-rc2.md).
 - Distribute a small setup bundle. Assemble pinned upstream components locally,
   support cached offline installation and optional private complete bundles,
   and retain immutable runtime versions for rollback.
@@ -241,7 +248,7 @@ Commit `f7d59b030af519059b06ce3953c2c91e5bd6e1c5` records the fresh v3/v4
 Deadzone comparison at 1080p, 1440p and 4K. The test used the exact published rc1
 driver with native FSR 4.1.1 INT8 Quality and hardware ray tracing off. The
 measured scene averages improved by 14.3%, 18.9% and 17.2%, respectively.
-[Method, raw aggregates and limits](docs/performance.md) accompany the results.
+[Method, raw aggregates and limits](docs/legacy/research/performance.md) accompany the results.
 The rc1 tag and original binary/source release assets were unchanged.
 
 ## 2026-09-07 — v4.0.0-rc1
@@ -254,7 +261,7 @@ integration. Only x86_64 is released.
 
 The exact native binary passed compiler/output checks and real Deadzone
 private/system installation checks. The container build has a narrower test
-scope. See the [qualification record](docs/qualification.md) and
+scope. See the [qualification record](docs/legacy/runtime/qualification.md) and
 [release page](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc1).
 
 Earlier upstream history and its original release notes remain in the

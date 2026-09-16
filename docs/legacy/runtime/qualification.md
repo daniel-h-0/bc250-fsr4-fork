@@ -8,7 +8,7 @@ setup. No qualification below covers 4.1.1b or a mixed runtime; see
 The fresh native x86_64 release passed source/compiler/output checks and two
 real Deadzone launches after a recoverable return to a v3-style setup. Both
 the migrated private v3 launch path and the normal system package path rendered
-FSR 4.1.1 INT8. A subsequent [fresh performance campaign](performance.md)
+FSR 4.1.1 INT8. A subsequent [fresh performance campaign](../research/performance.md)
 compares this exact binary with upstream v3 at 1080p, 1440p and 4K, with hardware
 ray tracing disabled in the game menu. These checks do not establish blanket
 acceptance of every game.
@@ -56,7 +56,7 @@ Installer/game-tool tests cover corrupt or unsafe archives, missing/changed
 payloads, unresolved lazy-bound symbols, failed activation, v3 migration and
 exact rollback, user edits after installation, interrupted-transaction
 recovery, changed game SDKs and unrelated existing proxy DLLs. Tooling checks
-run in CI without a GPU. See [the machine-readable summary](qualification.json).
+run in CI without a GPU. See [the machine-readable summary](../../qualification.json).
 
 ## Real upgrade and rollback
 
@@ -90,13 +90,13 @@ matched the release driver and provider hashes. INT8 model 2 and disabled
 frame generation were verified. Both screenshots show **FSR4-I8 4.1.1,
 Balanced 1.70x, local source, linear color** at 2560×1440 output.
 
-![System-package Deadzone gameplay proof](assets/deadzone-system-v4.png)
+![System-package Deadzone gameplay proof](../../assets/deadzone-system-v4.png)
 
 The watermark identifies the AMD provider/model, not the Mesa fork revision.
 The live mapped driver SHA256 establishes the v4 identity. Its companion
-[private-install proof](assets/deadzone-private-v4.png) used the migrated v3
+[private-install proof](../../assets/deadzone-private-v4.png) used the migrated v3
 launch path. These initial operation checks did not time FPS; the separate
-[performance addendum](performance.md) supplies fresh measurements. Neither
+[performance addendum](../research/performance.md) supplies fresh measurements. Neither
 campaign assesses every temporal artifact across extended play.
 
 Afterward, the original game settings, runtime links, quiet configuration,
@@ -135,5 +135,5 @@ The comparison uses the exact published v4 ELF and the original v3 source patch
 on Mesa 26.2.0, rebuilt for the host LLVM ABI. High/custom graphics, native FSR
 4.1.1 INT8 Quality and HWRT Off are matched across 12 launches. These are
 whole-frame PEX averages in one stationary scene; see [methods, repeatability,
-raw aggregates and limits](performance.md). Earlier development-driver on/off
+raw aggregates and limits](../research/performance.md). Earlier development-driver on/off
 timings are not pooled with this release comparison.

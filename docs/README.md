@@ -22,7 +22,7 @@ setup and game recipes are included there.
   across selected Linux games; ordinary DLL installation needs no helper.
 - [Private driver](driver-cache-setup.md): alternative AMD-provider integration,
   with its own [requirements](driver-rc10.md).
-- [Old RC6 tool migration/recovery](legacy-rc6.md): for existing users of that tool.
+- [Old RC6 tool migration/recovery](legacy/runtime/legacy-rc6.md): for existing users of that tool.
 
 ## Development
 
@@ -31,17 +31,14 @@ setup and game recipes are included there.
 [Package a release](releases.md#packaging) ·
 [Driver/runtime contracts](development.md) · [Licenses](../THIRD_PARTY.md)
 
-<details>
-<summary>Historical evidence and recovery records</summary>
+## Historical documentation
 
-These retain their original versions and test scope. They are not additional
-steps for the current install.
+[Browse the archive](legacy/README.md) for older releases and dated test records:
 
-| Topic | Records |
-| --- | --- |
-| DLL development | [RC7 game checks](portable-dll-rc7.md), [RC8](portable-dll-rc8.md), [RC9](portable-dll-rc9.md), [RC10](portable-dll-rc10.md) |
-| Performance campaigns | [RC7 GPU costs](gpu-cost-rc7.md), [whole-game comparison](performance.md), [reconstructed pass costs](fsr-cost.md) |
-| Driver and cache work | [RC10 development](rc10-development.md), [driver gameplay](driver-gameplay-rc10.md), [cache reuse](cache-setup-qualification.md), [installer review](cache-review.md), [recovery review](cache-review2.md) |
-| Earlier installs | [RC9 walkthrough](beginner-guide-rc9.md), [RC6 Steam tool](games.md), [legacy troubleshooting](game-troubleshooting.md), [upstream archive](../legacy/README.md) |
+- **`legacy/runtime/`** — old Steam compatibility tool, system-driver setup,
+  migration and recovery.
+- **`legacy/research/`** — earlier DLL checkpoints, performance campaigns and
+  cache/installer reviews.
 
-</details>
+The current installation guide stays above; code-specific build instructions
+remain beside their code. Raw measurements and figures stay in `data/` and `assets/`.

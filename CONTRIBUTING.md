@@ -19,7 +19,7 @@ python3 scripts/check-repo.py
 
 The repository check covers pinned inputs, documentation links, recorded
 performance arithmetic and tooling tests. It needs no GPU. Driver builds
-use the separate [build instructions](docs/legacy-rc6.md#build-from-source) and
+use the separate [build instructions](docs/development.md#build-the-current-driver) and
 `requirements-build.txt`.
 
 ## Keep the scope small
@@ -29,7 +29,8 @@ bundled upscaler DLL, select FFX/INT8 and retain working launch settings.
 Link first-time adapter setup, optional shared paths/cache tools and driver
 routes separately. Keep test-specific launch flags with their actual use cases.
 Each topic has one maintained guide; other pages link to it instead of copying
-its steps. Keep release measurements dated and separate from current instructions.
+its steps. Keep current guides at the top of `docs/`; put superseded runtime
+guides in `docs/legacy/runtime/` and dated experiments in `docs/legacy/research/`. Keep release measurements dated and separate from current instructions.
 When editing packaged docs, update their inventory/checksums and check links from
 both the repository and the extracted archive.
 
@@ -60,8 +61,9 @@ source control.
 
 Use the [issue tracker](https://github.com/daniel-h-0/bc250-fsr4-fork/issues).
 Include the release/commit, distribution, installation route, failing command
-and error. For runtime issues, include its version, driver hash, game/API and
-upscaler selection, and whether ordinary Proton still works.
+and error. For the normal DLL route, include the game/API, OptiScaler and DLL versions,
+GPU/driver, Proton and in-game upscaler choice. Add the custom driver/runtime
+identity only if you use that optional route.
 
 Share a small redacted log excerpt. Do not attach game/provider binaries,
 shader dumps, saves, account configuration or secrets.

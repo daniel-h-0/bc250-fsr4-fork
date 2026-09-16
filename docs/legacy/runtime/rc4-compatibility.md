@@ -1,7 +1,7 @@
 # RC4 installation compatibility
 
 Historical driver/Steam-tool instructions. For the current DLL, follow the
-[OptiScaler replacement guide](beginner-guide.md).
+[OptiScaler replacement guide](../../beginner-guide.md).
 
 RC4 makes the portable private driver the normal download and checks whether
 it can load before activating the Steam tool. Use the
@@ -97,7 +97,7 @@ private virtual X display, without a game or swapchain.
 These isolated userspaces share the CachyOS host kernel and BC250 GPU. They do
 not establish booted-OS, compositor, every-game or Flatpak Steam acceptance.
 Earlier [gameplay/performance evidence](runtime-qualification.md) retains its
-original driver/runtime identity. See [the recorded checks](data/runtime-v4.0.0-rc4.json)
+original driver/runtime identity. See [the recorded checks](../../data/runtime-v4.0.0-rc4.json)
 and the [original SteamOS failure analysis](steamos-compatibility.md).
 
 ## Reproduce the portable driver
@@ -111,7 +111,7 @@ PATH="$PWD/.venv/bin:$PATH" python3 scripts/build-compat.py --jobs 4
 python3 scripts/package.py --work .work/linux-glibc236/mesa --label linux-glibc236-x86_64
 ```
 
-The [target definition](../v4/build-targets/linux-glibc236.json) pins every Debian
+The [target definition](../../../v4/build-targets/linux-glibc236.json) pins every Debian
 package and the libdrm source archive. Extraction is private; package maintainer
 scripts never run. `--cache PATH --offline` reuses those inputs, and each build
 needs a new `--work` directory. The archive retains the source, provenance,

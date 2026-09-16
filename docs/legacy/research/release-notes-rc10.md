@@ -44,6 +44,6 @@ other GPUs, frame generation and unlisted game/Proton combinations remain
 unqualified. Keep shader caches between launches. After a temporary watermark
 check, use `Fsr4EnableWatermark=auto` and remove `MLSR-WATERMARK`.
 
-[Install](../dll/INSTALL.md) · [Driver option](driver-rc10.md) ·
-[Shared cache](shared-shader-cache.md) · [Measurements](portable-dll-rc10.md) ·
+[Install](../../../dll/INSTALL.md) · [Driver option](../../driver-rc10.md) ·
+[Shared cache](../../shared-shader-cache.md) · [Measurements](portable-dll-rc10.md) ·
 [Gameplay evidence and limits](driver-gameplay-rc10.md)

@@ -134,7 +134,7 @@ cannot prevent a later game/driver failure or guarantee a cache hit.
 
 ## Qualification scope
 
-[Cache qualification](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/cache-setup-qualification.md)
+[Cache qualification](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/legacy/research/cache-setup-qualification.md)
 records Control-to-System-Shock reuse; System Shock reached its menu.
 Filesystem/launch tests span Python 3.8–3.14 in four isolated Linux userspaces,
 not complete distro graphics qualification. The

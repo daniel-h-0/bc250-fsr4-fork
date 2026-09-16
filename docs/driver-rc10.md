@@ -10,7 +10,7 @@ the same binary as RC10.
 Both routes include the FSR optimizations. The three-resolution comparison
 found comparable GPU cost. Choose the DLL for the simpler setup; this driver
 recognizes exact translated provider shaders, so changing the provider or Proton
-can lose optimization coverage. [Comparison record](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/portable-dll-rc10.md).
+can lose optimization coverage. [Comparison record](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/legacy/research/portable-dll-rc10.md).
 
 ## Install the private driver
 
@@ -24,7 +24,7 @@ Use **GE-Proton 11-6** with the provider versions below.
 
 ## The AMD-provider path
 
-This driver works with a configured FSR4 provider. The tested route uses ordinary GE-Proton **11-6**, upstream OptiScaler
+The tested provider setup uses ordinary GE-Proton **11-6**, upstream OptiScaler
 **10.0.0-pre1 (September 4)** with **OptiPatcher 0.41**, the original AMD
 **4.1.1** provider and the older SDK **4.0.2** bridge. The exact upstream
 URLs and hashes are retained in
@@ -47,7 +47,8 @@ Steam library; Heroic uses the configured Wine-prefix path.
 For that route, close the game, back up the current integration and use the
 pinned SDK bridge as `OptiScaler/amd_fidelityfx_upscaler_dx12.dll`. The
 unmodified `amdxcffx64.dll` provider belongs in that game's Wine prefix under
-`drive_c/windows/system32/`. Keep OptiScaler's other required files. Use OptiScaler's INT8 selection hook with this bridge. Configure the existing adapter with:
+`drive_c/windows/system32/`. Keep OptiScaler's other files and enable its INT8
+selection hook with these settings:
 
 ```ini
 [FSR]
@@ -67,9 +68,8 @@ PROTON_FSR4_UPGRADE=0 PROTON_USE_OPTISCALER=0 PROTON_USE_XALIA=0 WINEDLLOVERRIDE
 ```
 
 These accompany the private-driver wrapper. Adapt only the proxy name for an
-established different adapter installation. The portable DLL recipe disables
-`amdxcffx64`; that override must change when deliberately selecting this provider
-route. Keep a record of the previous files and launch options for undo.
+established different adapter installation. If the current launch options contain `amdxcffx64=`, replace it with
+`amdxcffx64=n` when selecting this provider route. Keep a record of the previous files and launch options for undo.
 
 Keep the pinned SDK bridge for this provider route. The original
 provider continues to identify itself as **4.1.1**, with source **DRIVER**.
@@ -81,9 +81,9 @@ variables after checking. Leave `MLSR-WATERMARK` absent for a hidden watermark.
 
 ## Qualification and limitations
 
-The [RC10 gameplay record](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/driver-gameplay-rc10.md)
+The [RC10 gameplay record](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/legacy/research/driver-gameplay-rc10.md)
 confirms Control gameplay and System Shock menu rendering through this route.
-The [development record](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/rc10-development.md)
+The [development record](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/legacy/research/rc10-development.md)
 contains the shader, image and timing comparisons. Those results retain their
 original scope; arbitrary Proton versions, other GPUs, native Windows and
 frame generation remain unqualified. DLL cold-compilation measurements apply to the DLL route.

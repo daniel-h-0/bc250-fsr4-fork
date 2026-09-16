@@ -5,6 +5,10 @@ Project version **4.0.0-rc11**; SDK display name **4.1.1r11**.
 **Replace OptiScaler's bundled upscaler DLL and select FFX/INT8.** Use your normal
 driver, Proton and working launch settings.
 
+Compatible native FidelityFX games can use
+[direct DLL replacement](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md#native-fidelityfx-games)
+instead of OptiScaler.
+
 These steps assume a working OptiScaler installation. For a first-time setup,
 use the [beginner guide and game recipes](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md).
 The documented layout is OptiScaler 10.0.0-pre1 from September 4, 2026.

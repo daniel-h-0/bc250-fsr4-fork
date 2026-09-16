@@ -1,5 +1,6 @@
 # Legacy material and recovery
 
+Earlier release documentation is grouped in [docs/legacy](../docs/legacy/README.md).
 This directory preserves the earlier BC250 FSR4 project as historical
 reference. New users follow the [OptiScaler DLL guide](../docs/beginner-guide.md);
 DLL development starts in the [source guide](../dll/README.md). The recovery

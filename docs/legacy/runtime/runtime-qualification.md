@@ -32,11 +32,11 @@ not install Luma. All six checks loaded existing saves and exited normally.
 This is bounded functionality and exit evidence, not an installation allowlist,
 universal game compatibility, endurance qualification or a performance result.
 The [RC2 record](runtime-qualification-rc2.md) and
-[earlier driver performance campaign](performance.md) remain historical evidence.
+[earlier driver performance campaign](../research/performance.md) remain historical evidence.
 
 ## Exact components and evidence
 
-The [machine-readable record](data/runtime-v4.0.0-rc3.json) identifies the frozen
+The [machine-readable record](../../data/runtime-v4.0.0-rc3.json) identifies the frozen
 runtime lock, assembly inventory, each observed process, mapped component
 hashes, screenshots and focused log excerpts. The
 [release evidence archive](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc3/bc250-fsr4-v4.0.0-rc3-runtime-proof.tar.gz)

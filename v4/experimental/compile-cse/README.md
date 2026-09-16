@@ -1,11 +1,12 @@
 # Compilation cleanup — proposed source changes
 
-This is the source proposal for private DLL `4.1.1d5`, not a release package.
-The maintained DLL manifest, source inventory and published RC9 bytes remain
-unchanged. `source-proposal.tar.xz` contains 48 changed LLVM source files;
-`manifest.json` records every file/hash, original and resulting shader hashes,
-the candidate DLL identity and the native-code evidence it was selected from.
-The other 300 shader slots retain RC9 bytes.
+This capsule preserves the private `4.1.1d5` proposal used during RC10 development.
+The maintained DLL incorporates the selected cleanup; build it through
+[the DLL source guide](../../../dll/README.md).
+
+`source-proposal.tar.xz` contains the 48 proposed LLVM files. `manifest.json`
+records their input/output hashes, candidate DLL and native-code evidence.
+The other 300 slots retained RC9 bytes in this experiment.
 
 The experiment ran the pinned DXC LLVM optimizer's `early-cse`, `dce` and
 `strip-dead-prototypes` passes. This removes redundant computations and unused
@@ -15,7 +16,7 @@ checks and fallback computations. The 48 selected slots represent 36 distinct
 bytecodes exercised across the three resolution families. Alternate variants
 that were not exercised retain their original RC9 source and bytecode.
 
-The [development record](../../../docs/rc10-development.md) and
+The [development record](../../../docs/legacy/research/rc10-development.md) and
 [final candidate data](../../../docs/data/rc10-selected-compiler-20260914.json)
 keep measured compilation, image, GPU-cost and scope information together.
 Small GPU-time differences are not claimed as speedups. The aim is less
@@ -25,16 +26,12 @@ These source files assemble with the DXC library pinned by
 [the main DLL manifest](../../../dll/manifest.json). The
 [AMD SDK notice](../../../dll/notices/AMD-SDK-LICENSE.md),
 [LLVM notice](../../../dll/notices/LICENSE-LLVM.txt) and
-[project license](../../../LICENSE) remain applicable. The sources retain
+[new-tool license](../../../LICENSE.new-code) remain applicable. The sources retain
 optimizer-emitted module comments; those comments are not instructions to a
 build tool or an agent.
 
-Integrate this proposal into a new development source tree when preparing a
-release. Update that tree's complete source inventory, replacement hashes,
-provider label, expected DLL identity and installation guide together, then
-rebuild and qualify the exact release binary. Merely unpacking these files over
-RC9 does not produce a coherent release manifest; the normal builder should
-refuse such a mixed tree. Existing RC9 releases must keep their identities.
+Use a separate development tree when reproducing the capsule. The maintained
+builder validates its own complete inventory and release identities.
 
 ## Inspect executable code without a driver disassembler
 

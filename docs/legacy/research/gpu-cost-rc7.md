@@ -5,7 +5,7 @@ This historical September 10 chart measures the complete FSR upscaler on an AMD 
 September 10 campaign. No pixel-count extrapolation or FPS subtraction enters
 these values.
 
-![Direct GPU cost of four FSR implementations](assets/fsr4-four-way-gpu-cost.svg)
+![Direct GPU cost of four FSR implementations](../../assets/fsr4-four-way-gpu-cost.svg)
 
 | Output / Quality input | FSR 4.1.1 original shaders | FSR 4.1.1b | BC250 v3 | BC250 v4r7 |
 | --- | ---: | ---: | ---: | ---: |
@@ -40,7 +40,7 @@ driver-provider and automatic OptiScaler integrations are disabled.
 
 ## Workload and sampling
 
-The [full-dispatch probe](../dll/probe/README.md) is the same revision 3 used
+The [full-dispatch probe](../../../dll/probe/README.md) is the same revision 3 used
 for the RC7 GPU-time work. It runs the actual FSR shaders on the GPU, through
 the native FidelityFX/D3D12 interface. Color is a linear gradient/checkerboard,
 with depth and zero motion vectors; RGBA32F output is read back for validation.
@@ -75,11 +75,11 @@ other-GPU or whole-game FPS claim.
 
 ## Data and reproduction
 
-[Every timestamp](data/fsr-cost-20260910/samples.csv),
-[run metadata and telemetry summaries](data/fsr-cost-20260910/runs.json),
-[build identities and configuration](data/fsr-cost-20260910/configuration.json),
-[model/image preflight](data/fsr-cost-20260910/preflight.json), and
-[computed results](data/fsr-cost-20260910/results.json) accompany the figure.
+[Every timestamp](../../data/fsr-cost-20260910/samples.csv),
+[run metadata and telemetry summaries](../../data/fsr-cost-20260910/runs.json),
+[build identities and configuration](../../data/fsr-cost-20260910/configuration.json),
+[model/image preflight](../../data/fsr-cost-20260910/preflight.json), and
+[computed results](../../data/fsr-cost-20260910/results.json) accompany the figure.
 The summarizer checks counts, identities, timing flags, finite positive
 samples, complete images and every plotted statistic. The chart generator
 derives bar heights, error bars and printed values from those results.
@@ -90,10 +90,10 @@ python3 docs/data/fsr-cost-20260910/plot.py
 ```
 
 The first command uses Python's standard library. Plotting uses Matplotlib
-3.11.1 and Fira Sans. Exports are [SVG](assets/fsr4-four-way-gpu-cost.svg),
-[3600×2040 PNG](assets/fsr4-four-way-gpu-cost.png) and
-[PDF](assets/fsr4-four-way-gpu-cost.pdf). Vector geometry and displayed values
-are also recorded in [chart-geometry.json](data/fsr-cost-20260910/chart-geometry.json).
+3.11.1 and Fira Sans. Exports are [SVG](../../assets/fsr4-four-way-gpu-cost.svg),
+[3600×2040 PNG](../../assets/fsr4-four-way-gpu-cost.png) and
+[PDF](../../assets/fsr4-four-way-gpu-cost.pdf). Vector geometry and displayed values
+are also recorded in [chart-geometry.json](../../data/fsr-cost-20260910/chart-geometry.json).
 
 The [September 8 reconstructed chart](fsr-cost.md) and
 [September 7 whole-game v3/v4 results](performance.md) remain historical,

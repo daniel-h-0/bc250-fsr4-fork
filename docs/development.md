@@ -23,7 +23,7 @@ driver and retained RC6 Steam-tool contracts.
 Treat `v4/manifest.json` as the authority for source version, patch order and
 file hashes. Rebase deliberately, apply without fuzz, and qualify changed
 compiler output. Unknown shaders, weights, interfaces or subgroup inputs must
-retain their fallback. Use the [build commands](legacy-rc6.md#build-from-source).
+retain their fallback. Use the [current build commands](#build-the-current-driver).
 
 Build provenance records source files/modes/internal links, recipes, compiler,
 dependencies and flags. Resume/packaging reject changed, missing or extra source
@@ -37,6 +37,30 @@ generic dot lowerings and the store repair remain. It does not recreate stock
 Mesa or v3. The current provider port's controls are documented in the
 [provider guide](driver-rc10.md). Preserve separate cache identities for changed
 compiler behavior.
+
+## Build the current driver
+
+From a clean source checkout on Linux x86-64, install Python 3.11+, Ninja,
+libarchive's `bsdtar`, binutils and pkg-config. The portable builder downloads
+its pinned Debian compiler/libraries into a private build directory.
+
+```sh
+./scripts/bootstrap.sh
+PATH="$PWD/.venv/bin:$PATH" python scripts/build-compat.py --jobs 4
+python3 scripts/package.py --work .work/linux-glibc236/mesa \
+  --label linux-glibc236-x86_64 --runtime-only
+```
+
+The default work directory must be new; use `--work /new/path` for another build
+and package from its `mesa/` child. `--cache PATH --offline` uses previously
+downloaded inputs. The target definition is
+[`v4/build-targets/linux-glibc236.json`](../v4/build-targets/linux-glibc236.json).
+Qualify the exact packaged ELF before publishing it.
+
+Native and container variants remain in `scripts/build-native.sh` and
+`build-anywhere.sh`; their output follows the selected host/container ABI.
+The [legacy build notes](legacy/runtime/legacy-rc6.md#build-from-source) retain
+the earlier native/container examples for reproduction.
 
 ## Runtime changes
 
@@ -54,11 +78,11 @@ Steam's Compatibility menu owns opt-in. Do not add game discovery, account/VDF
 writers or game-directory proxy installation to this runtime. Keep `proton` in
 the internal tool name and `BC250-FSR4` as an alias: Steam's save-folder setup
 depends on the name. Runtime rollback must preserve repaired registration.
-[RC6 save-path diagnosis](save-paths-rc6.md).
+[RC6 save-path diagnosis](legacy/runtime/save-paths-rc6.md).
 
 `scripts/runtime_bundle.py` serves both the installer and offline packager.
 Public RC6 setup bundles include tools/manifest/notices and fetch pinned upstream
-binaries; [legacy offline instructions](game-troubleshooting.md) cover retention.
+binaries; [legacy offline instructions](legacy/runtime/game-troubleshooting.md) cover retention.
 
 ## Checks and acceptance
 

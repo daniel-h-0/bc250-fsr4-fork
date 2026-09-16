@@ -32,15 +32,15 @@ are unchanged. No replacement cache architecture is needed for these fixes.
   shell without requiring Bash. An interrupted first rollback can be recovered
   with the retained tools after its launcher has been removed.
 
-The [driver guide](driver-cache-setup.md) covers upgrading earlier installers,
-verified bundle updates and interrupted rollback. The [DLL cache guide](shared-shader-cache.md)
+The [driver guide](../../driver-cache-setup.md) covers upgrading earlier installers,
+verified bundle updates and interrupted rollback. The [DLL cache guide](../../shared-shader-cache.md)
 explains updating from a new download while keeping the permanent path. Both
 explain removing an older portable invocation when migrating; nesting that old
 invocation would retain a dependency on its downloaded files.
 
 ## Validation and limits
 
-The [review record](data/cache-review-20260914.json) pins the reviewed runtime and
+The [review record](../../data/cache-review-20260914.json) pins the reviewed runtime and
 test sources. Each of four isolated userspaces runs 24 helper tests and 33 driver
 installer tests: Python 3.8/Debian Bullseye, 3.11/Debian Bookworm, 3.12/Alpine and
 3.14/the Arch builder. All available tests pass. The three minimal images lack a

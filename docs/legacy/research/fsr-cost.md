@@ -1,6 +1,6 @@
 # FSR4 GPU cost: historical measurements and reconstruction
 
-The new [primary chart](gpu-cost.md) directly measures four implementations,
+The new [primary chart](../../gpu-cost.md) directly measures four implementations,
 including v4r7, at every output size. The reconstruction below remains a
 separate historical record and supplies no values to that chart.
 
@@ -9,7 +9,7 @@ retained direct timing anchor and the later matched v3/v4 GPU savings. It is
 an illustration of the fork's benefit, **not an isolated-pass benchmark of the
 release at all three resolutions**. No new game measurements were taken for it.
 
-![Estimated FSR4 GPU cost: 1080p 4.5 to 3.4 ms; 1440p 8.0 to 5.7 ms; 4K 18.0 to 12.9 ms. Only the historical 1440p v3 anchor is directly measured.](assets/fsr4-v3-v4-cost.svg)
+![Estimated FSR4 GPU cost: 1080p 4.5 to 3.4 ms; 1440p 8.0 to 5.7 ms; 4K 18.0 to 12.9 ms. Only the historical 1440p v3 anchor is directly measured.](../../assets/fsr4-v3-v4-cost.svg)
 
 ## The direct measurement we recovered
 
@@ -38,8 +38,8 @@ and exclude a separate OptiScaler RCAS pass. Deadzone had sharpening disabled.
 The original packaged v3 ELF was `79018a8d09a279d2ef01af935d0f5fc0459e565e59e73e494c060f2700d205f6`.
 It differs from the later source-built v3 baseline in the
 [release performance campaign](performance.md#what-the-baseline-represents).
-The exported [timestamps](data/fsr-cost-20260908/ffx-samples.csv) and
-[provenance](data/fsr-cost-20260908/provenance.json) retain both driver identities,
+The exported [timestamps](../../data/fsr-cost-20260908/ffx-samples.csv) and
+[provenance](../../data/fsr-cost-20260908/provenance.json) retain both driver identities,
 timer identity, original record hashes and per-launch validation summaries.
 
 ## How the chart is reconstructed
@@ -91,7 +91,7 @@ different; it is not a measured v3 baseline. A later 1440p Balanced composed
 candidate measured **5.73549 ms** against fresh 2.84 controls at **5.80444 ms**.
 That is consistent with the reconstructed ~5.75 ms endpoint, but the candidate
 is not the release ELF and the controls were separate launches.
-The [corroborating summaries](data/fsr-cost-20260908/corroboration.json) preserve
+The [corroborating summaries](../../data/fsr-cost-20260908/corroboration.json) preserve
 these records and their original file hashes; neither enters the calculation.
 
 Earlier resolution matrices with the defective nonlinear color setting were
@@ -112,6 +112,6 @@ python3 docs/data/fsr-cost-20260908/plot.py
 
 The first command verifies exported hashes, timestamp arithmetic, completion
 flags, sample counts and original means before recomputing the
-[estimates](data/fsr-cost-20260908/estimates.json). The plot reads that calculation
-directly. Both [SVG](assets/fsr4-v3-v4-cost.svg) and
-[PNG](assets/fsr4-v3-v4-cost.png) include the estimation disclosure for sharing.
+[estimates](../../data/fsr-cost-20260908/estimates.json). The plot reads that calculation
+directly. Both [SVG](../../assets/fsr4-v3-v4-cost.svg) and
+[PNG](../../assets/fsr4-v3-v4-cost.png) include the estimation disclosure for sharing.

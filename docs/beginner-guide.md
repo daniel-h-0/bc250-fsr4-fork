@@ -3,6 +3,9 @@
 **Replace OptiScaler's upscaler DLL, select FFX/INT8, and play.** Use your normal
 graphics driver, Proton and working launch settings.
 
+For supported games with native FidelityFX integration, use the
+[direct DLL recipes](#native-fidelityfx-games) instead of setting up OptiScaler.
+
 These instructions use [OptiScaler 10.0.0-pre1, September 4, 2026](https://github.com/optiscaler/OptiScaler-nightly/releases/tag/nightly-20260904).
 Already working? Keep its game-specific settings and launch options.
 New to OptiScaler? Expand the setup below first.
@@ -217,8 +220,8 @@ before replacing it with RC11:
 | Kingdom Come: Deliverance II | `Bin/Win64Shared/amd_fidelityfx_loader_dx12.dll` | FSR 4.1 |
 
 For KCD2, rename a copy of RC11 to the loader filename and keep the game's
-original upscaler DLL. This loader replacement is specific to KCD2 1.5.6. Keep working launch settings. To check the native
-watermark on Steam/Linux, use `env 'MLSR-WATERMARK=1' %command%`, preserving
+original upscaler DLL. This loader replacement is specific to KCD2 1.5.6.
+Keep working launch settings. To check the native watermark on Steam/Linux, use `env 'MLSR-WATERMARK=1' %command%`, preserving
 any existing arguments. Restore the previous launch options afterward.
 
 </details>
@@ -265,7 +268,7 @@ and keep any game arguments/other mod overrides you already need:
 
 For Heroic, these are separate environment-variable name/value pairs.
 If moving from the old BC250 driver/Steam tool, use its
-[migration instructions](legacy-rc6.md#upgrade-a-game-to-rc7) first.
+[migration instructions](legacy/runtime/legacy-rc6.md#upgrade-a-game-to-rc7) first.
 
 </details>
 
@@ -308,7 +311,7 @@ managed separately; [shared caching](shared-shader-cache.md) is optional.
 ## Tested scope
 
 BC250/Linux is the tested platform. RC11 has synthetic rendering checks;
-[earlier game-route checks](portable-dll-rc7.md#supported-scope) used RC7 and the
+[earlier game-route checks](legacy/research/portable-dll-rc7.md#supported-scope) used RC7 and the
 recorded Cyberpunk install used RC9. See [RC11 validation](portable-dll-rc11.md).
 Frame generation, native Windows, other GPUs and unlisted combinations need
 separate testing. Windows needs a runtime/driver accepting DXIL 1.9 / Shader Model 6.9.

@@ -45,7 +45,17 @@ SETUP_FILES = {
 
 def setup_files(files, commit):
     """Keep only installation/recovery inputs; link omitted evidence to the commit."""
-    selected = {name: files[name] for name in sorted(SETUP_FILES)}
+
+    def source_path(name):
+        # Explicit old refs retain their flat docs tree. Current source exports
+        # keep the grouped legacy paths, including their relative links.
+        if name not in files and name.startswith("docs/"):
+            archived = "docs/legacy/runtime/" + name.removeprefix("docs/")
+            if archived in files:
+                return archived
+        return name
+
+    selected = {source_path(name): files[source_path(name)] for name in sorted(SETUP_FILES)}
     # This guide was added after rc3; old explicit --ref exports do not have it.
     for guide in (
         "docs/steamos-compatibility.md",
@@ -58,20 +68,14 @@ def setup_files(files, commit):
         "scripts/shared-cache.py",
         "scripts/shared-cache.sh",
     ):
+        guide = source_path(guide)
         if guide in files:
             selected[guide] = files[guide]
-    if "docs/legacy-rc6.md" in selected:
-        readme, mode = selected["docs/legacy-rc6.md"]
-        text = readme.decode()
-        text = re.sub(r"(\]\()\.\./", r"\1", text)
-        current_readme = (
-            "https://github.com/daniel-h-0/bc250-fsr4-fork/blob/" + commit + "/README.md"
-        )
-        for label in ("RC7 quickstart", "portable DLL quickstart"):
-            text = text.replace(
-                "[" + label + "](README.md)", "[" + label + "](" + current_readme + ")"
-            )
-        selected["README.md"] = (text.encode(), mode)
+    origins = {name: name for name in selected}
+    guide = source_path("docs/legacy-rc6.md")
+    if guide in selected:
+        selected["README.md"] = selected[guide]
+        origins["README.md"] = guide
     base = "https://github.com/daniel-h-0/bc250-fsr4-fork/blob/" + commit + "/"
     for name, (data, mode) in selected.items():
         if not name.endswith(".md"):
@@ -82,9 +86,10 @@ def setup_files(files, commit):
             if "://" in target or target.startswith("#"):
                 return match[0]
             path, _, anchor = target.partition("#")
-            relative = posixpath.normpath(posixpath.join(posixpath.dirname(name), path))
-            if relative in selected:
-                return match[0]
+            relative = posixpath.normpath(posixpath.join(posixpath.dirname(origins[name]), path))
+            if relative in selected and origins[relative] == relative:
+                target = posixpath.relpath(relative, posixpath.dirname(name) or ".")
+                return "[" + label + "](" + target + ("#" + anchor if anchor else "") + ")"
             return "[" + label + "](" + base + relative + ("#" + anchor if anchor else "") + ")"
 
         selected[name] = (

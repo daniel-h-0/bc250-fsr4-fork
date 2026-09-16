@@ -3,7 +3,7 @@
 RC8 reduces synthetic whole-upscaler GPU time by **8.52% versus RC7** in
 fresh 1440p Quality tests on AMD BC250. It is distributed as the same single
 Windows x64 DLL, labeled **4.1.1r8**. This is historical RC8 evidence; new users
-should follow the [current OptiScaler DLL guide](beginner-guide.md).
+should follow the [current OptiScaler DLL guide](../../beginner-guide.md).
 Follow the [RC8 installation guide](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc8/dll/INSTALL.md)
 to replace a compatible native game DLL or a working OptiScaler backend.
 
@@ -22,10 +22,10 @@ sampled GPU clocks during the scored portion are 1850 MHz. Both sides use
 the same standard Mesa 26.2.1 driver and ordinary GE-Proton 11-6. All eight
 full output images are byte-identical.
 
-The [public record](data/portable-dll-rc8.json) contains all 4,800 timestamps,
+The [public record](../../data/portable-dll-rc8.json) contains all 4,800 timestamps,
 the sampled clocks, exact DLL/driver/probe identities, image hashes and the
 calculation inputs. `scripts/check-repo.py` recomputes the results. The
-[standalone D3D12 probe](../dll/probe/README.md) provides the workload source.
+[standalone D3D12 probe](../../../dll/probe/README.md) provides the workload source.
 This measures the upscaler's GPU cost, not game FPS. The older four-way
 [RC7 chart](gpu-cost-rc7.md) remains a separate RC7 campaign. No RC8 timing
 claim is made for 1080p or 4K, and earlier private-candidate timings are not
@@ -61,7 +61,7 @@ The RC7 scalar integer-cast compatibility repair and SDK buffer-UAV barrier
 repair are preserved. RC8 retains the same five public FFX exports and numeric
 provider/API identity. The selected qualified development DLL and RC8 differ
 only in the display label and PE checksum: all 348 compiled shaders match.
-The [complete source](../dll/README.md) rebuilds every shader with the pinned
+The [complete source](../../../dll/README.md) rebuilds every shader with the pinned
 DXC validator and reproduces the exact DLL bytes.
 
 ## Scope and installation

@@ -53,8 +53,8 @@ records the driver work from which the optimizations were derived.
 | Checkpoint | Retained change / evidence |
 | --- | --- |
 | RC7 | Scalarized integer extensions in 48 inference shaders; [derivation](scalarize_casts.py) and [exhaustive lane tests](../tests/test_dll_release.py). |
-| RC9 | Exact Winograd convolution in passes 1/2/4/10/12, bounded grouping, streamed accumulation and unsigned halfword extraction; [checkpoint](../docs/portable-dll-rc9.md). |
-| RC10 | Pinned `early-cse`, `dce`, `strip-dead-prototypes` on 48 slots. The 36 distinct changed programs match native code on three Mesa builds; 300 slots retain RC9 bytes. [Measurements](../docs/portable-dll-rc10.md). |
+| RC9 | Exact Winograd convolution in passes 1/2/4/10/12, bounded grouping, streamed accumulation and unsigned halfword extraction; [checkpoint](../docs/legacy/research/portable-dll-rc9.md). |
+| RC10 | Pinned `early-cse`, `dce`, `strip-dead-prototypes` on 48 slots. The 36 distinct changed programs match native code on three Mesa builds; 300 slots retain RC9 bytes. [Measurements](../docs/legacy/research/portable-dll-rc10.md). |
 | RC11 | RC10 shader programs, with provider label `4.1.1r11` and updated PE checksum. [Validation](../docs/portable-dll-rc11.md). |
 
 The shaders use DXIL 1.9 / Shader Model 6.9. Testing covers BC250/Linux through
@@ -71,7 +71,7 @@ FFX exports, numeric provider version, imports and host implementation. It appli
 - The buffer-UAV synchronization mask at `0x4789`, changing `01` to `00` after
   verifying the complete instruction at `0x4782`. This keeps `addBarrier` active
   for non-null buffer UAVs, including padding clears. [SDK source](https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/backend/dx12/ffx_dx12.cpp#L3599)
-  and [verification](../docs/portable-dll-rc7.md#sdk-synchronization-repair).
+  and [verification](../docs/legacy/research/portable-dll-rc7.md#sdk-synchronization-repair).
 
 The repacker appends a read-only `.bc250` section, retargets shader pointers and
 lengths, updates PE sizes/checksum and removes the invalidated Authenticode

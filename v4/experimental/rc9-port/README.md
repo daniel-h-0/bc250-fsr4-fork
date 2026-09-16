@@ -1,9 +1,9 @@
 # RC9 shader port — experimental driver source
 
 This capsule preserves the exact additional sources for the second RC10 driver
-prototype. It is included in complete-source exports; it is not another
-release-page download or a qualified replacement for the retained RC1 driver.
-The production `v4/manifest.json` and RC6 recovery runtime remain unchanged.
+prototype. The released driver carries the selected port; its current inputs
+are in [v4/manifest.json](../../manifest.json). This capsule remains the original
+prototype for reproduction and inspection.
 
 `source-overlay.tar.xz` contains three files for a fresh Mesa 26.2.2 tree already
 prepared with the production v4 patches. `manifest.json` records their original
@@ -16,10 +16,10 @@ subgroup or specialization requests. RC9's runtime model-weight checks remain
 inside the replacement shaders.
 
 The captured programs originate from the pinned SDK and RC9 DLL through
-GE-Proton 11-6. Original SDK DXIL and maintained RC9 LLVM sources are identified
-by [the DLL manifest](../../../dll/manifest.json). The
+GE-Proton 11-6. The original SDK and RC9 shader identities are retained in
+[the RC9 manifest](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc9/dll/manifest.json). The
 [AMD SDK notice](../../../dll/notices/AMD-SDK-LICENSE.md) applies to that material;
-Mesa's existing source notices and the [project license](../../../LICENSE)
+Mesa's existing source notices and the [new-tool license](../../../LICENSE.new-code)
 remain applicable. This capsule does not contain or alter the AMD driver-provider
 DLL or the OptiScaler hook required to select its INT8 model.
 
@@ -46,7 +46,7 @@ cache UUID, verified through the actual driver. `BC250_FSR4_RC9_LOG=true` logs
 recognized shaders when they are compiled; cache hits need not print a message.
 
 Current image, runtime, mode and cache-key qualification belongs in the
-[RC10 development record](../../../docs/rc10-development.md). Translator changes
+[RC10 development record](../../../docs/legacy/research/rc10-development.md). Translator changes
 may prevent an exact match and use the older path. Release packaging and
 installation/recovery qualification are separate steps; this source capsule
 does not authorize RC10 publication.

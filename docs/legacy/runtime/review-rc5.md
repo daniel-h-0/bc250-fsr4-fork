@@ -46,7 +46,7 @@ RC4 release; its ELF SHA256 remains
 `13163d1350d346f54d58b82863e5fc2f31ddfab0a0dd6495886c3fec286315d2`.
 The earlier [correctness and ABI checks](rc4-compatibility.md),
 [renderer observations](runtime-qualification.md) and
-[performance results](performance.md) retain their original scope and identity.
+[performance results](../research/performance.md) retain their original scope and identity.
 
 Process-interruption recovery is tested; abrupt power-loss durability is not.
 A file fsync alone does not persist its containing directory entry; see
@@ -73,5 +73,5 @@ A Windows probe imports the native OptiScaler WinMM proxy and creates a D3D12
 device through RC5 inside Steam Runtime 4 with a SteamOS 3.8 graphics provider.
 The result is `HRESULT=0x00000000`; maps and hashes confirm the exact portable
 driver and native proxy. This uses a private virtual X display, no game or
-swapchain. The [machine-readable record](data/runtime-v4.0.0-rc5.json) records
+swapchain. The [machine-readable record](../../data/runtime-v4.0.0-rc5.json) records
 identities and scope.

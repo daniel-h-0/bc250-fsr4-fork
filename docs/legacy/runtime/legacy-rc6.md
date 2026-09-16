@@ -1,7 +1,7 @@
 # RC6 driver and Steam runtime (retained)
 
 These are historical RC6 driver/Steam-tool commands. New installations use
-[OptiScaler's normal DLL replacement](../docs/beginner-guide.md). Existing RC6 users
+[OptiScaler's normal DLL replacement](../../beginner-guide.md). Existing RC6 users
 can use the migration steps below before following that guide.
 
 ## Upgrade a game to RC7
@@ -11,7 +11,7 @@ For an existing RC6 game, close it and select an ordinary Proton tool in
 Steam. Retire the previous integration's game hooks and launch overrides
 using its recovery instructions. Let ordinary Proton launch once before
 installing a new game-local adapter, then follow the
-[DLL installation guide](../dll/INSTALL.md). Use one integration at a time.
+[DLL installation guide](../../../dll/INSTALL.md). Use one integration at a time.
 
 The DLL change requires no save migration or manual prefix edits. The
 save-folder registration defect described below belonged to the older
@@ -28,29 +28,29 @@ with the original history preserved. Install once, then select
 **BC250 FSR4 (4.1.1 INT8)** in Steam for a compatible DX11, DX12 or Vulkan game.
 
 The [v4.0.0-rc1 driver](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc1)
-has recorded [qualification](../docs/qualification.md) and
-[performance results](../docs/performance.md). The **4.0.0-rc6 unified distribution** fixes
-[Steam's missing Windows save-folder mappings](../docs/save-paths-rc6.md), retaining RC5's
-[installation and recovery fixes](../docs/review-rc5.md), RC4’s
-[portable driver and compatibility checks](../docs/rc4-compatibility.md) and RC3’s
-[DX11, DX12 and Vulkan runtime qualification](../docs/runtime-qualification.md).
+has recorded [qualification](qualification.md) and
+[performance results](../research/performance.md). The **4.0.0-rc6 unified distribution** fixes
+[Steam's missing Windows save-folder mappings](save-paths-rc6.md), retaining RC5's
+[installation and recovery fixes](review-rc5.md), RC4’s
+[portable driver and compatibility checks](rc4-compatibility.md) and RC3’s
+[DX11, DX12 and Vulkan runtime qualification](runtime-qualification.md).
 The earlier performance results used the previous integration.
 
-![Estimated FSR4 GPU cost, v3 to v4: 1080p approximately 4.5 to 3.4 ms; 1440p 8.0 to 5.7 ms; 4K 18.0 to 12.9 ms. Historical 1440p v3 timing is measured; other costs are reconstructed.](../docs/assets/fsr4-v3-v4-cost.svg)
+![Estimated FSR4 GPU cost, v3 to v4: 1080p approximately 4.5 to 3.4 ms; 1440p 8.0 to 5.7 ms; 4K 18.0 to 12.9 ms. Historical 1440p v3 timing is measured; other costs are reconstructed.](../../assets/fsr4-v3-v4-cost.svg)
 
 Reconstructed from a directly timed **8.02 ms FFX pass at 1440p Balanced** and matched
-game GPU savings. [Measurements, assumptions and source data](../docs/fsr-cost.md)
-explain the estimates; [exact game results](../docs/performance.md) are separate.
+game GPU savings. [Measurements, assumptions and source data](../research/fsr-cost.md)
+explain the estimates; [exact game results](../research/performance.md) are separate.
 
 ## Start a Steam game
 
 **SteamOS 3.7/3.8 and Debian 12:** The current installer automatically installs the portable
 driver when needed. No manual ABI archive selection or system-library replacement
-is required. See the [tested scope](../docs/rc4-compatibility.md).
+is required. See the [tested scope](rc4-compatibility.md).
 
-**Already using rc2–rc5?** Follow the [runtime update guide](../docs/upgrading-rc2.md).
+**Already using rc2–rc5?** Follow the [runtime update guide](upgrading-rc2.md).
 
-**Already using rc1?** Follow the [rc1 transition guide](../docs/upgrading-rc1.md)
+**Already using rc1?** Follow the [rc1 transition guide](upgrading-rc1.md)
 first. It covers driver selection and retiring the old game hooks.
 
 Download `bc250-fsr4-setup-4.0.0-rc6.tar.gz` and its checksum from the
@@ -82,9 +82,9 @@ Keep its established renderer; DX11 and Vulkan use a D3D12 interop path.
 Repeat that Steam selection for each compatible game you want to opt in.
 
 **Do not combine this with the newer 4.1.1b mod or another OptiScaler
-deployment.** Undo an existing integration first. The [game guide](../docs/games.md)
+deployment.** Undo an existing integration first. The [game guide](games.md)
 covers switching, runtime updates and undo. The former three-game wizard is
-retired; its [recovery commands](../docs/game-troubleshooting.md#recover-the-retired-game-wizard)
+retired; its [recovery commands](game-troubleshooting.md#recover-the-retired-game-wizard)
 remain available.
 
 ## Prerequisites
@@ -95,7 +95,7 @@ remain available.
 - Internet access for the initial pinned downloads. The installer applies its
   small integration patch itself and obtains a verified static 7-Zip extractor
   if `bsdtar` is absent. No root access or extra OS packages are needed for these
-  installation steps. [Offline options](../docs/game-troubleshooting.md) are available.
+  installation steps. [Offline options](game-troubleshooting.md) are available.
 - RC4’s private driver targets Debian 12’s glibc 2.36 / GCC 12 / Wayland 1.21
   library baseline. It has no shared LLVM, libdrm, display-info or SPIRV-Tools
   dependency. Host and available Steam Runtime 4 checks run before activation.
@@ -104,17 +104,17 @@ remain available.
 
 Keep distribution libraries coherent and retain working 32-bit RADV. v4 ships
 only x86_64; never export its private ICD globally. See the
-[v3 upgrade notes](../docs/upgrading-v3.md) for the actual dependency changes.
+[v3 upgrade notes](upgrading-v3.md) for the actual dependency changes.
 
 ## Advanced driver builds and installation
 
 | Route | Purpose |
 | --- | --- |
 | [Private archive](#private-archive-install-or-v3-upgrade) | Checked user installation and v3 migration; easiest rollback |
-| [Portable source build](../docs/rc4-compatibility.md#reproduce-the-portable-driver) | Reproduce RC4’s older library baseline without changing the host OS |
+| [Portable source build](rc4-compatibility.md#reproduce-the-portable-driver) | Reproduce RC4’s older library baseline without changing the host OS |
 | [Native source build](#build-from-source) | Build the pinned driver for your distribution |
 | [Container build](#container-build) | Build the same source using Docker or Podman |
-| [System packages](../docs/system-install.md) | Optional Arch/CachyOS integration with package-owned RADV |
+| [System packages](system-install.md) | Optional Arch/CachyOS integration with package-owned RADV |
 
 ## Private archive install or v3 upgrade
 
@@ -149,7 +149,7 @@ Before driver rollback, switch games using BC250 FSR4 back to their previous
 Steam compatibility tool. Rollback restores the previous driver selection and
 migrated ICD bytes, while preserving later user edits. If status reports an
 interrupted transaction, run `python3 scripts/driver.py recover`.
-The [unified interface](../docs/games.md#update-or-undo) coordinates the components.
+The [unified interface](games.md#update-or-undo) coordinates the components.
 Commands in this advanced driver section operate on the driver alone.
 
 ## Build from source
@@ -164,7 +164,7 @@ cd bc250-fsr4-fork
 ```
 
 The original `v4.0.0-rc1` tag and assets remain immutable. See
-[release identities](../docs/releases.md) before rebuilding or distributing.
+[release identities](../../releases.md) before rebuilding or distributing.
 
 ### Native build
 
@@ -209,12 +209,12 @@ Matched Deadzone trials on a **40-CU BC250 with a 1850 MHz GPU maximum**
 against upstream v3 measured **+14.3%, +18.9% and
 +17.2% FPS** at 1080p, 1440p and 4K, respectively, with FSR 4.1.1 INT8 Quality
 and hardware ray tracing off. These are scene-specific averages from the
-[recorded campaign](../docs/performance.md), not new-runtime measurements.
+[recorded campaign](../research/performance.md), not new-runtime measurements.
 
-For project work, see [contributing](../CONTRIBUTING.md),
-[development](../docs/development.md), [releases](../docs/releases.md) and
-[provenance and licenses](../THIRD_PARTY.md). Historical upstream experiments
-remain under [legacy](../legacy/README.md).
+For project work, see [contributing](../../../CONTRIBUTING.md),
+[development](../../development.md), [releases](../../releases.md) and
+[provenance and licenses](../../../THIRD_PARTY.md). Historical upstream experiments
+remain under [legacy](../../../legacy/README.md).
 
 ## Special thanks
 
@@ -237,6 +237,6 @@ This project builds on substantial work by these projects and their contributors
 - [AMD FidelityFX SDK](https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK),
   for the FSR implementation and API bridge.
 
-Their authors retain credit for their work; [provenance and licenses](../THIRD_PARTY.md)
+Their authors retain credit for their work; [provenance and licenses](../../../THIRD_PARTY.md)
 record the component identities and applicable notices. This work was accomplished with 
 the assistance of AI tools (GPT-6-Astra-xhigh) with constant human oversight.
