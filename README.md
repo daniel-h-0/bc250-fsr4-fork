@@ -41,7 +41,7 @@ specific provider/Proton versions and is provided exclusively for compatibility
 and convenience. [Comparison](docs/driver-rc10.md#dll-versus-driver).
 
 RC10 reduced cold synthetic setup from **22.24 to 19.38 seconds**, preserving
-RC9's native shader code. RC11 retains RC10's shaders and improves optional tools.
+RC9's native shader code (and runtime performance). RC11 retains RC10's shaders and improves optional tools.
 [Compilation results](docs/legacy/research/portable-dll-rc10.md) · [Release notes](docs/release-notes-rc11.md).
 
 ## Support and development
