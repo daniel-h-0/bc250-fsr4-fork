@@ -1,51 +1,40 @@
-# v4.0.0-rc11 — simpler Linux caching and reliable recovery
+# v4.0.0-rc11
 
-RC11 makes the shared shader cache easier to install and maintain, and integrates
-it into the Linux driver launcher. It includes the fixes from two further
-installer/documentation reviews.
+**Use the DLL ZIP with OptiScaler and your normal driver/Proton.**
+The [current installation guide](beginner-guide.md) shows how to keep one shared
+DLL for multiple games. No custom driver or shared-cache helper is required.
 
-- **Install the DLL cache helper once.** Run `sh linux/shared-cache.sh install`,
-  paste the game's existing Steam launch options when prompted, and copy the
-  generated line back. The files are installed permanently, so the extracted
-  download can be removed afterward.
-- **One driver launcher.** Driver installation now supplies a permanent command
-  that selects private RADV and prepares shared caching. Caching defaults on for
-  new CLI installs; updates retain the existing choice. Per-launch opt-out keeps
-  the private driver selected.
-- **Useful status and graceful fallback.** Read-only status distinguishes cache
-  storage from observed use. Actual write checks catch unwritable/full storage.
-  Optional cache failures, including malformed settings, retain the game's
-  original cache environment instead of preventing launch.
-- **Safer updates and recovery.** Compatible driver updates adopt the verified
-  bundled tools and license. Rollback checks retained tools before restoring
-  them. Interrupted helper removal can be retried or reinstalled; relocated and
-  independently edited managed files are preserved.
+## What changed
 
-**The shaders are unchanged from RC10.** All 348 DLL shader programs are identical;
-the DLL changes only its provider label to **4.1.1r11** and its PE checksum. The
-driver binary is byte-identical to RC10. RC11 makes no new shader-speed or FPS
-claim. First use can still compile shaders, and existing ordinary caches are
-preserved but not imported into the shared store.
+RC11 improves the **optional** Linux tools:
 
-Validation includes a complete 348-shader rebuild, nine fresh synthetic image
-comparisons against RC10, an actual SDK-rendered RC11 watermark, and verified
-package installation, upgrade and rollback. Cache/installer tests run in four
-Linux userspaces; this is not full graphics qualification of those distros.
-The earlier Control-to-System-Shock cache reuse test remains separate evidence:
-System Shock reached its menu, not gameplay. Control's driver gameplay result
-belongs to RC10 and uses the same driver binary.
+- The shared-cache helper installs permanently and generates Steam launch options.
+- The private-driver option includes a permanent launcher with integrated caching.
+- Status, updates and rollback handle missing/unwritable storage, interrupted
+  removal and independently edited files more reliably.
 
-The release retains four uploads: **DLL ZIP**, **Linux driver archive**,
-**complete source/evidence archive**, and **SHA256SUMS**. RC10 and older downloads
-remain available. The driver route still needs the pinned AMD-provider/translator
-combination; the portable DLL remains the primary route. Windows, other GPUs,
-frame generation and unlisted integrations remain unqualified.
+**The shaders are unchanged from RC10.** RC11 retains all 348 shader programs;
+the DLL changes only its provider label to `4.1.1r11` and PE checksum. The driver
+binary is also unchanged. There is no new shader-speed or FPS improvement.
+Normal first-use compilation still applies with either installation route.
 
-When upgrading the original RC10 driver tools, use the new download's installer
-with your existing `--prefix`. Remove an old portable wrapper invocation before
-generating its replacement, preserving unrelated settings. After a temporary
-watermark check, use `Fsr4EnableWatermark=auto` and remove `MLSR-WATERMARK`.
+## Downloads
 
-[DLL installation](../dll/INSTALL.md) · [Driver installation](driver-cache-setup.md) ·
-[Shared-cache setup and updates](shared-shader-cache.md) ·
-[Exact identity and validation](portable-dll-rc11.md)
+Choose **`bc250-fsr4-dll-4.0.0-rc11.zip`** for the recommended installation.
+The Linux driver archive is an alternative for an existing AMD-provider setup,
+not an extra performance upgrade. Source and `SHA256SUMS` are also available.
+Older releases remain available.
+
+The maintained guide was simplified after release. The original archives and
+tag retain their original instructions and unchanged DLL; follow the current
+guide above for the shared-DLL setup.
+
+## Validation and optional tools
+
+RC11 passed nine synthetic image comparisons against RC10 and a complete
+shader rebuild. Earlier game checks retain their original versions and scope.
+[Exact identity and validation](portable-dll-rc11.md).
+
+[Optional shared cache](shared-shader-cache.md) ·
+[Optional driver installation](driver-cache-setup.md) ·
+[Driver versus DLL](driver-rc10.md#dll-versus-driver).

@@ -1,4 +1,8 @@
-# Driver installation with shared caching
+# Optional Linux driver installation
+
+**For a new installation, use the [shared DLL guide](beginner-guide.md).**
+This driver is an alternative for an existing AMD-provider integration, not a
+required layer or extra speedup for DLL users. [DLL versus driver](driver-rc10.md#dll-versus-driver).
 
 The RC11 archive includes the permanent driver launcher and shared-cache tools.
 The driver binary is identical to RC10. Its original AMD-provider requirements

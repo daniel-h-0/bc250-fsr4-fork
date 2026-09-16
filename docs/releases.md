@@ -1,7 +1,9 @@
-# Releases and distribution
+# Downloads and release packaging
 
 [RC11](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11)
-uses the four uploads below. Read the [release notes](release-notes-rc11.md)
+is the current release. For installation, choose the **DLL ZIP** and follow
+the [shared DLL guide](beginner-guide.md); the driver archive and source are
+optional alternatives/development downloads. Read the [release notes](release-notes-rc11.md)
 and [validation scope](portable-dll-rc11.md). RC10 and RC9 assets remain available.
 
 ## Four RC11 uploads
@@ -16,6 +18,8 @@ and [validation scope](portable-dll-rc11.md). RC10 and RC9 assets remain availab
 GitHub also provides its two automatic source downloads. Detailed documentation
 and charts remain linked and included in the complete source archive; they do
 not need separate release-page uploads. RC9 assets remain available under RC9.
+
+## Packaging
 
 From a reviewed clean source tree:
 
@@ -40,6 +44,9 @@ those recovery pins. The current `v4/manifest.json` and ordinary source build
 produce the RC11 driver package. Its rebuilt ELF is byte-identical to RC10;
 RC11 versions the distribution and tools. Both release identities and their
 separate qualification records remain available.
+
+<details>
+<summary>Historical RC9 documentation refreshes and RC6 distribution</summary>
 
 ## Historical RC9 documentation refreshes
 
@@ -146,6 +153,8 @@ symbol requirements and file hashes, and strips a copy of the built library.
 Qualify the exact distributed ELF before publishing a new driver release.
 Review [notices](../THIRD_PARTY.md) and the [acceptance requirements](development.md#checks-and-acceptance).
 
+</details>
+
 ## Source snapshots
 
 From a clean reviewed checkout:
@@ -171,7 +180,7 @@ For a portable DLL release, build from the reviewed immutable source commit,
 verify the DLL and archive checksums, and attach the DLL archive(s), matching
 checksums and complete source export. Record the actual GPU/API outcomes and
 remaining qualification limits. Keep the existing RC6 recovery assets available.
-The RC9 DLL release does not require a new driver or setup bundle.
+A DLL-only release does not require a new driver or setup bundle.
 
 For retained driver/runtime releases, give component, patch or preset changes
 a new distribution version.

@@ -1,60 +1,30 @@
-# FSR 4.1.1 INT8 — RC11 DLL
+# RC11 DLL quick start
 
 Project version **4.0.0-rc11**; SDK display name **4.1.1r11**.
-This archive contains one modified Windows x64 upscaler DLL. The v4
-performance changes are already compiled into it.
 
-**Tested on AMD BC250 / Linux with ordinary Proton.** Native Windows and
-other GPUs need separate testing.
+The DLL contains the FSR optimizations. Use your normal driver and Proton;
+you do not need the BC250 compatibility tool or a custom cache installer.
+Keep normal shader caches enabled. BC250/Linux is the tested platform;
+Windows and other GPUs remain unqualified.
 
-**First installation?** Use the
-[illustrated beginner walkthrough](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc11/docs/beginner-guide.md)
-for the pinned OptiScaler download, exact game folders, Steam/Heroic steps and
-the real RC11 watermark reference. This short guide is also the archive README.
+**First OptiScaler install?** Follow the maintained
+[installation guide and game recipes](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md).
+The steps below assume a working OptiScaler 10.0.0-pre1 installation from the
+[pinned September 4 nightly](https://github.com/optiscaler/OptiScaler-nightly/releases/tag/nightly-20260904).
 
-RC11 keeps RC10's shader programs and packages simpler Linux caching plus
-reviewed install/update/rollback tools. Its DLL differs from RC10 only in the
-provider label and PE checksum; this release does not claim another shader or
-FPS improvement. The optional Linux launcher is under `linux/`; see `linux/README.md`.
-Copy only the DLL into the game. Run `sh linux/shared-cache.sh install` once to
-install permanent helper files and generate Steam launch options from your
-existing settings. The published RC10 archives retain their earlier helper.
+## One shared DLL
 
-## First launch: shader compilation can look like a freeze
-
-**Expect a potentially long pause when this FSR path is first used without a
-usable shader cache.** The graphics driver and Proton still need to translate
-and compile the supplied shaders for your GPU and software combination. This
-can happen when enabling FSR in a menu or loading a game with FSR already
-selected. The game may stop updating or appear unresponsive for tens of seconds
-or longer, without showing compilation progress. Allow time before force-closing
-it; the pause alone does not establish a crash or failed installation.
-
-Later launches can reuse cached shaders. A GPU, driver, Proton, game or FSR DLL
-update, a cleared/disabled cache, or a newly selected shader variant can trigger
-compilation again. Keep the cache between attempts. If the game actually times
-out or exits, preserve its error/log and try one restart with the same files
-and cache. Repeated failures, GPU/device errors or a whole-system lockup need
-investigation; do not assume every freeze is compilation.
-
-In one RC7 No Man's Sky check, the first dispatch stalled for about 66 seconds
-and triggered the game's hang detector; a restart with the same files and cache
-rendered successfully. That diagnostic run is an example, not a promised wait
-time or a guarantee for another game.
-[Details and troubleshooting](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc11/docs/first-run-shader-compilation.md).
-
-## With OptiScaler
-
-1. Use a working OptiScaler installation. These settings and the `OptiScaler/`
-   layout refer to the pinned
-   [10.0.0-pre1 nightly from September 4, 2026](https://github.com/optiscaler/OptiScaler-nightly/releases/tag/nightly-20260904),
-   as explained in the beginner walkthrough. Other versions can have different layouts.
-   Close the game. Back up its existing
-   `OptiScaler/amd_fidelityfx_upscaler_dx12.dll`, then replace it with this DLL.
-2. Set the following in `OptiScaler.ini`. These select FSR4 INT8, linear input,
-   and the appropriate D3D12 output path. Keep the game's established renderer.
+1. Extract this archive into a permanent folder such as `~/Games/BC250-FSR4`.
+   Keep the DLL and notices there. Leave the optional `linux/` helpers unused.
+2. Close the games you are configuring. Back up each game's `OptiScaler.ini`
+   and launch options. In its existing INI sections, set the keys below.
+   Replace `YOUR_USER` with your Linux username; use the full path without quotes.
 
    ```ini
+   [Libraries]
+   OptiDllPath=auto
+   FfxDx12SRPath=Z:\home\YOUR_USER\Games\BC250-FSR4\amd_fidelityfx_upscaler_dx12.dll
+
    [Upscalers]
    Dx12Upscaler=ffx
    Dx11Upscaler=ffx_12
@@ -66,6 +36,7 @@ time or a guarantee for another game.
    FsrNonLinearColorSpace=false
    FsrNonLinearSRGB=auto
    FsrNonLinearPQ=auto
+   Fsr4EnableWatermark=true
 
    [FrameGen]
    Enabled=false
@@ -73,78 +44,42 @@ time or a guarantee for another game.
    FGOutput=nofg
    ```
 
-3. Launch and enable the supported DLSS/FSR input in the game's graphics menu.
-   The adapter translates that input to this DLL's FSR4 upscaler. Existing
-   game-specific OptiScaler spoofing or input settings may still be needed.
+3. Keep the game's working input/spoofing settings. On Steam/Linux, the common
+   `winmm.dll` adapter launch line is:
 
-On Proton, use an ordinary compatibility tool. For OptiScaler installed as
-`winmm.dll`, the Steam launch option is:
+   ```sh
+   /usr/bin/env PROTON_FSR4_UPGRADE=0 PROTON_USE_OPTISCALER=0 PROTON_USE_XALIA=0 WINEDLLOVERRIDES="winmm=n,b;amdxcffx64=" VKD3D_DISABLE_EXTENSIONS="VK_NVX_binary_import,VK_NVX_image_view_handle" %command%
+   ```
 
-```sh
-/usr/bin/env PROTON_FSR4_UPGRADE=0 PROTON_USE_OPTISCALER=0 PROTON_USE_XALIA=0 WINEDLLOVERRIDES="winmm=n,b;amdxcffx64=" VKD3D_DISABLE_EXTENSIONS="VK_NVX_binary_import,VK_NVX_image_view_handle" %command%
-```
+   Match the override to your proxy (`dxgi` for the Cyberpunk recipe). Preserve
+   unrelated arguments, other mods' overrides and the recipe's renderer flag.
+   Keep one `%command%`. Heroic uses separate environment-variable fields;
+   native Windows uses neither Proton variables nor `%command%`.
+4. Launch and select the recipe's DLSS/FSR input. The rendered watermark should
+   show **4.1.1R11**, **FSR-INT8**, **SOURCE: LOCAL** and **COLORSPACE: LINEAR**.
+   After checking, close the game, set `Fsr4EnableWatermark=auto`, remove any
+   `MLSR-WATERMARK` environment variable, and restart. `false`/`0` still enables
+   the banner in the pinned adapter.
 
-Use the matching proxy name if your OptiScaler installation uses another name.
-Keep the recipe's renderer argument and any unrelated existing launch options;
-use exactly one lowercase `%command%`. Native Windows does not use these Proton
-variables. `PROTON_USE_XALIA=0` avoids the adapter being inherited by the Windows
-UI accessibility helper in the recorded Proton setup.
-For Heroic or another Wine launcher, enter these as environment-variable
-name/value pairs instead of using Steam’s `%command%` placeholder. There is
-no RC11-specific Heroic switch; Heroic launch behavior has not been separately
-qualified with this candidate.
-These variables load the adapter and keep competing automatic upscaler
-integrations off. Keep OptiScaler's other files installed, including its
-signed `nvngx_dlss.dll` helper beside the proxy when required.
+The shared folder must be visible inside the launcher/sandbox. OptiScaler can
+fall back if the path fails, so verify the version. For per-game storage instead,
+replace `OptiScaler/amd_fidelityfx_upscaler_dx12.dll` and use `FfxDx12SRPath=auto`.
+Each game still needs its own adapter and settings with either layout.
 
-For a visual check, temporarily set `[FSR] Fsr4EnableWatermark=true` and restart.
-The rendered image should identify **4.1.1r11**, INT8 and the local source.
-The game's own DLSS/FSR menu label can stay unchanged. After checking, close the
-game, set **`Fsr4EnableWatermark=auto`**, and restart. In the pinned OptiScaler
-build, `false` sets `MLSR-WATERMARK=0`, which still enables the SDK banner because
-the variable exists. Remove any explicit `MLSR-WATERMARK` launch variable too;
-`auto` leaves it unset. The smaller build-time/commit lines belong to inherited
-SDK metadata; use the provider label and DLL hash to identify this release.
+## First launch and recovery
 
-## With a native FidelityFX game
+First use may pause while shaders compile. Keep normal caches; clearing them
+can repeat the work. If the game exits, save the error and retry once with the
+same cache. Repeated failures or device errors need investigation.
+[Troubleshooting](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md#if-the-check-fails).
 
-Close the game, back up the compatible game DLL, then replace it and select
-native FSR in the graphics menu. These replacement locations were verified
-with RC7; they have not been retested with RC11:
+To update, close all games using the shared file, back it up, then replace it.
+All configured games get that update. To undo, restore the shared backup, or
+restore one game's previous INI/local DLL and launch options. Keep saves,
+prefixes and other mods. Native FidelityFX replacements remain separate
+[per-game recipes](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md#native-fidelityfx-games).
 
-| Game | Replace this file |
-| --- | --- |
-| Deadzone Rogue | `Valhalla/Binaries/Win64/amd_fidelityfx_upscaler_dx12.dll` |
-| Kingdom Come: Deliverance II | `Bin/Win64Shared/amd_fidelityfx_loader_dx12.dll` |
-
-For KCD2, rename the downloaded DLL to the loader filename, keep the original
-upscaler file, and explicitly select **FSR 4.1** in-game; RC7 used Quality.
-Other games may use different loader interfaces. Check compatibility before
-applying that rename elsewhere.
-
-## Known limits
-
-This release covers upscaling. Frame generation, ray regeneration and
-unlisted game or mod combinations need separate testing. The seven recorded
-game-route checks for the portable DLL belong to RC7; the primary RC11 DLL has
-fresh synthetic D3D12 image checks at 1080p, 1440p and 4K. Performance evidence
-is inherited from RC10. The unchanged Linux driver retains RC10's Control gameplay
-check; that is a different installation route and does not retest every game with this DLL.
-
-Native Windows requires a D3D12 runtime and
-driver accepting DXIL 1.9 / Shader Model 6.9.
-
-[Tested configurations and details](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc11/docs/portable-dll-rc11.md)
-
-## Update, undo and checksums
-
-Keep the original game/adapter DLL backup and previous launch-option text. To
-update, close the game and replace only the recipe's upscaler/loader DLL. To undo,
-restore that backup and the launch settings you changed. Remove a newly added
-adapter only using your record of added files; preserve game-provided helpers,
-other mods, saves and prefixes. The
-[complete undo steps](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc11/docs/beginner-guide.md#undo)
-cover Steam and Heroic. Game updates may restore their own DLL.
+## Verify the DLL
 
 The DLL is 94,840,832 bytes, SHA256:
 
@@ -152,10 +87,11 @@ The DLL is 94,840,832 bytes, SHA256:
 8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175
 ```
 
-Verify with `sha256sum -c SHA256SUMS` on Linux, or PowerShell
-`Get-FileHash .\amd_fidelityfx_upscaler_dx12.dll -Algorithm SHA256` on Windows.
+Use `sha256sum -c SHA256SUMS` in this folder, or PowerShell
+`Get-FileHash .\amd_fidelityfx_upscaler_dx12.dll -Algorithm SHA256`.
 The modified DLL is not AMD-signed. Retain the included notices.
 
-Source and build instructions: [BC250 FSR4 repository](https://github.com/daniel-h-0/bc250-fsr4-fork).
-Upgrading from the older BC250 driver/Steam tool:
-[RC6 upgrade notes](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc9/docs/legacy-rc6.md#upgrade-a-game-to-rc7).
+[Validation and limits](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/portable-dll-rc11.md):
+RC11 retains RC10's shaders, with synthetic rendering checks. Earlier game checks
+belong to RC7. Frame generation and unlisted combinations need separate testing.
+[Source, documentation and optional tools](https://github.com/daniel-h-0/bc250-fsr4-fork).

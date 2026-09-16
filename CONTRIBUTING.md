@@ -1,15 +1,9 @@
 # Contributing
 
-For RC9 DLL development, start with [the DLL source and rebuild guide](dll/README.md).
-Current [RC10 preparation](docs/rc10-development.md) covers startup compilation,
-driver parity and the accepted smaller release asset list; RC9 remains published.
-The [standalone GPU probe](dll/probe/README.md) can qualify a new D3D12 environment
-without a game installation. The driver commands below apply to the retained v4
-driver component.
-
-The portable DLL is the primary current component. Retained driver and Steam
-runtime [release identities](docs/releases.md) and
-[source contracts](docs/development.md) remain separate.
+Start with the [DLL source and rebuild guide](dll/README.md). RC11 is the current
+release. The [GPU probe](dll/probe/README.md) can check a new D3D12 environment
+without a game. Driver and old runtime components have separate
+[source contracts](docs/development.md) and recovery requirements.
 
 ## Set up and check
 

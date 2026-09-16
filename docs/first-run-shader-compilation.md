@@ -1,66 +1,33 @@
-# First use: shader compilation can look like a freeze
+# First launch: shader compilation
 
-**The first use of this FSR path can involve substantial shader compilation.**
-Without a usable cache, the game may stop updating, ignore input or appear
-unresponsive for tens of seconds or longer. This can happen when you first
-enable the upscaler, or while loading a game that already has it selected.
-There may be no progress bar. Allow time for compilation before force-closing
-the game; an initial pause alone does not mean the installation failed.
-
-## Why an already-built DLL still needs compilation
-
-The DLL contains compiled DirectX shader bytecode. The graphics stack must still
-turn that bytecode into executable GPU code for the hardware and driver in use.
-On the tested Linux path, Proton translates DirectX shaders for Vulkan and Mesa
-compiles them for the BC250. These inference shaders can take substantial work
-to compile. You do not need to build the DLL yourself to complete this step.
-
-The shader caches can reuse that work on later launches. The first launch may
-be quicker if a compatible cache already exists; a long pause is not inevitable
-for every user. Conversely, a GPU, driver, Proton, game or FSR DLL update can
-require more compilation. Clearing or disabling caches, or selecting a mode
-that needs another shader variant, can also bring the pause back. Cache reuse
-depends on the graphics stack and the particular shader/pipeline, not just the
-GPU model. [vkd3d-proton cache documentation](https://github.com/HansKristian-Work/vkd3d-proton#shader-cache).
+First use can pause for tens of seconds or longer while Proton and the driver
+compile the DLL's shaders for your GPU. It can happen when enabling FSR or
+loading a scene, without a progress bar. An already-built DLL still needs this
+step; no custom cache helper is required.
 
 ## What to do
 
-1. After first enabling the upscaler, give the game time to finish. A temporarily
-   static image or an unresponsive application is not enough to identify a crash.
-   Compilation time varies; there is no universal timeout for every system.
-2. Keep shader caches enabled and intact between launches. Clearing them as a
-   routine response to this first-use pause can make compilation start again.
-3. If the game actually times out or exits, save its error message/log and try
-   one restart with the same DLL, settings and cache. Some games' hang detectors
-   can interrupt the first compilation even though the next launch succeeds.
-4. If it fails again, collect the game/API, DLL release, GPU, driver and Proton
-   versions plus the error/log. GPU/device errors, repeated stalls and a
-   whole-system lockup should be investigated as failures, not dismissed as
-   expected compilation. A pause does not establish compatibility on an
-   otherwise untested platform.
+1. Give the first compilation time to finish. There is no universal wait time.
+2. Keep normal shader caches enabled. Clearing them can repeat the work.
+3. If the game exits or times out, save its error and try one restart with the
+   same DLL, settings and cache.
+4. If it fails again, report the game/API, DLL release, GPU, driver, Proton and
+   error. Repeated stalls, device errors and system lockups need investigation.
 
-## Optional shared caching
+Updates to the GPU, driver, Proton, game or DLL can require recompilation.
+Cache reuse depends on compatible inputs, not just the GPU name.
+[vkd3d-proton cache details](https://github.com/HansKristian-Work/vkd3d-proton#shader-cache).
 
-The [Linux shared-cache launcher](shared-shader-cache.md) is included as an opt-in RC10 feature. It shares compatible Mesa compilations across opted-in applications
-while retaining their existing Steam caches. The guide covers supported cache
-backends, sandbox path requirements, failure fallbacks and undo. No production
-launch setting is changed automatically.
+## What has been observed
 
-## Recorded example and performance scope
+An RC7 No Man's Sky diagnostic run hit its hang detector after a 65.96-second
+first dispatch; restarting with the same cache rendered successfully. Logging
+and shader dumping were enabled, so this is an example, not an expected wait
+time or a guarantee. [Original record](portable-dll-rc7.md#supported-scope).
 
-During RC7 qualification, No Man's Sky recorded a **65.96-second first-dispatch
-stall** after switching from Off to DLSS and produced `0x1106-HANG`. No kernel
-GPU fault or reset was recorded. Restarting with the same DLL, Proton, driver
-and compiled cache rendered the saved scene and exited normally. Shader
-identification logging/dumping was enabled, so this is diagnostic evidence,
-not a clean measurement of expected compilation time. It establishes one
-successful restart, not a universal workaround or cold-start guarantee.
-[Original game-check record](portable-dll-rc7.md#supported-scope).
+The [performance chart](gpu-cost.md) measures ongoing GPU cost after compilation.
+Its millisecond values do not describe first-launch waiting time.
+Optional [shared caching](shared-shader-cache.md) may reuse compatible work
+across games; sharing the DLL alone does not share those compiled caches.
 
-The published GPU-cost chart measures steady per-frame upscaling work; its
-millisecond values do not include this initial compilation delay. First-launch
-waiting time and ongoing in-game performance are separate measurements.
-[Chart method](gpu-cost.md).
-
-Return to the [installation guide](../dll/INSTALL.md) or
-[main README](../README.md#install).
+[Back to installation](beginner-guide.md).

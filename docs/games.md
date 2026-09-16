@@ -1,10 +1,9 @@
 # Legacy RC6 Steam compatibility tool
 
-This page describes the retained **RC6 Steam compatibility tool**. For the
-current RC9 portable DLL, start with the [beginner game walkthrough](beginner-guide.md)
-and [RC9 qualification scope](portable-dll-rc9.md). RC6 gameplay results do
-not establish RC9 support for every listed game. The commands below install
-the older tool, not the RC9 DLL.
+**Historical RC6 instructions.** For a new install, use the current
+[OptiScaler DLL guide](beginner-guide.md). The commands below install the old
+Steam compatibility tool, not the current DLL. Existing users can follow the
+[migration/recovery guide](legacy-rc6.md).
 
 Install the v4 driver and compatibility tool once. Then choose **BC250 FSR4
 (4.1.1 INT8)** in Steam for each compatible DX11, DX12 or Vulkan game you want to use it with.

@@ -22,6 +22,23 @@ provider check with all 14 expected substitutions; its full matrix is unqualifie
 The driver includes all three resolution families and preserves model-weight
 checks and fallback computation. It does not add accelerated dot-product hardware.
 
+## DLL versus driver
+
+**The DLL includes the FSR optimizations; a custom driver is not needed to get
+them.** The measured three-resolution comparison found comparable synthetic GPU
+cost between the RC9 DLL and this driver/provider route. There is no measured
+performance reason to add this driver to the recommended DLL installation.
+
+The practical difference is compatibility and maintenance: the DLL works through
+OptiScaler or a supported native game interface; the driver route needs a
+specific AMD-provider/Proton combination. Changing those components can lose
+the driver's optimization coverage. [Comparison evidence](portable-dll-rc10.md).
+
+Use the [shared DLL guide](beginner-guide.md) for a new install. Continue here
+only for the alternative AMD-provider integration. The RC11 driver binary is
+identical to RC10; [current installer instructions](driver-cache-setup.md) cover
+its newer tools. The remaining commands on this page document RC10.
+
 ## Install the private driver
 
 Requirements: BC250, Linux x86-64, Python 3.11+, a Vulkan loader and the usual
