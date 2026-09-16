@@ -25,7 +25,9 @@ an original DLL backup and the previous launch-option text.
   loader filename and native FSR 4.1. These are separate recipes.
 - **Existing AMD-provider integration:** the optional
   [Linux driver download](docs/driver-cache-setup.md) supplies RC9 optimizations through
-  private RADV. Its provider and Proton versions matter; the DLL is the primary route.
+  private RADV. Its provider and Proton versions matter; the DLL is the primary route. **Note that there
+  is no performance or image quality difference inherent between the two installation methods.** They
+  are both provided for ease of use and general compatibility.
 
 Close the game before replacing files. To undo, restore the backed-up DLL and
 changed launch settings. Preserve saves, prefixes and other mods. After a
