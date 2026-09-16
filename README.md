@@ -53,7 +53,8 @@ RC9's native shader code (and runtime performance). RC11 retains RC10's shaders 
 
 ## Special thanks and notes
 
-This continues [dmoraza's BC250 FSR4 project](https://github.com/dmorazasanchez/bc250-fsr4).
+This continues [dmoraza's BC250 FSR4 project](https://github.com/dmorazasanchez/bc250-fsr4) - many thanks to him for 
+originating this work and achieving the first bundle of performance wins.
 Thanks to AMD/GPUOpen, Mesa/RADV, Microsoft DXC, Wine, vkd3d-proton, Valve Proton,
 GE-Proton and OptiScaler. [Licenses and attribution](THIRD_PARTY.md).
 GPT-6-Astra was used in the development of this project, with constant human review.
