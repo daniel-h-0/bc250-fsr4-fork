@@ -13,7 +13,7 @@ driver and Proton.
 1. With OptiScaler installed, back up `OptiScaler/amd_fidelityfx_upscaler_dx12.dll`
    and replace it with the DLL from the [RC11 ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc11/bc250-fsr4-dll-4.0.0-rc11.zip).
 2. Select the FFX / INT8 backend using the [guide's settings](docs/beginner-guide.md#2-select-fsr4-int8).
-3. Keep working launch options, select the game's usual upscaler input, and play.
+3. Retain your working launch options, select the game's usual upscaler input, and play.
 
 The [installation guide](docs/beginner-guide.md) includes first-time OptiScaler
 setup, exact paths and game recipes. [Native FidelityFX games](docs/beginner-guide.md#native-fidelityfx-games)
