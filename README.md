@@ -9,6 +9,13 @@ RC11 ships simpler Linux shared-cache setup and reviewed update/recovery tools.
 Its DLL identifies itself as **4.1.1r11** and keeps all 348 RC10 shader programs.
 BC250/Linux is the tested platform; Windows and other GPUs remain unqualified.
 
+![Measured FSR4 GPU cost on BC250: original FSR 4.1.1 shaders, FSR 4.1.1b, v3 and RC9 at 1080p, 1440p and 4K Quality. Lower is better.](docs/assets/fsr4-four-way-gpu-cost-rc9.svg)
+
+**RC9 costs 3.93 / 5.92 / 12.08 ms at 1080p / 1440p / 4K Quality.**
+These are the original RC9 measurements from September 11, 2026; the three
+baseline arms retain their September 10 data. This measures the upscaler's
+GPU cost, not whole-game FPS. [Chart method and raw data](docs/gpu-cost.md).
+
 ## Install
 
 The primary download is the [RC11 DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc11/bc250-fsr4-dll-4.0.0-rc11.zip). It contains the
