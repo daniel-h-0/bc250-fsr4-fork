@@ -15,9 +15,7 @@ normal graphics driver and Proton. Replace its bundled upscaler DLL.
 3. Keep working launch options, select the game's usual upscaler input, and play.
 
 The [installation guide](docs/beginner-guide.md) provides exact paths, settings
-and game recipes, including first-time OptiScaler setup. No custom driver,
-BC250 compatibility tool or shared-cache helper is required. Normal shader
-caches stay enabled; first use can still pause for compilation.
+and game recipes, including first-time OptiScaler setup. 
 
 BC250/Linux is the tested platform. Windows and other GPUs remain unqualified.
 [Native FidelityFX games](docs/beginner-guide.md#native-fidelityfx-games) can use
