@@ -33,7 +33,7 @@ Subsequent release candidates have not changed performance.
 **The custom driver is an alternative delivery method, not an extra performance
 upgrade for DLL users.** Both carry the same FSR optimizations; the tested
 three-resolution comparison found comparable GPU cost. The driver has stricter
-provider/Proton requirements, provided exclusively for compatibility and convenience.
+provider/Proton requirements, and is provided exclusively for compatibility and convenience.
 [DLL versus driver: results and limits](docs/driver-rc10.md#dll-versus-driver).
 
 RC10 reduced measured cold synthetic setup from **22.24 to 19.38 seconds** while
