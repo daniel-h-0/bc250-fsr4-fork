@@ -1,7 +1,7 @@
 # Legacy driver-only system installation on Arch / CachyOS
 
-For RC9, use the [portable DLL walkthrough](beginner-guide.md). It does not
-require the driver-package operations on this page.
+For a normal install, [replace OptiScaler's upscaler DLL](beginner-guide.md).
+The system-driver operations below belong to the retained driver integration.
 
 **Already running the qualified rc1 system packages?** The retained RC6 runtime reuses
 that compatible driver; follow the [rc1 transition guide](upgrading-rc1.md).

@@ -1,5 +1,8 @@
 # Install RC9 in a game: beginner walkthrough
 
+Historical RC9 instructions. For a new install, use the
+[current OptiScaler DLL guide](beginner-guide.md).
+
 RC9 supplies the upscaler. **OptiScaler is the adapter** that lets a supported
 game feed it through an existing DLSS, FSR or XeSS option. You install the two
 downloads together; selecting DLSS in the game does not mean the final image

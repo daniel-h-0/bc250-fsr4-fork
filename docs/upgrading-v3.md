@@ -1,8 +1,9 @@
 # Upgrade a working v3 installation
 
-This is the retained driver/runtime migration. For RC9's portable DLL, start
-with the [current walkthrough](beginner-guide.md); do not install a driver merely
-to follow that DLL guide.
+This page preserves the old driver/runtime migration. To use the current DLL,
+follow the [OptiScaler replacement guide](beginner-guide.md), retiring any old
+game integration through its recovery instructions first. The driver migration
+below is not part of that route.
 
 A working v3 setup already has most libraries required by the v4 driver.
 The migration does not require a new kernel, firmware flash or LLVM upgrade.

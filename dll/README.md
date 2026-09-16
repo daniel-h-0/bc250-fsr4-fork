@@ -1,6 +1,7 @@
 # Rebuilding the RC11 DLL
 
-The ordinary download is one DLL. This directory is its developer source:
+For installation, [replace OptiScaler's bundled DLL](../docs/beginner-guide.md).
+This directory is its developer source:
 348 complete editable LLVM/DXIL assembly files, the pinned input manifest,
 the assembler/validator client, and a small PE repacker. These files rebuild
 the distributed DLL without a GPU, Wine, Proton or Mesa installation.

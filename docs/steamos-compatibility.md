@@ -1,5 +1,9 @@
 # SteamOS driver compatibility
 
+Historical **custom-driver** investigation. The normal
+[OptiScaler DLL install](beginner-guide.md) uses your existing graphics driver.
+The driver fixes below are not steps in that install.
+
 The original CachyOS driver shipped with rc1 and reused by rc2/rc3 has
 reproducible incompatibilities with SteamOS 3.7 and 3.8. These failures occur
 before game code runs. The earlier CachyOS gameplay qualification did not

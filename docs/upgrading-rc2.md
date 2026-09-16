@@ -1,7 +1,7 @@
 # Update an existing rc2–rc5 runtime
 
-This updates the retained Steam compatibility tool to RC6. New RC9 DLL
-installations use the [beginner walkthrough](beginner-guide.md); migrating an
+This updates the retained Steam compatibility tool to RC6. New DLL
+installations use the [OptiScaler replacement guide](beginner-guide.md); migrating an
 old game integration is covered by the [RC6 handoff](legacy-rc6.md#upgrade-a-game-to-rc7).
 
 RC4 adds a portable driver, automatic repair of the old private driver's ABI

@@ -1,7 +1,13 @@
 # Shared shader caching on Linux
 
-Install the optional launcher once, then use it with the games you choose.
-It shares compatible Mesa shader compilations and preserves existing Steam caches.
+**Optional after the DLL is working.** The standard
+[OptiScaler DLL install](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md)
+uses normal shader caches and needs none of the commands on this page.
+
+Use this helper only if you want compatible Mesa compilations shared across
+selected games. It preserves existing Steam caches and does not change the
+FSR model or per-frame optimizations. It works with ordinary per-game DLL copies;
+a shared DLL folder and the custom driver are not prerequisites.
 
 These setup and status commands ship in **RC11**. The original RC10 archives
 retain their earlier helper and [original instructions](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/shared-shader-cache.md).

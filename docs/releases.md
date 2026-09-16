@@ -2,7 +2,7 @@
 
 [RC11](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11)
 is the current release. For installation, choose the **DLL ZIP** and follow
-the [shared DLL guide](beginner-guide.md); the driver archive and source are
+the [DLL installation guide](beginner-guide.md); the driver archive and source are
 optional alternatives/development downloads. Read the [release notes](release-notes-rc11.md)
 and [validation scope](portable-dll-rc11.md). RC10 and RC9 assets remain available.
 
@@ -10,8 +10,8 @@ and [validation scope](portable-dll-rc11.md). RC10 and RC9 assets remain availab
 
 | Asset | Contents |
 | --- | --- |
-| `bc250-fsr4-dll-4.0.0-rc11.zip` | Primary DLL, instructions, installable Linux cache helper and notices |
-| `bc250-fsr4-v4.0.0-rc11-linux-glibc236-x86_64.tar.gz` | Private Linux driver with integrated caching, install/launch tools, provenance and notices |
+| `bc250-fsr4-dll-4.0.0-rc11.zip` | Recommended DLL and instructions; notices and optional cache helper |
+| `bc250-fsr4-v4.0.0-rc11-linux-glibc236-x86_64.tar.gz` | Alternative Linux driver route, tools and notices; unnecessary for DLL replacement |
 | `bc250-fsr4-v4.0.0-rc11-source-COMMIT.tar.gz` | Complete editable sources, build tools, detailed docs, charts and evidence |
 | `SHA256SUMS` | Hashes for those three uploaded archives |
 

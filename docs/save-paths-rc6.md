@@ -1,5 +1,9 @@
 # RC6: Steam save-folder registration
 
+This defect belonged to the old Steam compatibility tool.
+[Replacing OptiScaler's DLL](beginner-guide.md) keeps the existing Proton tool
+and does not require save-folder or prefix migration.
+
 RC5 users reported that Split Fiction and Cyberpunk started without their
 existing saves under BC250 FSR4. The Split Fiction report said that selecting
 regular Proton restored the saves.

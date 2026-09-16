@@ -2,8 +2,10 @@
 
 ## Documentation — 2026-09-16
 
-- Make one shared DLL through OptiScaler the default documented installation,
-  using normal Proton/driver and no custom cache helper.
+- Make direct replacement of OptiScaler's bundled DLL the beginner route, using
+  normal Proton/driver and existing working launch settings. Shared paths and
+  additional compatibility flags are optional; first-time Linux loading stays
+  separate. Explicitly enable the OptiPatcher plug-in in the fresh setup.
 - Consolidate setup and troubleshooting; separate optional tools and historical
   reports, and clarify that the driver is not an additional DLL performance upgrade.
 - Preserve release binaries, tags, benchmark data and original download archives.

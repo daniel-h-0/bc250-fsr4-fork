@@ -34,7 +34,7 @@ OptiScaler or a supported native game interface; the driver route needs a
 specific AMD-provider/Proton combination. Changing those components can lose
 the driver's optimization coverage. [Comparison evidence](portable-dll-rc10.md).
 
-Use the [shared DLL guide](beginner-guide.md) for a new install. Continue here
+Use the [DLL installation guide](beginner-guide.md) for a new install. Continue here
 only for the alternative AMD-provider integration. The RC11 driver binary is
 identical to RC10; [current installer instructions](driver-cache-setup.md) cover
 its newer tools. The remaining commands on this page document RC10.

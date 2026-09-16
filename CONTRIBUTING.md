@@ -24,6 +24,11 @@ use the separate [build instructions](docs/legacy-rc6.md#build-from-source) and
 
 ## Keep the scope small
 
+User documentation assumes a working OptiScaler installation: replace its
+bundled upscaler DLL, select FFX/INT8 and retain working launch settings.
+Link first-time adapter setup, optional shared paths/cache tools and driver
+routes separately. Keep test-specific launch flags with their actual use cases.
+
 - DLL changes belong in `dll/` with complete editable shader sources, input
   hashes and a newly qualified output identity. Keep the user download small.
 - Driver changes belong in the manifest and ordered Mesa patches. Preserve

@@ -1,5 +1,8 @@
 # Portable DLL RC10
 
+Historical RC10 evidence. Current installation uses the
+[OptiScaler DLL replacement guide](beginner-guide.md).
+
 RC10 prepares FSR4 shaders for faster cold compilation and adds an optional
 shared Mesa cache plus a Linux driver compatibility download. It retains the
 RC9 model and arithmetic. This is a release candidate toward v4 final.

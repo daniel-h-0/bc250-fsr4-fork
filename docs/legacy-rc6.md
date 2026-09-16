@@ -1,7 +1,8 @@
 # RC6 driver and Steam runtime (retained)
 
-This is the retained RC6 installation guide. The current DLL candidate is described in the
-[portable DLL quickstart](../README.md). These commands manage RC6, and do not install RC9.
+These are historical RC6 driver/Steam-tool commands. New installations use
+[OptiScaler's normal DLL replacement](beginner-guide.md). Existing RC6 users
+can use the migration steps below before following that guide.
 
 ## Upgrade a game to RC7
 

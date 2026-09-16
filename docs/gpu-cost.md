@@ -5,6 +5,9 @@ The updated chart measures the complete FSR upscaler on an AMD BC250 at
 The original FSR 4.1.1, supplied 4.1.1b and upstream v3 arms retain their
 September 10 data unchanged. Every value comes from completed GPU timestamps.
 
+For installation, [replace OptiScaler's bundled DLL](beginner-guide.md).
+The chart below retains its original benchmark versions.
+
 ![FSR4 GPU cost: fresh RC9 versus unchanged baselines](assets/fsr4-four-way-gpu-cost-rc9.svg)
 
 | Output / Quality input | FSR 4.1.1 original shaders | FSR 4.1.1b | BC250 v3 | BC250 RC9 |

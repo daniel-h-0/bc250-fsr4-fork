@@ -28,6 +28,6 @@ time or a guarantee. [Original record](portable-dll-rc7.md#supported-scope).
 The [performance chart](gpu-cost.md) measures ongoing GPU cost after compilation.
 Its millisecond values do not describe first-launch waiting time.
 Optional [shared caching](shared-shader-cache.md) may reuse compatible work
-across games; sharing the DLL alone does not share those compiled caches.
+across games; ordinary per-game DLL replacement needs no cache setup.
 
 [Back to installation](beginner-guide.md).

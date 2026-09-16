@@ -1,7 +1,10 @@
-# RC11: distribution, caching and recovery
+# RC11: release validation
 
-RC11 ships the permanent Linux cache installer and integrated private-driver
-launcher, including both subsequent review passes. It adds no new shader
+For installation, [replace OptiScaler's bundled upscaler DLL](beginner-guide.md)
+and select FFX/INT8. This page records the release's validation and identities.
+
+RC11 retains RC10's shaders and adds optional cache/driver tooling improvements.
+Those tools are separate from the normal DLL install; they add no new shader
 optimization or FPS claim over RC10.
 
 ## Exact identities

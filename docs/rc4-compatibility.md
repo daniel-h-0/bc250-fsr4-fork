@@ -1,5 +1,8 @@
 # RC4 installation compatibility
 
+Historical driver/Steam-tool instructions. For the current DLL, follow the
+[OptiScaler replacement guide](beginner-guide.md).
+
 RC4 makes the portable private driver the normal download and checks whether
 it can load before activating the Steam tool. Use the
 [RC4 setup bundle](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc4)

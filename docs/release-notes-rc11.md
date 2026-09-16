@@ -1,8 +1,8 @@
 # v4.0.0-rc11
 
 **Use the DLL ZIP with OptiScaler and your normal driver/Proton.**
-The [current installation guide](beginner-guide.md) shows how to keep one shared
-DLL for multiple games. No custom driver or shared-cache helper is required.
+The [current installation guide](beginner-guide.md) starts with replacing
+OptiScaler's bundled upscaler DLL. No custom driver or shared-cache helper is required.
 
 ## What changed
 
@@ -27,7 +27,7 @@ Older releases remain available.
 
 The maintained guide was simplified after release. The original archives and
 tag retain their original instructions and unchanged DLL; follow the current
-guide above for the shared-DLL setup.
+guide above for the simplest setup.
 
 ## Validation and optional tools
 

@@ -1,7 +1,7 @@
 # Move from rc1 to the shared Steam runtime
 
 This page covers the retained RC6 driver/runtime transition. For the current
-RC9 DLL, use the [beginner walkthrough](beginner-guide.md) and
+DLL replacement route, use the [beginner walkthrough](beginner-guide.md) and
 [retiring the old game integration](legacy-rc6.md#upgrade-a-game-to-rc7).
 
 The retained RC6 distribution keeps the **rc1 Mesa source** and uses RC4’s portable

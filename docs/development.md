@@ -1,7 +1,8 @@
 # Development
 
-For the current RC9 portable DLL, use the [DLL source guide](../dll/README.md).
-The driver/runtime procedures below describe the retained components.
+For DLL development, use the [DLL source guide](../dll/README.md). The normal
+user route is [replacement inside a working OptiScaler install](beginner-guide.md).
+The driver/runtime procedures below apply to those separate retained components.
 
 The maintained `v4` branch preserves upstream v3 history at
 `6173651fa3a5a557cba2c2ff802e2d6f49881bc1`. Keep `upstream` pointed at

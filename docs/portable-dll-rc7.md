@@ -1,7 +1,7 @@
 # RC7 portable DLL: compatibility and review
 
 This page preserves RC7's results and integration details. New installations
-use the [current RC9 walkthrough](beginner-guide.md); these historical results
+use the [current OptiScaler DLL guide](beginner-guide.md); these historical results
 do not qualify every later DLL in those games.
 
 RC7 makes the optimized **FSR 4.1.1 INT8 DLL** the primary product. Users

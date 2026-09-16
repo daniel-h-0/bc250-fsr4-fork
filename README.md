@@ -1,7 +1,7 @@
 # BC250 FSR4
 
 **FSR 4.1.1 INT8 optimizations in one DLL.** Use it through OptiScaler with your
-normal graphics driver and Proton. Keep one shared copy for multiple games.
+normal graphics driver and Proton. Replace its bundled upscaler DLL.
 
 **[Download RC11](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc11/bc250-fsr4-dll-4.0.0-rc11.zip)** ·
 **[Install with OptiScaler](docs/beginner-guide.md)** ·
@@ -9,13 +9,13 @@ normal graphics driver and Proton. Keep one shared copy for multiple games.
 
 ## Install
 
-1. Extract the DLL ZIP into a permanent folder, such as `~/Games/BC250-FSR4`.
-2. In each game's OptiScaler settings, point `FfxDx12SRPath` to that shared DLL
-   and select the FFX / INT8 backend.
-3. Use the game's supported upscaler input and check the RC11 watermark once.
+1. With OptiScaler installed, back up `OptiScaler/amd_fidelityfx_upscaler_dx12.dll`
+   and replace it with the DLL from the [RC11 ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc11/bc250-fsr4-dll-4.0.0-rc11.zip).
+2. Select the FFX / INT8 backend using the [guide's settings](docs/beginner-guide.md#2-select-fsr4-int8).
+3. Keep working launch options, select the game's usual upscaler input, and play.
 
 The [installation guide](docs/beginner-guide.md) provides exact paths, settings
-and game recipes, including a first-time OptiScaler setup. No custom driver,
+and game recipes, including first-time OptiScaler setup. No custom driver,
 BC250 compatibility tool or shared-cache helper is required. Normal shader
 caches stay enabled; first use can still pause for compilation.
 

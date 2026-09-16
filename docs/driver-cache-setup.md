@@ -1,6 +1,6 @@
 # Optional Linux driver installation
 
-**For a new installation, use the [shared DLL guide](beginner-guide.md).**
+**For a new installation, use the [DLL installation guide](beginner-guide.md).**
 This driver is an alternative for an existing AMD-provider integration, not a
 required layer or extra speedup for DLL users. [DLL versus driver](driver-rc10.md#dll-versus-driver).
 

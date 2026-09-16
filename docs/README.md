@@ -1,7 +1,7 @@
 # Documentation
 
-**Start with [Install with OptiScaler](beginner-guide.md): one shared DLL,
-normal Proton/driver, no custom cache setup.** It contains the downloads,
+**Start with [Install with OptiScaler](beginner-guide.md): replace one DLL,
+select FFX/INT8, keep your working launch settings.** It contains the downloads,
 per-game settings, native alternatives, verification, troubleshooting and undo.
 
 ## Using the DLL
@@ -17,8 +17,8 @@ per-game settings, native alternatives, verification, troubleshooting and undo.
 
 ## Optional tools
 
-These are separate from the DLL installation. Sharing one DLL does not require
-sharing compiled shader caches.
+The default installation replaces one DLL in each game's existing OptiScaler
+folder. These tools are optional additions, not follow-up steps.
 
 - [Shared shader cache](shared-shader-cache.md): optional reuse across games.
 - [Private Linux driver](driver-cache-setup.md): alternative for existing

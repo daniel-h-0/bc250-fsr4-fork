@@ -1,8 +1,9 @@
 # Legacy material and recovery
 
 This directory preserves the earlier BC250 FSR4 project as historical
-reference. Active v4 installation, build and recovery instructions are in the
-[main README](../README.md) and [development guide](../docs/development.md).
+reference. New users follow the [OptiScaler DLL guide](../docs/beginner-guide.md);
+DLL development starts in the [source guide](../dll/README.md). The recovery
+commands below apply only to old integrations.
 The original upstream history remains in Git; the imported v3 checkpoint is
 `6173651fa3a5a557cba2c2ff802e2d6f49881bc1`.
 
