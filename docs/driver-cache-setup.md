@@ -1,22 +1,19 @@
 # Optional Linux driver installation
 
-**For a new installation, use the [DLL installation guide](beginner-guide.md).**
-This driver is an alternative for an existing AMD-provider integration, not a
-required layer or extra speedup for DLL users. [DLL versus driver](driver-rc10.md#dll-versus-driver).
+For the usual install, [replace OptiScaler's DLL](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md).
+This private driver is an alternative for an existing AMD-provider integration.
+Read the [provider requirements](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/driver-rc10.md)
+first: installing the driver alone does not enable FSR4.
 
-The RC11 archive includes the permanent driver launcher and shared-cache tools.
-The driver binary is identical to RC10. Its original AMD-provider requirements
-and gameplay limits remain in the [provider guide](driver-rc10.md).
+RC11 supplies the same driver binary as RC10 with newer installation tools.
+These are the current install/update/recovery commands.
 
 ## Install once
 
-For an upgrade, reuse your existing `--prefix` as described under
-[Update an installation](#update-an-installation). The example below uses a
-dedicated directory for a new driver installation, separate from retained RC6 tools.
-
-Download the RC11 Linux driver archive and `SHA256SUMS`. Check the archive with
-`sha256sum --ignore-missing -c SHA256SUMS`, extract it, and open a terminal in the
-extracted directory. Run as your desktop user, without sudo:
+Download the RC11 Linux driver archive and `SHA256SUMS` from the
+[release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11).
+Verify with `sha256sum --ignore-missing -c SHA256SUMS`, extract it, and run from
+its directory as your desktop user, without sudo:
 
 ```sh
 python3 scripts/driver.py --prefix "$HOME/.local/share/bc250-fsr4-driver" install \
@@ -24,106 +21,79 @@ python3 scripts/driver.py --prefix "$HOME/.local/share/bc250-fsr4-driver" instal
   --sha256 ARCHIVE_SHA256_FROM_SHA256SUMS
 ```
 
-When run in a terminal, setup asks for the game's existing Steam launch options.
-Paste the entire line, or press Enter if empty. Copy the resulting complete line
-back to Steam. Existing environment variables, wrapper ordering and game arguments
-are preserved. For noninteractive setup, pass `--launch-options 'EXISTING TEXT'`.
+Replace the last argument with the archive's 64-character hash. For an upgrade,
+use your **existing prefix**, even if its name includes `rc10`.
 
-Setup installs a permanent **`bc250-fsr4-run`** command inside the chosen directory.
-It selects the private driver and prepares shared caching in one launch. The
-original extracted download can be moved or deleted afterward. Use the printed
-absolute command; no PATH or system-wide installation is required.
+Paste the game's entire existing Steam launch-options line when prompted.
+Copy the generated line back to Steam. Setup installs a permanent
+`bc250-fsr4-run` command in the prefix; the extracted download can then be removed.
+Noninteractive setup accepts `--launch-options 'EXISTING TEXT'`.
 
-Shared caching defaults to **on for a new command-line installation**. Updates
-retain an existing choice; `install --shared-cache` or `install --no-shared-cache`
-explicitly changes it. Legacy runtime installers calling the driver tools keep
-their earlier cache behavior. Existing direct `VK_DRIVER_FILES=...` launch options
-continue to select the driver but bypass the new cache setup: use the installed
-launcher to enable both.
-
-The first enrolled game may still compile shaders. Keep the shared cache between
-launches. Existing Steam caches are preserved; ordinary old caches are not imported.
+Shared caching defaults on for new CLI installs; updates preserve the previous
+choice. Use `install --no-shared-cache` or `install --shared-cache` to set it
+explicitly. Existing Steam caches are preserved, not imported. First use may
+compile again. Direct `VK_DRIVER_FILES=...` selection bypasses this cache helper.
 
 ## Update an installation
 
-For an existing installation made with the original RC10 tools or the first
-development launcher, run the **new download's** `scripts/driver.py install`
-command above once, using the same `--prefix`. This updates its permanent tools. Keep an existing prefix such as
-`~/.local/share/bc250-fsr4-rc10`; do not create a second installation when upgrading.
-That early development command cannot update its own helper code. Installers
-from the later reviewed development snapshots can update through their permanent
-command, as can RC11.
-When replacing an old `python3 .../scripts/driver.py ... run --` invocation,
-remove that invocation from the text you give setup, retaining unrelated variables,
-wrappers and game arguments. Otherwise the generated line will still depend on
-the old extracted files. Set any custom shared-cache location with `install --cache-dir`.
+Original RC10/development tools must be updated using the **new download's**
+install command above. Remove the old portable wrapper from the launch text
+passed to setup, retaining unrelated variables, wrappers and game arguments.
+Use `install --cache-dir` if choosing a custom cache location.
 
-After installing these reviewed tools, future compatible driver packages can be
-installed through the permanent command:
+Once RC11 tools are installed, compatible packages can be updated through the
+permanent launcher:
 
 ```sh
 "$HOME/.local/share/bc250-fsr4-driver/bc250-fsr4-run" install \
   /path/to/new-driver-archive.tar.gz --sha256 ARCHIVE_SHA256_FROM_SHA256SUMS
 ```
 
-The installer verifies the complete archive before adopting its driver and
-launcher tools. Updates preserve the cache preference and storage location;
-rollback restores the previous driver, launcher and preference together. Old
-archives without bundled-update support retain the current tools. If a future
-package needs a newer installer, the command tells you to use the new download.
+Updates verify the archive and bundled tools and preserve cache preferences.
+Older archives without tool-update support retain the current tools. If a newer
+installer is needed, use the download named by the error.
 
 ## Status and controls
 
-Use the exact installed path printed by setup. For the example prefix above:
+Use the actual installed prefix in these commands:
 
 ```sh
 "$HOME/.local/share/bc250-fsr4-driver/bc250-fsr4-run" status
 "$HOME/.local/share/bc250-fsr4-driver/bc250-fsr4-run" steam
 ```
 
-`status` is read-only and explains the driver selection, cache preference, storage
-and last launch preparation recorded for this user, which may belong to another
-game or launcher. Directory presence does not verify writability or cache hits.
-`steam` generates another complete launch-option line.
-Pass `status --json` for structured diagnostics.
+`status` is read-only; `--json` gives structured output. It reports selection
+and the last cache preparation for this user, not proof of cache hits.
+`steam` generates launch options for another game.
 
-To bypass shared caching for one game, put `--no-shared-cache` after `run` and before
-`--` in its launch options. That retains the private driver. Cache setup failures
-also fall back to the game's original cache settings while retaining the selected
-driver. The rest of the game command is unchanged.
+For one launch without shared caching, use `run --no-shared-cache --` in the
+installed command. Cache preparation failures likewise retain the selected
+driver and original cache settings. Driver and cache paths must be visible
+inside the game's launcher/sandbox.
 
-Malformed cache settings also leave the selected driver and original cache
-environment available for launch. Setup and rollback still preserve independently
-edited settings instead of overwriting them.
-
-To roll back the driver, installed launcher and cache preference together:
+## Rollback and interrupted operations
 
 ```sh
 "$HOME/.local/share/bc250-fsr4-driver/bc250-fsr4-run" rollback
 ```
 
-First-install rollback removes that launcher. Remove its invocation from Steam
-before launching again, and restore any provider/bridge files changed for the
-driver route. Shader caches and retained driver/tool payloads remain available.
-If an install or rollback was interrupted, use `recover` before another install
-or rollback. If first-install rollback already removed the launcher, use a fresh
-copy of these tools with the same prefix:
+Rollback restores the prior driver, launcher and cache preference together.
+First-install rollback removes the launcher: remove its invocation from Steam
+and restore any provider/bridge files you changed. Caches and retained payloads
+are kept. Game saves and prefixes are not removed.
+
+If install or rollback was interrupted, run `recover` before another operation.
+If the launcher is missing, use the matching prefix with a fresh download:
 
 ```sh
 python3 scripts/driver.py --prefix "$HOME/.local/share/bc250-fsr4-driver" recover
 ```
 
-The retained `launcher-tools/<tool-set-id>/driver.py` also supports that command
-without the original download. Recovery restores the prior selection; it does
-not finish an interrupted upgrade. Do not delete its transaction records.
-Independent edits to managed launcher/settings files are preserved and reported.
-Rollback and recovery also verify the previous launcher's complete tool set
-before changing the selection. If retained tools are missing or modified, restore
-them from their matching verified source/download before retrying; the error names
-the affected directory. Keeping only the old driver library is insufficient.
+The retained `launcher-tools/<tool-set-id>/driver.py` can also recover it.
+Recovery restores the prior selection; it does not finish an upgrade. Keep the
+transaction records and complete retained tool sets. Modified/missing managed
+files are reported rather than overwritten; restore the matching verified
+files before retrying.
 
-Cache sharing still requires compatible driver/compiler inputs and paths visible
-inside the game's launcher or sandbox. See the [cache guide](shared-shader-cache.md)
-for DLL setup, diagnostics and advanced settings, and the
-[qualification record](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/cache-setup-qualification.md)
-for observed reuse and its limits.
+[Cache settings and diagnostics](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/shared-shader-cache.md) ·
+[Provider setup and validation](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/driver-rc10.md)

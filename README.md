@@ -14,32 +14,30 @@ normal graphics driver and Proton. Replace its bundled upscaler DLL.
 2. Select the FFX / INT8 backend using the [guide's settings](docs/beginner-guide.md#2-select-fsr4-int8).
 3. Keep working launch options, select the game's usual upscaler input, and play.
 
-The [installation guide](docs/beginner-guide.md) provides exact paths, settings
-and game recipes, including first-time OptiScaler setup. 
+The [installation guide](docs/beginner-guide.md) includes first-time OptiScaler
+setup, exact paths and game recipes. [Native FidelityFX games](docs/beginner-guide.md#native-fidelityfx-games)
+can use direct DLL replacement instead of OptiScaler to skip a setup step.
 
-BC250/Linux is the tested platform. Windows and other GPUs remain unqualified.
-[Native FidelityFX games](docs/beginner-guide.md#native-fidelityfx-games) can use
-direct DLL replacement instead of OptiScaler to skip a setup step.
+Testing covers **BC250/Linux**. [Release validation](docs/portable-dll-rc11.md)
+shows the supported test scope and work awaiting qualification.
 
 ## Performance
 
 ![Measured FSR4 GPU cost on BC250: original FSR 4.1.1, FSR 4.1.1b, v3 and RC9 at 1080p, 1440p and 4K Quality. Lower is better.](docs/assets/fsr4-four-way-gpu-cost-rc9.svg)
 
-**RC9 costs 3.93 / 5.92 / 12.08 ms at 1080p / 1440p / 4K Quality.** These are
-upscaler GPU timings, not whole-game FPS. RC9 was measured on September 11, 2026;
-the three baselines retain September 10 data. [Method and raw data](docs/gpu-cost.md).
+**RC9 costs 3.93 / 5.92 / 12.08 ms per upscale at 1080p / 1440p / 4K Quality.**
+RC9 was measured September 11, 2026; the baselines retain September 10 data.
+[Method and raw data](docs/gpu-cost.md).
 Subsequent release candidates have not changed performance.
 
-**The custom driver is an alternative delivery method, not an extra performance
-upgrade for DLL users.** Both carry the same FSR optimizations; the tested
-three-resolution comparison found comparable GPU cost. The driver has stricter
-provider/Proton requirements, and is provided exclusively for compatibility and convenience.
-[DLL versus driver: results and limits](docs/driver-rc10.md#dll-versus-driver).
+**The DLL and alternative driver deliver the same FSR optimizations**, with
+comparable measured GPU cost. The DLL is the simpler install. The driver needs
+specific provider/Proton versions and is provided exclusively for compatibility
+and convenience. [Comparison](docs/driver-rc10.md#dll-versus-driver).
 
-RC10 reduced measured cold synthetic setup from **22.24 to 19.38 seconds** while
-preserving RC9's native shader code. RC11 retains RC10's shaders and changes
-packaging/cache tools. Neither adds a new steady-state FPS claim to this chart.
-[RC10 measurements](docs/portable-dll-rc10.md) · [RC11 release notes](docs/release-notes-rc11.md).
+RC10 reduced cold synthetic setup from **22.24 to 19.38 seconds**, preserving
+RC9's native shader code. RC11 retains RC10's shaders and improves optional tools.
+[Compilation results](docs/portable-dll-rc10.md) · [Release notes](docs/release-notes-rc11.md).
 
 ## Support and development
 
@@ -47,9 +45,6 @@ packaging/cache tools. Neither adds a new steady-state FPS claim to this chart.
 [Update or undo](docs/beginner-guide.md#update-an-existing-installation) ·
 [Tested configurations](docs/portable-dll-rc11.md) ·
 [Build the DLL](dll/README.md) · [Contribute](CONTRIBUTING.md)
-
-RC11 has synthetic D3D12 rendering checks; the seven earlier game-route checks
-belong to RC7. Frame generation and unlisted integrations need separate testing.
 
 ## Special thanks and notes
 

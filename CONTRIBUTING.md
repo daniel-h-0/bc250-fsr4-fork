@@ -28,6 +28,10 @@ User documentation assumes a working OptiScaler installation: replace its
 bundled upscaler DLL, select FFX/INT8 and retain working launch settings.
 Link first-time adapter setup, optional shared paths/cache tools and driver
 routes separately. Keep test-specific launch flags with their actual use cases.
+Each topic has one maintained guide; other pages link to it instead of copying
+its steps. Keep release measurements dated and separate from current instructions.
+When editing packaged docs, update their inventory/checksums and check links from
+both the repository and the extracted archive.
 
 - DLL changes belong in `dll/` with complete editable shader sources, input
   hashes and a newly qualified output identity. Keep the user download small.

@@ -1,7 +1,7 @@
 # Install the FSR4 DLL with OptiScaler
 
 **Replace OptiScaler's upscaler DLL, select FFX/INT8, and play.** Use your normal
-graphics driver and Proton; no custom driver or cache helper is required.
+graphics driver, Proton and working launch settings.
 
 These instructions use [OptiScaler 10.0.0-pre1, September 4, 2026](https://github.com/optiscaler/OptiScaler-nightly/releases/tag/nightly-20260904).
 Already working? Keep its game-specific settings and launch options.
@@ -47,9 +47,8 @@ Your game's executable folder/
     └── amd_fidelityfx_upscaler_dx12.dll   ← replace this with RC11
 ```
 
-Keep the filename. Leave the rest of OptiScaler in place. No custom path is
-needed: its default settings load this file. The download's `linux/` cache
-helpers are optional and can be left unused.
+Keep the filename and the rest of OptiScaler in place. Its default settings
+load this local file. Leave the download's optional `linux/` helpers unused.
 
 **Previously followed the shared-DLL guide?** Set `[Libraries] OptiDllPath=auto`
 and `FfxDx12SRPath=auto` in the game's INI to use this local copy.
@@ -57,7 +56,7 @@ and `FfxDx12SRPath=auto` in the game's INI to use this local copy.
 ## 2. Select FSR4 INT8
 
 Open `OptiScaler.ini` beside the executable. Edit these keys in their existing
-sections; keep the other settings. Do not paste duplicate sections.
+sections and keep the other settings.
 
 ```ini
 [Upscalers]
@@ -79,12 +78,12 @@ OptiScaler for this setup. Keep the game's working input/spoofing settings.
 
 Launch normally and select the [game recipe's](#game-recipes) upscaler option.
 It may still say **DLSS** or **FSR3**: that is the input OptiScaler uses to feed
-FSR4. **Replacing this DLL does not itself require new Steam launch options.**
+FSR4. **Keep the launch settings that already load OptiScaler.**
 
 For the first check, set `[FSR] Fsr4EnableWatermark=true`, restart and enter a
 rendered scene. Look for **`4.1.1R11`**, **`FSR-INT8`** and **`SOURCE: LOCAL`**.
 Then set `Fsr4EnableWatermark=auto` and restart to hide it. Remove any explicit
-`MLSR-WATERMARK` launch variable; setting it to `0` still shows the banner.
+`MLSR-WATERMARK` launch variable.
 
 First use can pause while shaders compile. Keep normal caches enabled;
 [compilation help](first-run-shader-compilation.md) covers stalls and retries.
@@ -94,8 +93,8 @@ First use can pause while shaders compile. Keep normal caches enabled;
 
 ![RC11 watermark on the SDK's synthetic test pattern.](assets/rc11-watermark-reference.png)
 
-This is a synthetic reference, not a game screenshot. The settings above use
-linear input; the banner should also read `COLORSPACE: LINEAR`.
+This synthetic reference uses the same linear-input settings as the guide.
+The banner should read `COLORSPACE: LINEAR`.
 [Capture record](data/beginner-watermark-rc11.json).
 
 Run `sha256sum -c SHA256SUMS` in the extracted download to verify its files.
@@ -122,7 +121,7 @@ OptiScaler DLL you installed:
 | `dxgi.dll` (Cyberpunk recipe) | `WINEDLLOVERRIDES="dxgi=n,b" %command%` |
 
 If the field already contains settings, preserve them and merge the DLL override;
-do not add a second `%command%`. The game recipes list any renderer arguments
+keep exactly one `%command%`. The game recipes list any renderer arguments
 or additional requirements. Press **Insert** in-game to check that OptiScaler opens.
 [Upstream Linux loading instructions](https://github.com/optiscaler/OptiScaler/wiki/Automated-Installation).
 
@@ -131,10 +130,10 @@ or additional requirements. Press **Insert** in-game to check that OptiScaler op
 
 In Heroic/Linux, add `WINEDLLOVERRIDES` as an environment variable with value
 `winmm=n,b` (or `dxgi=n,b` for Cyberpunk). Put renderer arguments in its arguments
-field; do not paste a Steam `%command%` line. Keep the existing prefix and saves.
+field. Keep the existing prefix and saves.
 
-Native Windows does not use Proton variables or `%command%`. Windows and other
-GPUs remain unqualified for this DLL; see [tested scope](#tested-scope).
+These launch options apply to Linux. See [tested scope](#tested-scope) for
+platform coverage.
 
 </details>
 
@@ -170,9 +169,7 @@ choose **DLSS** in-game; append `-dx11` after `%command%` if needed.
 
 Place **`winmm.dll`** beside `Binaries/NMS.exe`. Under `[Spoofing]`, set
 `Dxgi=false`, `Vulkan=true` and `VulkanExtensionSpoofing=true`. Keep Vulkan and
-choose **DLSS**. The recorded first compilation hit the game's hang detector;
-one restart with the same cache worked. Its recorded Proton setup also required
-this Vulkan compatibility setting in Steam launch options:
+choose **DLSS**. Use this Vulkan compatibility setting in Steam launch options:
 
 ```sh
 VKD3D_DISABLE_EXTENSIONS="VK_NVX_binary_import,VK_NVX_image_view_handle" WINEDLLOVERRIDES="winmm=n,b" %command%
@@ -185,13 +182,12 @@ Keep this game-specific workaround when setting up No Man's Sky.
 Place **`winmm.dll`** beside `DOOMTheDarkAges.exe`. Set `[Spoofing] Dxgi=false`.
 Keep Vulkan and choose **FSR 3.1** in-game.
 
-These recipes come from earlier checks, not fresh RC11 playthroughs;
-[scope and evidence](#tested-scope) are below.
+[Tested scope](#tested-scope) identifies the release and coverage of these recipes.
 
 ### Roboquest: existing Luma installation
 
-This needs a working Luma/ReShade setup; Roboquest has no native input for this
-recipe. The recorded combination used Luma Unreal Engine `latest-623` and
+This recipe uses Luma's upscaler input. Start with a working Luma/ReShade setup;
+the recorded combination used Luma Unreal Engine `latest-623` and
 ReShade `6.8.0.1`. Preserve those mods. Place the `winmm.dll` adapter beside
 `RoboQuest/Binaries/Win64/RoboQuest-Win64-Shipping.exe`, keep DX11, use Luma's
 DLSS input, and add:
@@ -221,8 +217,7 @@ before replacing it with RC11:
 | Kingdom Come: Deliverance II | `Bin/Win64Shared/amd_fidelityfx_loader_dx12.dll` | FSR 4.1 |
 
 For KCD2, rename a copy of RC11 to the loader filename and keep the game's
-original upscaler DLL. This was checked with KCD2 1.5.6; it is not a generic
-rename for other games. Keep working launch settings. To check the native
+original upscaler DLL. This loader replacement is specific to KCD2 1.5.6. Keep working launch settings. To check the native
 watermark on Steam/Linux, use `env 'MLSR-WATERMARK=1' %command%`, preserving
 any existing arguments. Restore the previous launch options afterward.
 
@@ -230,8 +225,7 @@ any existing arguments. Restore the previous launch options afterward.
 
 ## Check that RC11 is rendering
 
-Use the watermark check in [step 3](#3-play-and-check-once). An unchanged game
-menu label is normal; the rendered provider label identifies the active DLL.
+The [step 3 watermark](#3-play-and-check-once) identifies the active DLL.
 
 ## If the check fails
 
@@ -247,9 +241,8 @@ menu label is normal; the rendered provider label identifies the active DLL.
 <details>
 <summary>Existing overrides, automatic upscalers, or a previously working compatibility line</summary>
 
-Leave working launch options intact when replacing the DLL. The shorter fresh-
-install line above handles loading; it is not a new gameplay test of every recipe.
-Earlier game checks used extra compatibility settings, retained here when needed.
+Keep working launch options when replacing the DLL. Use the settings below
+when your game needs the compatibility configuration from the recorded checks.
 
 - A custom `[Libraries] FfxDx12SRPath` or `OptiDllPath` can select a different
   file. Set both to `auto` to use the local DLL. To inspect its path, temporarily
@@ -307,8 +300,8 @@ visible inside the launcher/sandbox. Each game still needs its own adapter and
 settings. Verify the watermark: OptiScaler can fall back if the shared path fails.
 Close all games using it before updating that one shared file; every configured
 game gets the update. To return a game to its local copy, set `FfxDx12SRPath=auto`.
-Keep the shared folder while other games still use it. This shares the DLL,
-not shader caches. The separate [cache helper](shared-shader-cache.md) is optional.
+Keep the shared folder while other games still use it. Compiled caches remain
+managed separately; [shared caching](shared-shader-cache.md) is optional.
 
 </details>
 

@@ -1,48 +1,47 @@
 # Documentation
 
-**Start with [Install with OptiScaler](beginner-guide.md): replace one DLL,
-select FFX/INT8, keep your working launch settings.** It contains the downloads,
-per-game settings, native alternatives, verification, troubleshooting and undo.
+**[Install or update the DLL](beginner-guide.md)** — replace OptiScaler's bundled
+upscaler DLL, select FFX/INT8 and keep working launch settings. First-time adapter
+setup and game recipes are included there.
 
-## Using the DLL
+## Find an answer
 
-| Need | Page |
+| Question | Read |
 | --- | --- |
-| Install or update | [Installation guide](beginner-guide.md) |
-| First launch stalls | [Shader compilation](first-run-shader-compilation.md) |
-| See performance results | [FSR4 GPU-cost chart and data](gpu-cost.md) |
-| Compare DLL and driver routes | [What differs](driver-rc10.md#dll-versus-driver) |
-| Check what RC11 actually tested | [Validation](portable-dll-rc11.md) |
-| Find downloads or release changes | [Releases](releases.md), [RC11 notes](release-notes-rc11.md) |
+| How do I check it is working, or undo it? | [Installation and troubleshooting](beginner-guide.md#if-the-check-fails) |
+| Why does first launch stall? | [Shader compilation](first-run-shader-compilation.md) |
+| How much faster is it? | [GPU-cost chart and method](gpu-cost.md) |
+| Does the custom driver improve on the DLL? | [DLL versus driver](driver-rc10.md#dll-versus-driver) |
+| What did this release test? | [RC11 validation](portable-dll-rc11.md) |
+| Which file should I download? | [Downloads](releases.md) |
+| What changed? | [RC11 release notes](release-notes-rc11.md), [changelog](../CHANGELOG.md) |
 
-## Optional tools
+## Optional routes
 
-The default installation replaces one DLL in each game's existing OptiScaler
-folder. These tools are optional additions, not follow-up steps.
+- [Shared shader cache](shared-shader-cache.md): reuse compatible compilations
+  across selected Linux games; ordinary DLL installation needs no helper.
+- [Private driver](driver-cache-setup.md): alternative AMD-provider integration,
+  with its own [requirements](driver-rc10.md).
+- [Old RC6 tool migration/recovery](legacy-rc6.md): for existing users of that tool.
 
-- [Shared shader cache](shared-shader-cache.md): optional reuse across games.
-- [Private Linux driver](driver-cache-setup.md): alternative for existing
-  AMD-provider integrations; not an extra optimization to install over the DLL.
-- [Old RC6 tool migration and recovery](legacy-rc6.md): only for existing users
-  of that compatibility tool.
+## Development
 
-## Building and reviewing
+[Contribute and run checks](../CONTRIBUTING.md) ·
+[Rebuild the DLL](../dll/README.md) · [GPU probe](../dll/probe/README.md) ·
+[Package a release](releases.md#packaging) ·
+[Driver/runtime contracts](development.md) · [Licenses](../THIRD_PARTY.md)
 
-[Contributing](../CONTRIBUTING.md) · [DLL rebuild](../dll/README.md) ·
-[GPU probe](../dll/probe/README.md) · [Release packaging](releases.md#packaging) ·
-[Licenses](../THIRD_PARTY.md)
+<details>
+<summary>Historical evidence and recovery records</summary>
 
-## Historical evidence
+These retain their original versions and test scope. They are not additional
+steps for the current install.
 
-The remaining versioned reports preserve measurements, old workflows and
-recovery details. They are not additional steps for a current installation.
+| Topic | Records |
+| --- | --- |
+| DLL development | [RC7 game checks](portable-dll-rc7.md), [RC8](portable-dll-rc8.md), [RC9](portable-dll-rc9.md), [RC10](portable-dll-rc10.md) |
+| Performance campaigns | [RC7 GPU costs](gpu-cost-rc7.md), [whole-game comparison](performance.md), [reconstructed pass costs](fsr-cost.md) |
+| Driver and cache work | [RC10 development](rc10-development.md), [driver gameplay](driver-gameplay-rc10.md), [cache reuse](cache-setup-qualification.md), [installer review](cache-review.md), [recovery review](cache-review2.md) |
+| Earlier installs | [RC9 walkthrough](beginner-guide-rc9.md), [RC6 Steam tool](games.md), [legacy troubleshooting](game-troubleshooting.md), [upstream archive](../legacy/README.md) |
 
-- [RC7 game checks](portable-dll-rc7.md), [RC8](portable-dll-rc8.md),
-  [RC9 shader checkpoint](portable-dll-rc9.md), [RC10 compilation work](portable-dll-rc10.md).
-- [RC10 development record](rc10-development.md),
-  [driver gameplay](driver-gameplay-rc10.md), [cache qualification](cache-setup-qualification.md),
-  [first](cache-review.md) and [second](cache-review2.md) installer reviews.
-- [Earlier GPU-cost chart](gpu-cost-rc7.md), [whole-game comparison](performance.md),
-  [reconstructed pass costs](fsr-cost.md). These are different experiments.
-- [RC6 Steam tool](games.md), [legacy troubleshooting](game-troubleshooting.md),
-  [RC9 beginner guide](beginner-guide-rc9.md), [older release history](../CHANGELOG.md).
+</details>

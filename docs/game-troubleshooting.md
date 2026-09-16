@@ -9,8 +9,7 @@ to distinguish driver reuse from removal of old game-local hooks.
 
 ## Installation and launch
 
-For failures across all games on SteamOS, start with the
-[confirmed driver ABI incompatibilities and correction](steamos-compatibility.md).
+For SteamOS driver loading, see the [retained compatibility record](steamos-compatibility.md).
 
 | Symptom | Next step |
 | --- | --- |
@@ -45,45 +44,19 @@ included. Use `./bc250-fsr4 install --help` for the current command options.
 
 ## Verify a real game
 
-The shared runtime has [recorded gameplay checks](runtime-qualification.md).
-To verify another game or component set, establish:
-
-- The process maps the intended v4 driver and pinned FSR 4.1.1 provider.
-- The runtime selects INT8 model 2, with frame generation off.
-- A current frame renders correctly, and route-appropriate initialization
-  evidence or a temporary watermark confirms FSR4 engagement.
-
-For a temporary diagnostic launch, add `BC250_RUNTIME_DEBUG=1` before
-`%command%` in the game's Steam launch options, preserving other options.
-With no existing options, use:
+Check the actual mapped driver/provider, INT8 model 2 and a rendered frame.
+The [runtime qualification](runtime-qualification.md) records the tested inputs.
+For diagnostics, temporarily add this before `%command%` in Steam:
 
 ```sh
 BC250_RUNTIME_DEBUG=1 %command%
 ```
 
-This enables the provider watermark, the prefix's `OptiScaler.log`, and Proton
-logging. Remove it after collecting evidence. OptiScaler's bundled files live
-under `pfx/drive_c/windows/system32/umu/` in the game's Steam compatibility
-prefix. The runtime disables Proton's Xalia helper because it inherits the
-proxy and can keep the game session alive after exit; Xalia's controller-based
-Windows UI accessibility is unavailable with this tool.
-
-FSR and DLSS are inputs to this runtime's OptiScaler path. An engine can report
-the intercepted SDK's version (for example 3.1.5) while the actual provider
-renders FSR4. The old `scripts/prove-game.py` checks the earlier native-direct
-route; its initialization-log requirement is not suitable for this runtime.
-
-Use current logs and screenshots; stale log lines, a generic OptiScaler panel
-or a successful desktop `vulkaninfo` are insufficient. Do not enable game GPU
-tracing to collect this evidence. Include the runtime version, driver hash,
-game/API and upscaler selection in a report; omit game files and personal data.
-
-Earlier observations remain in [driver qualification](qualification.md) and
-[performance](performance.md). Deadzone supplied the original release's
-native-FSR gameplay proof. KCD2 and Control supplied earlier native-FSR and
-DLSS integration observations, respectively. Those titles are evidence,
-not an installation allowlist, and their previous results do not qualify the
-new compatibility tool.
+Keep existing arguments. This enables the provider watermark, Proton logging
+and `OptiScaler.log` under `pfx/drive_c/windows/system32/umu/`. Remove the debug
+variable after collecting the runtime version, driver hash, game/API and selected
+upscaler. Use current logs/screenshots and keep private game/account data out of
+reports. Collect this through existing logs rather than game GPU tracing.
 
 ## Recover the retired game wizard
 

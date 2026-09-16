@@ -1,20 +1,16 @@
 # Rebuilding the RC11 DLL
 
-For installation, [replace OptiScaler's bundled DLL](../docs/beginner-guide.md).
-This directory is its developer source:
-348 complete editable LLVM/DXIL assembly files, the pinned input manifest,
-the assembler/validator client, and a small PE repacker. These files rebuild
-the distributed DLL without a GPU, Wine, Proton or Mesa installation.
+For installation, use the [OptiScaler DLL guide](../docs/beginner-guide.md).
+This directory contains the 348 editable LLVM/DXIL sources, pinned inputs,
+assembler/validator and PE repacker used to build RC11.
 
 ## Inputs and commands
 
-Use Python 3.11+, an x86-64 Linux C++ compiler (`g++`), and the official
-[DXC v1.9.2607 Linux release](https://github.com/microsoft/DirectXShaderCompiler/releases/tag/v1.9.2607).
-Obtain the original SDK DLL from the exact `sdk_url` in [manifest.json](manifest.json).
-The builder checks both the SDK and `libdxcompiler.so` SHA256 before running.
-DXC's own host-library requirements still apply to the build machine.
-The pinned archive extracts into `linux_dxc_2026_07_29.x86_x64/`; its library
-is `lib/libdxcompiler.so` inside that directory.
+Use Python 3.11+, an x86-64 Linux C++ compiler (`g++`) and
+[DXC v1.9.2607](https://github.com/microsoft/DirectXShaderCompiler/releases/tag/v1.9.2607).
+Get the original SDK DLL from `sdk_url` in [manifest.json](manifest.json).
+The builder verifies the SDK and `libdxcompiler.so` hashes. The DXC archive's
+library is `linux_dxc_2026_07_29.x86_x64/lib/libdxcompiler.so`.
 
 From the repository root:
 
@@ -28,124 +24,73 @@ python3 scripts/package-dll.py \
   --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll --output dist/dll
 ```
 
-The output directory must be new and outside `dll/`. Nothing is installed.
-Every assembly source is hashed, assembled, validated by DXC, and compared
-against its expected shader hash. The complete DLL must be **94,840,832 bytes**,
+Choose a new output directory outside `dll/`. The builder hashes, assembles and
+validates every shader, then checks the complete DLL: **94,840,832 bytes**,
 SHA256 **8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175**.
-Compiler diagnostics or any mismatch stop the build.
+Any mismatch stops the build.
 
-`source-inventory.json` records all source files in this directory except
-itself and Python bytecode caches. Extra files, missing files, content changes
-and symlinks are rejected. An edited candidate requires deliberate new
-shader/output identities and a regenerated inventory; never relabel changed
-bytes with the existing release hash. The complete Git source export adds its
-own independent file-hash/mode inventory.
-
-RC11 keeps all 348 RC10 shader programs. Its only DLL byte changes are the
-provider label and PE checksum; [RC11 validation](../docs/portable-dll-rc11.md)
-records the comparison and current synthetic checks.
+`source-inventory.json` records every source file except itself and Python caches.
+Extra/missing/changed files and symlinks fail verification. Update the inventory
+when editing source or documentation. Changed shader/output bytes also require
+new manifest identities and qualification. Source exports carry a separate
+commit/file inventory.
 
 ## Shader implementation
 
-The source comes from the AMD SDK 2.3.0 DLL at commit
-`60f4ea81909200d8542eca14dccb2628b763a9a3`, using its INT8 model path.
-The old `fp8_no_scale` entry-point spelling is retained from the SDK; it does
-not mean that these selected inference operations use FP8 hardware.
+The input is AMD SDK 2.3.0 at commit `60f4ea81909200d8542eca14dccb2628b763a9a3`,
+using INT8 model 2. The SDK's `fp8_no_scale` entry-point name is retained; the
+selected inference operations use the INT8 path.
 
-The v4 shader port covers 72 model permutations, 180 image-preparation
-permutations and 96 final-output permutations. It carries packed INT8/16-bit
-arithmetic, bounded model-loop unrolling, original literal-family bias/scale
-reads, image preparation and direct final-output stores into shader bytecode.
-The guarded specializations retain the dynamic-weight fallback. The complete
-v4 patches and their provenance remain under [v4/](../v4/manifest.json).
-The editable assembly here is the authoritative input to this DLL build;
-replaying a host Mesa compilation is not a build prerequisite.
+| Component | Implementation |
+| --- | --- |
+| 72 model permutations | Packed INT8/16-bit arithmetic, bounded loops and original bias/scale reads, with model guards and dynamic-weight fallback. |
+| 180 preparation permutations | Specialized image preparation. |
+| 96 final-output permutations | Direct stores and retained color reuse. |
 
-RC7 changed the spelling of 17,964 vector integer extensions in 48
-inference shaders: extract each 16-bit lane, extend it to 32 bits with the same
-signedness, then reassemble the two lanes. Packed additions, multiplications,
-shifts, bitcasts, wave operations and guards stay intact. This avoids the
-unsupported vector-cast path in older vkd3d translators. The derivation helper
-is [scalarize_casts.py](scalarize_casts.py). The executable CPU test in
-[test_dll_release.py](../tests/test_dll_release.py) checks every 16-bit value
-in both lanes against original LLVM and mathematical signed/unsigned results.
+The assembly in this directory is the DLL's build input. [Mesa source lineage](../v4/manifest.json)
+records the driver work from which the optimizations were derived.
 
-RC9 changes twelve slots from RC8 and nineteen from RC7. Five model passes
-(1, 2, 4, 10 and 12) use exact Winograd convolution; bounded coefficient
-grouping and accumulation improve those passes and streamed passes 5, 7, 9
-and 11. The final output uses exact unsigned halfword extraction with the
-retained color reuse. Pass 8, vector weight checks in passes 3 and 6, and
-preparation/final-output wave choices carry forward the accepted RC8 work.
-Complete model guards and dynamic-weight fallbacks remain intact. The other
-329 slots keep their RC7 compiled hashes; 336 keep their RC8 hashes.
+| Checkpoint | Retained change / evidence |
+| --- | --- |
+| RC7 | Scalarized integer extensions in 48 inference shaders; [derivation](scalarize_casts.py) and [exhaustive lane tests](../tests/test_dll_release.py). |
+| RC9 | Exact Winograd convolution in passes 1/2/4/10/12, bounded grouping, streamed accumulation and unsigned halfword extraction; [checkpoint](../docs/portable-dll-rc9.md). |
+| RC10 | Pinned `early-cse`, `dce`, `strip-dead-prototypes` on 48 slots. The 36 distinct changed programs match native code on three Mesa builds; 300 slots retain RC9 bytes. [Measurements](../docs/portable-dll-rc10.md). |
+| RC11 | RC10 shader programs, with provider label `4.1.1r11` and updated PE checksum. [Validation](../docs/portable-dll-rc11.md). |
 
-RC10 runs pinned LLVM `early-cse`, `dce` and `strip-dead-prototypes` passes
-on 48 shader slots. All 36 distinct changed bytecodes produce identical native
-instructions, constants and hardware configuration on three compared Mesa builds.
-The other 300 slots retain RC9 bytes, including 24 alternative convolution slots
-without that native-code comparison. The precomputed model, arithmetic, weight
-guards and fallback computations are retained. See the
-[RC10 record](../docs/portable-dll-rc10.md) for compilation timings and scope.
-
-The shaders retain DXIL 1.9 / Shader Model 6.9. The DLL does not disguise them as
-older shader-model bytecode. Native Windows driver support needs separate
-qualification; success through Proton does not establish native driver support.
+The shaders use DXIL 1.9 / Shader Model 6.9. Testing covers BC250/Linux through
+Proton; other runtimes/drivers need their own qualification.
 
 ## SDK and PE changes
 
-[repack_dll.py](repack_dll.py) accepts only the pinned SDK image. It preserves
-the SDK's five public FFX exports, numeric provider version, imports and host
-implementation. It makes the audited 18-byte INT8 eligibility change, and
-redirects the audited RIP-relative provider-name reference at file offset
-`0x4a5` to `4.1.1r11` plus its NUL in the appended read-only section. The
-original eight-byte slot and adjacent `FSR4-i8` watermark remain untouched.
-It does not add a compatibility loader shim or frame-generation implementation.
+[repack_dll.py](repack_dll.py) accepts the pinned SDK image and preserves its five
+FFX exports, numeric provider version, imports and host implementation. It applies:
 
-One additional instruction-immediate byte repairs SDK synchronization. The
-SDK's buffer-UAV binding loop normally skips `addBarrier` for jobs marked
-`FFX_GPU_JOB_FLAGS_SKIP_BARRIERS`. RC7 keeps that existing call active for
-every non-null buffer UAV, including padding clears. This orders the preceding
-model dispatch before a clear can overwrite shared scratch data. The texture
-and SRV policies, command-list interface and shader arithmetic are unchanged.
-The builder verifies the complete eight-byte instruction at file offset
-`0x4782`, then changes only its mask byte at `0x4789` from `01` to `00`.
-The [SDK source](https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/backend/dx12/ffx_dx12.cpp#L3599)
-and the [GPU investigation](../docs/portable-dll-rc7.md#sdk-synchronization-repair)
-explain the policy and its verification.
+- The audited 18-byte INT8 eligibility change.
+- A provider-name pointer at offset `0x4a5` to the appended RC11 label, retaining
+  the original name slot and adjacent `FSR4-i8` watermark.
+- The buffer-UAV synchronization mask at `0x4789`, changing `01` to `00` after
+  verifying the complete instruction at `0x4782`. This keeps `addBarrier` active
+  for non-null buffer UAVs, including padding clears. [SDK source](https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/backend/dx12/ffx_dx12.cpp#L3599)
+  and [verification](../docs/portable-dll-rc7.md#sdk-synchronization-repair).
 
-The repacker appends a read-only `.bc250` section containing the validated
-shader containers, retargets the SDK's existing relocated pointers and lengths,
-updates PE sizes/checksum, and removes the now-invalid Authenticode certificate.
-It rejects missing shader pointers, missing DIR64 relocations, duplicate
-replacement slots, changed input bytes and existing output DLL/record files.
-The sidecar build record lists every new shader RVA and updated pointer.
-
-There is no runtime shader rewrite service, runtime compiler, configuration
-writer or private driver in this DLL. Normal D3D12 shader translation and
-compilation by the platform still occur, as with any D3D12 upscaler.
+The repacker appends a read-only `.bc250` section, retargets shader pointers and
+lengths, updates PE sizes/checksum and removes the invalidated Authenticode
+certificate. It checks input bytes, relocation/pointer coverage and unique slots;
+existing output files are protected. The sidecar records every updated RVA/pointer.
 
 ## Standalone compatibility probe
 
-The [probe source and instructions](probe/README.md) reproduce the FFX API
-and synthetic whole-upscaler workload used in the compatibility and timing
-checks. It can help qualify native Windows or another GPU without a game.
-The optional probe build needs SDK headers and Wine development/import files;
-these are separate from rebuilding or installing the DLL.
+The [FFX probe](probe/README.md) exercises the API and GPU upscaler without a
+game. Building it additionally needs SDK headers and Wine development/import
+files. Normal platform shader compilation still occurs when rendering.
 
 ## Evidence and notices
 
-[RC9 compatibility and measurements](../docs/portable-dll-rc9.md) record the
-final checkpoint's three-resolution tests and its inherited component evidence.
-The earlier [RC7 review](../docs/portable-dll-rc7.md) retains its game and driver campaigns.
-Performance measurements are not inferred from a source version number.
-The release packager accepts only the exact DLL hash and includes all recorded
-notices. Both archive formats have deterministic contents and adjacent checksums.
-The installation guide's version, provider, size and checksum must agree with
-the manifest. Documentation-only revisions use distinct `-docsN` filenames,
-retaining original assets and the identical DLL; see [distribution notes](../docs/releases.md#documentation-refresh-1).
+The [release guide](../docs/releases.md#packaging) owns packaging and publication.
+The packager requires the manifest-pinned DLL, matching guide identity and recorded
+notices. Documentation refreshes use distinct `-docsN` filenames with the same DLL.
 
-AMD's full mixed-license notice, including its explicit MIT exception for the
-upscaler DLL, is retained under [notices/AMD-SDK-LICENSE.md](notices/AMD-SDK-LICENSE.md).
-[Provenance](notices/PROVENANCE.md) records AMD, DXC, Mesa/v4 and inherited
-BC250 attribution. Game files, game shader dumps, saves and account data are
-excluded from the complete source and binary distributions.
+Retain [AMD's license](notices/AMD-SDK-LICENSE.md), including its MIT exception for
+the upscaler DLL, and [provenance](notices/PROVENANCE.md) for AMD, DXC, Mesa/v4 and
+inherited BC250 work. Source/binary distributions contain project inputs and
+notices; privately obtained game artifacts stay outside them.

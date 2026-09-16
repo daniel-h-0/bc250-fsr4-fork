@@ -1,209 +1,143 @@
-# Shared shader caching on Linux
+# Optional shared shader cache
 
-**Optional after the DLL is working.** The standard
-[OptiScaler DLL install](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md)
-uses normal shader caches and needs none of the commands on this page.
-
-Use this helper only if you want compatible Mesa compilations shared across
-selected games. It preserves existing Steam caches and does not change the
-FSR model or per-frame optimizations. It works with ordinary per-game DLL copies;
-a shared DLL folder and the custom driver are not prerequisites.
-
-These setup and status commands ship in **RC11**. The original RC10 archives
-retain their earlier helper and [original instructions](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/shared-shader-cache.md).
+The [normal OptiScaler DLL install](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md)
+needs no cache helper. Use this RC11 tool only to share compatible Mesa shader
+compilations across selected Linux games. It works with per-game DLL copies
+and the normal driver; it does not change the FSR model or per-frame optimizations.
 
 ## DLL users: install once, copy one launch command
 
-From the RC11 DLL package's extracted directory, run:
+From the extracted RC11 DLL download:
 
 ```sh
 sh linux/shared-cache.sh install
 ```
 
 From a source checkout, use `sh scripts/shared-cache.sh install` instead.
-In a terminal, setup asks for the game's current Steam launch options. Paste the
-entire line, or press Enter if empty. Then copy the complete generated line back
-to Steam. It preserves your existing settings and inserts the cache launcher just
-before `%command%`.
+Paste the game's **entire existing Steam launch-options line** when prompted,
+then copy the generated line back into Steam. Setup preserves its variables
+and arguments and inserts the helper before `%command%`.
 
-Setup installs both helper files together and prints a permanent absolute launcher
-path. You can move or delete the downloaded folder afterward. No sudo, system
-service, PATH edit, cache backend choice or global game enrollment is needed.
+The printed launcher path is permanent; the extracted download can be removed.
+Run that installed command with `steam` to generate options for another game.
+Only games using the wrapper opt in. For noninteractive use, pass
+`--launch-options 'EXISTING TEXT'`; otherwise noninteractive input defaults to
+empty. Keep exactly one unquoted `%command%`.
 
-For another game, run the installed command with `steam` and paste its existing
-launch options when asked. For automation, use `install --launch-options 'TEXT'`
-or `steam --launch-options 'TEXT'`; noninteractive calls otherwise assume empty
-launch options. Keep exactly one unquoted `%command%` placeholder.
+**First use may compile again.** Existing caches remain intact but are not
+imported into the shared store. Keep normal caches enabled.
 
-To update the DLL cache helper, run `install` from the **new download**, using
-the same `--prefix` if you chose a custom installation directory. The permanent
-launcher path stays the same, so existing game launch options keep working.
+## Update
 
-If switching from the old portable RC10 wrapper, remove that old wrapper from
-the launch-option text before giving it to setup. Retain unrelated variables,
-wrappers and game arguments; carry any custom `--cache-dir` option onto the new
-cache launcher. Keeping the old invocation would still require its downloaded
-files, even after the new launcher is installed.
+Run `install` from the new download, using the same `--prefix` if you chose a
+custom location. The permanent launcher path stays the same.
 
-**First use can still compile shaders.** Existing ordinary caches are not imported,
-and hits in a game's preserved Steam cache do not automatically fill the shared
-store for other games. Keep the new shared cache between launches.
+When replacing an old portable RC10 wrapper, remove that wrapper from the text
+you give setup, keeping other options. Carry forward any custom `--cache-dir`.
+The original RC10 archives retain their
+[older instructions](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/shared-shader-cache.md).
 
 ## Driver users: caching is part of the installed launcher
 
-The [updated driver installer](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/driver-cache-setup.md)
-installs one permanent driver launcher with shared caching enabled by default for
-new command-line installations. Use its generated launch options; a separate cache
-wrapper is unnecessary. Updates retain the selected cache preference. The driver
-and its cache preference are covered by the same upgrade/rollback transaction.
+The [optional driver installer](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/driver-cache-setup.md)
+already supplies a cache-capable launcher. Use its generated command without
+adding this separate wrapper. New CLI driver installs default to caching on;
+updates preserve the previous choice.
 
 ## Check status or undo
 
-Use the exact installed command printed by setup:
+Use the installed path printed by setup:
 
 ```sh
 /path/to/installed/bc250-fsr4-cache status
 /path/to/installed/bc250-fsr4-cache doctor
 ```
 
-`status` is read-only. It shows storage, the size limit and the last recorded launch
-preparation or fallback **for this user**, which may be from another game or
-launcher. A present directory is not a successful write check. `doctor` creates
-and removes small temporary files to test
-writing in the current environment. Neither command claims a game used the cache
-or observed hits. Steam or a sandbox can supply a different launch environment;
-the last-launch record includes the view prepared for that invocation. Add `--json`
-for structured diagnostics.
+| Command | Meaning |
+| --- | --- |
+| `status` | Read-only configuration and last launch preparation for this user; the record may belong to another game. |
+| `doctor` | Creates and removes small files to check current write access. |
+| `steam` | Prints launch options for another game. |
+| `uninstall` | Removes the managed helper; retains shader caches. |
 
-Damaged diagnostic records produce a readable explanation. Invalid installed-tool
-metadata is reported as an installation error and gives a failing status; it is
-not silently repaired or mistaken for a working installation.
+`status` and `doctor` accept `--json`. Neither proves a game got cache hits,
+and a sandbox can expose a different filesystem view from the one you checked.
+Invalid installed-tool metadata is reported as an installation error.
 
-If storage is unwritable or a write fails, the game launches with its original
-cache settings and the reason is recorded when possible. This is a check at launch,
-not a guarantee that space or permissions cannot change later.
+To stop using the helper, remove only its wrapper from the game's launch options.
+For a temporary bypass, add `--disable` before `--`. Driver users instead use
+`run --no-shared-cache --` in their installed driver command.
 
-To stop using shared caching, remove only the cache wrapper from the game's launch
-options. Leave existing environment variables, other wrappers and arguments intact.
-Add `--disable` before `--` for a temporary bypass. `uninstall` removes the managed
-cache launcher and retains shader caches. Driver users instead use their installed
-driver launcher's `--no-shared-cache` switch or its rollback command.
-
-If helper removal is interrupted, rerun `uninstall --prefix /original/install/path`
-from the download; `install` from the download can also restore missing launcher
-links. Removed tool sets are detached before file cleanup, so a partial deletion
-does not block reinstalling the same version. Unselected partial staging/removal
-directories are preserved. If the managed `launcher-tools` directory has been
-moved or replaced by a symlink, setup and removal refuse to follow it; restore
-the original directory layout before retrying.
-
-For Heroic on Linux, add the installed launcher path in the game's **Wrapper**
-field and `--` in **Arguments**. For the integrated driver launcher, use `run --`
-as its arguments. Preserve existing wrappers and use the launcher inside the
-environment that runs the game; do not put Steam's `%command%` in Heroic.
-These fields follow [Heroic's wrapper interface](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/blob/main/src/frontend/screens/Settings/components/WrappersTable.tsx).
+If uninstall is interrupted, retry from the download with
+`uninstall --prefix /original/install/path`; `install` can also restore missing
+launcher links. Preserve transaction files. If `launcher-tools` was moved or
+replaced by a symlink, restore its original layout before retrying.
 
 ## What is shared
 
-New compilations go into a shared, size-limited Mesa cache. Mesa still keys each
-entry by its driver/compiler identity, GPU, architecture and compilation inputs.
-Putting two games in the same cache directory does not make incompatible shader
-binaries interchangeable. Driver or translator updates can require compilation
-again; shaders with different pipeline layouts or options may not be reusable.
-This affects all Mesa shaders in applications that opt in, including non-FSR work.
+New compilations go into a shared Mesa cache. Mesa's GPU, driver/compiler and
+pipeline keys still decide whether an entry is reusable. This applies to all
+Mesa shaders in opted-in games, including non-FSR work. Updates can invalidate
+previous compilations.
 
-Each application keeps a separate view of its existing Steam/Fossilize caches.
-Those files remain in place and are opened read-only. Newly compiled entries use
-the shared cache. An entry read from an existing Fossilize cache is not
-necessarily copied into the shared cache. Wine prefixes, saves and vkd3d's
-application cache remain separate.
-
-Existing multi-file and Mesa-DB directories are preserved but are not imported
-into the new shared store. Opting an application in can therefore require an
-initial compilation. Fossilize reads retain Mesa's source-count limit; if an
-application already reserves every read-only slot, the helper does not replace
-one of its sources to add the local `foz_cache`. A dynamic read-only list also
-keeps its reserved slots.
-
-The default uses Mesa's established multi-file backend. `--backend database`
-selects the optional Mesa-DB backend for a Mesa build that supports it. Existing
-Fossilize reuse also requires Mesa's combined read/write plus read-only Fossilize
-support. An older or differently configured driver may ignore an unsupported
-option and compile again. The launcher does not override compatibility keys.
-See [Mesa's cache variables](https://docs.mesa3d.org/envvars.html#mesa-shader-cache-dir).
+Existing Steam/Fossilize sources remain read-only and retain their source-count
+limits. Reading an old entry does not necessarily copy it into the shared store.
+Old multi-file/Mesa-DB caches, vkd3d's application cache, Wine prefixes and saves
+are not merged or moved.
 
 ## Portable use and advanced storage options
 
-Keep `shared-cache.sh` and `shared-cache.py` together. The DLL ZIP supplies
-them under `linux/`; the source and driver archives use `scripts/`. Installation
-keeps them together automatically. For portable use, keep both files in a permanent
-directory yourself. Inspect the proposed environment without changing it:
+<details>
+<summary>Portable wrapper, storage and Heroic</summary>
+
+Keep `shared-cache.sh` and `shared-cache.py` together in a permanent directory.
+The DLL archive stores them under `linux/`; source/driver archives use `scripts/`.
 
 ```sh
-sh "/path/to/bc250-fsr4/scripts/shared-cache.sh" --show
+sh /path/to/shared-cache.sh --show
+sh /path/to/shared-cache.sh -- ORIGINAL-COMMAND ARGUMENTS
 ```
 
-`--show` is now read-only. To launch without installation:
+`--show` is read-only. The installed `steam` command avoids manually composing
+the wrapper with existing Steam options. It prints the result; it does not edit
+Steam or Heroic configuration.
 
-```sh
-sh "/path/to/bc250-fsr4/scripts/shared-cache.sh" -- ORIGINAL-COMMAND ARGUMENTS
-```
+| Setting | Default / use |
+| --- | --- |
+| Storage | `$XDG_CACHE_HOME/bc250-fsr4`, or `$HOME/.cache/bc250-fsr4`; relative XDG paths are ignored. |
+| `--cache-dir /absolute/path` | Writable local storage with symlink support. |
+| Size | Existing `MESA_SHADER_CACHE_MAX_SIZE`, otherwise 10 GiB per architecture; Mesa evicts entries, not a strict quota on the whole helper directory. |
+| Backend | Mesa multi-file; `--backend database` selects Mesa-DB when supported. |
 
-For a Steam game, prepend the wrapper to its existing launch command, retaining
-existing environment variables and arguments. For example, if it currently has
-`WINEDLLOVERRIDES="winmm=n,b" %command%`, use:
+Existing Fossilize reads require a Mesa build supporting combined read/write
+and read-only Fossilize caches. Unsupported options may be ignored, causing
+recompilation. [Mesa cache settings](https://docs.mesa3d.org/envvars.html#mesa-shader-cache-dir).
 
-```sh
-WINEDLLOVERRIDES="winmm=n,b" sh "/path/to/bc250-fsr4/scripts/shared-cache.sh" -- %command%
-```
+In Heroic, put the installed cache launcher in **Wrapper** and `--` in its
+**Arguments**. For the driver launcher, use `run --`. Preserve other wrappers;
+Heroic does not use Steam's `%command%` placeholder.
 
-The `steam` command handles existing launch text for you. It prints the result;
-it does not edit Steam or Heroic settings or install a global launcher hook.
-
-The default storage is `$XDG_CACHE_HOME/bc250-fsr4`, falling back to
-`$HOME/.cache/bc250-fsr4`. Relative `XDG_CACHE_HOME` values are ignored as required
-by the [XDG specification](https://specifications.freedesktop.org/basedir/latest/).
-An immutable distro's `/var/home/...` layout needs no special handling. A custom
-location is available through `--cache-dir "/absolute/path"`; use writable local
-storage with symlink support. `MESA_SHADER_CACHE_MAX_SIZE` is retained when set,
-otherwise the default is 10 GiB per architecture. The directory is disposable
-cache data, and Mesa manages entry eviction; it is not a strict quota on every
-file below the helper's root.
+</details>
 
 ## Sandboxes and fallback behavior
 
-The script, Python interpreter and cache paths must be visible inside the
-process's filesystem namespace. Native Steam, Flatpak Steam, Heroic and custom
-containers can expose different paths and different Mesa builds. Set up access
-within the chosen launcher; this helper does not grant Flatpak permissions or
-bypass a sandbox. Reuse across separate sandboxes requires both to see the same
-storage and compatible compiler inputs. Network filesystems are unqualified.
+The launcher, Python and cache paths must be visible where the game runs.
+Flatpak/container access is configured in the launcher or sandbox; this helper
+does not grant permissions. Sharing across sandboxes also needs compatible
+compiler inputs. Network filesystems are unqualified.
 
-The Python launcher is tested with Python 3.8 through 3.14. The shell bootstrap
-runs the original command if Python or the adjacent helper is unavailable.
-If cache preparation fails, the Python helper likewise launches with the
-original environment and prints the reason. An explicit cache-disable setting
-is respected. Existing cache files or conflicting links are never replaced.
-Simultaneous launches can prepare the same cache view, and Steam caches created
-between launches are picked up on the next launch.
-
-These fallbacks keep the application launch intact; they do not guarantee a
-cache hit or verify every possible Mesa build. The wrapper cannot catch a later
-application/driver failure or make an inaccessible cache path accessible inside
-a child sandbox.
+Missing Python/helper files or failed cache preparation leave the game using its
+original launch command and cache settings. Explicit cache-disable settings are
+respected. Conflicting files/links are preserved. Concurrent preparation and
+Steam caches created between launches are supported. These launch-time checks
+cannot prevent a later game/driver failure or guarantee a cache hit.
 
 ## Qualification scope
 
-The updated helper's [qualification](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/cache-setup-qualification.md)
-covers its setup/status/fallback tests and real Control-to-System-Shock cache reuse.
-The following original RC10 results remain separate historical evidence.
-
-Filesystem and launch tests pass in Debian Bullseye/Python 3.8, Debian
-Bookworm/Python 3.11, Alpine/Python 3.12 and the Arch-based builder/Python 3.14.
-They cover argument boundaries, read-only storage, missing Python, concurrent
-preparation, late Steam cache creation and existing-cache preservation. These
-are isolated userspace tests, not full graphics qualification of those distros.
-
-The separate [RC10 development record](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/rc10-development.md) records actual BC250
-GPU cache-reuse measurements, compiler experiments and their limits. Native
-Windows and proprietary Vulkan drivers are outside this launcher's scope.
+[Cache qualification](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/cache-setup-qualification.md)
+records Control-to-System-Shock reuse; System Shock reached its menu.
+Filesystem/launch tests span Python 3.8–3.14 in four isolated Linux userspaces,
+not complete distro graphics qualification. The
+[RC10 record](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4.0.0-rc10/docs/rc10-development.md)
+retains the measurements. Native Windows and proprietary Vulkan drivers are
+outside this helper's scope.

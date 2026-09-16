@@ -2,6 +2,11 @@
 
 ## Documentation — 2026-09-16
 
+- Consolidate download, cache, driver and developer instructions. Keep one current
+  driver installer guide; link the archived RC9 tutorial and dated test records.
+- Replace incident narratives and defensive explanations in current guidance with
+  setup/check/recovery steps; repair documentation links in compact downloads.
+
 - Make direct replacement of OptiScaler's bundled DLL the beginner route, using
   normal Proton/driver and existing working launch settings. Shared paths and
   additional compatibility flags are optional; first-time Linux loading stays

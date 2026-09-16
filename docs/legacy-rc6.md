@@ -1,7 +1,7 @@
 # RC6 driver and Steam runtime (retained)
 
 These are historical RC6 driver/Steam-tool commands. New installations use
-[OptiScaler's normal DLL replacement](beginner-guide.md). Existing RC6 users
+[OptiScaler's normal DLL replacement](../docs/beginner-guide.md). Existing RC6 users
 can use the migration steps below before following that guide.
 
 ## Upgrade a game to RC7
