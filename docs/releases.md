@@ -26,7 +26,7 @@ separates installation/loading checks from the existing DLL rendering evidence.
 | `bc250-fsr4-dll-4.0.0-rc11-docs1.zip` | Manual installation or client import; unchanged RC11 DLL with current instructions and notices. |
 | `bc250-fsr4-v4.0.0-rc11-linux-glibc236-x86_64.tar.gz` | Alternative AMD-provider/driver route, retained in the [RC11 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11). |
 | `bc250-fsr4-v4.0.0-rc11-source-COMMIT.tar.gz` | Developers: complete source, tools, docs and evidence. |
-| `SHA256SUMS` and archive `.sha256` files | Checksums for the corresponding downloads. |
+| `SHA256SUMS` | Checksums for the corresponding downloads. |
 
 GitHub's automatic **Source code** downloads are not the DLL ZIP. The archive
 checksums differ from the DLL checksum inside the ZIP. To check a downloaded
