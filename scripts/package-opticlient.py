@@ -103,7 +103,6 @@ def build(work, output, dotnet, dll_zip):
             for p in sorted(payload.rglob("*"))
             if p.is_file()
         },
-        "Recipes": json.loads((integration / "recipes.json").read_text()),
     }
     (payload / "payload.json").write_text(json.dumps(payload_manifest, indent=2) + "\n")
     shutil.copy2(payload / "payload.json", stage / "bc250/payload.json")

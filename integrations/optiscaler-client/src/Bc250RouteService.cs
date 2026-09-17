@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // BC250 integration for OptiScaler Client. Copyright (c) 2026 BC250 FSR4 contributors.
 using System.IO.Compression;
+using System.Reflection.PortableExecutable;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -16,10 +17,8 @@ public sealed class Bc250RouteService
     public sealed record Release(string Version, string Hash, string File);
     public sealed record OwnedFile(string Path, string? Original, string Installed, string Backup);
     public sealed record Receipt(int Schema, string Root, string Target, string Release, List<OwnedFile> Files, string Hint = "");
-    public sealed record Recipe(string Exe, string Proxy, string Input, string Arguments,
-        Dictionary<string, Dictionary<string, string>> Settings);
-    public sealed record Payload(string ProxyHash, Dictionary<string, string> Files, List<Recipe> Recipes);
-    public sealed record Plan(string Root, string Target, Recipe? Recipe, bool Existing, string Hint);
+    public sealed record Payload(string ProxyHash, Dictionary<string, string> Files);
+    public sealed record Plan(string Root, string Target, bool Existing, string Hint);
     readonly string payloadDir;
     readonly string stateRoot;
     readonly Payload payload;
@@ -103,31 +102,62 @@ public sealed class Bc250RouteService
             CheckProxy(receipt.Root);
             if (ResolveTarget(receipt.Root) != receipt.Target)
                 throw new IOException("The configured DLL location changed. Review this installation before updating.");
-            return new(receipt.Root, receipt.Target, null, true, "Installed " + receipt.Release + ". " + receipt.Hint);
+            return new(receipt.Root, receipt.Target, true, "Installed " + receipt.Release + ". " + receipt.Hint);
         }
         var root = Path.GetFullPath(game.InstallPath);
-        var recipe = payload.Recipes.FirstOrDefault(r => File.Exists(SafePath(root, r.Exe)));
-        var dir = recipe != null ? Path.GetDirectoryName(SafePath(root, recipe.Exe))! :
+        var dir = game.Platform == GamePlatform.Manual && File.Exists(game.ExecutablePath) ? Path.GetDirectoryName(game.ExecutablePath) :
             new GameInstallationService().DetermineInstallDirectory(game);
-        if (string.IsNullOrEmpty(dir) || !Directory.Exists(dir)) throw new IOException("Locate the game executable using Manual install and game recipes.");
+        if (string.IsNullOrEmpty(dir) || !Directory.Exists(dir)) throw new IOException("Use Add Manually to select the game's actual executable.");
         dir = Path.GetFullPath(dir);
         if (dir != root && !dir.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.Ordinal))
             throw new IOException("The executable is outside the selected game folder.");
+        var records = Path.Combine(stateRoot, "games");
+        if (Directory.Exists(records))
+            foreach (var other in Directory.GetDirectories(records).Where(p => p != State(game)))
+                foreach (var name in new[] { "receipt.json", "pending.json" })
+                {
+                    var file = Path.Combine(other, name);
+                    if (!File.Exists(file)) continue;
+                    using var record = JsonDocument.Parse(File.ReadAllText(file));
+                    if (record.RootElement.GetProperty("Root").GetString() == dir)
+                        throw new IOException("This executable folder is already managed under another library entry. Use that entry to update or restore it.");
+                }
         var ini = Path.Combine(dir, "OptiScaler.ini");
         if (File.Exists(ini))
         {
             CheckProxy(dir);
-            return new(dir, ResolveTarget(dir), recipe, true, "Existing OptiScaler; keep working launch options and the game's upscaler input.");
+            return new(dir, ResolveTarget(dir), true, "Existing OptiScaler; keep working launch options and the game's upscaler input.");
         }
-        if (recipe == null) throw new IOException("Set up OptiScaler with this game's recipe first, then rescan to manage its FSR4 DLL here.");
-        var proxy = SafePath(dir, recipe.Proxy);
-        if (File.Exists(proxy)) throw new IOException("Another file uses " + recipe.Proxy + "; follow the game's mod-chaining instructions first.");
-        return new(dir, Path.Combine("OptiScaler", DllName), recipe, false,
-            "After install: choose " + recipe.Input + ". Steam loading: " + Launch(recipe));
+        var explicitExe = game.Platform == GamePlatform.Manual ? game.ExecutablePath : null;
+        var candidates = string.IsNullOrEmpty(explicitExe) ? Directory.GetFiles(dir)
+            .Where(p => Path.GetExtension(p).Equals(".exe", StringComparison.OrdinalIgnoreCase))
+            .Where(p => !new[] { "crash", "redist", "setup", "launcher", "unrealcefsubprocess", "prerequisites" }
+                .Any(word => Path.GetFileNameWithoutExtension(p).Contains(word, StringComparison.OrdinalIgnoreCase)))
+            .Where(IsX64Executable).ToArray() : new[] { explicitExe };
+        if (candidates.Length != 1 || !IsX64Executable(candidates[0]))
+            throw new IOException("Choose Add Manually and select the game's actual 64-bit Windows .exe (for Unreal games, Binaries/Win64). Then open this screen again.");
+        SafePath(root, Path.GetRelativePath(root, candidates[0]));
+        if (File.Exists(SafePath(dir, "dxgi.dll")))
+            throw new IOException("Another file uses dxgi.dll; follow OptiScaler's mod-chaining instructions before adding this installation.");
+        return new(dir, Path.Combine("OptiScaler", DllName), false,
+            "Install beside " + candidates[0] +
+            ". Choose DLSS or a supported FSR/XeSS input in-game. Steam loading: WINEDLLOVERRIDES=\"dxgi=n,b\" %command%");
+    }
+    static bool IsX64Executable(string path)
+    {
+        try
+        {
+            if (!Path.GetExtension(path).Equals(".exe", StringComparison.OrdinalIgnoreCase)) return false;
+            using var pe = new PEReader(File.OpenRead(path));
+            return pe.PEHeaders.CoffHeader.Machine == Machine.Amd64 && pe.PEHeaders.PEHeader?.Magic == PEMagic.PE32Plus &&
+                !pe.PEHeaders.CoffHeader.Characteristics.HasFlag(Characteristics.Dll);
+        }
+        catch (BadImageFormatException) { return false; }
+        catch (IOException) { return false; }
     }
     void CheckProxy(string dir)
     {
-        var proxies = new[] { "winmm.dll", "dxgi.dll", "version.dll", "winhttp.dll", "dbghelp.dll", "OptiScaler.dll" };
+        var proxies = new[] { "winmm.dll", "dxgi.dll", "d3d12.dll", "wininet.dll", "version.dll", "winhttp.dll", "dbghelp.dll", "OptiScaler.dll" };
         if (!proxies.Any(p => File.Exists(Path.Combine(dir, p)) && Hash(Path.Combine(dir, p)) == payload.ProxyHash))
             throw new IOException("This OptiScaler version needs the manual route; the client build supports 10.0.0-pre1 (September 4).");
     }
@@ -152,10 +182,6 @@ public sealed class Bc250RouteService
         if (Directory.Exists(candidate)) SafePath(root, Path.Combine(relative, ".bc250-path-check"));
         return candidate;
     }
-    public static string Launch(Recipe r) => (r.Exe == "Binaries/NMS.exe" ? "VKD3D_DISABLE_EXTENSIONS=\"VK_NVX_binary_import,VK_NVX_image_view_handle\" " : "") +
-        "WINEDLLOVERRIDES=\"" + Path.GetFileNameWithoutExtension(r.Proxy) + "=n,b\" %command%" +
-        (string.IsNullOrEmpty(r.Arguments) ? "" : " " + r.Arguments);
-
     public string Install(Game game)
     {
         using var held = Lock();
@@ -178,7 +204,7 @@ public sealed class Bc250RouteService
                 {
                     var source = SafePath(payloadDir, file);
                     if (Hash(source) != hash) throw new IOException("Client payload changed: " + file);
-                    var destination = file == "OptiScaler.dll" ? plan.Recipe!.Proxy : file;
+                    var destination = file == "OptiScaler.dll" ? "dxgi.dll" : file;
                     if (file == "OptiScaler.ini") continue;
                     if (file == "nvngx_dlss.dll" && File.Exists(SafePath(plan.Root, destination))) continue;
                     sources[destination] = source;
@@ -194,12 +220,6 @@ public sealed class Bc250RouteService
             if (!plan.Existing)
             {
                 settings["Plugins"] = new() { ["LoadAsiPlugins"] = "true" };
-                foreach (var (section, keys) in plan.Recipe!.Settings)
-                    foreach (var (key, value) in keys)
-                    {
-                        if (!settings.ContainsKey(section)) settings[section] = new();
-                        settings[section][key] = value;
-                    }
             }
             foreach (var (section, keys) in settings) foreach (var (key, value) in keys) text = Set(text, section, key, value);
             var preparedIni = Path.Combine(temp, "OptiScaler.ini");

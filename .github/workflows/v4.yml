@@ -138,7 +138,7 @@ jobs:
             --output .work/dll-build --jobs 2
           python3 scripts/check-rc11-release.py --dll .work/dll-build/amd_fidelityfx_upscaler_dx12.dll
           python3 scripts/package-dll.py \
-            --dll .work/dll-build/amd_fidelityfx_upscaler_dx12.dll --documentation-revision 1 --output dist/dll
+            --dll .work/dll-build/amd_fidelityfx_upscaler_dx12.dll --documentation-revision 2 --output dist/dll
           cd dist/dll
           sha256sum -c *.sha256
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -155,10 +155,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libarchive-tools
           python3 scripts/package-opticlient.py --dotnet "$(command -v dotnet)" \
-            --dll-zip dist/dll/bc250-fsr4-dll-4.0.0-rc11-docs1.zip
+            --dll-zip dist/dll/bc250-fsr4-dll-4.0.0-rc11-docs2.zip
           dotnet run -c Release --project integrations/optiscaler-client/tests/ClientTests.csproj \
             -p:ClientSource="$PWD/.work/opticlient/source/Optiscaler-Client-dd534b7d1cb8a0edf174a6917f5179791603d364"
-          python3 scripts/check-opticlient.py --archive dist/opticlient/bc250-opticlient-1.0.7-bc250.1-linux-x64.tar.gz
+          python3 scripts/check-opticlient.py --archive dist/opticlient/bc250-opticlient-1.0.7-bc250.2-linux-x64.tar.gz
           cd dist/opticlient
           sha256sum -c *.sha256
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

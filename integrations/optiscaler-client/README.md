@@ -1,7 +1,7 @@
 # OptiScaler Client integration
 
 User instructions: [Install across your games](../../docs/optiscaler-client.md).
-Project build: **1.0.7-bc250.1**, Linux x64. This build pins upstream Client 1.0.7
+Project build: **1.0.7-bc250.2**, Linux x64. This build pins upstream Client 1.0.7
 at `dd534b7d1cb8a0edf174a6917f5179791603d364` and adds a BC250 installation screen.
 It is separately maintained and clearly distinguished from the upstream release.
 
@@ -12,7 +12,7 @@ sources and NuGet. From the repository root:
 
 ```sh
 python3 scripts/package-opticlient.py --dotnet /path/to/dotnet \
-  --dll-zip /path/to/bc250-fsr4-dll-4.0.0-rc11-docs1.zip
+  --dll-zip /path/to/bc250-fsr4-dll-4.0.0-rc11-docs2.zip
 ```
 
 Use a fresh `--work` directory for another build. The output under
@@ -40,7 +40,8 @@ and an installation or restore action is invoked.
 - `src/Bc250Window.cs` provides import, game selection, installation/update and
   restore/recovery actions. Results stay separate for each game.
 - `src/Bc250RouteService.cs` supplies common FFX/INT8 settings and the fresh-install
-  recipes in `recipes.json`. Existing supported local configurations retain
+  setup for any compatible 64-bit Windows game, with no title whitelist or
+  per-game overrides. Existing supported local configurations retain
   their input/spoofing settings; subsequent updates touch only the FSR DLL.
 - `src/Bc250Transaction.cs` owns the file changes made by this route. Durable
   pending records and file snapshots precede writes; replacements use temporary
@@ -52,7 +53,10 @@ manifests and the project's retired RC6 runtime. All library install/manage
 buttons in this build enter the same BC250 screen, including for existing games.
 Use this screen to update or restore files it owns.
 
-First-time presets cover the five recipes in the user guide. Existing adapters
+Fresh installations use `dxgi.dll`, upstream input/spoofing defaults and the common
+FFX/INT8 preset. The scanner locates the executable directory; an ambiguous or
+non-x64 selection asks the user to choose the executable through Add Manually.
+The installation row displays that path before files change. Existing adapters
 must match the pinned OptiScaler proxy hash. Relative game-local DLL overrides
 are resolved; absolute/shared paths and symbolic links use the manual route.
 Native game DLL replacements also remain manual in this build. Scan results
@@ -74,7 +78,7 @@ dotnet run -c Release --project integrations/optiscaler-client/tests/ClientTests
   -p:ClientSource=/absolute/path/to/work/source/Optiscaler-Client-dd534b7d1cb8a0edf174a6917f5179791603d364
 python3 scripts/check-repo.py
 python3 scripts/check-opticlient.py \
-  --archive dist/opticlient/bc250-opticlient-1.0.7-bc250.1-linux-x64.tar.gz
+  --archive dist/opticlient/bc250-opticlient-1.0.7-bc250.2-linux-x64.tar.gz
 ```
 
 The C# harness creates temporary game trees and isolated application data through
@@ -87,14 +91,14 @@ complete integration source, licenses and links in the extracted guide.
 
 The optional `--real` harness mode takes a prepared payload directory, release ZIP,
 new scratch output directory and a Windows DLL-load probe executable. It installs
-the actual payload for all five recipe layouts and records the results of repeat
+the actual payload for flat, nested and Unreal-style executable layouts and records the results of repeat
 updates. Use only synthetic game directories for this check.
 
 ## Validation
 
 The integration adds installation behavior; it does not change the released DLL.
 Its transaction tests and real-payload installation/loading checks are recorded
-in [the integration validation record](../../docs/data/optiscaler-client-1.json).
+in [the integration validation record](../../docs/data/optiscaler-client-2.json).
 The [RC11 validation](../../docs/portable-dll-rc11.md) remains the rendering evidence
 for that DLL. Client setup, DLL loading and actual game rendering are distinct
 checks; this build does not claim a new full gameplay campaign or support for

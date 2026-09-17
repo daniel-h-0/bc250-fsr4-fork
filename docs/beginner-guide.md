@@ -1,8 +1,8 @@
-# Manual install and game recipes
+# Manual installation
 
 For installation and updates from one game list, use
 [Install across your games](optiscaler-client.md). This page covers manual
-replacement, first-time adapter setup, native games and verification.
+replacement, general adapter setup, native games and verification.
 
 **Replace OptiScaler's upscaler DLL, select FFX/INT8, and play.** Use your normal
 graphics driver, Proton and working launch settings.
@@ -18,11 +18,12 @@ New to OptiScaler? Expand the setup below first.
 <summary>First time? Install OptiScaler in your game</summary>
 
 1. Close the game. In Steam, open **Properties → Installed Files → Browse**.
-   Use the [game recipes](#game-recipes) to find the actual game executable.
+   Find the actual 64-bit game executable; Unreal games usually keep it under
+   `Binaries/Win64`. See [upstream installation](https://github.com/optiscaler/OptiScaler/wiki/Manual-Installation).
    Back up existing files and launch options before changing them.
 2. [Download OptiScaler](https://github.com/optiscaler/OptiScaler-nightly/releases/download/nightly-20260904/OptiScaler_v10.0.0-pre1_20260904.7z)
    and extract **all its contents** beside that executable, keeping subfolders.
-   Rename `OptiScaler.dll` to **`winmm.dll`**, or **`dxgi.dll` for Cyberpunk**.
+   Rename `OptiScaler.dll` to **`dxgi.dll`** (upstream's general default).
    Keep `OptiScaler.ini` named as-is. If another mod already uses that DLL name,
    follow its supported chaining instructions before replacing anything.
 3. Save [OptiPatcher 0.41](https://github.com/optiscaler/OptiPatcher/releases/download/v0.41/OptiPatcher_v0.41.asi)
@@ -31,7 +32,7 @@ New to OptiScaler? Expand the setup below first.
 4. If the executable folder has no `nvngx_dlss.dll`, add the
    [signed DLSS helper](https://raw.githubusercontent.com/NVIDIA/DLSS/a291cc7d2cc642a51566f3dfd5376f635cd1b284/lib/Windows_x86_64/rel/nvngx_dlss.dll)
    there. Keep an existing game-provided copy.
-5. Apply the [game recipe](#game-recipes), then continue below. On Linux, also
+5. Continue below. On Linux, also
    use the [OptiScaler loading step](#fresh-linux-install-load-optiscaler).
 
 These are OptiScaler setup steps. You only repeat the DLL replacement below
@@ -41,14 +42,14 @@ when updating this project's upscaler.
 
 ## 1. Replace one file
 
-Download and extract the [RC11 DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.1/bc250-fsr4-dll-4.0.0-rc11-docs1.zip).
+Download and extract the [RC11 DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.2/bc250-fsr4-dll-4.0.0-rc11-docs2.zip).
 Close the game. Back up the existing file, then copy the downloaded
 **`amd_fidelityfx_upscaler_dx12.dll`** over:
 
 ```text
 Your game's executable folder/
 ├── Game.exe
-├── winmm.dll                          OptiScaler (or dxgi.dll)
+├── dxgi.dll                           OptiScaler
 ├── OptiScaler.ini
 └── OptiScaler/
     └── amd_fidelityfx_upscaler_dx12.dll   ← replace this with RC11
@@ -83,8 +84,8 @@ OptiScaler for this setup. Keep the game's working input/spoofing settings.
 
 ## 3. Play and check once
 
-Launch normally and select the [game recipe's](#game-recipes) upscaler option.
-It may still say **DLSS** or **FSR3**: that is the input OptiScaler uses to feed
+Launch normally and select **DLSS**, or an FSR/XeSS input supported by the
+game's OptiScaler integration. That is the input OptiScaler uses to feed
 FSR4. **Keep the launch settings that already load OptiScaler.**
 
 For the first check, set `[FSR] Fsr4EnableWatermark=true`, restart and enter a
@@ -125,18 +126,18 @@ OptiScaler DLL you installed:
 | Installed adapter | Launch options |
 | --- | --- |
 | `winmm.dll` | `WINEDLLOVERRIDES="winmm=n,b" %command%` |
-| `dxgi.dll` (Cyberpunk recipe) | `WINEDLLOVERRIDES="dxgi=n,b" %command%` |
+| `dxgi.dll` (general default) | `WINEDLLOVERRIDES="dxgi=n,b" %command%` |
 
 If the field already contains settings, preserve them and merge the DLL override;
-keep exactly one `%command%`. The game recipes list any renderer arguments
-or additional requirements. Press **Insert** in-game to check that OptiScaler opens.
+keep exactly one `%command%`. [Upstream compatibility notes](https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List)
+cover any additional requirements. Press **Insert** in-game to check that OptiScaler opens.
 [Upstream Linux loading instructions](https://github.com/optiscaler/OptiScaler/wiki/Automated-Installation).
 
 <details>
 <summary>Heroic or native Windows</summary>
 
 In Heroic/Linux, add `WINEDLLOVERRIDES` as an environment variable with value
-`winmm=n,b` (or `dxgi=n,b` for Cyberpunk). Put renderer arguments in its arguments
+`winmm=n,b` (or `dxgi=n,b` for the general setup). Put renderer arguments in its arguments
 field. Keep the existing prefix and saves.
 
 These launch options apply to Linux. See [tested scope](#tested-scope) for
@@ -144,76 +145,7 @@ platform coverage.
 
 </details>
 
-<details>
-<summary>Game folders and settings — open your recipe for a first-time install</summary>
-
-## Game recipes
-
-Paths start at the game's installation root. Match the executable before
-copying: store builds and game updates can differ. Apply these additions to
-the common settings above.
-
-### Cyberpunk 2077: Steam or Heroic
-
-Place **`dxgi.dll`** beside `bin/x64/Cyberpunk2077.exe`. Set `[Spoofing] Dxgi=false`
-and, under `[Inputs]`, `EnableDlssInputs=false` and `EnableFfxInputs=auto`.
-Choose **FSR3** in-game. Use `dxgi` in the launch override.
-
-### Control Ultimate Edition
-
-Place **`winmm.dll`** beside `Control_DX12.exe`. Set `[Spoofing] Dxgi=false`.
-Choose the **DirectX 12** launch option and **DLSS** in-game. If needed, append
-`-dx12` to the Steam command after `%command%`.
-
-### System Shock
-
-Place **`winmm.dll`** beside
-`SystemShock/Binaries/Win64/SystemReShock-Win64-Shipping.exe`, with the signed
-helper beside the proxy. Set `[Spoofing] Dxgi=true`. Keep **DirectX 11** and
-choose **DLSS** in-game; append `-dx11` after `%command%` if needed.
-
-### No Man's Sky
-
-Place **`winmm.dll`** beside `Binaries/NMS.exe`. Under `[Spoofing]`, set
-`Dxgi=false`, `Vulkan=true` and `VulkanExtensionSpoofing=true`. Keep Vulkan and
-choose **DLSS**. Use this Vulkan compatibility setting in Steam launch options:
-
-```sh
-VKD3D_DISABLE_EXTENSIONS="VK_NVX_binary_import,VK_NVX_image_view_handle" WINEDLLOVERRIDES="winmm=n,b" %command%
-```
-
-Keep this game-specific workaround when setting up No Man's Sky.
-
-### DOOM: The Dark Ages
-
-Place **`winmm.dll`** beside `DOOMTheDarkAges.exe`. Set `[Spoofing] Dxgi=false`.
-Keep Vulkan and choose **FSR 3.1** in-game.
-
-[Tested scope](#tested-scope) identifies the release and coverage of these recipes.
-
-### Roboquest: existing Luma installation
-
-This recipe uses Luma's upscaler input. Start with a working Luma/ReShade setup;
-the recorded combination used Luma Unreal Engine `latest-623` and
-ReShade `6.8.0.1`. Preserve those mods. Place the `winmm.dll` adapter beside
-`RoboQuest/Binaries/Win64/RoboQuest-Win64-Shipping.exe`, keep DX11, use Luma's
-DLSS input, and add:
-
-```ini
-[Plugins]
-LoadReshade=true
-[Dx11withDx12]
-DontUseNTShared=true
-[Spoofing]
-Dxgi=false
-[Hotfix]
-CreateD3D12DeviceForLuma=false
-RestoreComputeSignature=false
-RestoreGraphicSignature=false
-ExtendedStateRestore=false
-```
-
-### Native FidelityFX games
+## Native FidelityFX games
 
 These two games can use RC11 directly, without OptiScaler. Back up the file
 before replacing it with RC11:
@@ -228,8 +160,6 @@ original upscaler DLL. This loader replacement is specific to KCD2 1.5.6.
 Keep working launch settings. To check the native watermark on Steam/Linux, use `env 'MLSR-WATERMARK=1' %command%`, preserving
 any existing arguments. Restore the previous launch options afterward.
 
-</details>
-
 ## Check that RC11 is rendering
 
 The [step 3 watermark](#3-play-and-check-once) identifies the active DLL.
@@ -239,7 +169,7 @@ The [step 3 watermark](#3-play-and-check-once) identifies the active DLL.
 | Symptom | Check |
 | --- | --- |
 | OptiScaler does not open with Insert | Actual executable folder, adapter filename and the Linux loading step above. |
-| DLSS is missing | Game recipe, signed helper beside the executable, and `LoadAsiPlugins=true` for OptiPatcher. |
+| DLSS is missing | [Upstream compatibility notes](https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List), signed helper beside the executable, and `LoadAsiPlugins=true` for OptiPatcher. |
 | Wrong version or `SOURCE: DRIVER` | Replaced file, default library paths and competing automatic upscaler options; see below. |
 | Wrong color-space label | Restore `[FSR] FsrNonLinearColorSpace=false`, `FsrNonLinearSRGB=auto`, `FsrNonLinearPQ=auto`. |
 | First use stalls | [Compilation troubleshooting](first-run-shader-compilation.md); retain normal caches. |
@@ -261,7 +191,7 @@ when your game needs the compatibility configuration from the recorded checks.
   `amdxcffx64=` inside `WINEDLLOVERRIDES`.
 - The recorded GE-Proton setup used `PROTON_USE_XALIA=0` to keep the adapter out
   of its accessibility helper. Vulkan interop needed the extension exclusion
-  shown in the No Man's Sky recipe.
+  included in the recorded compatibility line below.
 
 The complete earlier compatibility line is below. Use the matching proxy name
 and keep any game arguments/other mod overrides you already need:
@@ -292,7 +222,7 @@ version afterward.
 Close the game and restore the DLL backup. Restore any INI/launch settings you
 changed. If removing a fresh adapter installation, remove only files you added
 and restore replaced originals. Preserve other mods, saves and Proton prefixes.
-Native recipes restore the original game DLL; KCD2 restores the loader.
+For native replacement, restore the original file you replaced.
 
 <details>
 <summary>Optional: keep one shared DLL for multiple games</summary>

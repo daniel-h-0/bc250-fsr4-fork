@@ -17,7 +17,7 @@ Compatible native FidelityFX games can use
 instead of OptiScaler.
 
 These steps assume a working OptiScaler installation. For a first-time setup,
-use the [beginner guide and game recipes](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md).
+use the [manual installation guide](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md).
 The documented layout is OptiScaler 10.0.0-pre1 from September 4, 2026.
 
 ## Install
@@ -54,10 +54,10 @@ environment variable.
 ## Fresh Linux installation only
 
 Loading OptiScaler for the first time normally needs the Wine override matching
-its adapter name. For `winmm.dll`, the Steam launch option is
-`WINEDLLOVERRIDES="winmm=n,b" %command%`; use `dxgi` for a `dxgi.dll` adapter.
+its adapter name. For the general `dxgi.dll` setup, the Steam launch option is
+`WINEDLLOVERRIDES="dxgi=n,b" %command%`; use `winmm` for a `winmm.dll` adapter.
 Skip this if OptiScaler already loads. Keep other existing options and the
-[game recipe's requirements](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md#game-recipes).
+[upstream compatibility guidance](https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List).
 These launch options apply to Linux.
 
 ## Update or undo

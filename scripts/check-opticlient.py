@@ -17,16 +17,16 @@ ROOT = Path(__file__).resolve().parents[1]
 def check(root=ROOT, archive=None):
     integration = root / "integrations/optiscaler-client"
     manifest = json.loads((integration / "manifest.json").read_text())
-    record = json.loads((root / "docs/data/optiscaler-client-1.json").read_text())
+    record = json.loads((root / "docs/data/optiscaler-client-2.json").read_text())
     dll = json.loads((root / "dll/manifest.json").read_text())
     assert record["client_version"] == manifest["version"]
     assert record["upstream_commit"] == manifest["upstream_commit"]
     assert record["transaction_result"] == record["gui"]["status"] == "pass"
-    assert record["transaction_checks"] >= 26 and not record["gameplay_requalified"]
+    assert record["transaction_checks"] >= 45 and not record["gameplay_requalified"]
     for name, expected in record["sources"].items():
         assert hashlib.sha256((root / name).read_bytes()).hexdigest() == expected, name
-    recipes = json.loads((integration / "recipes.json").read_text())
-    assert len(record["real_payload"]) == len(recipes) == 5
+    assert not (integration / "recipes.json").exists()
+    assert {row["layout"] for row in record["real_payload"]} == {"flat", "nested", "unreal"}
     for row in record["real_payload"]:
         assert row["loaded_expected_path"] and row["ini_preserved"]
         assert row["sha256"] == dll["expected_dll_sha256"]
@@ -49,6 +49,8 @@ def check(root=ROOT, archive=None):
             )
             assert "source.tar.gz" in files and "OptiscalerClient" in files
             assert not any(name.startswith("bc250/payload/") for name in files)
+            payload = json.load(tar.extractfile(files["bc250/payload.json"]))
+            assert set(payload) == {"ProxyHash", "Files"}
             sums = tar.extractfile(files["SHA256SUMS"]).read().decode().splitlines()
             assert len(sums) == len(files) - 1
             for line in sums:
@@ -91,7 +93,7 @@ def check(root=ROOT, archive=None):
                     .read()
                     .startswith(b"                    GNU GENERAL PUBLIC LICENSE")
                 )
-    return "OptiScaler Client pins, transaction evidence, five load checks" + (
+    return "OptiScaler Client pins, transaction evidence, general-layout load checks" + (
         " and complete package" if archive else ""
     )
 

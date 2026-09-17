@@ -5,8 +5,8 @@ OptiScaler or a compatible native FidelityFX game. Use your normal graphics
 driver and Proton.
 
 **[Install across your games](docs/optiscaler-client.md)** ·
-[Manual install and game recipes](docs/beginner-guide.md) ·
-[Download the DLL](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.1/bc250-fsr4-dll-4.0.0-rc11-docs1.zip) ·
+[Manual installation](docs/beginner-guide.md) ·
+[Download the DLL](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.2/bc250-fsr4-dll-4.0.0-rc11-docs2.zip) ·
 [All documentation](docs/README.md)
 
 ## Install
@@ -18,9 +18,9 @@ driver and Proton.
    to update selected games together.
 
 Prefer to copy the DLL yourself? The [manual guide](docs/beginner-guide.md) covers
-OptiScaler setup, custom paths and game recipes. [Native FidelityFX games](docs/beginner-guide.md#native-fidelityfx-games)
+OptiScaler setup and custom paths. [Native FidelityFX games](docs/beginner-guide.md#native-fidelityfx-games)
 can use direct replacement without OptiScaler. The client route manages local
-OptiScaler copies on Linux; its guide lists supported fresh setups and existing adapters.
+OptiScaler copies on Linux; the same setup applies across compatible games.
 
 Testing covers **BC250/Linux**. [Release validation](docs/portable-dll-rc11.md)
 shows the supported test scope and work awaiting qualification.

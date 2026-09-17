@@ -1,5 +1,17 @@
 # Changelog
 
+## General OptiScaler Client setup — 2026-09-16
+
+- Client `1.0.7-bc250.2` uses one general setup across compatible games. Remove
+  the title whitelist and per-game input, proxy and launch-argument presets.
+- Use upstream OptiScaler input/spoofing defaults with the BC250 FFX/INT8 settings.
+  Show the detected executable and accept a manual choice when it is ambiguous.
+- Keep existing adapters, launch settings and installation records on updates;
+  prevent duplicate library entries from taking ownership of the same files.
+- Simplify the client and manual guides around this shared workflow. RC11's DLL
+  is unchanged; `rc11-docs2` refreshes its instructions.
+- Withdraw the earlier `1.0.7-bc250.1` addon release.
+
 ## OptiScaler Client integration — 2026-09-16
 
 Published separately as `opticlient-v1.0.7-bc250.1`, a prerelease addon for the

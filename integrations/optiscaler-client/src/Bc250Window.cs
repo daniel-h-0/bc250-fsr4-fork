@@ -29,7 +29,7 @@ public sealed class Bc250Window : Window
         var root = new DockPanel { Margin = new Thickness(20) };
         var top = new StackPanel { Spacing = 10, Margin = new Thickness(0, 0, 0, 15) };
         top.Children.Add(new TextBlock { Text = "Install across your games", FontSize = 24, FontWeight = FontWeight.Bold });
-        top.Children.Add(new TextBlock { Text = "Import the BC250 DLL ZIP once. Select games to install or update together. Close those games first.", TextWrapping = TextWrapping.Wrap });
+        top.Children.Add(new TextBlock { Text = "Select OptiScaler-compatible games to install or update together. Check the displayed executable and close selected games first.", TextWrapping = TextWrapping.Wrap });
         top.Children.Add(releaseLabel);
         var import = new Button { Content = "Import DLL ZIP" };
         import.Click += async (_, _) =>

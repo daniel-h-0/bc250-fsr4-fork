@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "date": "2026-09-16",
+  "client_version": "1.0.7-bc250.2",
+  "upstream_commit": "dd534b7d1cb8a0edf174a6917f5179791603d364",
+  "platform": "Linux x64 / AMD BC250",
+  "transaction_checks": 45,
+  "transaction_result": "pass",
+  "real_payload": [
+    {
+      "layout": "flat",
+      "sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "loaded_expected_path": true,
+      "ini_preserved": true
+    },
+    {
+      "layout": "nested",
+      "sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "loaded_expected_path": true,
+      "ini_preserved": true
+    },
+    {
+      "layout": "unreal",
+      "sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "loaded_expected_path": true,
+      "ini_preserved": true
+    }
+  ],
+  "gui": {
+    "status": "pass",
+    "environment": "Isolated Xvfb display; network disabled; filesystem read-only outside synthetic game/config directories",
+    "startup_from_cached_pinned_dependencies": "pass",
+    "library_and_general_route": "pass",
+    "bulk_install_two_unlisted_games": "pass",
+    "bulk_update_preserves_both_inis": "pass",
+    "restore_confirmation_and_both_original_trees": "pass"
+  },
+  "gameplay_requalified": false,
+  "rendering_evidence": "portable-dll-rc11.json",
+  "sources": {
+    "integrations/optiscaler-client/src/Bc250RouteService.cs": "0b764462154338c33fec31bd38e09a67bafdd27bcc22499a92dce7bd175eeff0",
+    "integrations/optiscaler-client/src/Bc250StartupWindow.cs": "ec4a5c9a2fec3d309eb47acb7c5491b051a36c60bd2b41bb3c0f0d6997c5bbd6",
+    "integrations/optiscaler-client/src/Bc250Transaction.cs": "faba4d3490b651f492f1d3a3e8dda4aa41c70ca95e580e0a1a0df6a4994c1778",
+    "integrations/optiscaler-client/src/Bc250Window.cs": "963204ea0748578343c3fbde51fd2be79e0e8afd56f40ee4d72cbc3c78da3dc1"
+  },
+  "archive_name": "bc250-opticlient-1.0.7-bc250.2-linux-x64.tar.gz",
+  "bundled_dll_zip": "bc250-fsr4-dll-4.0.0-rc11-docs2.zip",
+  "dependency_backport": "Tmds.DBus.Protocol 0.21.3",
+  "previous_client_receipt_update_restore": "pass",
+  "scope": "General file installation and DLL loading only. Upstream input/spoofing defaults; no per-title presets or new gameplay claims."
+}

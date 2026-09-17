@@ -2,7 +2,7 @@
 
 **[Install across your games](optiscaler-client.md)** — use the BC250 build of
 OptiScaler Client to install and update selected games together.
-[Manual install and game recipes](beginner-guide.md) cover direct replacement,
+[Manual installation](beginner-guide.md) covers direct replacement,
 native FidelityFX games and custom layouts.
 
 ## Find an answer

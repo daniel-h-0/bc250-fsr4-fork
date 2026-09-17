@@ -1,80 +1,82 @@
 # Install across your games
 
-**Import the DLL once, select games, and install or update them together.**
-Use the BC250 project build of OptiScaler Client, **1.0.7-bc250.1**, on Linux x64.
-It supplies the FFX/INT8 settings and manages each game's copy. Keep your normal
-graphics driver and Proton; no custom shader-cache setup is needed.
+**Select compatible games, install once, and update them together.** The BC250
+build of OptiScaler Client manages each game's DLL and FFX/INT8 settings. Keep
+your normal graphics driver and Proton; no custom paths or shader-cache setup
+are needed.
 
 ## 1. Open the client
 
-Download the [Linux client archive](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.1/bc250-opticlient-1.0.7-bc250.1-linux-x64.tar.gz),
-extract it, and run **`Start-BC250-OptiClient.sh`**. First setup downloads and checks its
-OptiScaler dependencies. RC11 is included and selected automatically.
+Download [OptiScaler Client 1.0.7-bc250.2 for Linux x64](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.2/bc250-opticlient-1.0.7-bc250.2-linux-x64.tar.gz),
+extract it, and run **`Start-BC250-OptiClient.sh`**. First setup downloads its
+OptiScaler dependencies. The RC11 DLL is included and selected automatically.
 
 Choose **Scan Games**, then **Install across your games**. Steam and Heroic
-libraries are discovered by the client; use **Add Manually** for other folders.
+libraries are discovered automatically. **Add Manually** lets you select a
+game's executable yourself.
 
 ## 2. Select games and install
 
-Close the games you select, then choose **Install / update selected**.
-The client places the DLL and applies FFX/INT8 with frame generation off and the
-watermark on Auto. Leave frame generation off in the game too.
+Select the games you want, close them, and choose **Install / update selected**.
+For a new installation, check the executable shown in its row. If the client
+asks you to locate it, use **Add Manually** to select the actual 64-bit Windows
+`.exe`; Unreal games usually keep it under `Binaries/Win64`.
 
-- **Working OptiScaler installation:** keep its launch options. The first BC250
-  installation applies the settings above and retains other game-specific settings.
-  This build supports the September 4 OptiScaler 10.0.0-pre1 adapter.
-- **First installation:** the client prepares the files for Cyberpunk 2077,
-  Control, System Shock, No Man's Sky and DOOM: The Dark Ages. Each row shows
-  the game's upscaler choice and Linux loading instruction.
-- **Other games or custom shared paths:** follow the
-  [manual guide and game recipes](beginner-guide.md) first. Rescan a supported
-  local OptiScaler installation to manage its DLL here.
+Every new game uses the same OptiScaler setup. The client installs its files
+beside the executable and selects FFX/INT8. Existing OptiScaler installations
+keep their input settings and working launch options. Leave frame generation
+off in the game.
 
-For a fresh Steam installation, merge the displayed loading instruction into
-**Properties → General → Launch Options**, preserving other settings and one
-`%command%`. In Heroic, put environment variables and game arguments in their
-separate fields. Existing working OptiScaler installations skip this step.
+**First OptiScaler installation on Linux?** Copy the row's loading instruction
+into Steam **Properties → General → Launch Options**. Merge it with any existing
+settings, keeping one `%command%`. In Heroic, add `WINEDLLOVERRIDES` as an
+environment variable with value `dxgi=n,b`. Do this once per newly configured
+game; DLL updates need no launch-option changes.
 
-Launch normally and choose the upscaler named in the game row. It may say DLSS
-or FSR3; that is the input OptiScaler uses to run FSR4. First use can pause while
-shaders compile. The optional [watermark check](beginner-guide.md#3-play-and-check-once)
-confirms the active FSR4 release and INT8 model.
+Launch normally and select **DLSS**, or an FSR/XeSS input supported by that
+game's OptiScaler integration. OptiScaler uses that input to run FSR4. Press
+**Insert** to open its overlay; the optional
+[watermark check](beginner-guide.md#3-play-and-check-once) confirms RC11 and INT8.
+First use can pause while shaders compile.
+
+## Which games can I select?
+
+Use games [compatible with OptiScaler](https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List).
+There is no project game whitelist or per-title installation preset. Scanning
+finds executables; it does not establish compatibility. Follow upstream's
+compatibility notes if a game's input or loading method needs adjustment.
+OptiScaler advises against using it in online games with anti-cheat.
+
+This build uses OptiScaler 10.0.0-pre1 from September 4. It can also manage an
+existing installation of that version with a local FSR DLL. For other adapter
+versions, shared paths or native FidelityFX replacement, use the
+[manual guide](beginner-guide.md).
 
 ## Update or restore
 
 **Update:** download a compatible BC250 FSR4 **DLL ZIP** from the
-[project releases](https://github.com/daniel-h-0/bc250-fsr4-fork/releases), choose **Import DLL ZIP** once,
-select installed games, and choose **Install / update selected**. Updates replace
-only their upscaler DLL; existing game settings stay in place. New games use the
-selected release too.
+[project releases](https://github.com/daniel-h-0/bc250-fsr4-fork/releases), choose
+**Import DLL ZIP** once, select installed games, and choose **Install / update
+selected**. Updates replace only their upscaler DLL; existing game settings stay
+in place. New games use the selected release too.
+
+**Update the client:** extract the new client archive and run its launcher.
+Keep `~/.config/OptiscalerClient-BC250/` (or its location under `XDG_CONFIG_HOME`);
+it holds your selected DLL, installation records and original-file backups.
+Existing installations made by client 1.0.7-bc250.1 remain manageable.
 
 **Restore:** select games and choose **Restore / recover selected**. The client
-restores the files saved before its first BC250 installation and removes the
-files it added. Keep its application data until you have restored your games.
-Any launch-option changes you made remain yours to undo. If you edited files
-after installation, restore pauses for that game before changing any files;
-keep the backups and [report the displayed result](../CONTRIBUTING.md#report-a-problem)
-if you need help reconciling the edits.
+restores files saved before its first BC250 installation and removes files it
+added. Undo any launch-option edits yourself. If a file has later changes,
+restore pauses that game for review and leaves its files in place.
 
-An interrupted operation uses the same **Restore / recover** action to return to
-the previous installation. The result is shown for each game, so a game needing attention
-does not prevent the others from completing.
-
-## Scope and help
-
-The client manages selected games, not the entire system. Its **Files installed**
-result confirms file setup; use the game's loading instruction and verification
-check to confirm it is rendering. Supported native FidelityFX games can use the
-[direct DLL recipes](beginner-guide.md#native-fidelityfx-games) without OptiScaler.
-Those special native targets remain a manual route in this first client build.
+Use the same action to recover an interrupted operation. Results appear per
+game, so one game needing attention does not prevent the others from completing.
 
 [Troubleshooting](beginner-guide.md#if-the-check-fails) ·
 [Shader compilation](first-run-shader-compilation.md) ·
 [Client build and validation](../integrations/optiscaler-client/README.md)
 
-This is a BC250 project build of the third-party
-[OptiScaler Client](https://github.com/Optiscaler-Client/Optiscaler-Client), with
-an integrated installation/update screen. Its settings and restore records live
-under `~/.config/OptiscalerClient-BC250/` (or your `XDG_CONFIG_HOME`). Application
-updates come from this project; ordinary upstream Client 1.0.7 does not include
-this route.
+This is a project build of [OptiScaler Client](https://github.com/Optiscaler-Client/Optiscaler-Client).
+Application updates come from this project; upstream Client 1.0.7 does not
+include this installation/update screen.
