@@ -14,6 +14,10 @@ installation, DLL updates and file restoration using one general setup across
 OptiScaler-compatible games. RC11 remains the DLL release;
 this addon changes installation rather than shader code or measured performance.
 
+The application is a modified build of [OptiScaler Client](https://github.com/Optiscaler-Client/Optiscaler-Client)
+by Agustín Montaña (Agustinm28) and contributors. BC250 maintains the FSR4-specific
+integration and this distribution. [Upstream roles, credits and licenses](../THIRD_PARTY.md#optiscaler-client-addon).
+
 The addon release contains the Linux client, the `rc11-docs2` DLL ZIP, a complete
 project source snapshot and `SHA256SUMS`. The application also includes its full
 modified client source. The [client validation record](../integrations/optiscaler-client/README.md#validation)

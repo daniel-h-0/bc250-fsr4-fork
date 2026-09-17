@@ -11,6 +11,9 @@ For supported games with native FidelityFX integration, use the
 [direct DLL recipes](#native-fidelityfx-games) instead of setting up OptiScaler.
 
 These instructions use [OptiScaler 10.0.0-pre1, September 4, 2026](https://github.com/optiscaler/OptiScaler-nightly/releases/tag/nightly-20260904).
+The [OptiScaler team and contributors](https://github.com/optiscaler/OptiScaler)
+provide the adapter and [OptiPatcher](https://github.com/optiscaler/OptiPatcher)
+plugin; BC250 FSR4 supplies the optimized upscaler DLL.
 Already working? Keep its game-specific settings and launch options.
 New to OptiScaler? Expand the setup below first.
 

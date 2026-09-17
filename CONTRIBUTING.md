@@ -25,10 +25,12 @@ use the separate [build instructions](docs/development.md#build-the-current-driv
 ## Keep the scope small
 
 User documentation starts with [Install across your games](docs/optiscaler-client.md).
-Keep manual DLL replacement, native recipes and custom paths in the
+Keep manual DLL replacement, native integration and custom paths in the
 [manual guide](docs/beginner-guide.md). The client supplies common FFX/INT8
 settings and preserves per-game configuration on updates. Keep first-time Linux
-loading instructions with their actual games, and link optional cache/driver tools separately.
+loading instructions with the selected adapter, and link optional cache/driver tools separately.
+Use one general OptiScaler setup; game names in dated validation records describe
+test coverage, not an installation whitelist or a preset catalog.
 Each topic has one maintained guide; other pages link to it instead of copying
 its steps. Keep current guides at the top of `docs/`; put superseded runtime
 guides in `docs/legacy/runtime/` and dated experiments in `docs/legacy/research/`. Keep release measurements dated and separate from current instructions.
@@ -38,7 +40,8 @@ both the repository and the extracted archive.
 - DLL changes belong in `dll/` with complete editable shader sources, input
   hashes and a newly qualified output identity. Keep the user download small.
 - Client integration belongs in `integrations/optiscaler-client/`: pin the upstream
-  source, retain its license, ship complete modified source with the application,
+  source, name its authors and upstream project in user-facing guides, retain its
+  license, ship complete modified source with the application,
   and run the transaction and packaged-client checks in its build guide. Its
   per-game file ownership is separate from the retained RC6 runtime below.
 - Driver changes belong in the manifest and ordered Mesa patches. Preserve

@@ -1,9 +1,16 @@
 # OptiScaler Client integration
 
 User instructions: [Install across your games](../../docs/optiscaler-client.md).
-Project build: **1.0.7-bc250.2**, Linux x64. This build pins upstream Client 1.0.7
-at `dd534b7d1cb8a0edf174a6917f5179791603d364` and adds a BC250 installation screen.
-It is separately maintained and clearly distinguished from the upstream release.
+Project build: **1.0.7-bc250.2**, Linux x64, based on
+[OptiScaler Client](https://github.com/Optiscaler-Client/Optiscaler-Client) by
+[Agustín Montaña (Agustinm28)](https://github.com/Agustinm28) and contributors,
+under GPL-3.0-or-later. The upstream desktop interface, scanner and component
+services remain the foundation of this build.
+
+We pin upstream Client 1.0.7 at `dd534b7d1cb8a0edf174a6917f5179791603d364`.
+BC250 adds the dedicated FSR4 installation/update/restore screen, common FFX/INT8
+settings, dependency pins and release packaging. BC250 maintains these changes
+and handles support for this build. [Component credits and licenses](../../THIRD_PARTY.md#optiscaler-client-addon).
 
 ## Build
 

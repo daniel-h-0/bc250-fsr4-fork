@@ -5,6 +5,11 @@ build of OptiScaler Client manages each game's DLL and FFX/INT8 settings. Keep
 your normal graphics driver and Proton; no custom paths or shader-cache setup
 are needed.
 
+This is a BC250-maintained build of [OptiScaler Client](https://github.com/Optiscaler-Client/Optiscaler-Client),
+created by [Agustín Montaña (Agustinm28)](https://github.com/Agustinm28) and contributors.
+Their application supplies the desktop interface, game discovery and component
+management; BC250 adds the dedicated FSR4 installation/update/restore workflow.
+
 ## 1. Open the client
 
 Download [OptiScaler Client 1.0.7-bc250.2 for Linux x64](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.2/bc250-opticlient-1.0.7-bc250.2-linux-x64.tar.gz),
@@ -75,6 +80,10 @@ game, so one game needing attention does not prevent the others from completing.
 [Shader compilation](first-run-shader-compilation.md) ·
 [Client build and validation](../integrations/optiscaler-client/README.md)
 
-This is a project build of [OptiScaler Client](https://github.com/Optiscaler-Client/Optiscaler-Client).
-Application updates come from this project; upstream Client 1.0.7 does not
-include this installation/update screen.
+[OptiScaler](https://github.com/optiscaler/OptiScaler) and
+[OptiPatcher](https://github.com/optiscaler/OptiPatcher), by the OptiScaler team and
+contributors, provide the in-game adapter and input-compatibility plugin.
+OptiScaler Client is an independent manager project. BC250 maintains this
+modified build and supplies its application updates and
+[installation support](../CONTRIBUTING.md#report-a-problem).
+[Full credits and licenses](../THIRD_PARTY.md#optiscaler-client-addon).

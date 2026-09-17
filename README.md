@@ -59,6 +59,15 @@ RC9's native shader code (and runtime performance). RC11 retains RC10's shaders 
 
 This continues [dmoraza's BC250 FSR4 project](https://github.com/dmorazasanchez/bc250-fsr4) - many thanks to him for
 originating this work and achieving the first bundle of performance wins.
+
+The installer builds on [OptiScaler Client](https://github.com/Optiscaler-Client/Optiscaler-Client),
+created by [Agustín Montaña (Agustinm28)](https://github.com/Agustinm28) and contributors.
+Their desktop application, game discovery and component management provide the
+foundation for our BC250 installation screen. The [OptiScaler](https://github.com/optiscaler/OptiScaler)
+team and contributors provide the in-game upscaler adapter and
+[OptiPatcher](https://github.com/optiscaler/OptiPatcher) input-compatibility plugin.
+
 Thanks to AMD/GPUOpen, Mesa/RADV, Microsoft DXC, Wine, vkd3d-proton, Valve Proton,
-GE-Proton and OptiScaler. [Licenses and attribution](THIRD_PARTY.md).
+GE-Proton, NVIDIA, Intel, and the Avalonia/.NET contributors.
+[Component credits, licenses and our modifications](THIRD_PARTY.md).
 GPT-6-Astra was used in the development of this project, with constant human review.

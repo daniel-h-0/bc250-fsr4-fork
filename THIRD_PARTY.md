@@ -27,14 +27,48 @@ Proton, OptiScaler, NVIDIA helper or driver-provider binary is bundled in the
 portable DLL archive. Users obtain an optional OptiScaler adapter separately under
 its upstream terms. The runtime-distribution section below describes retained RC6.
 
-## Source inventory
+## OptiScaler Client addon
 
-The optional [OptiScaler Client project build](integrations/optiscaler-client/README.md)
-uses the pinned GPL-3.0-or-later client source and BC250 C# additions under the
-same license. Its binary archive includes the complete modified client source,
-upstream license and integration notice. First-run OptiScaler, OptiPatcher and
-NVIDIA helper downloads come from pinned upstream locations; those binaries are
-not included in the client archive. The unchanged FSR4 ZIP retains its own notices.
+The desktop application is based on **[OptiScaler Client](https://github.com/Optiscaler-Client/Optiscaler-Client)**,
+Copyright (C) 2026 **Agustín Montaña (Agustinm28)**, with contributions from its
+upstream community. Client 1.0.7 is pinned at
+[`dd534b7d1cb8a0edf174a6917f5179791603d364`](https://github.com/Optiscaler-Client/Optiscaler-Client/tree/dd534b7d1cb8a0edf174a6917f5179791603d364).
+Its desktop interface, game discovery and component services are upstream work.
+
+BC250 maintains the added FSR4 installation/update/restore screen, FFX/INT8
+settings, dependency pins and packaging. The client and BC250 C# additions use
+**GPL-3.0-or-later**; [upstream's attribution](https://github.com/Optiscaler-Client/Optiscaler-Client/blob/dd534b7d1cb8a0edf174a6917f5179791603d364/README.md#-license--acknowledgments)
+and [full license](https://github.com/Optiscaler-Client/Optiscaler-Client/blob/dd534b7d1cb8a0edf174a6917f5179791603d364/LICENSE)
+are retained in the complete modified source. The binary archive includes that
+source as `source.tar.gz`, the GPL text under `notices/`, and the
+[integration notice](integrations/optiscaler-client/NOTICE.md).
+
+OptiScaler Client is an independent manager project. This modified distribution
+is maintained and supported by BC250 FSR4; it is not an official release of
+either upstream project.
+
+| Upstream software | Credit and role in this route | License / provenance |
+| --- | --- | --- |
+| [OptiScaler](https://github.com/optiscaler/OptiScaler) | OptiScaler team and contributors; the in-game adapter that routes supported upscaler inputs to the selected backend. Its own credits acknowledge PotatoOfDoom's CyberFSR2 foundation. | [Upstream license](https://github.com/optiscaler/OptiScaler/blob/master/LICENSE); pinned nightly and hash in the [client manifest](integrations/optiscaler-client/manifest.json). |
+| [OptiPatcher](https://github.com/optiscaler/OptiPatcher) | OptiScaler team and contributors; ASI plugin that exposes supported games' DLSS inputs without vendor spoofing. | [MIT notice for v0.41](https://github.com/optiscaler/OptiPatcher/blob/v0.41/LICENSE), Copyright (c) 2025 OptiScaler. |
+| [AMD FidelityFX SDK](https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK) | AMD and SDK contributors; the base FSR4 DLL, shaders and model material that this project's optimizations modify. | [Complete AMD notice](dll/notices/AMD-SDK-LICENSE.md) and [DLL provenance](dll/notices/PROVENANCE.md). |
+| [NVIDIA DLSS](https://github.com/NVIDIA/DLSS) | NVIDIA; the signed helper used for input compatibility. The selected output remains the BC250 FSR4 DLL. | [Pinned NVIDIA terms](https://github.com/NVIDIA/DLSS/blob/a291cc7d2cc642a51566f3dfd5376f635cd1b284/LICENSE.txt), downloaded alongside the helper. |
+| [Avalonia](https://github.com/AvaloniaUI/Avalonia) and [.NET](https://github.com/dotnet/runtime) | Their authors and contributors; the client's desktop UI framework and managed runtime. | Dependency versions in the client source and [lock file](integrations/optiscaler-client/packages.lock.json); license texts and package metadata under `notices/nuget/`, plus .NET notices in the application archive. |
+
+The downloaded OptiScaler package also carries work from the
+[fakenvapi contributors](https://github.com/optiscaler/fakenvapi),
+[Nukem's dlssg-to-fsr3](https://github.com/Nukem9/dlssg-to-fsr3),
+[Intel XeSS](https://github.com/intel/xess) and
+[Microsoft DirectX](https://devblogs.microsoft.com/directx/directx12agility/), under their
+respective terms. Their presence in that package is separate from the FFX/INT8
+configuration selected by this guide; frame generation is disabled in that setup.
+
+First-run OptiScaler, OptiPatcher and NVIDIA helper downloads come from pinned
+upstream locations; those binaries are not included in the client archive.
+Their downloaded notices and upstream terms remain applicable. The FSR4 ZIP
+inside the archive retains its own AMD and build-tool notices.
+
+## Source inventory
 
 | Material | Provenance and notices |
 | --- | --- |
