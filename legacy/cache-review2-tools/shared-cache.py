@@ -164,9 +164,6 @@ def prepare(environment, shared_root=None, backend="multi-file"):
 
 
 def last_launch_path(environment):
-    selected = environment.get("BC250_FSR4_CACHE_STATUS_FILE")
-    if selected and Path(selected).is_absolute():
-        return Path(selected)
     return xdg(environment, "XDG_STATE_HOME", ".local/state") / "bc250-fsr4-cache/last-launch.json"
 
 

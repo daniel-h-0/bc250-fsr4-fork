@@ -1,7 +1,7 @@
 # OptiScaler Client integration
 
 User instructions: [Install across your games](../../docs/optiscaler-client.md).
-Project build: **1.0.7-bc250.2**, Linux x64, based on
+Project build: **1.0.7-bc250.3**, Linux x64, based on
 [OptiScaler Client](https://github.com/Optiscaler-Client/Optiscaler-Client) by
 [Agustín Montaña (Agustinm28)](https://github.com/Agustinm28) and contributors,
 under GPL-3.0-or-later. The upstream desktop interface, scanner and component
@@ -9,7 +9,7 @@ services remain the foundation of this build.
 
 We pin upstream Client 1.0.7 at `dd534b7d1cb8a0edf174a6917f5179791603d364`.
 BC250 adds the dedicated FSR4 installation/update/restore screen, common FFX/INT8
-settings, dependency pins and release packaging. BC250 maintains these changes
+settings, optional shared-cache enrollment, dependency pins and release packaging. BC250 maintains these changes
 and handles support for this build. [Component credits and licenses](../../THIRD_PARTY.md#optiscaler-client-addon).
 
 ## Build
@@ -77,12 +77,35 @@ are resolved; absolute/shared paths and symbolic links use the manual route.
 Native game DLL replacements also remain manual in this build. Scan results
 alone are not a game-compatibility claim.
 
-The client displays Linux loading instructions and leaves launcher settings
-under the user's control. It does not edit launcher settings, Proton prefixes,
-saves, drivers or shader-cache policy. Restoration therefore only restores game
-files. Updates check the DLL, adapter identity and configured target. Restore
+The client displays Linux DLL-loading instructions for the user to apply.
+Optional shared-cache enrollment separately edits only the selected launcher
+wrapper field. Prefixes, saves and drivers retain their existing owners.
+Restoration removes client-managed cache enrollment before restoring game files. Updates check the DLL, adapter identity and configured target. Restore
 checks every owned file and pauses that game if a later edit needs review;
 other selected games can still complete.
+
+## Shared-cache ownership
+
+`Bc250CacheService.cs` verifies the bundled Python tools and invokes
+`scripts/client-cache.py`. Default installation leaves cache settings unchanged.
+Explicit enable installs a permanent helper, verifies sandbox access, then enrolls
+selected launcher entries. Steam uses the most-recent account; ambiguous accounts
+or launcher matches require manual setup. Steam shortcuts are configured in their
+owning launcher. Heroic preserves wrapper order and Lutris preserves its local
+command prefix. An inherited global Lutris prefix requires manual setup.
+
+Enrollment uses a separate locked, durable transaction under `BC250/cache`.
+It snapshots the launcher field and original bytes before replacing the config,
+verifies the write, and journals commit state. Undo restores exact original bytes
+when possible, otherwise only the owned field. Later edits to that field require
+review. Missing helpers can be repaired with Enable; interrupted edits recover
+with Disable / recover. DLL success and cache failure are reported separately.
+
+The reusable cache engine remains `scripts/shared-cache.py`; Mesa chooses which
+entries match. The client adds per-game launch preparation records, not hit
+counters. A real sandbox probe checks Python, helper visibility and store write
+access. Permission grants remain user-controlled. Manual enrollment prepares the
+same helper but does not claim a launcher transaction or automatic undo.
 
 ## Tests
 
@@ -91,9 +114,10 @@ After preparing/building the pinned source above:
 ```sh
 dotnet run -c Release --project integrations/optiscaler-client/tests/ClientTests.csproj \
   -p:ClientSource=/absolute/path/to/work/source/Optiscaler-Client-dd534b7d1cb8a0edf174a6917f5179791603d364
+python3 -m unittest discover -s tests -p test_client_cache.py
 python3 scripts/check-repo.py
 python3 scripts/check-opticlient.py \
-  --archive dist/opticlient/bc250-opticlient-1.0.7-bc250.2-linux-x64.tar.gz
+  --archive dist/opticlient/bc250-opticlient-1.0.7-bc250.3-linux-x64.tar.gz
 ```
 
 The C# harness creates temporary game trees and isolated application data through
@@ -113,7 +137,11 @@ updates. Use only synthetic game directories for this check.
 
 The integration adds installation behavior; it does not change the released DLL.
 Its transaction tests and real-payload installation/loading checks are recorded
-in [the integration validation record](../../docs/data/optiscaler-client-2.json).
+in [the client/cache validation record](../../docs/data/optiscaler-client-3.json).
+The previous [general-layout DLL loading checks](../../docs/data/optiscaler-client-2.json)
+remain applicable to the unchanged installation engine. The new record adds a
+real native-Heroic game launch through the packaged client cache route and
+separately scopes Steam/Lutris transaction and Flatpak access checks.
 The [RC11 validation](../../docs/portable-dll-rc11.md) remains the rendering evidence
 for that DLL. Client setup, DLL loading and actual game rendering are distinct
 checks; this build does not claim a new full gameplay campaign or support for

@@ -84,6 +84,18 @@ def build(work, output, dotnet, dll_zip):
         check=True,
     )
     (stage / "bc250").mkdir()
+    cache_tools = stage / "bc250/cache-tools"
+    cache_tools.mkdir()
+    cache_sources = ["client-cache.py", "client_cache_vdf.py", "shared-cache.py", "shared-cache.sh"]
+    for name in cache_sources:
+        shutil.copy2(ROOT / "scripts" / name, cache_tools / name)
+    shutil.copy2(ROOT / "LICENSE.new-code", cache_tools / "LICENSE.new-code")
+    (cache_tools / "SHA256.json").write_text(
+        json.dumps(
+            {p.name: digest(p) for p in sorted(cache_tools.iterdir()) if p.is_file()}, indent=2
+        )
+        + "\n"
+    )
     payload = work / "qualification-payload"
     payload.mkdir(parents=True)
     subprocess.run(["bsdtar", "-xf", str(inputs["opti"]), "-C", str(payload)], check=True)
@@ -155,6 +167,11 @@ def build(work, output, dotnet, dll_zip):
             ):
                 archive.add(path, arcname="bc250-integration/" + str(path.relative_to(integration)))
         archive.add(Path(__file__), arcname="package-opticlient.py")
+        for name in cache_sources:
+            archive.add(ROOT / "scripts" / name, arcname="scripts/" + name)
+        archive.add(ROOT / "LICENSE.new-code", arcname="LICENSE.new-code")
+        for name in ("test_client_cache.py", "test_shared_cache.py"):
+            archive.add(ROOT / "tests" / name, arcname="tests/" + name)
     guide = (ROOT / "docs/optiscaler-client.md").read_text()
 
     def online_link(match):

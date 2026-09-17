@@ -10,7 +10,7 @@ Later launches can reuse that work through normal shader caches.
    with the game/API, DLL, GPU, driver and Proton versions plus a short error log.
 
 Updates can require recompilation. The [GPU-cost chart](gpu-cost.md) measures
-upscaling after compilation. Optional [shared caching](shared-shader-cache.md)
-can reuse compatible work across games.
+upscaling after compilation. The client can enable optional [shared caching](shared-shader-cache.md)
+to reuse compatible work across games.
 
 [Install across your games](optiscaler-client.md) · [Manual installation](beginner-guide.md).

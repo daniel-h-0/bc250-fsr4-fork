@@ -13,6 +13,8 @@ namespace OptiscalerClient.Views;
 public sealed class Bc250Window : Window
 {
     readonly Bc250RouteService service;
+    readonly Bc250CacheService cache = new();
+    readonly ComboBox cacheChoice = new() { ItemsSource = new[] { "Keep current cache settings", "Enable shared cache", "Disable / recover shared cache" }, SelectedIndex = 0 };
     readonly List<(Game Game, CheckBox Select, TextBox Status)> rows = new();
     readonly TextBlock releaseLabel = new() { TextWrapping = TextWrapping.Wrap };
     readonly WrapPanel actions = new() { Orientation = Orientation.Horizontal };
@@ -31,6 +33,8 @@ public sealed class Bc250Window : Window
         top.Children.Add(new TextBlock { Text = "Install across your games", FontSize = 24, FontWeight = FontWeight.Bold });
         top.Children.Add(new TextBlock { Text = "Select OptiScaler-compatible games to install or update together. Check the displayed executable and close selected games first.", TextWrapping = TextWrapping.Wrap });
         top.Children.Add(releaseLabel);
+        top.Children.Add(cacheChoice);
+        top.Children.Add(new TextBlock { Text = "Optional shared cache (Mesa/Linux). Close the selected games and their launcher before changing cache settings. Existing shader caches are retained.", TextWrapping = TextWrapping.Wrap });
         var import = new Button { Content = "Import DLL ZIP" };
         import.Click += async (_, _) =>
         {
@@ -56,7 +60,13 @@ public sealed class Bc250Window : Window
         install.Click += async (_, _) => await Run(false);
         var restore = new Button { Content = "Restore / recover selected" };
         restore.Click += async (_, _) => await Run(true);
-        foreach (var control in new Control[] { import, select, clear, install, restore })
+        var cacheApply = new Button { Content = "Apply cache choice" };
+        cacheApply.Click += async (_, _) => await RunCache(cacheChoice.SelectedIndex == 1 ? "enable" : cacheChoice.SelectedIndex == 2 ? "disable" : "status");
+        var cacheStatus = new Button { Content = "Cache status" };
+        cacheStatus.Click += async (_, _) => await RunCache("status");
+        var cacheManual = new Button { Content = "Prepare manual cache" };
+        cacheManual.Click += async (_, _) => await RunCache("manual");
+        foreach (var control in new Control[] { import, select, clear, install, restore, cacheApply, cacheStatus, cacheManual })
         { control.Margin = new Thickness(0, 0, 10, 8); actions.Children.Add(control); }
         top.Children.Add(actions);
         DockPanel.SetDock(top, Dock.Top); root.Children.Add(top);
@@ -71,7 +81,7 @@ public sealed class Bc250Window : Window
             var check = new CheckBox { Content = game.Name };
             var status = new TextBox { IsReadOnly = true, TextWrapping = TextWrapping.Wrap, AcceptsReturn = true, BorderThickness = new Thickness(0) };
             try { status.Text = service.Describe(game).Hint; }
-            catch (Exception ex) { status.Text = ex.Message; check.IsEnabled = service.HasRecord(game); }
+            catch (Exception ex) { status.Text = ex.Message; check.IsEnabled = Directory.Exists(game.InstallPath) || service.HasRecord(game); }
             var panel = new StackPanel { Spacing = 3 }; panel.Children.Add(check); panel.Children.Add(status);
             list.Children.Add(panel); rows.Add((game, check, status));
         }
@@ -94,24 +104,58 @@ public sealed class Bc250Window : Window
         var selected = rows.Where(r => r.Select.IsChecked == true).ToList();
         if (selected.Count == 0) { releaseLabel.Text = "Select at least one game."; return; }
         if (restore && !await new ConfirmDialog(this, "Restore selected games",
-            "Restore the files saved before BC250 installation for " + selected.Count + " selected game(s)? Later file changes are preserved for review.").ShowDialog<bool>(this)) return;
-        busy = true; actions.IsEnabled = false;
+            "Restore the files saved before BC250 installation for " + selected.Count + " selected game(s)? Client-managed cache launch settings will also be restored. Close the launcher first. Later file changes are preserved for review.").ShowDialog<bool>(this)) return;
+        busy = true; actions.IsEnabled = false; cacheChoice.IsEnabled = false;
+        var choice = cacheChoice.SelectedIndex;
         foreach (var row in rows) row.Select.IsEnabled = false;
         try
         {
             foreach (var row in selected)
             {
                 row.Status.Text = restore ? "Restoring…" : "Installing / updating…";
-                try { row.Status.Text = await Task.Run(() => restore ? service.Restore(row.Game) : service.Install(row.Game)); }
-                catch (Exception ex) { row.Status.Text = "Needs attention: " + ex.Message; }
+                var cacheResult = "";
+                try
+                {
+                    if (restore && cache.HasRecords) cacheResult = await Task.Run(() => cache.Run(row.Game, "disable"));
+                    row.Status.Text = await Task.Run(() => restore ? service.Restore(row.Game) : service.Install(row.Game));
+                    if (!restore && choice != 0)
+                    {
+                        try { cacheResult = await Task.Run(() => cache.Run(row.Game, choice == 1 ? "enable" : "disable")); }
+                        catch (Exception ex) { cacheResult = "DLL setup completed; cache needs attention: " + ex.Message; }
+                    }
+                    if (cacheResult != "") row.Status.Text += "\n" + cacheResult;
+                }
+                catch (Exception ex) { row.Status.Text = (cacheResult == "" ? "" : cacheResult + "\n") + "Needs attention: " + ex.Message; }
             }
         }
         finally
         {
-            busy = false; actions.IsEnabled = true;
+            busy = false; actions.IsEnabled = true; cacheChoice.IsEnabled = true;
             foreach (var row in rows)
                 try { service.Describe(row.Game); row.Select.IsEnabled = true; }
-                catch { row.Select.IsEnabled = service.HasRecord(row.Game); }
+                catch { row.Select.IsEnabled = Directory.Exists(row.Game.InstallPath) || service.HasRecord(row.Game); }
         }
     }
+    async Task RunCache(string action)
+    {
+        var selected = rows.Where(r => r.Select.IsChecked == true).ToList();
+        if (selected.Count == 0) { releaseLabel.Text = "Select at least one game."; return; }
+        busy = true; actions.IsEnabled = false; cacheChoice.IsEnabled = false;
+        foreach (var row in rows) row.Select.IsEnabled = false;
+        try
+        {
+            foreach (var row in selected)
+            {
+                row.Status.Text = "Checking shared cache…";
+                try { row.Status.Text = await Task.Run(() => cache.Run(row.Game, action)); }
+                catch (Exception ex) { row.Status.Text = "Cache needs attention: " + ex.Message; }
+            }
+        }
+        finally
+        {
+            busy = false; actions.IsEnabled = true; cacheChoice.IsEnabled = true;
+            foreach (var row in rows) row.Select.IsEnabled = Directory.Exists(row.Game.InstallPath) || service.HasRecord(row.Game);
+        }
+    }
+
 }

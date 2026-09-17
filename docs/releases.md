@@ -8,9 +8,10 @@ for a [manual installation](beginner-guide.md).
 
 ## Client addon
 
-[OptiScaler Client 1.0.7-bc250.2](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/opticlient-v1.0.7-bc250.2)
+[OptiScaler Client 1.0.7-bc250.3](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/opticlient-v1.0.7-bc250.3)
 is a separately versioned prerelease addon for RC11. It adds selection-based
-installation, DLL updates and file restoration using one general setup across
+installation, DLL updates, file restoration and optional shared-cache setup using
+one general setup across
 OptiScaler-compatible games. RC11 remains the DLL release;
 this addon changes installation rather than shader code or measured performance.
 
@@ -18,7 +19,8 @@ The application is a modified build of [OptiScaler Client](https://github.com/Op
 by Agustín Montaña (Agustinm28) and contributors. BC250 maintains the FSR4-specific
 integration and this distribution. [Upstream roles, credits and licenses](../THIRD_PARTY.md#optiscaler-client-addon).
 
-The addon release contains the Linux client, the `rc11-docs2` DLL ZIP, a complete
+The addon release contains the Linux client with its cache tools, the unchanged
+`rc11-docs2` DLL ZIP, a complete
 project source snapshot and `SHA256SUMS`. The application also includes its full
 modified client source. The [client validation record](../integrations/optiscaler-client/README.md#validation)
 separates installation/loading checks from the existing DLL rendering evidence.
@@ -27,7 +29,7 @@ separates installation/loading checks from the existing DLL rendering evidence.
 
 | Download | Who needs it |
 | --- | --- |
-| `bc250-opticlient-1.0.7-bc250.2-linux-x64.tar.gz` | Client route: Linux application, RC11 ZIP, complete modified client source and dependency download pins. |
+| `bc250-opticlient-1.0.7-bc250.3-linux-x64.tar.gz` | Client route: Linux application, RC11 ZIP, complete modified client source and dependency download pins. |
 | `bc250-fsr4-dll-4.0.0-rc11-docs2.zip` | Manual installation or client import; unchanged RC11 DLL with current instructions and notices. |
 | `bc250-fsr4-v4.0.0-rc11-linux-glibc236-x86_64.tar.gz` | Alternative AMD-provider/driver route, retained in the [RC11 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11). |
 | `bc250-fsr4-v4.0.0-rc11-source-COMMIT.tar.gz` | Developers: complete source, tools, docs and evidence. |

@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "date": "2026-09-17",
+  "client_version": "1.0.7-bc250.3",
+  "upstream_commit": "dd534b7d1cb8a0edf174a6917f5179791603d364",
+  "platform": "Linux x64 / AMD BC250",
+  "transaction_checks": 45,
+  "transaction_result": "pass",
+  "cache_transaction_checks": 27,
+  "cache_transaction_result": "pass",
+  "gui": {
+    "status": "pass",
+    "scope": "Packaged application in isolated Xvfb display, real game/prefix copies and native Heroic configuration bound into a private namespace",
+    "install_and_cache_enable": "pass",
+    "cache_status": "pass",
+    "running_launcher_refusal": "pass",
+    "repeat_install_and_enrollment": "pass",
+    "disable": "pass",
+    "combined_restore": "pass"
+  },
+  "deployment": {
+    "launcher": "Heroic 2.22.1, native Linux; GOG entry",
+    "game": "Cyberpunk 2077 2.31 built-in benchmark",
+    "runner": "GE-Proton11-6-x86_64",
+    "driver": "Stock installed Mesa RADV",
+    "completed_benchmarks": 3,
+    "dll_sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+    "mapped_dll_verified": true,
+    "shared_store_in_game_environment": true,
+    "original_cache_path_preserved": true,
+    "separate_vkd3d_cache_preserved": true,
+    "reuse_probe": {
+      "successful_read_opens": 6898,
+      "unique_cache_paths": 6311,
+      "benchmark_completed": true,
+      "scope": "Read-open evidence with private vkd3d cache reset; no cache-hit ratio or timing claim"
+    },
+    "cache_restore": "pass",
+    "dll_restore": "pass",
+    "production_preserved": true,
+    "shared_cache_retained": true
+  },
+  "sandbox_probe": {
+    "runtime": "com.github.Matoking.protontricks",
+    "scope": "Real Flatpak Python/path/write probe, not Heroic Flatpak gameplay; permissions passed for this invocation only",
+    "denied": "pass: refused before launcher writes",
+    "explicit_folder_grant": "pass"
+  },
+  "userspaces": [
+    {
+      "image": "docker.io/library/python:3.8-slim-bullseye",
+      "id": "9c59e82e76c988bdb9266394696ec761b6f8e3e0544300d21414b645a2a4e0e6",
+      "tests": [
+        {
+          "suite": "test_client_cache.py",
+          "pass": true
+        },
+        {
+          "suite": "test_shared_cache.py",
+          "pass": true
+        }
+      ],
+      "client_cache_checks": 27
+    },
+    {
+      "image": "docker.io/library/python:3.11-slim-bookworm",
+      "id": "9356cb064a7cbecce9a3ccba46e7fd5459d3a3e939db884ef7fbf3f757cc5ec8",
+      "tests": [
+        {
+          "suite": "test_client_cache.py",
+          "pass": true
+        },
+        {
+          "suite": "test_shared_cache.py",
+          "pass": true
+        }
+      ],
+      "client_cache_checks": 27
+    },
+    {
+      "image": "docker.io/library/python:3.12-alpine",
+      "id": "28eb0cb65acb65b970e85c0dc57d10067868fae8dd00d072413df273132123ac",
+      "tests": [
+        {
+          "suite": "test_client_cache.py",
+          "pass": true
+        },
+        {
+          "suite": "test_shared_cache.py",
+          "pass": true
+        }
+      ],
+      "client_cache_checks": 27
+    },
+    {
+      "image": "localhost/bc250-fsr4-v4-builder:latest",
+      "id": "7d8d95f2e34a39d6196f3f82959b2507e893533cda80d8bfcc7ec20615f66e4a",
+      "tests": [
+        {
+          "suite": "test_client_cache.py",
+          "pass": true
+        },
+        {
+          "suite": "test_shared_cache.py",
+          "pass": true
+        }
+      ],
+      "client_cache_checks": 27
+    }
+  ],
+  "general_layout_baseline": "optiscaler-client-2.json",
+  "archive_name": "bc250-opticlient-1.0.7-bc250.3-linux-x64.tar.gz",
+  "bundled_dll_zip": "bc250-fsr4-dll-4.0.0-rc11-docs2.zip",
+  "scope": "Actual deployment/rendering/undo verified on native Heroic. Steam and Lutris enrollment use isolated transaction tests. Flatpak probe verifies access only. No FPS gain, startup-time claim, universal cache-hit guarantee, or new title whitelist.",
+  "sources": {
+    "integrations/optiscaler-client/src/Bc250RouteService.cs": "0b764462154338c33fec31bd38e09a67bafdd27bcc22499a92dce7bd175eeff0",
+    "integrations/optiscaler-client/src/Bc250StartupWindow.cs": "ec4a5c9a2fec3d309eb47acb7c5491b051a36c60bd2b41bb3c0f0d6997c5bbd6",
+    "integrations/optiscaler-client/src/Bc250Transaction.cs": "faba4d3490b651f492f1d3a3e8dda4aa41c70ca95e580e0a1a0df6a4994c1778",
+    "integrations/optiscaler-client/src/Bc250Window.cs": "ee5f66e8063b256881760dbc710a9139ed5b553d603b510ce1ebb6bfe91674e4",
+    "integrations/optiscaler-client/src/Bc250CacheService.cs": "cbac4b1adf605aea6fa594c570c33505243ce410561f3f56e47b4158a6817a5f",
+    "scripts/client-cache.py": "bd124c195ad943cb0bdf53117c8c4083b446186124dc7a168506726f2880a078",
+    "scripts/client_cache_vdf.py": "8dba1a1b9f90b3390e22a1f899ae10d269c9a55f29c0d26acbfcea8609812934",
+    "scripts/shared-cache.py": "81f042222d2980cb68961413f793a1abbb309c3ae57c66b8f391c7fa594b3126",
+    "scripts/shared-cache.sh": "88c7726a1191548a362534aace08ae31ada2547a1b325fb6629b7f55546d2391",
+    "scripts/package-opticlient.py": "c057f960d99931919d5d3eaad2225d258d923b51e3c8491549ae84df72e4eb4e",
+    "tests/test_client_cache.py": "d6090a36cc9cd191ab3bd2f5ebba15e48fa009a76cd0c4a332183906e4409082"
+  }
+}

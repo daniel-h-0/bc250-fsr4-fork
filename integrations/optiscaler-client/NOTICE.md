@@ -6,12 +6,12 @@ This is a project build of [OptiScaler Client](https://github.com/Optiscaler-Cli
 OptiScaler Client is Copyright (C) 2026 Agustín Montaña (Agustinm28) and
 contributors, licensed GPL-3.0-or-later. The BC250 C# additions carry the same
 license, Copyright (c) 2026 BC250 FSR4 contributors. The full license and complete
-modified client source accompany the binary. The Python preparation and packaging
+modified client source accompany the binary. The Python preparation, packaging and cache/launcher
 tools are separately SPDX-marked MIT under this project's LICENSE.new-code.
 
 Upstream supplies the desktop application, library discovery and component
 management services. BC250 adds a dedicated FSR4 installation/update/restore
-workflow, FFX/INT8 defaults, dependency pins and distribution packaging.
+workflow, optional shared-cache enrollment, FFX/INT8 defaults, dependency pins and distribution packaging.
 [OptiScaler](https://github.com/optiscaler/OptiScaler) and
 [OptiPatcher](https://github.com/optiscaler/OptiPatcher) are separate software by
 the OptiScaler team and contributors: the in-game upscaler adapter and its

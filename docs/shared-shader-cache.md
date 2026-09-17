@@ -1,11 +1,26 @@
 # Optional shared shader cache
 
 [Install across your games](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/optiscaler-client.md) and
-[manual DLL installation](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md) need no cache helper. Use this RC11 tool only to share compatible Mesa shader
-compilations across selected Linux games. It works with per-game DLL copies
+[manual DLL installation](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md) work with ordinary game/driver caches. The client can also set up this optional
+helper to share compatible Mesa shader compilations across selected Linux games. It works with per-game DLL copies
 and the normal driver; it does not change the FSR model or per-frame optimizations.
 
-## DLL users: install once, copy one launch command
+## Client users: enable it for selected games
+
+In **Install across your games**, choose **Enable shared cache**, select games,
+close their launcher, and use **Apply cache choice** or install/update them.
+The [client guide](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/optiscaler-client.md#optional-share-shader-compilations)
+covers setup, Flatpak permissions, status and undo. One permanent helper serves
+the selected launcher entries, regardless of their game folders.
+
+The client uses `~/.local/share/bc250-opticlient-cache` for its helper and
+`~/.cache/bc250-fsr4` for shared storage. These explicit host paths also allow
+sandboxed launchers to use the same store when granted access. Client receipts
+live under `BC250/cache` in its application data. Keep that data for restoration.
+Use the client's **Disable / recover shared cache** before removing its helper;
+the standalone `uninstall` command does not remove launcher references.
+
+## Manual DLL users: install once, copy one launch command
 
 From the extracted RC11 DLL download:
 
@@ -117,7 +132,7 @@ In Heroic **Game Settings → Advanced → Wrapper command**, put the installed 
 launcher in **Wrapper** and `--` in that row's **Arguments**. These are wrapper
 arguments, separate from game arguments. For the driver launcher, use `run --`. Preserve other wrappers;
 Heroic does not use Steam's `%command%` placeholder.
-The ordinary DLL/client route only needs its
+With shared caching left off, the DLL/client route only needs its
 [launcher loading setting](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/optiscaler-client.md#launcher-setup), not a wrapper.
 
 </details>
@@ -129,8 +144,9 @@ Flatpak/container access is configured in the launcher or sandbox; this helper
 does not grant permissions. Sharing across sandboxes also needs compatible
 compiler inputs. Network filesystems are unqualified.
 
-Missing Python/helper files or failed cache preparation leave the game using its
-original launch command and cache settings. Explicit cache-disable settings are
+Missing Python or inner helper files, or failed cache preparation, leave the game using its
+original launch command and cache settings. The outer wrapper named in launcher
+settings must still exist; remove its launcher reference before deleting it. Explicit cache-disable settings are
 respected. Conflicting files/links are preserved. Concurrent preparation and
 Steam caches created between launches are supported. These launch-time checks
 cannot prevent a later game/driver failure or guarantee a cache hit.

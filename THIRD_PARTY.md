@@ -36,12 +36,18 @@ upstream community. Client 1.0.7 is pinned at
 Its desktop interface, game discovery and component services are upstream work.
 
 BC250 maintains the added FSR4 installation/update/restore screen, FFX/INT8
-settings, dependency pins and packaging. The client and BC250 C# additions use
+settings, optional shared-cache enrollment, dependency pins and packaging. The client and BC250 C# additions use
 **GPL-3.0-or-later**; [upstream's attribution](https://github.com/Optiscaler-Client/Optiscaler-Client/blob/dd534b7d1cb8a0edf174a6917f5179791603d364/README.md#-license--acknowledgments)
 and [full license](https://github.com/Optiscaler-Client/Optiscaler-Client/blob/dd534b7d1cb8a0edf174a6917f5179791603d364/LICENSE)
 are retained in the complete modified source. The binary archive includes that
 source as `source.tar.gz`, the GPL text under `notices/`, and the
 [integration notice](integrations/optiscaler-client/NOTICE.md).
+
+The bundled cache/launcher Python tools carry their own MIT notices and
+`LICENSE.new-code`; the lossless Steam VDF editor derives from this project's
+earlier game-setup tools. Complete helper sources accompany the client source.
+Mesa and its contributors provide the shader-cache implementation and decide
+which compiled entries can be reused.
 
 OptiScaler Client is an independent manager project. This modified distribution
 is maintained and supported by BC250 FSR4; it is not an official release of

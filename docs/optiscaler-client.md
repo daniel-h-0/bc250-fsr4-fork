@@ -8,11 +8,12 @@ are needed.
 This is a BC250-maintained build of [OptiScaler Client](https://github.com/Optiscaler-Client/Optiscaler-Client),
 created by [Agustín Montaña (Agustinm28)](https://github.com/Agustinm28) and contributors.
 Their application supplies the desktop interface, game discovery and component
-management; BC250 adds the dedicated FSR4 installation/update/restore workflow.
+management; BC250 adds the FSR4 installation/update/restore workflow and optional
+shared-cache setup.
 
 ## 1. Open the client
 
-Download [OptiScaler Client 1.0.7-bc250.2 for Linux x64](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.2/bc250-opticlient-1.0.7-bc250.2-linux-x64.tar.gz),
+Download [OptiScaler Client 1.0.7-bc250.3 for Linux x64](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.3/bc250-opticlient-1.0.7-bc250.3-linux-x64.tar.gz),
 extract it, and run **`Start-BC250-OptiClient.sh`**. First setup downloads its
 OptiScaler dependencies. The RC11 DLL is included and selected automatically.
 
@@ -97,6 +98,44 @@ entry per installation when updating or restoring it.
 
 </details>
 
+## Optional: share shader compilations
+
+To reuse compatible Mesa compilations across selected games, choose **Enable
+shared cache** before **Install / update selected**. For games already installed,
+choose **Apply cache choice** instead. **Close the selected games and their
+launcher first**, including its tray icon. Reopen the launcher and play normally.
+The default **Keep current cache settings** leaves your setup as it is.
+
+The client installs one permanent helper and connects each selected Steam,
+Heroic Epic/GOG or Lutris entry to one shared store. It preserves existing launch
+options, wrappers and normal caches. DLL copies can remain in each game folder;
+you need no custom driver or DLL path. Python 3.8+ must be available.
+
+First use may compile again. Reuse depends on matching GPU, driver/compiler and
+shader inputs; this reduces repeated compilation when those match, rather than
+raising FPS. **Cache status** shows each game's enrollment and last launch
+preparation. Preparation is not a cache-hit count.
+
+For Flatpak launchers, the client checks Python and folder access before changing
+settings. If prompted, grant the named launcher read access to
+`~/.local/share/bc250-opticlient-cache` and write access to
+`~/.cache/bc250-fsr4` using Flatseal, then retry. Use these host paths, expanded to
+your home directory. Both native and sandboxed games must see the same store.
+
+For other launchers or custom locations, **Prepare manual cache** provides a
+permanent wrapper path to enter in that launcher's wrapper/command-prefix field.
+It prepares the helper but leaves launcher configuration to you. Steam shortcuts
+that open another launcher should be configured in that launcher.
+
+**Undo:** choose **Disable / recover shared cache**, then **Apply cache choice**.
+The client restores its previous launcher field and retains compiled cache files.
+It preserves unrelated edits and asks for review if you changed the field it
+manages. Manually added wrappers must be removed manually. Keep the permanent
+helper folder until every enrolled game's wrapper has been removed. Disable
+enrollment before moving a game or deleting the client's application data.
+
+[Cache behavior and storage details](shared-shader-cache.md).
+
 ## Which games can I select?
 
 Use games [compatible with OptiScaler](https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List).
@@ -123,7 +162,9 @@ it holds your selected DLL, installation records and original-file backups.
 
 **Restore:** select games and choose **Restore / recover selected**. The client
 restores files saved before its first BC250 installation and removes files it
-added. Undo any launch-option edits yourself. If a file has later changes,
+added. It also restores client-managed cache launch settings, so close the
+launcher first. Undo loading options or wrappers you added manually yourself.
+If a file has later changes,
 restore pauses that game for review and leaves its files in place.
 
 Use the same action to recover an interrupted operation. Results appear per
