@@ -47,6 +47,20 @@ RC10 reduced cold synthetic setup from **22.24 to 19.38 seconds**, preserving
 RC9's native shader code (and runtime performance). RC11 retains RC10's shaders and improves optional tools.
 [Compilation results](docs/legacy/research/portable-dll-rc10.md) · [Release notes](docs/release-notes-rc11.md).
 
+### What do 3.9 / 5.9 ms mean for game FPS?
+
+Those Quality-mode timings measure the time it takes to run the upscaler itself.
+Rendering the game at a lower resolution saves work, while FSR4 adds reconstruction cost.
+The Cyberpunk 2077 benchmark below shows the combined result in average FPS at 1080p and 1440p.
+FSR4 Quality reaches **76.15 / 54.02 FPS**, compared with **71.71 / 45.97 FPS** at
+native (1080p / 1440p) resolution with upscaling and AA off.
+
+![Cyberpunk 2077 average FPS at 1080p and 1440p, High preset: native without AA, FSR 3.0 and BC250 FSR4 across Performance, Balanced, Quality and Native modes. Arrows show FPS and whole-frame time changes.](docs/assets/cyberpunk-performance-matrix.png)
+
+High preset, RT and frame generation off, SDR; one run per cell after warm-up.
+Arrow labels show differences in whole-frame time derived from FPS.
+[Method and data](docs/gpu-cost.md#game-fps-cyberpunk-2077).
+
 ## Support and development
 
 [Installation troubleshooting](docs/beginner-guide.md#if-the-check-fails) ·

@@ -1,0 +1,186 @@
+{
+  "metadata": {
+    "status": "Reference dataset for the Cyberpunk game-FPS matrix",
+    "game": "Cyberpunk 2077 2.31, GOG build, canned benchmark",
+    "hardware": "AMD BC-250, 40 CUs verified through KFD topology, 6 GiB dedicated VRAM; current host tuning preserved",
+    "tuning": "GPU governor target 1850 MHz / 860 mV; CPU configured target 3800 MHz, scale -25; existing thermal policy retained, not fixed clocks",
+    "settings": "High base preset; RT/PT, frame generation, dynamic resolution, VSync, FPS caps and game HDR off",
+    "preset_note": "The game labels the preset Custom after selecting a different upscaling mode. High advanced/textures settings remain fixed; crowd density Medium.",
+    "runner": "GE-Proton11-6-x86_64 via bundled Heroic UMU, isolated game and prefix",
+    "driver": "System RADV (vulkan-radeon 3:26.2.2-2.82)",
+    "fsr3": "Game-native FSR3; OptiScaler diagnostic identifies the input as FSR 3.0",
+    "fsr4": "Released BC250 RC11 FSR4.1.1 INT8 DLL through OptiScaler 10.0.0-pre1 20260904, FSR3 input",
+    "fsr4_summary_note": "The game summary reports its FSR3 input API. The FSR4 output was independently confirmed in OptiScaler and its mapped DLL hash was verified for every run.",
+    "native_no_aa": "ResolutionScaling Off plus Developer/FeatureToggles Antialiasing=false; engine Boolean verified in an unscored run.",
+    "metric": "Original summary.json Data.averageFps; full precision retained",
+    "sampling": "One scored run per slot after warm-up; no statistical repeatability claim",
+    "common_game_sha256": "a7de82945c03e041fc7339fcf9066224d98db2f5d80fea50f7947bb350a60991",
+    "common_driver_sha256": "6bc07c5a9d8404aba98dbdd912ffb58988fd760f50460d3b614d85eb8a7638d5",
+    "recorded_date_utc": "2026-09-17",
+    "gtt": "Up to 6 GiB GTT; 6442450944 bytes reported by the host"
+  },
+  "outcomes": [
+    {
+      "resolution": "1920x1080",
+      "upscaler": "FSR3",
+      "mode": "Performance",
+      "average_fps": 96.8000717163086,
+      "benchmark_seconds": 64.2664794921875,
+      "run": "score-1080-fsr3-performance",
+      "summary_file": "runs/score-1080-fsr3-performance/benchmark/summary.json"
+    },
+    {
+      "resolution": "1920x1080",
+      "upscaler": "FSR4 RC11 INT8",
+      "mode": "Performance",
+      "average_fps": 85.61322784423828,
+      "benchmark_seconds": 64.2424087524414,
+      "run": "score-1080-fsr4-performance",
+      "summary_file": "runs/score-1080-fsr4-performance/benchmark/summary.json"
+    },
+    {
+      "resolution": "1920x1080",
+      "upscaler": "FSR3",
+      "mode": "Balanced",
+      "average_fps": 94.576904296875,
+      "benchmark_seconds": 64.25458526611328,
+      "run": "score-1080-fsr3-balanced",
+      "summary_file": "runs/score-1080-fsr3-balanced/benchmark/summary.json"
+    },
+    {
+      "resolution": "1920x1080",
+      "upscaler": "FSR4 RC11 INT8",
+      "mode": "Balanced",
+      "average_fps": 80.89324188232422,
+      "benchmark_seconds": 64.25753021240234,
+      "run": "score-1080-fsr4-balanced",
+      "summary_file": "runs/score-1080-fsr4-balanced/benchmark/summary.json"
+    },
+    {
+      "resolution": "1920x1080",
+      "upscaler": "FSR3",
+      "mode": "Quality",
+      "average_fps": 91.82974243164062,
+      "benchmark_seconds": 64.24933624267578,
+      "run": "score-1080-fsr3-quality",
+      "summary_file": "runs/score-1080-fsr3-quality/benchmark/summary.json"
+    },
+    {
+      "resolution": "1920x1080",
+      "upscaler": "FSR4 RC11 INT8",
+      "mode": "Quality",
+      "average_fps": 76.15446472167969,
+      "benchmark_seconds": 64.25099182128906,
+      "run": "score-1080-fsr4-quality",
+      "summary_file": "runs/score-1080-fsr4-quality/benchmark/summary.json"
+    },
+    {
+      "resolution": "1920x1080",
+      "upscaler": "FSR3",
+      "mode": "Native AA (1:1)",
+      "average_fps": 65.70996856689453,
+      "benchmark_seconds": 64.23683166503906,
+      "run": "score-1080-fsr3-nativeaa",
+      "summary_file": "runs/score-1080-fsr3-nativeaa/benchmark/summary.json"
+    },
+    {
+      "resolution": "1920x1080",
+      "upscaler": "FSR4 RC11 INT8",
+      "mode": "Native AA (1:1)",
+      "average_fps": 55.92058563232422,
+      "benchmark_seconds": 64.23394775390625,
+      "run": "score-1080-fsr4-nativeaa",
+      "summary_file": "runs/score-1080-fsr4-nativeaa/benchmark/summary.json"
+    },
+    {
+      "resolution": "1920x1080",
+      "upscaler": "Off",
+      "mode": "Native, no AA",
+      "average_fps": 71.71086120605469,
+      "benchmark_seconds": 64.23015594482422,
+      "run": "score-1080-off",
+      "summary_file": "runs/score-1080-off/benchmark/summary.json"
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "FSR3",
+      "mode": "Performance",
+      "average_fps": 87.7718276977539,
+      "benchmark_seconds": 64.23473358154297,
+      "run": "score-1440-fsr3-performance",
+      "summary_file": "runs/score-1440-fsr3-performance/benchmark/summary.json"
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "FSR4 RC11 INT8",
+      "mode": "Performance",
+      "average_fps": 64.37509155273438,
+      "benchmark_seconds": 64.23291778564453,
+      "run": "score-1440-fsr4-performance",
+      "summary_file": "runs/score-1440-fsr4-performance/benchmark/summary.json"
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "FSR3",
+      "mode": "Balanced",
+      "average_fps": 78.452392578125,
+      "benchmark_seconds": 64.24278259277344,
+      "run": "score-1440-fsr3-balanced",
+      "summary_file": "runs/score-1440-fsr3-balanced/benchmark/summary.json"
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "FSR4 RC11 INT8",
+      "mode": "Balanced",
+      "average_fps": 58.91423416137695,
+      "benchmark_seconds": 64.24593353271484,
+      "run": "score-1440-fsr4-balanced",
+      "summary_file": "runs/score-1440-fsr4-balanced/benchmark/summary.json"
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "FSR3",
+      "mode": "Quality",
+      "average_fps": 70.21505737304688,
+      "benchmark_seconds": 64.23123931884766,
+      "run": "score-1440-fsr3-quality",
+      "summary_file": "runs/score-1440-fsr3-quality/benchmark/summary.json"
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "FSR4 RC11 INT8",
+      "mode": "Quality",
+      "average_fps": 54.019588470458984,
+      "benchmark_seconds": 64.21744537353516,
+      "run": "score-1440-fsr4-quality",
+      "summary_file": "runs/score-1440-fsr4-quality/benchmark/summary.json"
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "FSR3",
+      "mode": "Native AA (1:1)",
+      "average_fps": 41.571380615234375,
+      "benchmark_seconds": 64.22687530517578,
+      "run": "score-1440-fsr3-nativeaa",
+      "summary_file": "runs/score-1440-fsr3-nativeaa/benchmark/summary.json"
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "FSR4 RC11 INT8",
+      "mode": "Native AA (1:1)",
+      "average_fps": 36.0157470703125,
+      "benchmark_seconds": 64.22190856933594,
+      "run": "score-1440-fsr4-nativeaa",
+      "summary_file": "runs/score-1440-fsr4-nativeaa/benchmark/summary.json"
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "Off",
+      "mode": "Native, no AA",
+      "average_fps": 45.97106170654297,
+      "benchmark_seconds": 64.21430969238281,
+      "run": "score-1440-off",
+      "summary_file": "runs/score-1440-off/benchmark/summary.json"
+    }
+  ]
+}

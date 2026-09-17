@@ -1,4 +1,4 @@
-# Direct FSR4 GPU cost — four implementations
+# FSR4 GPU cost and game FPS
 
 The updated chart measures the complete FSR upscaler on an AMD BC250 at
 1080p, 1440p and 4K Quality. **Only RC9 was remeasured on September 11.**
@@ -112,3 +112,56 @@ separate campaigns; their values are not mixed into this figure.
 The [September 10 RC7 chart](legacy/research/gpu-cost-rc7.md) remains unchanged. See the
 [RC9 qualification](legacy/research/portable-dll-rc9.md) for its separate retained-checkpoint
 comparison, additional image cases and the slightly higher 1080p result.
+
+## Game FPS: Cyberpunk 2077
+
+The [game matrix](assets/cyberpunk-performance-matrix.png) measures Cyberpunk
+2077 2.31's built-in benchmark at 1920×1080 and 2560×1440. Each resolution has
+FSR3 and FSR4 at Performance, Balanced, Quality and Native AA, plus native
+rendering with upscaling and AA off: **18 scored runs**, recorded September 17,
+2026 UTC. Each cell is one run after warm-up, using the game's reported
+`Data.averageFps`. FSR3 and FSR4 runs alternate within each mode.
+
+The High preset's graphics settings and textures stay fixed, with Medium crowd
+density. Selecting the upscaling modes changes the game's preset label to Custom.
+RT, path tracing, frame generation, dynamic resolution, VSync, FPS caps and game
+HDR are off. The test uses a 40-CU BC250 with 6 GiB VRAM and up to 6 GiB GTT,
+an 1850 MHz / 860 mV GPU governor target, a configured 3800 MHz CPU target,
+GE-Proton 11-6 and system RADV 26.2.2. Existing cooling and clock policies remain
+active. These are results for this configuration; one run per cell does not
+establish run-to-run variation.
+
+FSR3 uses the game's native FSR 3.0 path. `FSR4.1.1-BC250-v4` denotes the
+released **RC11 INT8 DLL** through OptiScaler's September 4 build, using FSR3
+input. The active output was confirmed in the OptiScaler overlay and the mapped
+DLL hash checked for every run. The game summaries identify that FSR3 input API
+in both columns. Native means 1:1 rendering; the No AA baseline also disables
+the engine's `Developer/FeatureToggles/Antialiasing` option, verified in an
+unscored run. Diagnostic logging and the OptiScaler menu are off during scoring.
+
+For an arrow from A to B:
+
+- FPS change: `100 × (FPS_B / FPS_A − 1)`.
+- Added whole-frame time: `1000 / FPS_B − 1000 / FPS_A`, in milliseconds.
+
+These frame-time differences include the game's complete workload. The
+3.93 / 5.92 ms Quality figures above come from the separate synthetic GPU
+measurement. A lower render resolution can save more work than reconstruction
+adds, so an upscaler's millisecond cost alone does not predict the game's FPS.
+
+[CSV](data/cyberpunk-20260917/outcomes.csv) ·
+[Results and configuration](data/cyberpunk-20260917/outcomes.json) ·
+[Original benchmark summaries](data/cyberpunk-20260917/runs) ·
+[Validation record](data/cyberpunk-20260917/validation.json).
+
+Regenerate the figure with Python, Matplotlib, NumPy, Pillow and Liberation Sans:
+
+```sh
+python3 docs/data/cyberpunk-20260917/plot.py
+```
+
+The generator checks all 18 averages against the original summaries, then
+computes the arrow labels from full-precision values. Exports:
+[PNG](assets/cyberpunk-performance-matrix.png),
+[SVG](assets/cyberpunk-performance-matrix.svg),
+[PDF](assets/cyberpunk-performance-matrix.pdf).

@@ -1,0 +1,288 @@
+{
+  "source": "outcomes.json",
+  "source_sha256": "13a2d0461730edeacdae2bd8e05ad0966918e88375ce29ee68e48d9b902fa555",
+  "generator": "plot.py",
+  "design_pixels": [
+    1720,
+    1120
+  ],
+  "png_pixels": [
+    3440,
+    2240
+  ],
+  "theme": "dark slate",
+  "displayed_cells": [
+    {
+      "resolution": "1920x1080",
+      "upscaler": "FSR3",
+      "mode": "Performance",
+      "label": "96.80",
+      "source_fps": 96.8000717163086
+    },
+    {
+      "resolution": "1920x1080",
+      "upscaler": "FSR4 RC11 INT8",
+      "mode": "Performance",
+      "label": "85.61",
+      "source_fps": 85.61322784423828
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "FSR3",
+      "mode": "Performance",
+      "label": "87.77",
+      "source_fps": 87.7718276977539
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "FSR4 RC11 INT8",
+      "mode": "Performance",
+      "label": "64.38",
+      "source_fps": 64.37509155273438
+    },
+    {
+      "resolution": "1920x1080",
+      "upscaler": "FSR3",
+      "mode": "Balanced",
+      "label": "94.58",
+      "source_fps": 94.576904296875
+    },
+    {
+      "resolution": "1920x1080",
+      "upscaler": "FSR4 RC11 INT8",
+      "mode": "Balanced",
+      "label": "80.89",
+      "source_fps": 80.89324188232422
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "FSR3",
+      "mode": "Balanced",
+      "label": "78.45",
+      "source_fps": 78.452392578125
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "FSR4 RC11 INT8",
+      "mode": "Balanced",
+      "label": "58.91",
+      "source_fps": 58.91423416137695
+    },
+    {
+      "resolution": "1920x1080",
+      "upscaler": "FSR3",
+      "mode": "Quality",
+      "label": "91.83",
+      "source_fps": 91.82974243164062
+    },
+    {
+      "resolution": "1920x1080",
+      "upscaler": "FSR4 RC11 INT8",
+      "mode": "Quality",
+      "label": "76.15",
+      "source_fps": 76.15446472167969
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "FSR3",
+      "mode": "Quality",
+      "label": "70.22",
+      "source_fps": 70.21505737304688
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "FSR4 RC11 INT8",
+      "mode": "Quality",
+      "label": "54.02",
+      "source_fps": 54.019588470458984
+    },
+    {
+      "resolution": "1920x1080",
+      "upscaler": "Off",
+      "mode": "Native, no AA",
+      "label": "71.71",
+      "source_fps": 71.71086120605469
+    },
+    {
+      "resolution": "1920x1080",
+      "upscaler": "FSR3",
+      "mode": "Native AA (1:1)",
+      "label": "65.71",
+      "source_fps": 65.70996856689453
+    },
+    {
+      "resolution": "1920x1080",
+      "upscaler": "FSR4 RC11 INT8",
+      "mode": "Native AA (1:1)",
+      "label": "55.92",
+      "source_fps": 55.92058563232422
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "Off",
+      "mode": "Native, no AA",
+      "label": "45.97",
+      "source_fps": 45.97106170654297
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "FSR3",
+      "mode": "Native AA (1:1)",
+      "label": "41.57",
+      "source_fps": 41.571380615234375
+    },
+    {
+      "resolution": "2560x1440",
+      "upscaler": "FSR4 RC11 INT8",
+      "mode": "Native AA (1:1)",
+      "label": "36.02",
+      "source_fps": 36.0157470703125
+    }
+  ],
+  "comparisons": [
+    {
+      "resolution": "1920x1080",
+      "from": "FSR3",
+      "from_mode": "Performance",
+      "to": "FSR4 RC11 INT8",
+      "to_mode": "Performance",
+      "change_percent": -11.556648330649521,
+      "label": "\u221211.6%",
+      "frame_time_change_ms": 1.3498671433899538,
+      "ms_label": "+1.35 ms",
+      "lower_arrow": false
+    },
+    {
+      "resolution": "2560x1440",
+      "from": "FSR3",
+      "from_mode": "Performance",
+      "to": "FSR4 RC11 INT8",
+      "to_mode": "Performance",
+      "change_percent": -26.65631644995158,
+      "label": "\u221226.7%",
+      "frame_time_change_ms": 4.140781132422223,
+      "ms_label": "+4.14 ms",
+      "lower_arrow": false
+    },
+    {
+      "resolution": "1920x1080",
+      "from": "FSR3",
+      "from_mode": "Balanced",
+      "to": "FSR4 RC11 INT8",
+      "to_mode": "Balanced",
+      "change_percent": -14.4682917211987,
+      "label": "\u221214.5%",
+      "frame_time_change_ms": 1.788566187302246,
+      "ms_label": "+1.79 ms",
+      "lower_arrow": false
+    },
+    {
+      "resolution": "2560x1440",
+      "from": "FSR3",
+      "from_mode": "Balanced",
+      "to": "FSR4 RC11 INT8",
+      "to_mode": "Balanced",
+      "change_percent": -24.90447744763351,
+      "label": "\u221224.9%",
+      "frame_time_change_ms": 4.227242839042184,
+      "ms_label": "+4.23 ms",
+      "lower_arrow": false
+    },
+    {
+      "resolution": "1920x1080",
+      "from": "FSR3",
+      "from_mode": "Quality",
+      "to": "FSR4 RC11 INT8",
+      "to_mode": "Quality",
+      "change_percent": -17.069935398795046,
+      "label": "\u221217.1%",
+      "frame_time_change_ms": 2.2414884617967203,
+      "ms_label": "+2.24 ms",
+      "lower_arrow": false
+    },
+    {
+      "resolution": "2560x1440",
+      "from": "FSR3",
+      "from_mode": "Quality",
+      "to": "FSR4 RC11 INT8",
+      "to_mode": "Quality",
+      "change_percent": -23.065521141060508,
+      "label": "\u221223.1%",
+      "frame_time_change_ms": 4.26984392035383,
+      "ms_label": "+4.27 ms",
+      "lower_arrow": false
+    },
+    {
+      "resolution": "1920x1080",
+      "from": "Off",
+      "from_mode": "Native, no AA",
+      "to": "FSR3",
+      "to_mode": "Native AA (1:1)",
+      "change_percent": -8.368178178640374,
+      "label": "\u22128.4%",
+      "frame_time_change_ms": 1.2735020821264502,
+      "ms_label": "+1.27 ms",
+      "lower_arrow": false
+    },
+    {
+      "resolution": "1920x1080",
+      "from": "FSR3",
+      "from_mode": "Native AA (1:1)",
+      "to": "FSR4 RC11 INT8",
+      "to_mode": "Native AA (1:1)",
+      "change_percent": -14.89786580038378,
+      "label": "\u221214.9%",
+      "frame_time_change_ms": 2.6641111912412168,
+      "ms_label": "+2.66 ms",
+      "lower_arrow": false
+    },
+    {
+      "resolution": "1920x1080",
+      "from": "Off",
+      "from_mode": "Native, no AA",
+      "to": "FSR4 RC11 INT8",
+      "to_mode": "Native AA (1:1)",
+      "change_percent": -22.019364024033315,
+      "label": "\u221222.0%",
+      "frame_time_change_ms": 3.937613273367667,
+      "ms_label": "+3.94 ms",
+      "lower_arrow": true
+    },
+    {
+      "resolution": "2560x1440",
+      "from": "Off",
+      "from_mode": "Native, no AA",
+      "to": "FSR3",
+      "to_mode": "Native AA (1:1)",
+      "change_percent": -9.570544877544984,
+      "label": "\u22129.6%",
+      "frame_time_change_ms": 2.3021955816492046,
+      "ms_label": "+2.30 ms",
+      "lower_arrow": false
+    },
+    {
+      "resolution": "2560x1440",
+      "from": "FSR3",
+      "from_mode": "Native AA (1:1)",
+      "to": "FSR4 RC11 INT8",
+      "to_mode": "Native AA (1:1)",
+      "change_percent": -13.364082363158126,
+      "label": "\u221213.4%",
+      "frame_time_change_ms": 3.7106220057209462,
+      "ms_label": "+3.71 ms",
+      "lower_arrow": false
+    },
+    {
+      "resolution": "2560x1440",
+      "from": "Off",
+      "from_mode": "Native, no AA",
+      "to": "FSR4 RC11 INT8",
+      "to_mode": "Native AA (1:1)",
+      "change_percent": -21.655611740664995,
+      "label": "\u221221.7%",
+      "frame_time_change_ms": 6.012817587370151,
+      "ms_label": "+6.01 ms",
+      "lower_arrow": true
+    }
+  ]
+}

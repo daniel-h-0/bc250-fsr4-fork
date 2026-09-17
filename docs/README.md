@@ -13,7 +13,7 @@ native FidelityFX games and custom layouts.
 | How do I use Heroic, Lutris or Bottles? | [Game discovery](optiscaler-client.md#1-open-the-client) and [launcher setup](optiscaler-client.md#launcher-setup) |
 | How do I check it is working? | [Verification and troubleshooting](beginner-guide.md#if-the-check-fails) |
 | Why does first launch stall? | [Shader compilation](first-run-shader-compilation.md) |
-| How much faster is it? | [GPU-cost chart and method](gpu-cost.md) |
+| How much faster is it? | [GPU cost and game FPS](gpu-cost.md) |
 | Does the custom driver improve on the DLL? | [DLL versus driver](driver-rc10.md#dll-versus-driver) |
 | What was tested? | [Client validation](../integrations/optiscaler-client/README.md#validation), [RC11 DLL validation](portable-dll-rc11.md) |
 | Which file should I download? | [Downloads](releases.md) |

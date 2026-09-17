@@ -1,0 +1,19 @@
+resolution,upscaler,mode,average_fps,benchmark_seconds,run,summary_file
+1920x1080,FSR3,Performance,96.8000717163086,64.2664794921875,score-1080-fsr3-performance,runs/score-1080-fsr3-performance/benchmark/summary.json
+1920x1080,FSR4 RC11 INT8,Performance,85.61322784423828,64.2424087524414,score-1080-fsr4-performance,runs/score-1080-fsr4-performance/benchmark/summary.json
+1920x1080,FSR3,Balanced,94.576904296875,64.25458526611328,score-1080-fsr3-balanced,runs/score-1080-fsr3-balanced/benchmark/summary.json
+1920x1080,FSR4 RC11 INT8,Balanced,80.89324188232422,64.25753021240234,score-1080-fsr4-balanced,runs/score-1080-fsr4-balanced/benchmark/summary.json
+1920x1080,FSR3,Quality,91.82974243164062,64.24933624267578,score-1080-fsr3-quality,runs/score-1080-fsr3-quality/benchmark/summary.json
+1920x1080,FSR4 RC11 INT8,Quality,76.15446472167969,64.25099182128906,score-1080-fsr4-quality,runs/score-1080-fsr4-quality/benchmark/summary.json
+1920x1080,FSR3,Native AA (1:1),65.70996856689453,64.23683166503906,score-1080-fsr3-nativeaa,runs/score-1080-fsr3-nativeaa/benchmark/summary.json
+1920x1080,FSR4 RC11 INT8,Native AA (1:1),55.92058563232422,64.23394775390625,score-1080-fsr4-nativeaa,runs/score-1080-fsr4-nativeaa/benchmark/summary.json
+1920x1080,Off,"Native, no AA",71.71086120605469,64.23015594482422,score-1080-off,runs/score-1080-off/benchmark/summary.json
+2560x1440,FSR3,Performance,87.7718276977539,64.23473358154297,score-1440-fsr3-performance,runs/score-1440-fsr3-performance/benchmark/summary.json
+2560x1440,FSR4 RC11 INT8,Performance,64.37509155273438,64.23291778564453,score-1440-fsr4-performance,runs/score-1440-fsr4-performance/benchmark/summary.json
+2560x1440,FSR3,Balanced,78.452392578125,64.24278259277344,score-1440-fsr3-balanced,runs/score-1440-fsr3-balanced/benchmark/summary.json
+2560x1440,FSR4 RC11 INT8,Balanced,58.91423416137695,64.24593353271484,score-1440-fsr4-balanced,runs/score-1440-fsr4-balanced/benchmark/summary.json
+2560x1440,FSR3,Quality,70.21505737304688,64.23123931884766,score-1440-fsr3-quality,runs/score-1440-fsr3-quality/benchmark/summary.json
+2560x1440,FSR4 RC11 INT8,Quality,54.019588470458984,64.21744537353516,score-1440-fsr4-quality,runs/score-1440-fsr4-quality/benchmark/summary.json
+2560x1440,FSR3,Native AA (1:1),41.571380615234375,64.22687530517578,score-1440-fsr3-nativeaa,runs/score-1440-fsr3-nativeaa/benchmark/summary.json
+2560x1440,FSR4 RC11 INT8,Native AA (1:1),36.0157470703125,64.22190856933594,score-1440-fsr4-nativeaa,runs/score-1440-fsr4-nativeaa/benchmark/summary.json
+2560x1440,Off,"Native, no AA",45.97106170654297,64.21430969238281,score-1440-off,runs/score-1440-off/benchmark/summary.json
