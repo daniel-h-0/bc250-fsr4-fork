@@ -16,9 +16,14 @@ Download [OptiScaler Client 1.0.7-bc250.2 for Linux x64](https://github.com/dani
 extract it, and run **`Start-BC250-OptiClient.sh`**. First setup downloads its
 OptiScaler dependencies. The RC11 DLL is included and selected automatically.
 
-Choose **Scan Games**, then **Install across your games**. Steam and Heroic
-libraries are discovered automatically. **Add Manually** lets you select a
-game's executable yourself.
+Choose **Scan Games**, then **Install across your games**. On Linux, the client
+scans Steam, Heroic's installed Windows Epic/GOG games, and Lutris entries in
+their standard locations.
+
+For a missing game, Heroic Amazon/sideloaded entry, Bottles installation or another
+storefront, choose **Add Manually** and select the installed game's actual 64-bit
+Windows `.exe`. Use the game executable, not the store launcher or a shortcut.
+Keep playing through your existing launcher, Wine/Proton runner and prefix.
 
 ## 2. Select games and install
 
@@ -32,17 +37,65 @@ beside the executable and selects FFX/INT8. Existing OptiScaler installations
 keep their input settings and working launch options. Leave frame generation
 off in the game.
 
-**First OptiScaler installation on Linux?** Copy the row's loading instruction
-into Steam **Properties → General → Launch Options**. Merge it with any existing
-settings, keeping one `%command%`. In Heroic, add `WINEDLLOVERRIDES` as an
-environment variable with value `dxgi=n,b`. Do this once per newly configured
-game; DLL updates need no launch-option changes.
+**First OptiScaler installation on Linux?** Complete the
+[launcher setup below](#launcher-setup) once for each newly configured game.
+DLL updates need no launch-option changes.
 
 Launch normally and select **DLSS**, or an FSR/XeSS input supported by that
 game's OptiScaler integration. OptiScaler uses that input to run FSR4. Press
 **Insert** to open its overlay; the optional
 [watermark check](beginner-guide.md#3-play-and-check-once) confirms RC11 and INT8.
 First use can pause while shaders compile.
+
+## Launcher setup
+
+**Skip this when OptiScaler already loads.** The client installs game files;
+you set the loading option in the launcher that runs the game. These entries
+match the client's default `dxgi.dll` adapter. For an existing `winmm.dll`
+adapter, use `winmm` in place of `dxgi`.
+
+| Launcher | Where | Enter |
+| --- | --- | --- |
+| Steam running the game through Proton | Game **Properties → General → Launch Options** | `WINEDLLOVERRIDES="dxgi=n,b" %command%` |
+| [Heroic](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/wiki/Environment-Variables) | Game **Settings → Advanced → Environment Variables** | Name: `WINEDLLOVERRIDES`; value: `dxgi=n,b`. Click **+** to save the row. |
+| [Lutris](https://github.com/lutris/lutris/blob/master/lutris/runners/wine.py) | Game **Configure → Runner options → DLL overrides** | Key: `dxgi`; value: `n,b`. Save. |
+| [Bottles](https://docs.usebottles.com/bottles/preferences) | Open the existing bottle → **Preferences → System → Environment variables** | Name: `WINEDLLOVERRIDES`; value: `dxgi=n,b`. This setting applies to the bottle's programs. |
+
+Heroic/Bottles values use plain text without shell quotes or `%command%`.
+Other Wine frontends can use the same environment-variable name and value.
+Put actual game arguments in the launcher's separate arguments field.
+
+Preserve existing settings. If `WINEDLLOVERRIDES` already has other DLL entries,
+merge them into one value, for example `dxgi=n,b;dinput8=n,b`. In Lutris, add or
+edit the `dxgi` row while retaining other rows. In Steam, keep other options
+and exactly one `%command%`.
+
+**Using a launcher-generated Steam shortcut?** If it opens Heroic, Lutris or
+Bottles, configure loading in that launcher and keep the shortcut's existing
+target. Continue launching through it so the same prefix and launcher settings
+are used.
+
+<details>
+<summary>Missing games, Flatpak and external drives</summary>
+
+Enable the appropriate scan source in the client and rescan after installing a
+game. Heroic discovery covers Epic/GOG metadata in its standard native and
+Flatpak locations; Lutris discovery reads entries with an existing Windows
+executable in its standard native and Flatpak locations. Custom data locations
+and other entries can use **Add Manually**.
+
+Use the game's real host path when choosing its `.exe`. The native Linux client
+needs write access there, and the game's launcher needs access to that same
+folder. For Flatpak launchers, grant access to the game folder or external-drive
+mount when needed through your desktop's Flatpak permissions or Flatseal.
+[Heroic folder-access guidance](https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/wiki/Linux-Quick-Start-Guide) ·
+[Bottles folder-access guidance](https://docs.usebottles.com/flatpak/expose-directories).
+
+Install beside the game's executable, even when it lives inside a Wine prefix.
+Keep the existing prefix, saves and runner selection. Use one client library
+entry per installation when updating or restoring it.
+
+</details>
 
 ## Which games can I select?
 

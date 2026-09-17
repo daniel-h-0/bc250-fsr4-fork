@@ -70,7 +70,8 @@ source control.
 Use the [issue tracker](https://github.com/daniel-h-0/bc250-fsr4-fork/issues).
 Include the release/commit, distribution, installation route, failing command
 and error. For the client route, include the client build and the game's displayed
-result. For either DLL route, include the game/API, OptiScaler and DLL versions,
+result and launcher (including whether it is Flatpak). For either DLL route,
+include the game/API, OptiScaler and DLL versions,
 GPU/driver, Proton and in-game upscaler choice. Add the custom driver/runtime
 identity only if you use that optional route.
 

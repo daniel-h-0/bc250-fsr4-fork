@@ -113,9 +113,12 @@ Existing Fossilize reads require a Mesa build supporting combined read/write
 and read-only Fossilize caches. Unsupported options may be ignored, causing
 recompilation. [Mesa cache settings](https://docs.mesa3d.org/envvars.html#mesa-shader-cache-dir).
 
-In Heroic, put the installed cache launcher in **Wrapper** and `--` in its
-**Arguments**. For the driver launcher, use `run --`. Preserve other wrappers;
+In Heroic **Game Settings → Advanced → Wrapper command**, put the installed cache
+launcher in **Wrapper** and `--` in that row's **Arguments**. These are wrapper
+arguments, separate from game arguments. For the driver launcher, use `run --`. Preserve other wrappers;
 Heroic does not use Steam's `%command%` placeholder.
+The ordinary DLL/client route only needs its
+[launcher loading setting](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/optiscaler-client.md#launcher-setup), not a wrapper.
 
 </details>
 

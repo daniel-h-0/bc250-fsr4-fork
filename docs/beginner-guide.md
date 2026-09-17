@@ -20,7 +20,9 @@ New to OptiScaler? Expand the setup below first.
 <details>
 <summary>First time? Install OptiScaler in your game</summary>
 
-1. Close the game. In Steam, open **Properties → Installed Files → Browse**.
+1. Close the game and open its installation folder from your launcher. In Steam,
+   use **Properties → Installed Files → Browse**. In other launchers, use the
+   game's install location or browse-files action.
    Find the actual 64-bit game executable; Unreal games usually keep it under
    `Binaries/Win64`. See [upstream installation](https://github.com/optiscaler/OptiScaler/wiki/Manual-Installation).
    Back up existing files and launch options before changing them.
@@ -123,30 +125,16 @@ The RC11 DLL is 94,840,832 bytes, SHA256:
 step for a new adapter installation, separate from replacing its FSR DLL.
 Use ordinary Proton; the recorded game checks used GE-Proton 11-6.
 
-In Steam **Properties → General → Launch Options**, use the line matching the
-OptiScaler DLL you installed:
+Use the shared [launcher setup table](optiscaler-client.md#launcher-setup) for
+Steam, Heroic, Lutris, Bottles and other Wine frontends. It applies equally to
+manual installations: match the override to your adapter filename and preserve
+existing settings. It also covers launcher-generated Steam shortcuts and
+Flatpak folder access.
 
-| Installed adapter | Launch options |
-| --- | --- |
-| `winmm.dll` | `WINEDLLOVERRIDES="winmm=n,b" %command%` |
-| `dxgi.dll` (general default) | `WINEDLLOVERRIDES="dxgi=n,b" %command%` |
-
-If the field already contains settings, preserve them and merge the DLL override;
-keep exactly one `%command%`. [Upstream compatibility notes](https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List)
-cover any additional requirements. Press **Insert** in-game to check that OptiScaler opens.
-[Upstream Linux loading instructions](https://github.com/optiscaler/OptiScaler/wiki/Automated-Installation).
-
-<details>
-<summary>Heroic or native Windows</summary>
-
-In Heroic/Linux, add `WINEDLLOVERRIDES` as an environment variable with value
-`winmm=n,b` (or `dxgi=n,b` for the general setup). Put renderer arguments in its arguments
-field. Keep the existing prefix and saves.
-
-These launch options apply to Linux. See [tested scope](#tested-scope) for
-platform coverage.
-
-</details>
+Press **Insert** in-game to check that OptiScaler opens.
+[Upstream compatibility notes](https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List)
+cover additional input/loading requirements. Native Windows does not use these
+Wine launch settings; see [tested scope](#tested-scope).
 
 ## Native FidelityFX games
 

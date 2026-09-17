@@ -41,6 +41,14 @@ updates to this build come from BC250 FSR4. The upstream scanner and library vie
 remain responsible for game discovery. Game files change only when games are selected
 and an installation or restore action is invoked.
 
+The pinned Linux scanner includes Steam, Heroic Epic/GOG Windows installations,
+and Lutris entries with an existing `.exe`. Heroic and Lutris scanners check
+their standard native and Flatpak data locations. Amazon, sideloaded games,
+Bottles and custom locations use manual executable selection when absent from
+the scan. These are discovery paths, separate from rendering qualification.
+The [launcher setup table](../../docs/optiscaler-client.md#launcher-setup) owns
+the corresponding user instructions.
+
 ## Ownership and supported setup
 
 - `src/Bc250StartupWindow.cs` retrieves and verifies first-run dependencies.
@@ -69,7 +77,7 @@ are resolved; absolute/shared paths and symbolic links use the manual route.
 Native game DLL replacements also remain manual in this build. Scan results
 alone are not a game-compatibility claim.
 
-The client displays Linux loading instructions and leaves Steam/Heroic settings
+The client displays Linux loading instructions and leaves launcher settings
 under the user's control. It does not edit launcher settings, Proton prefixes,
 saves, drivers or shader-cache policy. Restoration therefore only restores game
 files. Updates check the DLL, adapter identity and configured target. Restore

@@ -10,6 +10,7 @@ native FidelityFX games and custom layouts.
 | Question | Read |
 | --- | --- |
 | How do I update or undo a client installation? | [Client update and restore](optiscaler-client.md#update-or-restore) |
+| How do I use Heroic, Lutris or Bottles? | [Game discovery](optiscaler-client.md#1-open-the-client) and [launcher setup](optiscaler-client.md#launcher-setup) |
 | How do I check it is working? | [Verification and troubleshooting](beginner-guide.md#if-the-check-fails) |
 | Why does first launch stall? | [Shader compilation](first-run-shader-compilation.md) |
 | How much faster is it? | [GPU-cost chart and method](gpu-cost.md) |

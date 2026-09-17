@@ -59,6 +59,9 @@ its adapter name. For the general `dxgi.dll` setup, the Steam launch option is
 Skip this if OptiScaler already loads. Keep other existing options and the
 [upstream compatibility guidance](https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List).
 These launch options apply to Linux.
+For Heroic, Lutris, Bottles and launcher-generated Steam shortcuts, use the
+[launcher setup table](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/optiscaler-client.md#launcher-setup)
+to enter the override in the correct field.
 
 ## Update or undo
 
