@@ -42,9 +42,8 @@ First use can pause while shaders compile.
 ## Which games can I select?
 
 Use games [compatible with OptiScaler](https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List).
-There is no project game whitelist or per-title installation preset. Scanning
-finds executables; it does not establish compatibility. Follow upstream's
-compatibility notes if a game's input or loading method needs adjustment.
+Follow upstream's compatibility notes if a game's input or loading method needs
+adjustment.
 OptiScaler advises against using it in online games with anti-cheat.
 
 This build uses OptiScaler 10.0.0-pre1 from September 4. It can also manage an
@@ -63,7 +62,6 @@ in place. New games use the selected release too.
 **Update the client:** extract the new client archive and run its launcher.
 Keep `~/.config/OptiscalerClient-BC250/` (or its location under `XDG_CONFIG_HOME`);
 it holds your selected DLL, installation records and original-file backups.
-Existing installations made by client 1.0.7-bc250.1 remain manageable.
 
 **Restore:** select games and choose **Restore / recover selected**. The client
 restores files saved before its first BC250 installation and removes files it
