@@ -1,6 +1,7 @@
 # RC11: release validation
 
-[Install through OptiScaler](beginner-guide.md). RC11 preserves RC10's shader
+[Install across your games](optiscaler-client.md) or use the [manual guide](beginner-guide.md).
+[Client validation](../integrations/optiscaler-client/README.md#validation) is separate from the DLL rendering evidence below. RC11 preserves RC10's shader
 programs and improves the optional Linux cache/driver tools.
 
 ## Exact identities

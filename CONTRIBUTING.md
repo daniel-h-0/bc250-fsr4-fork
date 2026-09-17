@@ -24,10 +24,11 @@ use the separate [build instructions](docs/development.md#build-the-current-driv
 
 ## Keep the scope small
 
-User documentation assumes a working OptiScaler installation: replace its
-bundled upscaler DLL, select FFX/INT8 and retain working launch settings.
-Link first-time adapter setup, optional shared paths/cache tools and driver
-routes separately. Keep test-specific launch flags with their actual use cases.
+User documentation starts with [Install across your games](docs/optiscaler-client.md).
+Keep manual DLL replacement, native recipes and custom paths in the
+[manual guide](docs/beginner-guide.md). The client supplies common FFX/INT8
+settings and preserves per-game configuration on updates. Keep first-time Linux
+loading instructions with their actual games, and link optional cache/driver tools separately.
 Each topic has one maintained guide; other pages link to it instead of copying
 its steps. Keep current guides at the top of `docs/`; put superseded runtime
 guides in `docs/legacy/runtime/` and dated experiments in `docs/legacy/research/`. Keep release measurements dated and separate from current instructions.
@@ -36,6 +37,10 @@ both the repository and the extracted archive.
 
 - DLL changes belong in `dll/` with complete editable shader sources, input
   hashes and a newly qualified output identity. Keep the user download small.
+- Client integration belongs in `integrations/optiscaler-client/`: pin the upstream
+  source, retain its license, ship complete modified source with the application,
+  and run the transaction and packaged-client checks in its build guide. Its
+  per-game file ownership is separate from the retained RC6 runtime below.
 - Driver changes belong in the manifest and ordered Mesa patches. Preserve
   provenance and qualify changed compiler output.
 - Runtime changes belong in its manifest, launcher or narrow upstream patch.
@@ -61,7 +66,8 @@ source control.
 
 Use the [issue tracker](https://github.com/daniel-h-0/bc250-fsr4-fork/issues).
 Include the release/commit, distribution, installation route, failing command
-and error. For the normal DLL route, include the game/API, OptiScaler and DLL versions,
+and error. For the client route, include the client build and the game's displayed
+result. For either DLL route, include the game/API, OptiScaler and DLL versions,
 GPU/driver, Proton and in-game upscaler choice. Add the custom driver/runtime
 identity only if you use that optional route.
 

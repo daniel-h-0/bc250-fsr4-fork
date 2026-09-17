@@ -29,6 +29,13 @@ its upstream terms. The runtime-distribution section below describes retained RC
 
 ## Source inventory
 
+The optional [OptiScaler Client project build](integrations/optiscaler-client/README.md)
+uses the pinned GPL-3.0-or-later client source and BC250 C# additions under the
+same license. Its binary archive includes the complete modified client source,
+upstream license and integration notice. First-run OptiScaler, OptiPatcher and
+NVIDIA helper downloads come from pinned upstream locations; those binaries are
+not included in the client archive. The unchanged FSR4 ZIP retains its own notices.
+
 | Material | Provenance and notices |
 | --- | --- |
 | Portable upscaler DLL and editable shader assembly | `dll/manifest.json`, full AMD SDK notice and `dll/notices/PROVENANCE.md` |

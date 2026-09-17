@@ -47,6 +47,18 @@ class ReleaseAssetsTests(unittest.TestCase):
             ["SHA256SUMS", "dll.zip", "source.tar.gz"],
         )
 
+    def test_client_is_staged_with_source_and_verified_before_any_output(self):
+        client = self.archive("client.tar.gz", b"client with corresponding source")
+        client.write_bytes(b"corrupt client")
+        with self.assertRaisesRegex(ValueError, "checksum mismatch"):
+            assets.stage(self.output, self.dll, self.source, client=client)
+        self.assertFalse(self.output.exists())
+        client = self.archive("client.tar.gz", b"client with corresponding source")
+        self.assertEqual(
+            assets.stage(self.output, self.dll, self.source, client=client),
+            ["SHA256SUMS", "client.tar.gz", "dll.zip", "source.tar.gz"],
+        )
+
     def test_corruption_never_creates_an_upload_directory(self):
         self.driver.write_bytes(b"changed after packaging")
         with self.assertRaisesRegex(ValueError, "checksum mismatch"):

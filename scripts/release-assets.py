@@ -15,7 +15,7 @@ def digest(path):
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
-def stage(output, dll, source, driver=None):
+def stage(output, dll, source, driver=None, client=None):
     """Keep original build artifacts/sidecars; expose one archive per role."""
     output = Path(output)
     if output.exists() or output.is_symlink():
@@ -23,7 +23,14 @@ def stage(output, dll, source, driver=None):
     selections = {"dll": Path(dll), "source": Path(source)}
     if driver is not None:
         selections["driver"] = Path(driver)
-    expected_suffixes = {"dll": ".zip", "source": ".tar.gz", "driver": ".tar.gz"}
+    if client is not None:
+        selections["client"] = Path(client)
+    expected_suffixes = {
+        "dll": ".zip",
+        "source": ".tar.gz",
+        "driver": ".tar.gz",
+        "client": ".tar.gz",
+    }
     names = set()
     records = []
     for role, path in selections.items():
@@ -76,9 +83,10 @@ def main():
         "--source", type=Path, required=True, help="Complete source snapshot tar.gz"
     )
     parser.add_argument("--driver", type=Path, help="Optional separately qualified driver tar.gz")
+    parser.add_argument("--client", type=Path, help="Optional project OptiScaler Client tar.gz")
     parser.add_argument("--output", type=Path, required=True, help="New upload staging directory")
     args = parser.parse_args()
-    for name in stage(args.output, args.dll, args.source, args.driver):
+    for name in stage(args.output, args.dll, args.source, args.driver, args.client):
         print(args.output / name)
 
 

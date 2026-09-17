@@ -2,6 +2,13 @@
 
 Project version **4.0.0-rc11**; SDK display name **4.1.1r11**.
 
+**Using the BC250 OptiScaler Client build?** Import this ZIP once and use
+**Install / update selected** to update your games together. Follow
+[Install across your games](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/optiscaler-client.md).
+Its restore action keeps the installation records consistent.
+
+## Manual installation
+
 **Replace OptiScaler's bundled upscaler DLL and select FFX/INT8.** Use your normal
 driver, Proton and working launch settings.
 

@@ -1,5 +1,23 @@
 # Changelog
 
+## OptiScaler Client integration — 2026-09-16
+
+Published separately as `opticlient-v1.0.7-bc250.1`, a prerelease addon for the
+unchanged RC11 DLL. The addon includes the client, refreshed `rc11-docs1` ZIP,
+complete source and checksums.
+
+- Add project build `1.0.7-bc250.1` with an Install across your games screen,
+  one-time DLL import and updates for already installed games.
+- Place the DLL at the configured local OptiScaler target; apply FFX/INT8 settings
+  on first setup and preserve game INIs during DLL updates.
+- Record original files, verify replacements and support interrupted-operation
+  recovery. Keep changed files for review and defer running games.
+- Include recipes for five fresh OptiScaler setups, with explicit Linux loading
+  instructions. Keep native replacement and custom layouts in the manual guide.
+- Ship complete modified client source and download pinned adapter dependencies
+  from upstream on first launch. RC11 shader code, performance data and existing
+  release archives are unchanged.
+
 ## Documentation — 2026-09-16
 
 - Group 28 historical guides/reports under `docs/legacy/runtime/` and
@@ -14,7 +32,7 @@
 - Replace incident narratives and defensive explanations in current guidance with
   setup/check/recovery steps; repair documentation links in compact downloads.
 
-- Make direct replacement of OptiScaler's bundled DLL the beginner route, using
+- Simplify manual replacement of OptiScaler's bundled DLL, using
   normal Proton/driver and existing working launch settings. Shared paths and
   additional compatibility flags are optional; first-time Linux loading stays
   separate. Explicitly enable the OptiPatcher plug-in in the fresh setup.

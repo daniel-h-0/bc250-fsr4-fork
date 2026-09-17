@@ -4,20 +4,23 @@
 OptiScaler or a compatible native FidelityFX game. Use your normal graphics
 driver and Proton.
 
-**[Download RC11](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc11/bc250-fsr4-dll-4.0.0-rc11.zip)** ·
-**[Install with OptiScaler](docs/beginner-guide.md)** ·
+**[Install across your games](docs/optiscaler-client.md)** ·
+[Manual install and game recipes](docs/beginner-guide.md) ·
+[Download the DLL](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.1/bc250-fsr4-dll-4.0.0-rc11-docs1.zip) ·
 [All documentation](docs/README.md)
 
 ## Install
 
-1. With OptiScaler installed, back up `OptiScaler/amd_fidelityfx_upscaler_dx12.dll`
-   and replace it with the DLL from the [RC11 ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc11/bc250-fsr4-dll-4.0.0-rc11.zip).
-2. Select the FFX / INT8 backend using the [guide's settings](docs/beginner-guide.md#2-select-fsr4-int8).
-3. Retain your working launch options, select the game's usual upscaler input, and play.
+1. Open the [BC250 build of OptiScaler Client](docs/optiscaler-client.md) and scan your library.
+2. Choose **Install across your games**, select games, and install. RC11 and its
+   FFX/INT8 settings are included; each game shows any first-time loading step.
+3. Retain working launch options and launch normally. Import future DLL ZIPs once
+   to update selected games together.
 
-The [installation guide](docs/beginner-guide.md) includes first-time OptiScaler
-setup, exact paths and game recipes. [Native FidelityFX games](docs/beginner-guide.md#native-fidelityfx-games)
-can use direct DLL replacement instead of OptiScaler to skip a setup step.
+Prefer to copy the DLL yourself? The [manual guide](docs/beginner-guide.md) covers
+OptiScaler setup, custom paths and game recipes. [Native FidelityFX games](docs/beginner-guide.md#native-fidelityfx-games)
+can use direct replacement without OptiScaler. The client route manages local
+OptiScaler copies on Linux; its guide lists supported fresh setups and existing adapters.
 
 Testing covers **BC250/Linux**. [Release validation](docs/portable-dll-rc11.md)
 shows the supported test scope and work awaiting qualification.
@@ -47,13 +50,14 @@ RC9's native shader code (and runtime performance). RC11 retains RC10's shaders 
 ## Support and development
 
 [Installation troubleshooting](docs/beginner-guide.md#if-the-check-fails) ·
-[Update or undo](docs/beginner-guide.md#update-an-existing-installation) ·
+[Client update or restore](docs/optiscaler-client.md#update-or-restore) ·
+[Manual update or undo](docs/beginner-guide.md#update-an-existing-installation) ·
 [Tested configurations](docs/portable-dll-rc11.md) ·
 [Build the DLL](dll/README.md) · [Contribute](CONTRIBUTING.md)
 
 ## Special thanks and notes
 
-This continues [dmoraza's BC250 FSR4 project](https://github.com/dmorazasanchez/bc250-fsr4) - many thanks to him for 
+This continues [dmoraza's BC250 FSR4 project](https://github.com/dmorazasanchez/bc250-fsr4) - many thanks to him for
 originating this work and achieving the first bundle of performance wins.
 Thanks to AMD/GPUOpen, Mesa/RADV, Microsoft DXC, Wine, vkd3d-proton, Valve Proton,
 GE-Proton and OptiScaler. [Licenses and attribution](THIRD_PARTY.md).

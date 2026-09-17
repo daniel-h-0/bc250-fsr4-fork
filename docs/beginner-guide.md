@@ -1,4 +1,8 @@
-# Install the FSR4 DLL with OptiScaler
+# Manual install and game recipes
+
+For installation and updates from one game list, use
+[Install across your games](optiscaler-client.md). This page covers manual
+replacement, first-time adapter setup, native games and verification.
 
 **Replace OptiScaler's upscaler DLL, select FFX/INT8, and play.** Use your normal
 graphics driver, Proton and working launch settings.
@@ -37,7 +41,7 @@ when updating this project's upscaler.
 
 ## 1. Replace one file
 
-Download and extract the [RC11 DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc11/bc250-fsr4-dll-4.0.0-rc11.zip).
+Download and extract the [RC11 DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.1/bc250-fsr4-dll-4.0.0-rc11-docs1.zip).
 Close the game. Back up the existing file, then copy the downloaded
 **`amd_fidelityfx_upscaler_dx12.dll`** over:
 
@@ -273,6 +277,10 @@ If moving from the old BC250 driver/Steam tool, use its
 </details>
 
 ## Update an existing installation
+
+**Installed through the BC250 client?** Use its
+[update or restore actions](optiscaler-client.md#update-or-restore) so its file
+records stay consistent. The steps below are for manual installations.
 
 Close the game, back up the current DLL, and replace that same file. Keep the
 adapter, INI and working launch settings. Repeat for each game's OptiScaler

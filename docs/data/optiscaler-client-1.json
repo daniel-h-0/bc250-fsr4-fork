@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "date": "2026-09-16",
+  "client_version": "1.0.7-bc250.1",
+  "upstream_commit": "dd534b7d1cb8a0edf174a6917f5179791603d364",
+  "platform": "Linux x64 / AMD BC250",
+  "transaction_checks": 26,
+  "transaction_result": "pass",
+  "real_payload": [
+    {
+      "recipe": "Cyberpunk2077",
+      "sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "loaded_expected_path": true,
+      "ini_preserved": true
+    },
+    {
+      "recipe": "Control_DX12",
+      "sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "loaded_expected_path": true,
+      "ini_preserved": true
+    },
+    {
+      "recipe": "SystemReShock-Win64-Shipping",
+      "sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "loaded_expected_path": true,
+      "ini_preserved": true
+    },
+    {
+      "recipe": "NMS",
+      "sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "loaded_expected_path": true,
+      "ini_preserved": true
+    },
+    {
+      "recipe": "DOOMTheDarkAges",
+      "sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "loaded_expected_path": true,
+      "ini_preserved": true
+    }
+  ],
+  "gui": {
+    "status": "pass",
+    "environment": "Isolated Xvfb display; filesystem read-only outside synthetic game/config directories",
+    "first_run_dependency_downloads": "pass",
+    "library_and_project_route": "pass",
+    "bulk_install_two_games": "pass",
+    "bulk_update_preserves_both_inis": "pass",
+    "restore_confirmation_and_both_original_trees": "pass",
+    "native_import_dialog": "opened; archive import and switching releases tested through the service harness"
+  },
+  "gameplay_requalified": false,
+  "rendering_evidence": "portable-dll-rc11.json",
+  "sources": {
+    "integrations/optiscaler-client/src/Bc250RouteService.cs": "d9399f03edcee51505bb873a2fa0031d372aba5eb63d1919bc3799bd135def43",
+    "integrations/optiscaler-client/src/Bc250StartupWindow.cs": "ec4a5c9a2fec3d309eb47acb7c5491b051a36c60bd2b41bb3c0f0d6997c5bbd6",
+    "integrations/optiscaler-client/src/Bc250Transaction.cs": "faba4d3490b651f492f1d3a3e8dda4aa41c70ca95e580e0a1a0df6a4994c1778",
+    "integrations/optiscaler-client/src/Bc250Window.cs": "541e7cf517a360aaa1f9f429bdf71dd5b82deae0c13ef020f9eca7297dbade57"
+  },
+  "archive_name": "bc250-opticlient-1.0.7-bc250.1-linux-x64.tar.gz",
+  "bundled_dll_zip": "bc250-fsr4-dll-4.0.0-rc11-docs1.zip",
+  "dependency_backport": "Tmds.DBus.Protocol 0.21.3"
+}

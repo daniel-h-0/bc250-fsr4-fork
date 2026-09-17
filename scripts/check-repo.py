@@ -202,6 +202,7 @@ def check_docs(root):
     # Check our guides and experiments, including grouped historical records.
     # The original upstream v3 archive retains its original links and bytes.
     documents = [*root.glob("*.md"), *(root / "docs").rglob("*.md"), *(root / "dll").rglob("*.md")]
+    documents.extend((root / "integrations").rglob("*.md"))
     documents.extend((root / "v4/experimental").rglob("*.md"))
     documents.extend(
         path
@@ -857,6 +858,9 @@ def main():
     )
     args = parser.parse_args()
     root = args.root.resolve()
+    if (root / "integrations/optiscaler-client/manifest.json").exists():
+        check_client = runpy.run_path(str(root / "scripts/check-opticlient.py"))["check"]
+        print("PASS:", check_client(root), flush=True)
     for check in (
         check_snapshot,
         check_inputs,

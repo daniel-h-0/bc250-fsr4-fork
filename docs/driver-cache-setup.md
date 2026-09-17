@@ -1,6 +1,6 @@
 # Optional Linux driver installation
 
-For the usual install, [replace OptiScaler's DLL](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md).
+For the usual install, use [Install across your games](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/optiscaler-client.md) or [manual DLL replacement](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md).
 This private driver is an alternative for an existing AMD-provider integration.
 Read the [provider requirements](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/driver-rc10.md)
 first: installing the driver alone does not enable FSR4.

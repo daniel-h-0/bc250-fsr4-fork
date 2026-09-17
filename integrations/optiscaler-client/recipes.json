@@ -1,0 +1,63 @@
+[
+  {
+    "Exe": "bin/x64/Cyberpunk2077.exe",
+    "Proxy": "dxgi.dll",
+    "Input": "FSR3",
+    "Arguments": "",
+    "Settings": {
+      "Spoofing": {
+        "Dxgi": "false"
+      },
+      "Inputs": {
+        "EnableDlssInputs": "false",
+        "EnableFfxInputs": "auto"
+      }
+    }
+  },
+  {
+    "Exe": "Control_DX12.exe",
+    "Proxy": "winmm.dll",
+    "Input": "DLSS (DirectX 12)",
+    "Arguments": "-dx12",
+    "Settings": {
+      "Spoofing": {
+        "Dxgi": "false"
+      }
+    }
+  },
+  {
+    "Exe": "SystemShock/Binaries/Win64/SystemReShock-Win64-Shipping.exe",
+    "Proxy": "winmm.dll",
+    "Input": "DLSS (DirectX 11)",
+    "Arguments": "-dx11",
+    "Settings": {
+      "Spoofing": {
+        "Dxgi": "true"
+      }
+    }
+  },
+  {
+    "Exe": "Binaries/NMS.exe",
+    "Proxy": "winmm.dll",
+    "Input": "DLSS (Vulkan)",
+    "Arguments": "",
+    "Settings": {
+      "Spoofing": {
+        "Dxgi": "false",
+        "Vulkan": "true",
+        "VulkanExtensionSpoofing": "true"
+      }
+    }
+  },
+  {
+    "Exe": "DOOMTheDarkAges.exe",
+    "Proxy": "winmm.dll",
+    "Input": "FSR 3.1 (Vulkan)",
+    "Arguments": "",
+    "Settings": {
+      "Spoofing": {
+        "Dxgi": "false"
+      }
+    }
+  }
+]

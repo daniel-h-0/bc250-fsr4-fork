@@ -1,7 +1,7 @@
 # Optional shared shader cache
 
-The [normal OptiScaler DLL install](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md)
-needs no cache helper. Use this RC11 tool only to share compatible Mesa shader
+[Install across your games](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/optiscaler-client.md) and
+[manual DLL installation](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md) need no cache helper. Use this RC11 tool only to share compatible Mesa shader
 compilations across selected Linux games. It works with per-game DLL copies
 and the normal driver; it does not change the FSR model or per-frame optimizations.
 

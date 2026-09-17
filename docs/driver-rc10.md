@@ -1,6 +1,6 @@
 # Optional driver: requirements and provider setup
 
-The normal route is [OptiScaler DLL replacement](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md).
+Use the DLL through [Install across your games](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/optiscaler-client.md) or [manual replacement](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md) for the usual installation.
 This page covers the alternative **BC250 / Linux x86-64 AMD-provider route**.
 Its private Mesa 26.2.2 driver carries the RC9 shader optimizations. RC11 ships
 the same binary as RC10.

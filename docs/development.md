@@ -1,10 +1,13 @@
 # Driver and legacy-runtime development
 
 DLL work starts in the [DLL source guide](../dll/README.md). Normal users follow
-[OptiScaler DLL replacement](beginner-guide.md). This page defines the separate
+[Install across your games](optiscaler-client.md) or the [manual guide](beginner-guide.md). This page defines the separate
 driver and retained RC6 Steam-tool contracts.
 
 ## Ownership
+
+The [client integration](../integrations/optiscaler-client/README.md) has its own
+pinned build and game-file transactions; it does not use the RC6 launcher.
 
 | Path | Responsibility |
 | --- | --- |

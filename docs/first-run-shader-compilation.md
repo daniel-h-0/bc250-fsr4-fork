@@ -13,4 +13,4 @@ Updates can require recompilation. The [GPU-cost chart](gpu-cost.md) measures
 upscaling after compilation. Optional [shared caching](shared-shader-cache.md)
 can reuse compatible work across games.
 
-[Return to installation](beginner-guide.md).
+[Install across your games](optiscaler-client.md) · [Manual installation](beginner-guide.md).

@@ -1,7 +1,8 @@
 # v4.0.0-rc11
 
-**[Download the DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc11/bc250-fsr4-dll-4.0.0-rc11.zip)
-and [replace OptiScaler's bundled upscaler](beginner-guide.md).**
+**[Install across your games](optiscaler-client.md)** with the separately versioned
+BC250 client build, or [download the DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc11/bc250-fsr4-dll-4.0.0-rc11.zip)
+for [manual installation](beginner-guide.md).
 Use your normal driver, Proton and working launch settings.
 
 ## What changed

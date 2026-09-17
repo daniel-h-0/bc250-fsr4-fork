@@ -1,18 +1,32 @@
 # Downloads and release packaging
 
-**Install the [RC11 DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc11/bc250-fsr4-dll-4.0.0-rc11.zip)
-using the [OptiScaler replacement guide](beginner-guide.md).**
-[Release notes](release-notes-rc11.md) explain the changes;
-[validation](portable-dll-rc11.md) records what was tested.
+**[Install across your games](optiscaler-client.md)** with the BC250 client build,
+or use the [RC11 DLL ZIP with refreshed instructions](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.1/bc250-fsr4-dll-4.0.0-rc11-docs1.zip)
+for a [manual installation](beginner-guide.md).
+[RC11 release notes](release-notes-rc11.md) and
+[DLL validation](portable-dll-rc11.md) cover the unchanged renderer.
 
-## Four RC11 uploads
+## Client addon
+
+[OptiScaler Client 1.0.7-bc250.1](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/opticlient-v1.0.7-bc250.1)
+is a separately versioned prerelease addon for RC11. It adds selection-based
+installation, DLL updates and file restoration. RC11 remains the DLL release;
+this addon changes installation rather than shader code or measured performance.
+
+The addon release contains the Linux client, the `rc11-docs1` DLL ZIP, a complete
+project source snapshot and `SHA256SUMS`. The application also includes its full
+modified client source. The [client validation record](../integrations/optiscaler-client/README.md#validation)
+separates installation/loading checks from the existing DLL rendering evidence.
+
+## Downloads
 
 | Download | Who needs it |
 | --- | --- |
-| `bc250-fsr4-dll-4.0.0-rc11.zip` | Normal install: DLL, instructions, notices and optional cache helper. |
-| `bc250-fsr4-v4.0.0-rc11-linux-glibc236-x86_64.tar.gz` | Users choosing the alternative AMD-provider/driver route. |
+| `bc250-opticlient-1.0.7-bc250.1-linux-x64.tar.gz` | Client route: Linux application, RC11 ZIP, complete modified client source and dependency download pins. |
+| `bc250-fsr4-dll-4.0.0-rc11-docs1.zip` | Manual installation or client import; unchanged RC11 DLL with current instructions and notices. |
+| `bc250-fsr4-v4.0.0-rc11-linux-glibc236-x86_64.tar.gz` | Alternative AMD-provider/driver route, retained in the [RC11 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11). |
 | `bc250-fsr4-v4.0.0-rc11-source-COMMIT.tar.gz` | Developers: complete source, tools, docs and evidence. |
-| `SHA256SUMS` | Checksums for the three archives above. |
+| `SHA256SUMS` and archive `.sha256` files | Checksums for the corresponding downloads. |
 
 GitHub's automatic **Source code** downloads are not the DLL ZIP. The archive
 checksums differ from the DLL checksum inside the ZIP. To check a downloaded
@@ -23,24 +37,39 @@ sha256sum --ignore-missing -c SHA256SUMS
 ```
 
 Original archives/tags remain unchanged when the maintained docs are revised.
+The client has its own version and archive checksum; RC11's DLL is unchanged.
+The first client build bundles the `4.0.0-rc11-docs1` DLL ZIP, whose instructions
+include the client route. It contains the same RC11 DLL as the original download.
 
 ## Packaging
 
 Maintainers use a reviewed clean checkout and qualified build outputs:
 
 ```sh
-python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll
-python3 scripts/package.py --work .work/linux-glibc236/mesa \
-  --label linux-glibc236-x86_64 --runtime-only
+python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll \
+  --documentation-revision 1
 python3 scripts/source-release.py --output dist/source
-python3 scripts/release-assets.py --dll PATH_TO_DLL_ZIP --driver PATH_TO_DRIVER_TAR \
-  --source PATH_TO_COMPLETE_SOURCE_TAR --output dist/upload-rc11
 ```
+
+Build the client separately with the .NET 10 SDK and `bsdtar`:
+
+```sh
+python3 scripts/package-opticlient.py --dotnet /path/to/dotnet \
+  --dll-zip dist/bc250-fsr4-dll-4.0.0-rc11-docs1.zip
+python3 scripts/release-assets.py --dll PATH_TO_DLL_ZIP --client PATH_TO_CLIENT_TAR \
+  --source PATH_TO_COMPLETE_SOURCE_TAR --output dist/upload-opticlient
+```
+
+The [client build guide](../integrations/optiscaler-client/README.md) covers its
+tests, source delivery and first-run upstream downloads. Include the client
+archive and its checksum when publishing this route. The client archive embeds
+the DLL ZIP supplied to the command; document which documentation revision it contains.
 
 The DLL packager checks the exact DLL, guide identity, notices and helper hashes.
 The driver packager checks build provenance and strips a copy of the library.
 The staging tool checks archive sidecars and writes a combined checksum list;
-it does not publish. A DLL-only staging run can omit the driver argument.
+it does not publish. Omit the driver or client argument when staging only the
+other components.
 
 For corrected archive instructions without a binary change, pass
 `--documentation-revision N` to the DLL packager. It produces a new `-docsN`

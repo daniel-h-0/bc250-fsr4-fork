@@ -12,3 +12,5 @@ dist/
 *.pkg.tar.zst
 *.pyc
 .ruff_cache/
+integrations/optiscaler-client/tests/bin/
+integrations/optiscaler-client/tests/obj/

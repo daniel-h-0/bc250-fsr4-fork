@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "version": "1.0.7-bc250.1",
+  "upstream_commit": "dd534b7d1cb8a0edf174a6917f5179791603d364",
+  "inputs": {
+    "client": {
+      "url": "https://codeload.github.com/Optiscaler-Client/Optiscaler-Client/tar.gz/dd534b7d1cb8a0edf174a6917f5179791603d364",
+      "file": "client.tar.gz",
+      "sha256": "9a46c8ad5272d6ddff1acb61d559cf6982649036498aad251cd999438dfbddd6"
+    },
+    "opti": {
+      "url": "https://github.com/optiscaler/OptiScaler-nightly/releases/download/nightly-20260904/OptiScaler_v10.0.0-pre1_20260904.7z",
+      "file": "OptiScaler_v10.0.0-pre1_20260904.7z",
+      "sha256": "730d5057338cf68adc3bf38a358985a04629ad00fae305bd717694a392216a53"
+    },
+    "patcher": {
+      "url": "https://github.com/optiscaler/OptiPatcher/releases/download/v0.41/OptiPatcher_v0.41.asi",
+      "file": "OptiPatcher.asi",
+      "sha256": "fb12735bfcc0d47f534f2206d57ec34129dc3d22b6405a1c2ef86745ab48b2eb"
+    },
+    "dlss": {
+      "url": "https://raw.githubusercontent.com/NVIDIA/DLSS/a291cc7d2cc642a51566f3dfd5376f635cd1b284/lib/Windows_x86_64/rel/nvngx_dlss.dll",
+      "file": "nvngx_dlss.dll",
+      "sha256": "be6e434a94ca32499515eb62ca0e6c274526055d568d0426e4c652dcdfb6ee6e"
+    },
+    "dlss_license": {
+      "url": "https://raw.githubusercontent.com/NVIDIA/DLSS/a291cc7d2cc642a51566f3dfd5376f635cd1b284/LICENSE.txt",
+      "file": "NVIDIA-DLSS-LICENSE.txt",
+      "sha256": "21b5daec892b12bea692e66bc8fe45cf5902ccaf3a7b831e78050d8859881c37"
+    }
+  }
+}

@@ -1,6 +1,7 @@
 # Rebuilding the RC11 DLL
 
-For installation, use the [OptiScaler DLL guide](../docs/beginner-guide.md).
+For installation, use [Install across your games](../docs/optiscaler-client.md)
+or the [manual DLL guide](../docs/beginner-guide.md).
 This directory contains the 348 editable LLVM/DXIL sources, pinned inputs,
 assembler/validator and PE repacker used to build RC11.
 
