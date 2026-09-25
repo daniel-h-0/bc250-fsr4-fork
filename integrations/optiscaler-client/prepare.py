@@ -43,7 +43,7 @@ def prepare(source, integration):
     edit(
         "App.axaml.cs",
         'Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0"',
-        '"1.0.7-bc250.4"',
+        '"1.0.7-bc250.5"',
     )
     edit(
         "Views/MainWindow.axaml",

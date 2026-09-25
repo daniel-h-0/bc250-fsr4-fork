@@ -19,6 +19,25 @@ public sealed class Bc250Transaction
     }
     public static string? ExistingHash(string path) => File.Exists(path) ? Hash(path) : null;
 
+    // One spelling for a folder however it is reached (Fedora Atomic: /home/<user> is /var/home/<user>).
+    // Resolves every link like realpath; a missing tail is kept as written, as Python's resolve() does.
+    public static string RealPath(string path) => RealPath(path, 0);
+    static string RealPath(string path, int links)
+    {
+        if (links > 40) throw new IOException("Too many linked folders: " + path);
+        path = Path.TrimEndingDirectorySeparator(Path.GetFullPath(path));
+        var parent = Path.GetDirectoryName(path);
+        if (parent == null) return path;
+        var resolved = Path.Combine(RealPath(parent, links), Path.GetFileName(path));
+        var target = new FileInfo(resolved).LinkTarget;
+        return target == null ? resolved : RealPath(Path.Combine(Path.GetDirectoryName(resolved)!, target), links + 1);
+    }
+    public static bool IsSameOrInside(string path, string folder)
+    {
+        path = RealPath(path); folder = RealPath(folder);
+        return path == folder || path.StartsWith(folder.TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar, StringComparison.Ordinal);
+    }
+
     public static string SafePath(string root, string relative)
     {
         root = Path.GetFullPath(root);

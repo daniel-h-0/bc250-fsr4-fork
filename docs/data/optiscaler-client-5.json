@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "date": "2026-09-25",
+  "client_version": "1.0.7-bc250.5",
+  "upstream_commit": "dd534b7d1cb8a0edf174a6917f5179791603d364",
+  "platform": "Linux x64 / AMD BC250",
+  "issue": "https://github.com/daniel-h-0/bc250-fsr4-fork/issues/1",
+  "fix": "Game records are keyed by the resolved game folder, as the cache tool already was, so library entries that reach one game as /home/<user>/… and /var/home/<user>/… share one record. Receipt, recovery and duplicate-ownership checks compare resolved folders. An executable chosen through the other spelling stays inside its entry. The running-game check looks for both spellings; the kernel lists resolved paths. Records from bc250.4 and earlier remain in use and move to the resolved key at their next install or restore.",
+  "transaction_checks": 57,
+  "transaction_result": "pass",
+  "linked_temp_root": "pass",
+  "new_checks": [
+    "other spelling finds the same installation",
+    "either spelling updates and restores one record",
+    "executable chosen through the other spelling stays inside its entry",
+    "record keyed by the written folder (bc250.4) still found",
+    "unmoved earlier record is not installed twice through the other spelling",
+    "next update moves the earlier record to the resolved folder",
+    "running game found through either spelling",
+    "moved record restores through the other spelling"
+  ],
+  "new_checks_fail_with_bc250_4_route_service": true,
+  "first_setup": {
+    "status": "pass",
+    "scope": "Packaged application in a throwaway Fedora container with /home linked to var/home and HOME=/home/<user>, Xvfb display, real hash-pinned upstream downloads",
+    "image": "docker.io/library/fedora:42",
+    "id": "8c219b734f781909b9384edc01eb52318330b57fa58e0410dfcf973b01d28fcd",
+    "bc250_5": "pass: dependencies prepared in about 28 s and the main window opened"
+  },
+  "previous_fix": "optiscaler-client-4.json",
+  "deployment_baseline": "optiscaler-client-3.json",
+  "changed_since_baseline": [
+    "integrations/optiscaler-client/src/Bc250RouteService.cs",
+    "integrations/optiscaler-client/src/Bc250Transaction.cs",
+    "integrations/optiscaler-client/src/Bc250StartupWindow.cs"
+  ],
+  "archive_name": "bc250-opticlient-1.0.7-bc250.5-linux-x64.tar.gz",
+  "bundled_dll_zip": "bc250-fsr4-dll-4.0.0-rc11-docs2.zip",
+  "scope": "Game identity across linked folder spellings and the running-game check. Installation engine, link refusal, cache tools, dependency pins and the RC11 DLL are otherwise unchanged, so the bc250.3 deployment evidence still applies. No new gameplay or rendering claim.",
+  "sources": {
+    "integrations/optiscaler-client/src/Bc250RouteService.cs": "3fc6401a3655a9d6b74aaa51c2d99c0a4e912c6c9aa823db65e3ab07b49bec5f",
+    "integrations/optiscaler-client/src/Bc250StartupWindow.cs": "3557d4b7f2c7e05642744d695f3652be6686e9f8adf99cb6ab8b09335af02c84",
+    "integrations/optiscaler-client/src/Bc250Transaction.cs": "e1b88feb4bf9604255c87d444f4a596ac7dc88e0d617cfb482627710592f2c69",
+    "integrations/optiscaler-client/src/Bc250Window.cs": "ee5f66e8063b256881760dbc710a9139ed5b553d603b510ce1ebb6bfe91674e4",
+    "integrations/optiscaler-client/src/Bc250CacheService.cs": "cbac4b1adf605aea6fa594c570c33505243ce410561f3f56e47b4158a6817a5f",
+    "integrations/optiscaler-client/tests/Program.cs": "d4ae1336cc83e75c74d6e567a296654780e9a4fcd9a6249109d7333fb7947007",
+    "scripts/client-cache.py": "bd124c195ad943cb0bdf53117c8c4083b446186124dc7a168506726f2880a078",
+    "scripts/client_cache_vdf.py": "8dba1a1b9f90b3390e22a1f899ae10d269c9a55f29c0d26acbfcea8609812934",
+    "scripts/shared-cache.py": "81f042222d2980cb68961413f793a1abbb309c3ae57c66b8f391c7fa594b3126",
+    "scripts/shared-cache.sh": "88c7726a1191548a362534aace08ae31ada2547a1b325fb6629b7f55546d2391",
+    "scripts/package-opticlient.py": "c057f960d99931919d5d3eaad2225d258d923b51e3c8491549ae84df72e4eb4e",
+    "tests/test_client_cache.py": "d6090a36cc9cd191ab3bd2f5ebba15e48fa009a76cd0c4a332183906e4409082"
+  }
+}

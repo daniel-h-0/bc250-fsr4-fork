@@ -1,7 +1,7 @@
 # OptiScaler Client integration
 
 User instructions: [Install across your games](../../docs/optiscaler-client.md).
-Project build: **1.0.7-bc250.4**, Linux x64, based on
+Project build: **1.0.7-bc250.5**, Linux x64, based on
 [OptiScaler Client](https://github.com/Optiscaler-Client/Optiscaler-Client) by
 [Agustín Montaña (Agustinm28)](https://github.com/Agustinm28) and contributors,
 under GPL-3.0-or-later. The upstream desktop interface, scanner and component
@@ -63,7 +63,10 @@ the corresponding user instructions.
   files and rename, with hash verification and recoverable commit state.
 
 The BC250 receipt and original files live under `BC250/games/<path-hash>/` in the
-client's application data. They are separate from upstream Client's installation
+client's application data. The hash is of the resolved game folder, so library
+entries that reach one game through different links (`/home` and `/var/home` on
+Fedora Atomic) share one record. Records from bc250.4 and earlier, keyed by the
+folder as written, remain in use and move at their next install or restore. They are separate from upstream Client's installation
 manifests and the project's retired RC6 runtime. All library install/manage
 buttons in this build enter the same BC250 screen, including for existing games.
 Use this screen to update or restore files it owns.
@@ -117,7 +120,7 @@ dotnet run -c Release --project integrations/optiscaler-client/tests/ClientTests
 python3 -m unittest discover -s tests -p test_client_cache.py
 python3 scripts/check-repo.py
 python3 scripts/check-opticlient.py \
-  --archive dist/opticlient/bc250-opticlient-1.0.7-bc250.4-linux-x64.tar.gz
+  --archive dist/opticlient/bc250-opticlient-1.0.7-bc250.5-linux-x64.tar.gz
 ```
 
 The C# harness creates temporary game trees and isolated application data through
@@ -146,6 +149,8 @@ separately scopes Steam/Lutris transaction and Flatpak access checks.
 linked-home fix: first setup of the packaged application with `/home` linked
 to `/var/home`, as on Bazzite and other Fedora Atomic systems, and installation
 below such a link. Links inside the selected game folder remain refused.
+[The bc250.5 record](../../docs/data/optiscaler-client-5.json) covers one record
+per game across those spellings and the running-game check for either spelling.
 The [RC11 validation](../../docs/portable-dll-rc11.md) remains the rendering evidence
 for that DLL. Client setup, DLL loading and actual game rendering are distinct
 checks; this build does not claim a new full gameplay campaign or support for

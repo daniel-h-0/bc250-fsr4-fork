@@ -18,8 +18,8 @@ def check(root=ROOT, archive=None):
     integration = root / "integrations/optiscaler-client"
     manifest = json.loads((integration / "manifest.json").read_text())
     data = root / "docs/data"
-    record = json.loads((data / "optiscaler-client-4.json").read_text())
-    # bc250.4 changes only the files it lists; bc250.3's deployment evidence covers the rest.
+    record = json.loads((data / "optiscaler-client-5.json").read_text())
+    # Later builds change only the files they list; bc250.3's deployment evidence covers the rest.
     baseline = json.loads((data / record["deployment_baseline"]).read_text())
     previous = json.loads((data / baseline["general_layout_baseline"]).read_text())
     dll = json.loads((root / "dll/manifest.json").read_text())
@@ -28,7 +28,7 @@ def check(root=ROOT, archive=None):
     assert record["client_version"] == manifest["version"]
     assert record["upstream_commit"] == baseline["upstream_commit"] == manifest["upstream_commit"]
     assert record["transaction_result"] == record["first_setup"]["status"] == "pass"
-    assert record["transaction_checks"] >= 48 and record["linked_temp_root"] == "pass"
+    assert record["transaction_checks"] >= 56 and record["linked_temp_root"] == "pass"
     assert baseline["transaction_result"] == baseline["gui"]["status"] == "pass"
     assert baseline["cache_transaction_checks"] >= 26
     assert baseline["deployment"]["completed_benchmarks"] >= 2

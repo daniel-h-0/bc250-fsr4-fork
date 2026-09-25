@@ -213,6 +213,33 @@ try
     Check(Hash(Path.Combine(atomic.InstallPath, "OptiScaler", Bc250RouteService.DllName)) == second.Hash, "game below a linked home folder installs");
     service.Restore(atomic);
     Check(Directory.GetFiles(atomic.InstallPath).SequenceEqual(new[] { atomic.ExecutablePath }), "game below a linked home folder restores");
+    // The same game may be listed as /home/<user>/… and /var/home/<user>/….
+    var atomicReal = new Game { Name = "atomic-real", InstallPath = Path.Combine(root, "var-home", "atomic"), ExecutablePath = Path.Combine(root, "var-home", "atomic", "Game.exe"), Platform = GamePlatform.Manual };
+    bool AtomicRestored() => Directory.GetFiles(atomic.InstallPath).SequenceEqual(new[] { atomic.ExecutablePath }) && !service.HasRecord(atomic) && !service.HasRecord(atomicReal);
+    service.Install(atomic);
+    Check(service.ReadReceipt(atomicReal) != null && service.Describe(atomicReal).Existing, "other spelling finds the same installation");
+    service.Install(atomicReal); service.Restore(atomicReal);
+    Check(AtomicRestored(), "either spelling updates and restores one record");
+    var mixed = new Game { Name = "mixed", InstallPath = atomic.InstallPath, ExecutablePath = atomicReal.ExecutablePath, Platform = GamePlatform.Manual };
+    Check(service.Describe(mixed).Root == atomic.InstallPath, "executable chosen through the other spelling stays inside its entry");
+    string KeyOf(string path) => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(path))).ToLowerInvariant();
+    var gameRecords = Path.Combine(state, "games");
+    service.Install(atomic);
+    Directory.Move(Path.Combine(gameRecords, KeyOf(RealPath(atomic.InstallPath))), Path.Combine(gameRecords, KeyOf(atomic.InstallPath)));
+    Check(service.ReadReceipt(atomic) != null, "record keyed by the written folder (bc250.4) still found");
+    Reject(() => service.Install(atomicReal), "unmoved earlier record is not installed twice through the other spelling");
+    service.Install(atomic);
+    Check(Directory.Exists(Path.Combine(gameRecords, KeyOf(RealPath(atomic.InstallPath)))) &&
+        !Directory.Exists(Path.Combine(gameRecords, KeyOf(atomic.InstallPath))), "next update moves the earlier record to the resolved folder");
+    var guarded = new Bc250RouteService(payload, state);
+    using (var running = Process.Start(new ProcessStartInfo("/bin/sh") { ArgumentList = { "-c", "sleep 30; :", RealPath(atomicReal.ExecutablePath) }, UseShellExecute = false })!)
+    {
+        try { guarded.Install(atomic); throw new Exception("Did not refuse: game running through the other spelling"); }
+        catch (InvalidOperationException) { Check(true, "running game found through either spelling"); }
+        finally { running.Kill(); running.WaitForExit(); }
+    }
+    service.Restore(atomicReal);
+    Check(AtomicRestored(), "moved record restores through the other spelling");
     Directory.CreateSymbolicLink(Path.Combine(root, "var-home/atomic/Linked"), b.InstallPath);
     Reject(() => SafePath(atomic.InstallPath, "Linked/file"), "linked directory inside game folder rejected");
     Reject(() => SafePath(linkedHome, "file"), "linked game folder itself rejected");

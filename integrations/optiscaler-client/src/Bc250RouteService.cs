@@ -34,11 +34,20 @@ public sealed class Bc250RouteService
         busyCheck = checkBusy ?? CheckBusy;
     }
 
-    string State(Game game)
+    // Records are keyed by the resolved game folder, so every spelling of one game shares them.
+    // 1.0.7-bc250.4 and earlier keyed them by the folder as written; such a record stays in use
+    // and moves to the resolved key at the next install or restore.
+    string State(Game game, bool adopt = false)
     {
-        var key = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(Path.GetFullPath(game.InstallPath)))).ToLowerInvariant();
-        return Path.Combine(stateRoot, "games", key);
+        var games = Path.Combine(stateRoot, "games");
+        var state = Path.Combine(games, Key(RealPath(game.InstallPath)));
+        var legacy = Path.Combine(games, Key(Path.GetFullPath(game.InstallPath)));
+        if (legacy == state || Directory.Exists(state) || !Directory.Exists(legacy)) return state;
+        if (!adopt) return legacy;
+        Directory.Move(legacy, state);
+        return state;
     }
+    static string Key(string path) => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(path))).ToLowerInvariant();
     FileStream Lock()
     {
         try { return new FileStream(Path.Combine(stateRoot, "operation.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None); }
@@ -49,9 +58,7 @@ public sealed class Bc250RouteService
         var file = Path.Combine(State(game), "receipt.json");
         if (!File.Exists(file)) return null;
         var receipt = JsonSerializer.Deserialize<Receipt>(File.ReadAllText(file));
-        var root = Path.GetFullPath(game.InstallPath);
-        if (receipt == null || receipt.Schema != 1 ||
-            (receipt.Root != root && !receipt.Root.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.Ordinal)))
+        if (receipt == null || receipt.Schema != 1 || !IsSameOrInside(receipt.Root, game.InstallPath))
             throw new IOException("Unsupported installation record; keep the backups.");
         return receipt;
     }
@@ -104,14 +111,25 @@ public sealed class Bc250RouteService
                 throw new IOException("The configured DLL location changed. Review this installation before updating.");
             return new(receipt.Root, receipt.Target, true, "Installed " + receipt.Release + ". " + receipt.Hint);
         }
-        var root = Path.GetFullPath(game.InstallPath);
-        var dir = game.Platform == GamePlatform.Manual && File.Exists(game.ExecutablePath) ? Path.GetDirectoryName(game.ExecutablePath) :
+        var root = Path.TrimEndingDirectorySeparator(Path.GetFullPath(game.InstallPath));
+        var explicitExe = game.Platform == GamePlatform.Manual ? game.ExecutablePath : null;
+        var dir = game.Platform == GamePlatform.Manual && File.Exists(explicitExe) ? Path.GetDirectoryName(explicitExe) :
             new GameInstallationService().DetermineInstallDirectory(game);
         if (string.IsNullOrEmpty(dir) || !Directory.Exists(dir)) throw new IOException("Use Add Manually to select the game's actual executable.");
         dir = Path.GetFullPath(dir);
         if (dir != root && !dir.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.Ordinal))
-            throw new IOException("The executable is outside the selected game folder.");
+        {
+            // The entry and its executable may spell the folder differently (/home or /var/home); keep the entry's.
+            var inside = Path.GetRelativePath(RealPath(root), RealPath(dir));
+            if (inside == ".." || inside.StartsWith(".." + Path.DirectorySeparatorChar, StringComparison.Ordinal))
+                throw new IOException("The executable is outside the selected game folder.");
+            var spelled = inside == "." ? root : Path.Combine(root, inside);
+            if (!string.IsNullOrEmpty(explicitExe) && Path.GetDirectoryName(Path.GetFullPath(explicitExe)) == dir)
+                explicitExe = Path.Combine(spelled, Path.GetFileName(explicitExe));
+            dir = spelled;
+        }
         var records = Path.Combine(stateRoot, "games");
+        var realDir = RealPath(dir);
         if (Directory.Exists(records))
             foreach (var other in Directory.GetDirectories(records).Where(p => p != State(game)))
                 foreach (var name in new[] { "receipt.json", "pending.json" })
@@ -119,7 +137,7 @@ public sealed class Bc250RouteService
                     var file = Path.Combine(other, name);
                     if (!File.Exists(file)) continue;
                     using var record = JsonDocument.Parse(File.ReadAllText(file));
-                    if (record.RootElement.GetProperty("Root").GetString() == dir)
+                    if (record.RootElement.GetProperty("Root").GetString() is string owned && RealPath(owned) == realDir)
                         throw new IOException("This executable folder is already managed under another library entry. Use that entry to update or restore it.");
                 }
         var ini = Path.Combine(dir, "OptiScaler.ini");
@@ -128,7 +146,6 @@ public sealed class Bc250RouteService
             CheckProxy(dir);
             return new(dir, ResolveTarget(dir), true, "Existing OptiScaler; keep working launch options and the game's upscaler input.");
         }
-        var explicitExe = game.Platform == GamePlatform.Manual ? game.ExecutablePath : null;
         var candidates = string.IsNullOrEmpty(explicitExe) ? Directory.GetFiles(dir)
             .Where(p => Path.GetExtension(p).Equals(".exe", StringComparison.OrdinalIgnoreCase))
             .Where(p => !new[] { "crash", "redist", "setup", "launcher", "unrealcefsubprocess", "prerequisites" }
@@ -189,7 +206,7 @@ public sealed class Bc250RouteService
         if (Hash(release.File) != release.Hash) throw new IOException("The imported DLL changed; import the ZIP again.");
         var plan = Describe(game);
         busyCheck(plan.Root);
-        var state = State(game);
+        var state = State(game, adopt: true);
         Directory.CreateDirectory(state);
         if (File.Exists(Path.Combine(state, "pending.json"))) throw new IOException("Use Restore / recover for the interrupted operation first.");
         var previous = ReadReceipt(game);
@@ -261,13 +278,12 @@ public sealed class Bc250RouteService
     public string Restore(Game game)
     {
         using var held = Lock();
-        var state = State(game);
+        var state = State(game, adopt: true);
         var pendingPath = Path.Combine(state, "pending.json");
         if (File.Exists(pendingPath))
         {
             var pending = JsonSerializer.Deserialize<Pending>(File.ReadAllText(pendingPath))!;
-            var gameRoot = Path.GetFullPath(game.InstallPath);
-            if (pending.Root != gameRoot && !pending.Root.StartsWith(gameRoot + Path.DirectorySeparatorChar, StringComparison.Ordinal))
+            if (!IsSameOrInside(pending.Root, game.InstallPath))
                 throw new IOException("Recovery record belongs to a different game folder.");
             busyCheck(pending.Root); Recover(pending.Root, state);
             return "Recovered the interrupted operation; previous installation preserved.";
@@ -330,6 +346,8 @@ public sealed class Bc250RouteService
     static void CheckBusy(string root)
     {
         if (!OperatingSystem.IsLinux()) throw new IOException("This client route is qualified for Linux only.");
+        // The kernel lists resolved paths (/var/home); launchers may pass either spelling.
+        var spellings = new[] { root, RealPath(root) }.Distinct().Select(s => s + "/").ToArray();
         foreach (var dir in Directory.EnumerateDirectories("/proc").Where(d => int.TryParse(Path.GetFileName(d), out _)))
         {
             if (Path.GetFileName(dir) == Environment.ProcessId.ToString()) continue;
@@ -338,7 +356,7 @@ public sealed class Bc250RouteService
                 var cmd = File.ReadAllText(Path.Combine(dir, "cmdline")).Replace('\\', '/');
                 var maps = "";
                 try { maps = File.ReadAllText(Path.Combine(dir, "maps")); } catch (UnauthorizedAccessException) { }
-                if (cmd.Contains(root + "/", StringComparison.Ordinal) || maps.Contains(root + "/", StringComparison.Ordinal))
+                if (spellings.Any(s => cmd.Contains(s, StringComparison.Ordinal) || maps.Contains(s, StringComparison.Ordinal)))
                     throw new InvalidOperationException("Close this game before changing its files.");
             }
             catch (IOException) { } // process exited
