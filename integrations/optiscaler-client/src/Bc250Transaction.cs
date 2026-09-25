@@ -27,7 +27,9 @@ public sealed class Bc250Transaction
         var path = Path.GetFullPath(Path.Combine(root, relative.Replace('\\', Path.DirectorySeparatorChar)));
         if (!path.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.Ordinal))
             throw new IOException("Path leaves the game folder: " + relative);
-        for (var check = path; !string.IsNullOrEmpty(check); check = Path.GetDirectoryName(check))
+        // Check the chosen folder and everything inside it. Links above it belong to the
+        // system layout (Fedora Atomic/Bazzite: /home -> var/home) and cannot redirect writes.
+        for (var check = path; check.Length >= root.Length; check = Path.GetDirectoryName(check)!)
             if (new FileInfo(check).LinkTarget != null || new DirectoryInfo(check).LinkTarget != null)
                 throw new IOException("Use a regular game folder and files; linked path: " + check);
         if (Directory.Exists(path)) throw new IOException("Expected a file: " + path);

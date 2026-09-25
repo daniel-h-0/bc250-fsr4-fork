@@ -204,6 +204,18 @@ try
     Reject(() => service.Import(Zip("bad", "bad", true)), "corrupt ZIP rejected");
     Check(service.CurrentRelease()!.Hash == second.Hash, "failed import preserves selected release");
     Reject(() => SafePath(root, "../outside"), "path escape rejected");
+    // Fedora Atomic/Bazzite: $HOME is /home/<user> and /home links to var/home.
+    var linkedHome = Path.Combine(root, "home"); Directory.CreateDirectory(Path.Combine(root, "var-home"));
+    Directory.CreateSymbolicLink(linkedHome, Path.Combine(root, "var-home"));
+    Exe("var-home/atomic/Game.exe");
+    var atomic = new Game { Name = "atomic", InstallPath = Path.Combine(linkedHome, "atomic"), ExecutablePath = Path.Combine(linkedHome, "atomic", "Game.exe"), Platform = GamePlatform.Manual };
+    service.Install(atomic);
+    Check(Hash(Path.Combine(atomic.InstallPath, "OptiScaler", Bc250RouteService.DllName)) == second.Hash, "game below a linked home folder installs");
+    service.Restore(atomic);
+    Check(Directory.GetFiles(atomic.InstallPath).SequenceEqual(new[] { atomic.ExecutablePath }), "game below a linked home folder restores");
+    Directory.CreateSymbolicLink(Path.Combine(root, "var-home/atomic/Linked"), b.InstallPath);
+    Reject(() => SafePath(atomic.InstallPath, "Linked/file"), "linked directory inside game folder rejected");
+    Reject(() => SafePath(linkedHome, "file"), "linked game folder itself rejected");
     var tx = Path.Combine(root, "tx"); var txState = Path.Combine(root, "tx-state");
     Make("tx/one", "old one"); Make("tx/two", "old two"); var replacement = Make("replacement", "new");
     Make("tx-state/receipt.json", "old receipt");

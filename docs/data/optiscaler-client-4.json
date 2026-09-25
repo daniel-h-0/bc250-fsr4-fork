@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "date": "2026-09-25",
+  "client_version": "1.0.7-bc250.4",
+  "upstream_commit": "dd534b7d1cb8a0edf174a6917f5179791603d364",
+  "platform": "Linux x64 / AMD BC250",
+  "issue": "https://github.com/daniel-h-0/bc250-fsr4-fork/issues/1",
+  "fix": "The path check refuses links in the selected folder and inside it, not in system folders above it. Fedora Atomic systems such as Bazzite set HOME to /home/<user> with /home linked to var/home, so bc250.3 refused its own application data and every game below the home folder.",
+  "transaction_checks": 49,
+  "transaction_result": "pass",
+  "linked_temp_root": "pass",
+  "new_checks": [
+    "game below a linked home folder installs",
+    "game below a linked home folder restores",
+    "linked directory inside game folder rejected",
+    "linked game folder itself rejected"
+  ],
+  "new_checks_fail_with_bc250_3_path_check": true,
+  "first_setup": {
+    "status": "pass",
+    "scope": "Packaged applications in a throwaway Fedora container with /home linked to var/home and HOME=/home/<user>, Xvfb display, real hash-pinned upstream downloads",
+    "image": "docker.io/library/fedora:42",
+    "id": "8c219b734f781909b9384edc01eb52318330b57fa58e0410dfcf973b01d28fcd",
+    "bc250_3": "fail: Setup needs attention: Use a regular game folder and files; linked path: /home",
+    "bc250_4": "pass: dependencies prepared in about 28 s and the main window opened"
+  },
+  "deployment_baseline": "optiscaler-client-3.json",
+  "changed_since_baseline": [
+    "integrations/optiscaler-client/src/Bc250Transaction.cs",
+    "integrations/optiscaler-client/src/Bc250StartupWindow.cs"
+  ],
+  "archive_name": "bc250-opticlient-1.0.7-bc250.4-linux-x64.tar.gz",
+  "bundled_dll_zip": "bc250-fsr4-dll-4.0.0-rc11-docs2.zip",
+  "scope": "Path-check fix and a first-setup progress message. Installation engine, cache tools, dependency pins and the RC11 DLL are otherwise unchanged, so the bc250.3 deployment evidence still applies. No new gameplay or rendering claim.",
+  "sources": {
+    "integrations/optiscaler-client/src/Bc250RouteService.cs": "0b764462154338c33fec31bd38e09a67bafdd27bcc22499a92dce7bd175eeff0",
+    "integrations/optiscaler-client/src/Bc250StartupWindow.cs": "3557d4b7f2c7e05642744d695f3652be6686e9f8adf99cb6ab8b09335af02c84",
+    "integrations/optiscaler-client/src/Bc250Transaction.cs": "811c13ecfbf1e2a14ec7cc0de2ce3edabdddcab03eda4b51d017bd872c414736",
+    "integrations/optiscaler-client/src/Bc250Window.cs": "ee5f66e8063b256881760dbc710a9139ed5b553d603b510ce1ebb6bfe91674e4",
+    "integrations/optiscaler-client/src/Bc250CacheService.cs": "cbac4b1adf605aea6fa594c570c33505243ce410561f3f56e47b4158a6817a5f",
+    "integrations/optiscaler-client/tests/Program.cs": "b892b814a194a7cd60a9f9bf857b1383ce6487523772982c0b2e1ec30bc953df",
+    "scripts/client-cache.py": "bd124c195ad943cb0bdf53117c8c4083b446186124dc7a168506726f2880a078",
+    "scripts/client_cache_vdf.py": "8dba1a1b9f90b3390e22a1f899ae10d269c9a55f29c0d26acbfcea8609812934",
+    "scripts/shared-cache.py": "81f042222d2980cb68961413f793a1abbb309c3ae57c66b8f391c7fa594b3126",
+    "scripts/shared-cache.sh": "88c7726a1191548a362534aace08ae31ada2547a1b325fb6629b7f55546d2391",
+    "scripts/package-opticlient.py": "c057f960d99931919d5d3eaad2225d258d923b51e3c8491549ae84df72e4eb4e",
+    "tests/test_client_cache.py": "d6090a36cc9cd191ab3bd2f5ebba15e48fa009a76cd0c4a332183906e4409082"
+  }
+}

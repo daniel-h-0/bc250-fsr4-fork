@@ -8,12 +8,14 @@ for a [manual installation](beginner-guide.md).
 
 ## Client addon
 
-[OptiScaler Client 1.0.7-bc250.3](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/opticlient-v1.0.7-bc250.3)
+[OptiScaler Client 1.0.7-bc250.4](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/opticlient-v1.0.7-bc250.4)
 is a separately versioned prerelease addon for RC11. It adds selection-based
 installation, DLL updates, file restoration and optional shared-cache setup using
 one general setup across
 OptiScaler-compatible games. RC11 remains the DLL release;
 this addon changes installation rather than shader code or measured performance.
+Version bc250.4 fixes first setup and installation on Bazzite and other Fedora
+Atomic systems, where `/home` is a link to `/var/home`.
 
 The application is a modified build of [OptiScaler Client](https://github.com/Optiscaler-Client/Optiscaler-Client)
 by Agustín Montaña (Agustinm28) and contributors. BC250 maintains the FSR4-specific
@@ -29,7 +31,7 @@ separates installation/loading checks from the existing DLL rendering evidence.
 
 | Download | Who needs it |
 | --- | --- |
-| `bc250-opticlient-1.0.7-bc250.3-linux-x64.tar.gz` | Client route: Linux application, RC11 ZIP, complete modified client source and dependency download pins. |
+| `bc250-opticlient-1.0.7-bc250.4-linux-x64.tar.gz` | Client route: Linux application, RC11 ZIP, complete modified client source and dependency download pins. |
 | `bc250-fsr4-dll-4.0.0-rc11-docs2.zip` | Manual installation or client import; unchanged RC11 DLL with current instructions and notices. |
 | `bc250-fsr4-v4.0.0-rc11-linux-glibc236-x86_64.tar.gz` | Alternative AMD-provider/driver route, retained in the [RC11 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11). |
 | `bc250-fsr4-v4.0.0-rc11-source-COMMIT.tar.gz` | Developers: complete source, tools, docs and evidence. |

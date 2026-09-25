@@ -1,7 +1,7 @@
 # OptiScaler Client integration
 
 User instructions: [Install across your games](../../docs/optiscaler-client.md).
-Project build: **1.0.7-bc250.3**, Linux x64, based on
+Project build: **1.0.7-bc250.4**, Linux x64, based on
 [OptiScaler Client](https://github.com/Optiscaler-Client/Optiscaler-Client) by
 [Agustín Montaña (Agustinm28)](https://github.com/Agustinm28) and contributors,
 under GPL-3.0-or-later. The upstream desktop interface, scanner and component
@@ -117,7 +117,7 @@ dotnet run -c Release --project integrations/optiscaler-client/tests/ClientTests
 python3 -m unittest discover -s tests -p test_client_cache.py
 python3 scripts/check-repo.py
 python3 scripts/check-opticlient.py \
-  --archive dist/opticlient/bc250-opticlient-1.0.7-bc250.3-linux-x64.tar.gz
+  --archive dist/opticlient/bc250-opticlient-1.0.7-bc250.4-linux-x64.tar.gz
 ```
 
 The C# harness creates temporary game trees and isolated application data through
@@ -142,6 +142,10 @@ The previous [general-layout DLL loading checks](../../docs/data/optiscaler-clie
 remain applicable to the unchanged installation engine. The new record adds a
 real native-Heroic game launch through the packaged client cache route and
 separately scopes Steam/Lutris transaction and Flatpak access checks.
+[The bc250.4 record](../../docs/data/optiscaler-client-4.json) covers the
+linked-home fix: first setup of the packaged application with `/home` linked
+to `/var/home`, as on Bazzite and other Fedora Atomic systems, and installation
+below such a link. Links inside the selected game folder remain refused.
 The [RC11 validation](../../docs/portable-dll-rc11.md) remains the rendering evidence
 for that DLL. Client setup, DLL loading and actual game rendering are distinct
 checks; this build does not claim a new full gameplay campaign or support for

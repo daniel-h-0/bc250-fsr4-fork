@@ -13,7 +13,7 @@ shared-cache setup.
 
 ## 1. Open the client
 
-Download [OptiScaler Client 1.0.7-bc250.3 for Linux x64](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.3/bc250-opticlient-1.0.7-bc250.3-linux-x64.tar.gz),
+Download [OptiScaler Client 1.0.7-bc250.4 for Linux x64](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.4/bc250-opticlient-1.0.7-bc250.4-linux-x64.tar.gz),
 extract it, and run **`Start-BC250-OptiClient.sh`**. First setup downloads its
 OptiScaler dependencies. The RC11 DLL is included and selected automatically.
 

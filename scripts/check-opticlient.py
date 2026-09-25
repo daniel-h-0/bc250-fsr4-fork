@@ -17,18 +17,30 @@ ROOT = Path(__file__).resolve().parents[1]
 def check(root=ROOT, archive=None):
     integration = root / "integrations/optiscaler-client"
     manifest = json.loads((integration / "manifest.json").read_text())
-    record = json.loads((root / "docs/data/optiscaler-client-3.json").read_text())
-    previous = json.loads((root / "docs/data/optiscaler-client-2.json").read_text())
+    data = root / "docs/data"
+    record = json.loads((data / "optiscaler-client-4.json").read_text())
+    # bc250.4 changes only the files it lists; bc250.3's deployment evidence covers the rest.
+    baseline = json.loads((data / record["deployment_baseline"]).read_text())
+    previous = json.loads((data / baseline["general_layout_baseline"]).read_text())
     dll = json.loads((root / "dll/manifest.json").read_text())
+    changed = set(record["changed_since_baseline"])
+    assert changed <= set(record["sources"])
     assert record["client_version"] == manifest["version"]
-    assert record["upstream_commit"] == manifest["upstream_commit"]
-    assert record["transaction_result"] == record["gui"]["status"] == "pass"
-    assert record["transaction_checks"] >= 45 and record["cache_transaction_checks"] >= 26
-    assert record["deployment"]["completed_benchmarks"] >= 2
-    assert record["deployment"]["cache_restore"] == record["deployment"]["dll_restore"] == "pass"
-    assert record["deployment"]["production_preserved"]
+    assert record["upstream_commit"] == baseline["upstream_commit"] == manifest["upstream_commit"]
+    assert record["transaction_result"] == record["first_setup"]["status"] == "pass"
+    assert record["transaction_checks"] >= 48 and record["linked_temp_root"] == "pass"
+    assert baseline["transaction_result"] == baseline["gui"]["status"] == "pass"
+    assert baseline["cache_transaction_checks"] >= 26
+    assert baseline["deployment"]["completed_benchmarks"] >= 2
+    assert (
+        baseline["deployment"]["cache_restore"] == baseline["deployment"]["dll_restore"] == "pass"
+    )
+    assert baseline["deployment"]["production_preserved"]
     for name, expected in previous["sources"].items():
-        if not name.endswith("Bc250Window.cs"):
+        if not name.endswith("Bc250Window.cs") and name not in changed:
+            assert hashlib.sha256((root / name).read_bytes()).hexdigest() == expected, name
+    for name, expected in baseline["sources"].items():
+        if name not in changed:
             assert hashlib.sha256((root / name).read_bytes()).hexdigest() == expected, name
     for name, expected in record["sources"].items():
         assert hashlib.sha256((root / name).read_bytes()).hexdigest() == expected, name

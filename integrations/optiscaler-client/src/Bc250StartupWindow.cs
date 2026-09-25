@@ -72,6 +72,7 @@ public sealed class Bc250StartupWindow : Window
             }
             local[name] = file;
         }
+        progress?.Report("Extracting and checking OptiScaler files. This is needed once.");
         var components = new ComponentManagementService();
         var version = await components.ImportCustomOptiScalerVersionAsync(local["opti"]);
         var cache = components.GetOptiScalerCachePath(version);
