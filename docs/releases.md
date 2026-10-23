@@ -8,7 +8,7 @@ for a [manual installation](beginner-guide.md).
 The [RC11.1 driver pre-release](release-notes-rc11.1.md) changes only the optional
 Linux driver: Mesa 26.2.2 + the upstream `nir_opt_uub` fix.
 DLL users: system Mesa 26.2.x before 26.2.3 has that upstream compiler bug, which
-breaks other shaders such as HelixSR frame generation; FSR4 output is unaffected
+can break other shaders such as HelixSR frame generation; update to 26.2.3 or newer
 ([details](release-notes-rc11.1.md#affected-downloads-and-system-mesa)).
 
 ## Client addon

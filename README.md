@@ -24,9 +24,9 @@ OptiScaler copies on Linux; the same setup applies across compatible games.
 
 Testing covers **BC250/Linux**. [Release validation](docs/portable-dll-rc11.md)
 shows the supported test scope and work awaiting qualification.
-System Mesa 26.2.x before 26.2.3 has an upstream compiler bug that breaks other
-shaders, e.g. HelixSR frame generation; FSR4 output is unaffected. Update Mesa to
-26.2.3 or newer ([details](docs/release-notes-rc11.1.md#affected-downloads-and-system-mesa)).
+System Mesa 26.2.x before 26.2.3 has an upstream compiler bug that can break other
+shaders, e.g. HelixSR frame generation. Update Mesa to 26.2.3 or newer
+([details](docs/release-notes-rc11.1.md#affected-downloads-and-system-mesa)).
 
 ## Performance
 

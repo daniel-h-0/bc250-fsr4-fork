@@ -1,7 +1,7 @@
 # v4.0.0-rc11.1 (driver-only pre-release)
 
 RC11.1 changes only the optional [Linux driver](driver-cache-setup.md). The DLL
-(`8192ea97…`) and the OptiScaler Client stay at RC11. The archive's installer is RC11's;
+(`8192ea97…`, RC11) and the OptiScaler Client are unchanged. The archive's installer is RC11's;
 `scripts/shared-cache.py` is the current `v4` copy, which also accepts an absolute
 `BC250_FSR4_CACHE_STATUS_FILE` status path (cache logic unchanged).
 
@@ -57,6 +57,7 @@ FSR4's compiled programs are unchanged, so its GPU cost is RC11's.
   release.
 - DLL users: system Mesa 26.2.x before 26.2.3 has the same upstream bug and can
   break other shaders, e.g. HelixSR frame generation; update to 26.2.3 or newer.
-  FSR4 output is unaffected: the fix leaves its compiled programs unchanged.
+  With this project's driver on BC250 the fix leaves FSR4's compiled programs
+  unchanged; FSR4 on system Mesa was not compared.
 
 [Downloads and checksums](releases.md) · [Driver installation](driver-cache-setup.md)

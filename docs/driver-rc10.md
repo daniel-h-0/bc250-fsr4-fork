@@ -4,8 +4,8 @@ Use the DLL through [Install across your games](https://github.com/daniel-h-0/bc
 This page covers the alternative **BC250 / Linux x86-64 AMD-provider route**.
 Its private driver, Mesa 26.2.2 + the upstream `nir_opt_uub` fix since RC11.1, carries
 the RC9 shader optimizations. RC11 ships the same binary as RC10. RC11.1 adds only
-that compiler fix: its FSR4 programs and output equal RC11's, and shaders that RC10/RC11
-miscompiled, e.g. HelixSR frame generation, now work
+that compiler fix: its FSR4 programs and output equal RC11's, and HelixSR frame
+generation, which RC10/RC11 miscompiled, now works
 ([release notes](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/release-notes-rc11.1.md)).
 
 ## DLL versus driver
