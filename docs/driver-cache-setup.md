@@ -5,8 +5,8 @@ This private driver is an alternative for an existing AMD-provider integration.
 Read the [provider requirements](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/driver-rc10.md)
 first: installing the driver alone does not enable FSR4.
 
-RC11.1 is a driver-only pre-release: RC11's driver with one upstream Mesa compiler
-fix ([release notes](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/release-notes-rc11.1.md)).
+RC11.1 is a driver-only pre-release: Mesa 26.2.2 + the upstream `nir_opt_uub` fix,
+otherwise RC11's driver ([release notes](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/release-notes-rc11.1.md)).
 The installer is RC11's. These are the current install/update/recovery commands.
 
 ## Install once
@@ -24,7 +24,8 @@ python3 scripts/driver.py --prefix "$HOME/.local/share/bc250-fsr4-driver" instal
   --sha256 ARCHIVE_SHA256_FROM_SHA256SUMS
 ```
 
-Replace the last argument with the archive's 64-character hash. For an upgrade,
+Replace the last argument with the archive's 64-character hash. For RC11.1 it is
+`6f89cf227cd14afc49e66304ee872cff68a9378aec2147c1ab644b2cd5193a5d`. For an upgrade,
 use your **existing prefix**, even if its name includes `rc10`.
 
 Paste the game's entire existing Steam launch-options line when prompted.

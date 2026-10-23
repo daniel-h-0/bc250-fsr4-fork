@@ -6,6 +6,10 @@
   as the fourth ordered driver patch. The DLL and client are RC11's.
 - Driver packaging: name the archive's top-level folder after the release, pack the
   libdrm source notice as 0644 and redact the portable build's sysroot path.
+- Qualified on BC250 (October 23): FSR4 compiled programs and output identical to
+  RC11's; HelixSR frame generation clean on RC11.1 and broken on RC11.
+- Docs: archive SHA256, an advisory for system Mesa 26.2.x before 26.2.3, and the
+  rc1/rc4 and RC10/RC11 driver downloads marked as lacking the fix.
 
 See [the release notes](docs/release-notes-rc11.1.md).
 

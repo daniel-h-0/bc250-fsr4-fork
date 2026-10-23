@@ -57,7 +57,92 @@
     "other_section_differences": "every differing word is the 32-byte code shift, except the build ID, the opt_uub unwind range and the opt_uub symbol size (+26 each)"
   },
   "qualification": {
-    "status": "pending",
-    "scope": "GPU checks of this exact archive; see docs/release-notes-rc11.1.md"
+    "status": "qualified",
+    "date": "2026-10-23",
+    "scope": "GPU checks of the stripped driver from this exact archive, as a private ICD on BC250 GFX1013 (headless, Linux 7.3, GE-Proton11-7); negative control: the published RC11 driver",
+    "archive_sha256": "6f89cf227cd14afc49e66304ee872cff68a9378aec2147c1ab644b2cd5193a5d",
+    "control_driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+    "fsr4_compiled_programs": {
+      "method": "RADV_DEBUG=shaderstats,nocache, static scene, 8 frames; per-block pipeline hash, stage, ACO code hash and all statistics",
+      "cases": [
+        {
+          "route": "AMD 4.1.1 provider + SDK 4.0.2 bridge, 1920x1080",
+          "fsr4_passes": "on",
+          "blocks": 68,
+          "identical_to_control": true
+        },
+        {
+          "route": "AMD 4.1.1 provider + SDK 4.0.2 bridge, 1920x1080",
+          "fsr4_passes": "off",
+          "blocks": 68,
+          "identical_to_control": true
+        },
+        {
+          "route": "RC11 DLL 8192ea97, 2560x1440",
+          "fsr4_passes": "on",
+          "blocks": 68,
+          "identical_to_control": true
+        },
+        {
+          "route": "RC11 DLL 8192ea97, 2560x1440",
+          "fsr4_passes": "off",
+          "blocks": 68,
+          "identical_to_control": true
+        }
+      ],
+      "sensitivity": "provider route: the FSR4 passes change 14 of 68 blocks"
+    },
+    "fsr4_pixels": {
+      "provider_1080p_rows_identical_to_references": [
+        7,
+        7
+      ],
+      "control_rows_identical_to_references": [
+        7,
+        7
+      ],
+      "dll_1440p_rows_identical_to_control": [
+        3,
+        3
+      ],
+      "references": "September 17 provider-route references for the RC10/RC11 driver"
+    },
+    "helixsr_frame_generation": {
+      "candidate": {
+        "light_clean": [
+          2,
+          2
+        ],
+        "full_clean": [
+          1,
+          1
+        ]
+      },
+      "control": {
+        "light_black": [
+          2,
+          2
+        ],
+        "full_lattice": [
+          1,
+          1
+        ]
+      },
+      "fg_evaluates_per_upscale": [
+        0.994,
+        0.997
+      ]
+    },
+    "not_run": [
+      "GE-Proton11-6",
+      "timing",
+      "gameplay"
+    ]
+  },
+  "release_archive": {
+    "name": "bc250-fsr4-v4.0.0-rc11.1-linux-glibc236-x86_64.tar.gz",
+    "sha256": "6f89cf227cd14afc49e66304ee872cff68a9378aec2147c1ab644b2cd5193a5d",
+    "bytes": 12230094,
+    "packaged_from": "24f74fee3ea2426b1e4f9300b73febc2fef6875c"
   }
 }

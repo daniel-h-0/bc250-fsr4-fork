@@ -24,6 +24,9 @@ OptiScaler copies on Linux; the same setup applies across compatible games.
 
 Testing covers **BC250/Linux**. [Release validation](docs/portable-dll-rc11.md)
 shows the supported test scope and work awaiting qualification.
+System Mesa 26.2.x before 26.2.3 has an upstream compiler bug that breaks other
+shaders, e.g. HelixSR frame generation; FSR4 output is unaffected. Update Mesa to
+26.2.3 or newer ([details](docs/release-notes-rc11.1.md#affected-downloads-and-system-mesa)).
 
 ## Performance
 
@@ -35,8 +38,9 @@ RC9 was measured September 11, 2026; the baselines retain September 10 data.
 Subsequent release candidates have not changed performance.
 
 The optional [Linux driver package](docs/driver-cache-setup.md) is a private
-Mesa/RADV build for selected games. Paired with AMD's FSR provider, it applies
-the optimizations through the graphics driver.
+Mesa/RADV build for selected games: Mesa 26.2.2 + the upstream `nir_opt_uub` fix
+since the [RC11.1 driver pre-release](docs/release-notes-rc11.1.md). Paired with
+AMD's FSR provider, it applies the optimizations through the graphics driver.
 
 **The DLL and alternative driver deliver the same FSR optimizations**, with
 comparable measured GPU cost. The DLL is the simpler install. The driver needs

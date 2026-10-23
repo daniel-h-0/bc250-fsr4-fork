@@ -6,7 +6,10 @@ for a [manual installation](beginner-guide.md).
 [RC11 release notes](release-notes-rc11.md) and
 [DLL validation](portable-dll-rc11.md) cover the unchanged renderer.
 The [RC11.1 driver pre-release](release-notes-rc11.1.md) changes only the optional
-Linux driver.
+Linux driver: Mesa 26.2.2 + the upstream `nir_opt_uub` fix.
+DLL users: system Mesa 26.2.x before 26.2.3 has that upstream compiler bug, which
+breaks other shaders such as HelixSR frame generation; FSR4 output is unaffected
+([details](release-notes-rc11.1.md#affected-downloads-and-system-mesa)).
 
 ## Client addon
 
@@ -36,8 +39,8 @@ separates installation/loading checks from the existing DLL rendering evidence.
 | --- | --- |
 | `bc250-opticlient-1.0.7-bc250.5-linux-x64.tar.gz` | Client route: Linux application, RC11 ZIP, complete modified client source and dependency download pins. |
 | `bc250-fsr4-dll-4.0.0-rc11-docs2.zip` | Manual installation or client import; unchanged RC11 DLL with current instructions and notices. |
-| `bc250-fsr4-v4.0.0-rc11.1-linux-glibc236-x86_64.tar.gz` | Alternative AMD-provider/driver route: RC11's driver plus one Mesa compiler fix, in the [RC11.1 pre-release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11.1). |
-| `bc250-fsr4-v4.0.0-rc11-linux-glibc236-x86_64.tar.gz` | Alternative AMD-provider/driver route, retained in the [RC11 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11). |
+| `bc250-fsr4-v4.0.0-rc11.1-linux-glibc236-x86_64.tar.gz` | Alternative AMD-provider/driver route: RC11's driver plus the upstream `nir_opt_uub` fix, in the [RC11.1 pre-release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11.1). SHA256 `6f89cf227cd14afc49e66304ee872cff68a9378aec2147c1ab644b2cd5193a5d`. |
+| `bc250-fsr4-v4.0.0-rc11-linux-glibc236-x86_64.tar.gz` | Previous driver, retained in the [RC11 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11); lacks the compiler fix. |
 | `bc250-fsr4-v4.0.0-rc11-source-COMMIT.tar.gz` | Developers: complete source, tools, docs and evidence. |
 | `SHA256SUMS` | Checksums for the corresponding downloads. |
 
@@ -145,5 +148,10 @@ The RC4–RC6 tool's portable driver and the original CachyOS rc1 driver have
 different ELF identities despite their shared source version. Their
 [ABI record](legacy/runtime/rc4-compatibility.md) and [original qualification](legacy/runtime/qualification.md)
 retain those hashes. Do not infer binary identity or game support from a filename.
+
+These rc1 drivers (assets of the rc1 and rc4 releases) and the RC10/RC11 driver are
+frozen and lack the upstream `nir_opt_uub` fix: they can miscompile shaders outside
+FSR4, e.g. HelixSR frame generation. The retained RC6 tool keeps its rc1 pin; use
+the [RC11.1 driver](release-notes-rc11.1.md) for the current route.
 
 </details>

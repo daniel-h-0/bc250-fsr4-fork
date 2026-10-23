@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
-"""Check that the RC11.1 driver recipe is RC11's plus the one upstream nir_opt_uub fix."""
+"""Check the RC11.1 driver recipe (RC11 plus the one upstream nir_opt_uub fix) and its record."""
 
 import hashlib
 import json
@@ -69,10 +69,39 @@ def main():
         assert re.fullmatch(r"[0-9a-f]{64}", driver[key]), key
     assert driver["sha256"] != rc11["sha256"]
     assert record["elf_comparison"]["changed_functions_outside_fix"] == []
-    assert record["qualification"]["status"] in QUALIFICATION
+    archive = record["release_archive"]
+    assert archive["name"] == f"bc250-fsr4-v{current['version']}-linux-glibc236-x86_64.tar.gz"
+    assert re.fullmatch(r"[0-9a-f]{64}", archive["sha256"])
+    assert re.fullmatch(r"[0-9a-f]{40}", archive["packaged_from"])
+    qualification = record["qualification"]
+    assert qualification["status"] in QUALIFICATION
+    if qualification["status"] == "qualified":
+        # Evidence must name this archive, the unfixed RC11 control and complete passes.
+        assert qualification["archive_sha256"] == archive["sha256"]
+        assert qualification["control_driver_sha256"] == rc11["sha256"]
+        programs = qualification["fsr4_compiled_programs"]["cases"]
+        assert len(programs) == 4
+        assert all(case["identical_to_control"] and case["blocks"] > 0 for case in programs)
+        pixels = qualification["fsr4_pixels"]
+        for key in (
+            "provider_1080p_rows_identical_to_references",
+            "control_rows_identical_to_references",
+            "dll_1440p_rows_identical_to_control",
+        ):
+            passed, total = pixels[key]
+            assert 0 < total == passed, key
+        helixsr = qualification["helixsr_frame_generation"]
+        for key in ("light_clean", "full_clean"):
+            passed, total = helixsr["candidate"][key]
+            assert 0 < total == passed, key
+        for key in ("light_black", "full_lattice"):
+            affected, total = helixsr["control"][key]
+            assert 0 < total == affected, key
+        notes = (ROOT / "docs/release-notes-rc11.1.md").read_text()
+        assert archive["name"] in notes and archive["sha256"] in notes
     print(
         "PASS: RC11.1 driver recipe = RC11 + upstream nir_opt_uub fix; qualification "
-        + record["qualification"]["status"]
+        + qualification["status"]
     )
 
 
