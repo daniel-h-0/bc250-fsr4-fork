@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "version": "4.0.0-rc11.1",
+  "date": "2026-10-23",
+  "kind": "driver-only pre-release",
+  "source_manifest_sha256": "0e3401cb2a3e154045867e4d4c1ab9b9a37a4052a0395db8c53d11e3efa44bb6",
+  "previous": {
+    "version": "4.0.0-rc11",
+    "source_manifest_sha256": "a7c90ccf97fa11866980dc5b24e917d0e404f53f83906b3aa9ba31e514c26dc9",
+    "driver_sha256": "5c4d74b141f946b8b11442d9886f10b62f4ecd022065d498d79ee4ac798eea4b",
+    "unstripped_sha256": "f6fbeeb230ddc939786aaa3f5a5b9da7141594c1738d0b369f8062a24a02c058",
+    "build_id": "e9fde134aa4fe70066483611ef16110139b7db41",
+    "rebuilt_byte_identical": true
+  },
+  "fix": {
+    "title": "nir/opt_uub: fix imax optimization",
+    "upstream_commit": "a13dfbea0f898dde77382ccba8f699673885952a",
+    "upstream_main_commit": "327109ecb420630703884138742e9a370cdfa3ae",
+    "first_mesa_release": "26.2.3",
+    "defect": "imax(x, C) with 0 <= x <= C was replaced by x instead of C",
+    "patch": "v4/patches/0004-nir-opt_uub-fix-imax-optimization.patch",
+    "patch_sha256": "51f7cc3aadc5c1dbbfef8efefbac762ac6b70514265e7ded29dcc55c232aef4a",
+    "fixed_source": "src/compiler/nir/nir_opt_uub.c",
+    "fixed_source_sha256": "911c1648d8d2f84d723a134719989cadee2a2560a94239d2f83b4b6aeb4905e2"
+  },
+  "build": {
+    "target": "linux-glibc236-x86_64",
+    "source_files_sha256": "3e3d1a716e06fdfa45d42a8798f4e87df3882f5a172261a9adbded97dc1217ea",
+    "source_files_changed_from_previous": [
+      "src/compiler/nir/nir_opt_uub.c"
+    ]
+  },
+  "driver": {
+    "sha256": "7ba5edbdd05c69d85ed64d2f3f73b62d31a07da7801fb41a99fb5679be29e485",
+    "bytes": 26717064,
+    "unstripped_sha256": "9c66e57c2d22c05f48d3b0243331401a454b7b4b526ad3150ab76e084a50acdf",
+    "unstripped_bytes": 27529536,
+    "build_id": "a79b605595f8546d1030c7ed918919ba8aaa1871"
+  },
+  "elf_comparison": {
+    "method": "unstripped ELFs; every .text function disassembled and compared with referenced addresses mapped to the previous layout; other sections compared as 32-bit words",
+    "functions_compared": 9761,
+    "changed_functions": [
+      "opt_uub",
+      "opt_uub.cold"
+    ],
+    "changed_functions_outside_fix": [],
+    "opt_uub_bytes": [
+      2567,
+      2593
+    ],
+    "text_bytes": [
+      6155406,
+      6155438
+    ],
+    "functions_moved_by_32_bytes": 2028,
+    "other_section_differences": "every differing word is the 32-byte code shift, except the build ID, the opt_uub unwind range and the opt_uub symbol size (+26 each)"
+  },
+  "qualification": {
+    "status": "pending",
+    "scope": "GPU checks of this exact archive; see docs/release-notes-rc11.1.md"
+  }
+}

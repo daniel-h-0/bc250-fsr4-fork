@@ -85,10 +85,16 @@ def main():
     review = json.loads((ROOT / "docs/data/cache-review2-20260914.json").read_text())
     assert digest(prior) == review["previous_review_record_sha256"]
     assert review["complete"] and review["cache_core_unchanged"]
+    # Files changed after the review keep their reviewed copy beside the baseline helper.
+    retained = {
+        "scripts/shared-cache.py": "shared-cache.py",
+        "scripts/package.py": "package.py",
+        "tests/test_build.py": "test_build.py",
+    }
     for name, expected in review["source_sha256"].items():
         baseline_path = (
-            ROOT / "legacy/cache-review2-tools/shared-cache.py"
-            if name == "scripts/shared-cache.py"
+            ROOT / "legacy/cache-review2-tools" / retained[name]
+            if name in retained
             else ROOT / name
         )
         assert digest(baseline_path) == expected, name

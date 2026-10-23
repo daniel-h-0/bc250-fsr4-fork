@@ -52,7 +52,7 @@ def main(dll=None):
         "before": ord("0"),
         "after": ord("1"),
     }
-    current_driver = load("v4/manifest.json")
+    current_driver = load("v4/legacy/rc11-manifest.json")
     previous_driver = load("v4/legacy/rc10-manifest.json")
     for field in ("sources", "source_inputs", "source_overlays", "patch_order", "base_archive"):
         assert current_driver[field] == previous_driver[field], field
@@ -60,7 +60,7 @@ def main(dll=None):
     assert record["driver"]["sha256"] == rc10["driver"]["sha256"]
     assert record["driver"]["bytes"] == rc10["driver"]["bytes"]
     assert record["driver"]["source_manifest_sha256"] == sha(
-        (ROOT / "v4/manifest.json").read_bytes()
+        (ROOT / "v4/legacy/rc11-manifest.json").read_bytes()
     )
     assert record["driver"]["rebuilt_byte_identical_to_rc10"]
     reference = {row["name"]: row for row in rc10["preflight"]["rows"]}

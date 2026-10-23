@@ -18,7 +18,7 @@ native FidelityFX games and custom layouts.
 | What was tested? | [Client validation](../integrations/optiscaler-client/README.md#validation), [RC11 DLL validation](portable-dll-rc11.md) |
 | Which file should I download? | [Downloads](releases.md) |
 | Who made the software used here? | [Upstream credits and licenses](../THIRD_PARTY.md) |
-| What changed? | [Client addon](releases.md#client-addon), [RC11 release notes](release-notes-rc11.md), [changelog](../CHANGELOG.md) |
+| What changed? | [Client addon](releases.md#client-addon), [RC11 release notes](release-notes-rc11.md), [RC11.1 driver](release-notes-rc11.1.md), [changelog](../CHANGELOG.md) |
 
 ## Optional routes
 

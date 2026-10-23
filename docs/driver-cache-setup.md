@@ -5,19 +5,22 @@ This private driver is an alternative for an existing AMD-provider integration.
 Read the [provider requirements](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/driver-rc10.md)
 first: installing the driver alone does not enable FSR4.
 
-RC11 supplies the same driver binary as RC10 with newer installation tools.
-These are the current install/update/recovery commands.
+RC11.1 is a driver-only pre-release: RC11's driver with one upstream Mesa compiler
+fix ([release notes](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/release-notes-rc11.1.md)).
+The installer is RC11's. These are the current install/update/recovery commands.
 
 ## Install once
 
-Download the RC11 Linux driver archive and `SHA256SUMS` from the
-[release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11).
+Download the RC11.1 Linux driver archive and `SHA256SUMS` from the
+[release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11.1).
+The [RC11 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11)
+keeps the previous driver.
 Verify with `sha256sum --ignore-missing -c SHA256SUMS`, extract it, and run from
 its directory as your desktop user, without sudo:
 
 ```sh
 python3 scripts/driver.py --prefix "$HOME/.local/share/bc250-fsr4-driver" install \
-  /path/to/bc250-fsr4-v4.0.0-rc11-linux-glibc236-x86_64.tar.gz \
+  /path/to/bc250-fsr4-v4.0.0-rc11.1-linux-glibc236-x86_64.tar.gz \
   --sha256 ARCHIVE_SHA256_FROM_SHA256SUMS
 ```
 

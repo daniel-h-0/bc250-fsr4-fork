@@ -3,7 +3,8 @@
 Use the DLL through [Install across your games](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/optiscaler-client.md) or [manual replacement](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/beginner-guide.md) for the usual installation.
 This page covers the alternative **BC250 / Linux x86-64 AMD-provider route**.
 Its private Mesa 26.2.2 driver carries the RC9 shader optimizations. RC11 ships
-the same binary as RC10.
+the same binary as RC10; RC11.1 adds one upstream Mesa compiler fix
+([release notes](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/release-notes-rc11.1.md)).
 
 ## DLL versus driver
 
@@ -14,7 +15,7 @@ can lose optimization coverage. [Comparison record](https://github.com/daniel-h-
 
 ## Install the private driver
 
-Use the [current RC11 installer](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/driver-cache-setup.md).
+Use the [current installer](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/driver-cache-setup.md).
 It installs privately and leaves system Mesa unchanged. Requirements are BC250,
 Linux x86-64, Python 3.11+, a Vulkan loader, glibc 2.36+, GLIBCXX 3.4.30+ and the
 usual graphics/runtime libraries. The installer probes dependencies and Vulkan

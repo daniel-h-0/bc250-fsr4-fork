@@ -20,19 +20,21 @@ from release_common import source_files, source_identity
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def public_provenance(value, work, root):
+def public_provenance(value, work, root, sysroot=None):
     """Retain effective build settings while removing local workspace/home paths."""
     if isinstance(value, dict):
-        return {key: public_provenance(item, work, root) for key, item in value.items()}
+        return {key: public_provenance(item, work, root, sysroot) for key, item in value.items()}
     if isinstance(value, list):
-        return [public_provenance(item, work, root) for item in value]
+        return [public_provenance(item, work, root, sysroot) for item in value]
     if isinstance(value, str):
         for path, label in (
             (work, "<build-work>"),
+            (sysroot, "<sysroot>"),
             (root, "<source-root>"),
             (Path.home(), "<home>"),
         ):
-            value = value.replace(str(path), label)
+            if path is not None:
+                value = value.replace(str(path), label)
     return value
 
 
@@ -103,12 +105,12 @@ def main():
             raise RuntimeError("Source manifest changed while packaging.")
         if args.runtime_only:
             guide = (ROOT / "docs/driver-cache-setup.md").read_text()
-            for name in ("driver-rc10.md", "shared-shader-cache.md"):
-                guide = guide.replace("](" + name + ")", "](docs/" + name + ")")
+            for document in ("driver-rc10.md", "shared-shader-cache.md"):
+                guide = guide.replace("](" + document + ")", "](docs/" + document + ")")
             (root / "README.md").write_text(guide)
             (root / "docs").mkdir(exist_ok=True)
-            for name in ("driver-rc10.md", "driver-cache-setup.md", "shared-shader-cache.md"):
-                shutil.copy2(ROOT / "docs" / name, root / "docs" / name)
+            for document in ("driver-rc10.md", "driver-cache-setup.md", "shared-shader-cache.md"):
+                shutil.copy2(ROOT / "docs" / document, root / "docs" / document)
             shutil.copy2(ROOT / "docs/driver-notices.md", root / "THIRD_PARTY.md")
             shutil.copytree(ROOT / "dll/notices", root / "notices")
         else:
@@ -126,13 +128,21 @@ def main():
         source_notice = build.source_directory(args.work, manifest) / "LICENSE"
         if source_notice.exists():
             shutil.copy2(source_notice, root / "licenses/Mesa-LICENSE")
-        for name in built.get("target", {}).get("source_archives", {}):
+        for source_archive in built.get("target", {}).get("source_archives", {}):
             # The build verifier checks these pinned sources. Include all
             # upstream copyright/license notices for statically linked libdrm.
-            shutil.copy2(args.work / "target-sources" / name, root / "licenses" / name)
+            shutil.copyfile(
+                args.work / "target-sources" / source_archive, root / "licenses" / source_archive
+            )
+            (root / "licenses" / source_archive).chmod(0o644)
         # Redact owned source/work/home paths, retaining the effective flags.
+        # Portable builds keep their sysroot beside the Mesa work folder.
+        sysroot = args.work.parent / "sysroot" if "target" in built else None
         provenance = public_provenance(
-            {key: value for key, value in built.items() if key != "library"}, args.work, ROOT
+            {key: value for key, value in built.items() if key != "library"},
+            args.work,
+            ROOT,
+            sysroot,
         )
         provenance["source"] = identity
         provenance["qualification"] = "unqualified; qualify this exact archive before publication"

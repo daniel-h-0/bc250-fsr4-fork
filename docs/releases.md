@@ -5,6 +5,8 @@ or use the [RC11 DLL ZIP with refreshed instructions](https://github.com/daniel-
 for a [manual installation](beginner-guide.md).
 [RC11 release notes](release-notes-rc11.md) and
 [DLL validation](portable-dll-rc11.md) cover the unchanged renderer.
+The [RC11.1 driver pre-release](release-notes-rc11.1.md) changes only the optional
+Linux driver.
 
 ## Client addon
 
@@ -34,6 +36,7 @@ separates installation/loading checks from the existing DLL rendering evidence.
 | --- | --- |
 | `bc250-opticlient-1.0.7-bc250.5-linux-x64.tar.gz` | Client route: Linux application, RC11 ZIP, complete modified client source and dependency download pins. |
 | `bc250-fsr4-dll-4.0.0-rc11-docs2.zip` | Manual installation or client import; unchanged RC11 DLL with current instructions and notices. |
+| `bc250-fsr4-v4.0.0-rc11.1-linux-glibc236-x86_64.tar.gz` | Alternative AMD-provider/driver route: RC11's driver plus one Mesa compiler fix, in the [RC11.1 pre-release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11.1). |
 | `bc250-fsr4-v4.0.0-rc11-linux-glibc236-x86_64.tar.gz` | Alternative AMD-provider/driver route, retained in the [RC11 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11). |
 | `bc250-fsr4-v4.0.0-rc11-source-COMMIT.tar.gz` | Developers: complete source, tools, docs and evidence. |
 | `SHA256SUMS` | Checksums for the corresponding downloads. |
@@ -125,7 +128,8 @@ assets retain their own source snapshots and checksums.
 
 The old Steam compatibility tool remains at RC6 in `runtime/manifest.json`,
 with driver-source pin `v4/legacy/rc1-manifest.json`. Current driver builds use
-`v4/manifest.json`; the RC11 driver binary equals RC10. These are separate
+`v4/manifest.json` (RC11.1; RC11's recipe is `v4/legacy/rc11-manifest.json`). The
+RC11 driver binary equals RC10. These are separate
 components, not competing version labels for the same DLL.
 
 ### End-user setup bundle

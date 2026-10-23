@@ -389,6 +389,14 @@ class BuildFixture(unittest.TestCase):
             public["nested"]["flags"],
             ["-I<build-work>/include", "-I<source-root>/include", "-L<home>/private/lib", "-O2"],
         )
+        sysroot = self.work.parent / "sysroot"
+        public = package.public_provenance(
+            {"flags": [f"--sysroot={sysroot}", f"-I{self.work}/include"]},
+            self.work,
+            self.root,
+            sysroot,
+        )
+        self.assertEqual(public["flags"], ["--sysroot=<sysroot>", "-I<build-work>/include"])
 
     def test_source_tree_does_not_invent_git_provenance(self):
         self.assertEqual(
@@ -492,6 +500,9 @@ class BuildFixture(unittest.TestCase):
         checksum = Path(str(archive) + ".sha256").read_text().split()[0]
         self.assertEqual(checksum, build.digest(archive))
         self.assertEqual(original_hash, build.digest(self.library))
+        with tarfile.open(archive) as bundle:
+            tops = {member.name.split("/", 1)[0] for member in bundle.getmembers()}
+        self.assertEqual(tops, {archive.name.removesuffix(".tar.gz")})
         destination = Path(self.temporary.name) / "extracted"
         destination.mkdir()
         payload, release = driver.extract_verified(archive, destination, checksum)

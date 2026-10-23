@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "id": "bc250-fsr4-v4.0.0-rc11",
+  "id": "bc250-fsr4-v4.0.0-rc11.1",
   "mesa": "26.2.2",
   "architecture": "x86_64",
   "provider_sha256": "4e7dc37aebea3a90e3d3cc43e24cb2b54176b2535315f20dbe63b3b7cfc56b1e",
-  "runtime_qualification": "RC11 distribution of the unchanged RC10 driver. RC9 shader parity and prior Control gameplay qualification retain their original scope; see docs/driver-cache-setup.md and docs/driver-rc10.md.",
+  "runtime_qualification": "RC11.1 driver pre-release: the RC11 driver recipe plus upstream Mesa a13dfbea0f89 (nir/opt_uub: fix imax optimization, shipped in Mesa 26.2.3). Qualification scope: docs/release-notes-rc11.1.md.",
   "base_archive": {
     "name": "mesa-26.2.2.tar.xz",
     "sha256": "eeb29ca7e56cfaa8e8a79538dcf834e3b18e501c31bef5145e959ea437cc4216",
@@ -26,26 +26,29 @@
     "src/amd/vulkan/radv_shader.h": "d164fdb829fe0fbf5e16d314e80880e3ac3d84783869981988fdaf3b02dc41c1",
     "src/amd/vulkan/radv_shader_args.c": "9c90c4d92228134949bf6f59857c31549e0b7ffa78b6864b23ea835fa1877f41",
     "src/compiler/nir/nir_opt_algebraic.py": "e6567a24b19df668f7892e039e4e2b5c9060db829f5990fc0c78657a920554df",
-    "src/amd/vulkan/bc250_rc9_shaders.h": "5794cd5198418f4f81a368199c502174d9a6ef024574afddff74aa6caeca6234"
+    "src/amd/vulkan/bc250_rc9_shaders.h": "5794cd5198418f4f81a368199c502174d9a6ef024574afddff74aa6caeca6234",
+    "src/compiler/nir/nir_opt_uub.c": "911c1648d8d2f84d723a134719989cadee2a2560a94239d2f83b4b6aeb4905e2"
   },
   "patch_order": [
     "patches/0001-accepted-2.84.patch",
     "patches/0002-composed-resolution-over-2.84.patch",
-    "patches/0003-production-defaults.patch"
+    "patches/0003-production-defaults.patch",
+    "patches/0004-nir-opt_uub-fix-imax-optimization.patch"
   ],
   "source_inputs": {
     "patches/0001-accepted-2.84.patch": "42ee9ff3decb9f917471db3697a5b8525582a30abc6731a59d5f659032f801c1",
     "patches/0002-composed-resolution-over-2.84.patch": "275f6efd591a3910ed8c36b2903fcf1323f0429202494edcae6bf50c54be8449",
     "source-dependencies/wayland-protocols-1.41.tar.xz": "2786b6b1b79965e313f2c289c12075b9ed700d41844810c51afda10ee329576b",
     "patches/0003-production-defaults.patch": "c10fe1b3b0f5c48820f8b84656c4070109b5014d2f9547c78b020af7a88f106a",
-    "experimental/rc9-port/source-overlay.tar.xz": "4170a6b79577be2dcc3261aef913be90593c53f602ab1fdc6485eb2baeab2bd9"
+    "experimental/rc9-port/source-overlay.tar.xz": "4170a6b79577be2dcc3261aef913be90593c53f602ab1fdc6485eb2baeab2bd9",
+    "patches/0004-nir-opt_uub-fix-imax-optimization.patch": "51f7cc3aadc5c1dbbfef8efefbac762ac6b70514265e7ded29dcc55c232aef4a"
   },
   "lineage": {
     "name": "Upstream BC250 FSR4 V3",
     "url": "https://github.com/dmorazasanchez/bc250-fsr4/tree/v3",
     "inspected_revision": "6173651fa3a5a557cba2c2ff802e2d6f49881bc1"
   },
-  "version": "4.0.0-rc11",
+  "version": "4.0.0-rc11.1",
   "source_overlays": [
     "experimental/rc9-port/source-overlay.tar.xz"
   ]

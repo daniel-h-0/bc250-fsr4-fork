@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.0.0-rc11.1 — driver-only pre-release
+
+- Add upstream Mesa `a13dfbea0f89` (nir/opt_uub: fix imax optimization, Mesa 26.2.3)
+  as the fourth ordered driver patch. The DLL and client are RC11's.
+- Driver packaging: name the archive's top-level folder after the release, pack the
+  libdrm source notice as 0644 and redact the portable build's sysroot path.
+
+See [the release notes](docs/release-notes-rc11.1.md).
+
 ## OptiScaler Client integration — 2026-09-16
 
 Project build `1.0.7-bc250.2` provides one general installation workflow across
