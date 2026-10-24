@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "version": "1.0.7-bc250.5",
+  "version": "1.0.7-bc250.6",
   "upstream_commit": "dd534b7d1cb8a0edf174a6917f5179791603d364",
   "inputs": {
     "client": {
@@ -28,5 +28,12 @@
       "file": "NVIDIA-DLSS-LICENSE.txt",
       "sha256": "21b5daec892b12bea692e66bc8fe45cf5902ccaf3a7b831e78050d8859881c37"
     }
+  },
+  "dll_zip": {
+    "release": "dll/rc12.json",
+    "url": "https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc12/bc250-fsr4-dll-4.0.0-rc12.zip",
+    "file": "bc250-fsr4-dll-4.0.0-rc12.zip",
+    "sha256": "646778a0d06c42bf3cdcc99f9396680f5cc4a33658b90c0889fd15751bfb800d",
+    "dll_sha256": "4b0df27761d7ced52c30dcbd1641c55bdcf4d2ae10d59f7e5b4b2f895b6bba79"
   }
 }

@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "date": "2026-10-24",
+  "client_version": "1.0.7-bc250.6",
+  "upstream_commit": "dd534b7d1cb8a0edf174a6917f5179791603d364",
+  "platform": "Linux x64 / AMD BC250",
+  "change": "The package bundles the published RC12 DLL ZIP in place of RC11's rc11-docs2 ZIP. The client manifest pins it (dll_zip: file, URL, SHA256) and its DLL by dll/rc12.json; the packager, the package checker and CI refuse any other ZIP. The welcome dialog names RC12 and, for setups updated from an earlier build, the one-time Import DLL ZIP step. A client update keeps the release already selected: the BC250 screen imports the bundled ZIP only when no release is selected.",
+  "bundled_dll_zip": {
+    "file": "bc250-fsr4-dll-4.0.0-rc12.zip",
+    "sha256": "646778a0d06c42bf3cdcc99f9396680f5cc4a33658b90c0889fd15751bfb800d",
+    "dll_sha256": "4b0df27761d7ced52c30dcbd1641c55bdcf4d2ae10d59f7e5b4b2f895b6bba79"
+  },
+  "transaction_checks": 57,
+  "transaction_result": "pass",
+  "linked_temp_root": "pass",
+  "real_payload": [
+    {
+      "layout": "flat",
+      "sha256": "4b0df27761d7ced52c30dcbd1641c55bdcf4d2ae10d59f7e5b4b2f895b6bba79",
+      "ini_preserved": true
+    },
+    {
+      "layout": "nested",
+      "sha256": "4b0df27761d7ced52c30dcbd1641c55bdcf4d2ae10d59f7e5b4b2f895b6bba79",
+      "ini_preserved": true
+    },
+    {
+      "layout": "unreal",
+      "sha256": "4b0df27761d7ced52c30dcbd1641c55bdcf4d2ae10d59f7e5b4b2f895b6bba79",
+      "ini_preserved": true
+    }
+  ],
+  "real_payload_scope": "Actual OptiScaler payload and the RC12 ZIP through the --real harness mode: install and repeat update in flat, nested and Unreal-style layouts. The executable was a synthetic x64 PE header; DLL loading was not re-run (RC11 loading checks: optiscaler-client-2.json).",
+  "first_setup": {
+    "status": "pass",
+    "scope": "Packaged application in a throwaway Fedora container with /home linked to var/home and HOME=/home/<user>, Xvfb display, real hash-pinned upstream downloads, one synthetic game added manually",
+    "image": "docker.io/library/fedora:42",
+    "id": "8c219b734f781909b9384edc01eb52318330b57fa58e0410dfcf973b01d28fcd",
+    "selected_release": "4.0.0-rc12",
+    "fresh": "pass: dependencies prepared in about 28 s; the install screen selected 4.0.0-rc12 (DLL 4b0df277...) and installed it into the game",
+    "update_from_bc250_5": "pass: after bc250.5 installed RC11, bc250.6 showed the import hint and kept 4.0.0-rc11-docs2 selected; Import DLL ZIP with the bundled ZIP selected 4.0.0-rc12 and the update replaced the DLL with the game INI unchanged"
+  },
+  "previous_fix": "optiscaler-client-5.json",
+  "deployment_baseline": "optiscaler-client-3.json",
+  "changed_since_baseline": [
+    "integrations/optiscaler-client/src/Bc250RouteService.cs",
+    "integrations/optiscaler-client/src/Bc250Transaction.cs",
+    "integrations/optiscaler-client/src/Bc250StartupWindow.cs",
+    "scripts/package-opticlient.py"
+  ],
+  "archive_name": "bc250-opticlient-1.0.7-bc250.6-linux-x64.tar.gz",
+  "scope": "Bundled DLL ZIP and its pins. Installation engine, link refusal, cache tools and dependency pins are bc250.5's, so the bc250.3 deployment evidence still applies. Rendering evidence for the bundled DLL: portable-dll-rc12.json. No new gameplay or rendering claim.",
+  "sources": {
+    "integrations/optiscaler-client/src/Bc250RouteService.cs": "3fc6401a3655a9d6b74aaa51c2d99c0a4e912c6c9aa823db65e3ab07b49bec5f",
+    "integrations/optiscaler-client/src/Bc250StartupWindow.cs": "3557d4b7f2c7e05642744d695f3652be6686e9f8adf99cb6ab8b09335af02c84",
+    "integrations/optiscaler-client/src/Bc250Transaction.cs": "e1b88feb4bf9604255c87d444f4a596ac7dc88e0d617cfb482627710592f2c69",
+    "integrations/optiscaler-client/src/Bc250Window.cs": "ee5f66e8063b256881760dbc710a9139ed5b553d603b510ce1ebb6bfe91674e4",
+    "integrations/optiscaler-client/src/Bc250CacheService.cs": "cbac4b1adf605aea6fa594c570c33505243ce410561f3f56e47b4158a6817a5f",
+    "integrations/optiscaler-client/tests/Program.cs": "d4ae1336cc83e75c74d6e567a296654780e9a4fcd9a6249109d7333fb7947007",
+    "scripts/client-cache.py": "bd124c195ad943cb0bdf53117c8c4083b446186124dc7a168506726f2880a078",
+    "scripts/client_cache_vdf.py": "8dba1a1b9f90b3390e22a1f899ae10d269c9a55f29c0d26acbfcea8609812934",
+    "scripts/shared-cache.py": "81f042222d2980cb68961413f793a1abbb309c3ae57c66b8f391c7fa594b3126",
+    "scripts/shared-cache.sh": "88c7726a1191548a362534aace08ae31ada2547a1b325fb6629b7f55546d2391",
+    "scripts/package-opticlient.py": "470d60981d815f41f421e75e07cde12fbbcf02ccd64b1e98f865e3ede2e194d0",
+    "tests/test_client_cache.py": "d6090a36cc9cd191ab3bd2f5ebba15e48fa009a76cd0c4a332183906e4409082",
+    "tests/test_opticlient_bundle.py": "9c693bf3e2623f1b0254cccdb7ebdae16b5d7f9fa89e018926eea7ca699ca148"
+  }
+}

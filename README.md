@@ -12,8 +12,10 @@ driver and Proton.
 ## Install
 
 1. Open the [BC250 build of OptiScaler Client](docs/optiscaler-client.md) and scan your library.
-2. Choose **Install across your games**. The client includes RC11 and its
-   FFX/INT8 settings. For RC12, choose **Import DLL ZIP** once with the
+2. Choose **Install across your games**. The client includes RC12 and its
+   FFX/INT8 settings. Updating from client bc250.5 or earlier keeps your selected
+   DLL: choose **Import DLL ZIP** once with the client's bundled
+   `bc250/bc250-fsr4-dll-4.0.0-rc12.zip` or the
    [RC12 DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc12/bc250-fsr4-dll-4.0.0-rc12.zip).
 3. Select games and install. Each game shows any first-time loading step.
 4. Retain working launch options and launch normally. Import future DLL ZIPs once

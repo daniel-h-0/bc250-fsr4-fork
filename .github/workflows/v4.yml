@@ -154,22 +154,21 @@ jobs:
             --dll .work/dll-rc12/amd_fidelityfx_upscaler_dx12.dll --output dist/dll
           cd dist/dll
           sha256sum -c *.sha256
-      - name: Obtain the published RC11 DLL ZIP that the client bundles
+      - name: Obtain the published RC12 DLL ZIP that the client bundles
         run: |
           python3 - <<'PY'
-          import hashlib, urllib.request
+          import hashlib, json, urllib.request
           from pathlib import Path
-          url = ('https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/'
-                 'opticlient-v1.0.7-bc250.2/bc250-fsr4-dll-4.0.0-rc11-docs2.zip')
-          path = Path('.work/client-inputs/bc250-fsr4-dll-4.0.0-rc11-docs2.zip')
+          pin = json.loads(Path('integrations/optiscaler-client/manifest.json').read_text())['dll_zip']
+          path = Path('.work/client-inputs') / pin['file']
           path.parent.mkdir(parents=True)
-          with urllib.request.urlopen(url, timeout=120) as response, path.open('xb') as stream:
+          with urllib.request.urlopen(pin['url'], timeout=120) as response, path.open('xb') as stream:
               while chunk := response.read(1024 * 1024):
                   stream.write(chunk)
           with path.open('rb') as stream:
               actual = hashlib.file_digest(stream, 'sha256').hexdigest()
-          if actual != '1eab11f2d9c34eebb15afe5815029c69b2d04dda2b94395486e2c2f5adb82ae0':
-              raise RuntimeError('RC11 DLL ZIP hash mismatch')
+          if actual != pin['sha256']:
+              raise RuntimeError('Bundled DLL ZIP hash mismatch: ' + pin['file'])
           PY
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -185,10 +184,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libarchive-tools
           python3 scripts/package-opticlient.py --dotnet "$(command -v dotnet)" \
-            --dll-zip .work/client-inputs/bc250-fsr4-dll-4.0.0-rc11-docs2.zip
+            --dll-zip .work/client-inputs/bc250-fsr4-dll-4.0.0-rc12.zip
           dotnet run -c Release --project integrations/optiscaler-client/tests/ClientTests.csproj \
             -p:ClientSource="$PWD/.work/opticlient/source/Optiscaler-Client-dd534b7d1cb8a0edf174a6917f5179791603d364"
-          python3 scripts/check-opticlient.py --archive dist/opticlient/bc250-opticlient-1.0.7-bc250.5-linux-x64.tar.gz
+          python3 scripts/check-opticlient.py --archive dist/opticlient/bc250-opticlient-1.0.7-bc250.6-linux-x64.tar.gz
           cd dist/opticlient
           sha256sum -c *.sha256
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

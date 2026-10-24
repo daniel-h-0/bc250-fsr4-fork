@@ -1,7 +1,7 @@
 # OptiScaler Client integration
 
 User instructions: [Install across your games](../../docs/optiscaler-client.md).
-Project build: **1.0.7-bc250.5**, Linux x64, based on
+Project build: **1.0.7-bc250.6**, Linux x64, based on
 [OptiScaler Client](https://github.com/Optiscaler-Client/Optiscaler-Client) by
 [Agustín Montaña (Agustinm28)](https://github.com/Agustinm28) and contributors,
 under GPL-3.0-or-later. The upstream desktop interface, scanner and component
@@ -19,11 +19,11 @@ sources and NuGet. From the repository root:
 
 ```sh
 python3 scripts/package-opticlient.py --dotnet /path/to/dotnet \
-  --dll-zip /path/to/bc250-fsr4-dll-4.0.0-rc11-docs2.zip
+  --dll-zip /path/to/bc250-fsr4-dll-4.0.0-rc12.zip
 ```
 
 Use a fresh `--work` directory for another build. The output under
-`dist/opticlient/` contains the self-contained application, unchanged RC11 ZIP,
+`dist/opticlient/` contains the self-contained application, unchanged RC12 ZIP,
 complete modified client source, licenses, dependency pins and checksums.
 End users need no SDK. At first launch a progress window downloads OptiScaler,
 OptiPatcher and the DLSS helper from their hash-pinned upstream locations. A
@@ -120,7 +120,7 @@ dotnet run -c Release --project integrations/optiscaler-client/tests/ClientTests
 python3 -m unittest discover -s tests -p test_client_cache.py
 python3 scripts/check-repo.py
 python3 scripts/check-opticlient.py \
-  --archive dist/opticlient/bc250-opticlient-1.0.7-bc250.5-linux-x64.tar.gz
+  --archive dist/opticlient/bc250-opticlient-1.0.7-bc250.6-linux-x64.tar.gz
 ```
 
 The C# harness creates temporary game trees and isolated application data through
@@ -128,8 +128,9 @@ its injected service paths. It exercises installation, adoption, repeat updates,
 preservation of INI edits, original-file restoration, symlink/path rejection,
 corrupt imports, simulated running-game deferral, rollback on write failure and recovery
 after a child process exits midway through a transaction.
-The package checker verifies every archived file, the bundled DLL identity,
-complete integration source, licenses and links in the extracted guide.
+The package checker verifies every archived file, the bundled ZIP and DLL against
+their pins, complete integration source, licenses and links in the extracted guide.
+`tests/test_opticlient_bundle.py` checks the packager's refusal of any other ZIP.
 
 The optional `--real` harness mode takes a prepared payload directory, release ZIP,
 new scratch output directory and a Windows DLL-load probe executable. It installs
@@ -151,8 +152,13 @@ to `/var/home`, as on Bazzite and other Fedora Atomic systems, and installation
 below such a link. Links inside the selected game folder remain refused.
 [The bc250.5 record](../../docs/data/optiscaler-client-5.json) covers one record
 per game across those spellings and the running-game check for either spelling.
-The [RC11 validation](../../docs/portable-dll-rc11.md) remains the rendering evidence
-for that DLL; [RC12's](../../docs/portable-dll-rc12.md) covers an imported RC12 ZIP.
+[The bc250.6 record](../../docs/data/optiscaler-client-6.json) covers the bundled
+RC12 ZIP: first setup of the packaged application selects and installs it, an
+update from bc250.5 keeps RC11 until the bundled ZIP is imported, and the real
+payload installs its DLL in the three general layouts. The general-layout loading
+checks above ran with RC11. The [RC12 validation](../../docs/portable-dll-rc12.md) is the
+rendering evidence for the bundled DLL; [RC11's](../../docs/portable-dll-rc11.md)
+covers RC11.
 Client setup, DLL loading and actual game rendering are distinct
 checks; this build does not claim a new full gameplay campaign or support for
 Windows/other GPUs.
@@ -161,14 +167,16 @@ Windows/other GPUs.
 
 The application pins no DLL. **Import DLL ZIP** accepts a ZIP named
 `bc250-fsr4-dll-4.….zip` that holds the DLL and a `SHA256SUMS` line for it, and
-checks the DLL against that line. The RC12 ZIP passes these checks (CPU check of
-the archive; not run in the client).
+checks the DLL against that line.
 
-The package bundles one DLL ZIP, imported at first start. `scripts/package-opticlient.py`
-and `scripts/check-opticlient.py` require it to hold `dll/manifest.json`'s DLL,
-RC11, the DLL of 1.0.7-bc250.5. RC12 ships without a client build: users import
-its ZIP. Bundling RC12 would be a new client version with its own archive and
-packaged-application checks.
+The package bundles one DLL ZIP. The BC250 screen imports it when it opens with
+no release selected, so a fresh setup starts on it. `manifest.json` (`dll_zip`)
+pins the published RC12 ZIP by file name, URL and SHA256, and its DLL by
+`dll/rc12.json`. `scripts/package-opticlient.py`, `scripts/check-opticlient.py` and
+CI refuse any other ZIP. 1.0.7-bc250.5 and earlier bundle RC11 (`rc11-docs2`).
+A client update keeps the release already selected in the application data;
+choosing **Import DLL ZIP** with the bundled `bc250/bc250-fsr4-dll-4.0.0-rc12.zip`
+moves such a setup to RC12.
 
 ## Release maintenance
 

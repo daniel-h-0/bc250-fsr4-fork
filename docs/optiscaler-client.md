@@ -13,13 +13,16 @@ shared-cache setup.
 
 ## 1. Open the client
 
-Download [OptiScaler Client 1.0.7-bc250.5 for Linux x64](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.5/bc250-opticlient-1.0.7-bc250.5-linux-x64.tar.gz),
+Download [OptiScaler Client 1.0.7-bc250.6 for Linux x64](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.6/bc250-opticlient-1.0.7-bc250.6-linux-x64.tar.gz),
 extract it, and run **`Start-BC250-OptiClient.sh`**. First setup downloads its
-OptiScaler dependencies. The client includes the RC11 DLL and selects it
-automatically. For RC12, download the
-[RC12 DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc12/bc250-fsr4-dll-4.0.0-rc12.zip)
-and choose **Import DLL ZIP** once on the **Install across your games** screen;
-it then shows **Selected release: 4.0.0-rc12**. Keep the ZIP's original filename.
+OptiScaler dependencies. The client includes the RC12 DLL and selects it
+automatically: the **Install across your games** screen shows
+**Selected release: 4.0.0-rc12**.
+
+**Coming from bc250.5 or earlier?** The new client keeps the release you had
+selected (RC11 unless you imported RC12). Choose **Import DLL ZIP** once on that
+screen and select `bc250/bc250-fsr4-dll-4.0.0-rc12.zip` in the new client's
+folder, then update your games.
 
 Choose **Scan Games**, then **Install across your games**. On Linux, the client
 scans Steam, Heroic's installed Windows Epic/GOG games, and Lutris entries in
@@ -163,7 +166,8 @@ in place. New games use the selected release too.
 
 **Update the client:** extract the new client archive and run its launcher.
 Keep `~/.config/OptiscalerClient-BC250/` (or its location under `XDG_CONFIG_HOME`);
-it holds your selected DLL, installation records and original-file backups.
+it holds your selected DLL, installation records and original-file backups. The
+selected DLL stays selected; import the new client's bundled ZIP to switch to it.
 
 **Restore:** select games and choose **Restore / recover selected**. The client
 restores files saved before its first BC250 installation and removes files it

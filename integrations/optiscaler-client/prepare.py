@@ -43,7 +43,7 @@ def prepare(source, integration):
     edit(
         "App.axaml.cs",
         'Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0"',
-        '"1.0.7-bc250.5"',
+        '"1.0.7-bc250.6"',
     )
     edit(
         "Views/MainWindow.axaml",
@@ -54,7 +54,8 @@ def prepare(source, integration):
         "Views/MainWindow.axaml.cs",
         "var welcome = new WelcomeWindow(this);\n                    await welcome.ShowDialog(this);",
         'var welcome = new ConfirmDialog(this, "BC250 FSR4 — OptiScaler Client", '
-        '"Scan your library, then choose Install across your games. RC11 and its FFX/INT8 preset are included. " + '
+        '"Scan your library, then choose Install across your games. RC12 and its FFX/INT8 preset are included. " + '
+        '"After an update from an earlier build, your selected DLL stays: choose Import DLL ZIP there once and pick bc250/bc250-fsr4-dll-4.0.0-rc12.zip in this client folder. " + '
         '"This project build uses OptiScaler Client by Agustín Montaña and contributors; licenses and complete source are included.", isAlert: true);\n'
         "                    await welcome.ShowDialog<bool>(this);",
     )

@@ -1,7 +1,7 @@
 # Downloads and release packaging
 
 **[Install across your games](optiscaler-client.md)** with the BC250 client build
-(import the RC12 ZIP), or use the
+(RC12 included), or use the
 [RC12 DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc12/bc250-fsr4-dll-4.0.0-rc12.zip)
 for a [manual installation](beginner-guide.md).
 [RC12 release notes](release-notes-rc12.md) and
@@ -14,23 +14,24 @@ can break other shaders such as HelixSR frame generation; update to 26.2.3 or ne
 
 ## Client addon
 
-[OptiScaler Client 1.0.7-bc250.5](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/opticlient-v1.0.7-bc250.5)
-is a separately versioned prerelease addon. It bundles RC11 and imports later DLL
-ZIPs such as RC12's. It adds selection-based
+[OptiScaler Client 1.0.7-bc250.6](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/opticlient-v1.0.7-bc250.6)
+is a separately versioned prerelease addon. It bundles RC12 and imports later DLL
+ZIPs. It adds selection-based
 installation, DLL updates, file restoration and optional shared-cache setup using
 one general setup across
 OptiScaler-compatible games.
 This addon changes installation rather than shader code or measured performance.
 Version bc250.4 fixes first setup and installation on Bazzite and other Fedora
 Atomic systems, where `/home` is a link to `/var/home`. Version bc250.5 treats
-both spellings of a game folder as one game.
+both spellings of a game folder as one game. Version bc250.6 bundles the RC12
+ZIP in place of RC11's; the application is otherwise bc250.5's.
 
 The application is a modified build of [OptiScaler Client](https://github.com/Optiscaler-Client/Optiscaler-Client)
 by Agustín Montaña (Agustinm28) and contributors. BC250 maintains the FSR4-specific
 integration and this distribution. [Upstream roles, credits and licenses](../THIRD_PARTY.md#optiscaler-client-addon).
 
 The addon release contains the Linux client with its cache tools, the unchanged
-`rc11-docs2` DLL ZIP, a complete
+RC12 DLL ZIP, a complete
 project source snapshot and `SHA256SUMS`. The application also includes its full
 modified client source. The [client validation record](../integrations/optiscaler-client/README.md#validation)
 separates installation/loading checks from the existing DLL rendering evidence.
@@ -39,9 +40,9 @@ separates installation/loading checks from the existing DLL rendering evidence.
 
 | Download | Who needs it |
 | --- | --- |
-| `bc250-opticlient-1.0.7-bc250.5-linux-x64.tar.gz` | Client route: Linux application, RC11 ZIP, complete modified client source and dependency download pins. Import the RC12 ZIP for RC12. |
+| `bc250-opticlient-1.0.7-bc250.6-linux-x64.tar.gz` | Client route: Linux application, RC12 ZIP, complete modified client source and dependency download pins. |
 | `bc250-fsr4-dll-4.0.0-rc12.zip` | Manual installation or client import: the RC12 DLL, instructions, notices and provenance, in the [RC12 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc12). SHA256 `646778a0d06c42bf3cdcc99f9396680f5cc4a33658b90c0889fd15751bfb800d`. |
-| `bc250-fsr4-dll-4.0.0-rc11-docs2.zip` | Previous DLL: RC11 with refreshed instructions; bundled in the client. |
+| `bc250-fsr4-dll-4.0.0-rc11-docs2.zip` | Previous DLL: RC11 with refreshed instructions; bundled in client bc250.2–bc250.5. |
 | `bc250-fsr4-v4.0.0-rc11.1-linux-glibc236-x86_64.tar.gz` | Alternative AMD-provider/driver route: RC11's driver plus the upstream `nir_opt_uub` fix, in the [RC11.1 pre-release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11.1). SHA256 `6f89cf227cd14afc49e66304ee872cff68a9378aec2147c1ab644b2cd5193a5d`. |
 | `bc250-fsr4-v4.0.0-rc11-linux-glibc236-x86_64.tar.gz` | Previous driver, retained in the [RC11 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11); lacks the compiler fix. |
 | `bc250-fsr4-v4.0.0-rc12-source-COMMIT.tar.gz` | Developers: complete source, tools, docs and evidence. |
@@ -57,10 +58,10 @@ sha256sum --ignore-missing -c SHA256SUMS
 
 Original archives/tags remain unchanged when the maintained docs are revised.
 The client has its own version and archive checksum.
-This client build bundles the `4.0.0-rc11-docs2` DLL ZIP, whose instructions
-include the client route. It contains the same RC11 DLL as the original download.
-The client checks an imported ZIP's DLL against the ZIP's `SHA256SUMS`, so RC12
-needs no client update.
+This client build bundles the published `4.0.0-rc12` DLL ZIP unchanged: the same
+file and SHA256 as the RC12 release asset. The client checks an imported ZIP's DLL
+against the ZIP's `SHA256SUMS`, so later DLL ZIPs need no client update. A client
+update keeps the DLL already selected; import the bundled ZIP to switch to it.
 
 ## Packaging
 
@@ -76,11 +77,12 @@ python3 scripts/release-assets.py --dll PATH_TO_DLL_ZIP \
 The packagers take the release identity from `dll/rc12.json`
 (`release_version`), falling back to `dll/manifest.json` for RC11 and earlier.
 Build the client separately with the .NET 10 SDK and `bsdtar`. Its packager
-requires the RC11 ZIP that client 1.0.7-bc250.5 bundles:
+requires the ZIP that `integrations/optiscaler-client/manifest.json` pins
+(`dll_zip`: the published RC12 ZIP, by SHA256):
 
 ```sh
 python3 scripts/package-opticlient.py --dotnet /path/to/dotnet \
-  --dll-zip dist/bc250-fsr4-dll-4.0.0-rc11-docs2.zip
+  --dll-zip PATH_TO/bc250-fsr4-dll-4.0.0-rc12.zip
 python3 scripts/release-assets.py --dll PATH_TO_DLL_ZIP --client PATH_TO_CLIENT_TAR \
   --source PATH_TO_COMPLETE_SOURCE_TAR --output dist/upload-opticlient
 ```

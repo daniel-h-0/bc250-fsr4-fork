@@ -23,9 +23,26 @@ def digest(path):
         return hashlib.file_digest(file, "sha256").hexdigest()
 
 
+def check_dll_zip(path, pin, root=ROOT):
+    """The bundled ZIP is the pinned release asset, holding the DLL its release record pins."""
+    release = json.loads((root / pin["release"]).read_text())
+    if (
+        path.name != pin["file"]
+        or pin["file"] != f"bc250-fsr4-dll-{release['release_version']}.zip"
+    ):
+        raise ValueError("The bundled DLL ZIP must be " + pin["file"])
+    if digest(path) != pin["sha256"]:
+        raise ValueError("The bundled DLL ZIP does not match its pinned checksum")
+    with zipfile.ZipFile(path) as archive:
+        data = archive.read("amd_fidelityfx_upscaler_dx12.dll")
+    if not hashlib.sha256(data).hexdigest() == pin["dll_sha256"] == release["expected_dll_sha256"]:
+        raise ValueError("The bundled release ZIP does not match " + pin["release"])
+
+
 def build(work, output, dotnet, dll_zip):
     integration = ROOT / "integrations/optiscaler-client"
     manifest = json.loads((integration / "manifest.json").read_text())
+    check_dll_zip(dll_zip, manifest["dll_zip"])
     work, output = work.resolve(), output.resolve()
     work.mkdir(parents=True, exist_ok=True)
     output.mkdir(parents=True, exist_ok=True)
@@ -119,12 +136,8 @@ def build(work, output, dotnet, dll_zip):
     (payload / "payload.json").write_text(json.dumps(payload_manifest, indent=2) + "\n")
     shutil.copy2(payload / "payload.json", stage / "bc250/payload.json")
     (stage / "bc250/inputs.json").write_text(json.dumps(manifest["inputs"], indent=2) + "\n")
-    dll_manifest = json.loads((ROOT / "dll/manifest.json").read_text())
-    with zipfile.ZipFile(dll_zip) as archive:
-        data = archive.read("amd_fidelityfx_upscaler_dx12.dll")
-        if hashlib.sha256(data).hexdigest() != dll_manifest["expected_dll_sha256"]:
-            raise ValueError("The bundled release ZIP does not match the DLL manifest")
     shutil.copy2(dll_zip, stage / "bc250" / dll_zip.name)
+    check_dll_zip(stage / "bc250" / dll_zip.name, manifest["dll_zip"])
     notices = stage / "notices"
     notices.mkdir()
     shutil.copy2(upstream / "LICENSE", notices / "OptiScaler-Client-GPL-3.0.txt")
@@ -195,7 +208,7 @@ def build(work, output, dotnet, dll_zip):
     )
     launcher.chmod(0o755)
     (stage / "build.json").write_text(
-        json.dumps({"integration": manifest, "dll": dll_manifest["expected_dll_sha256"]}, indent=2)
+        json.dumps({"integration": manifest, "dll": manifest["dll_zip"]["dll_sha256"]}, indent=2)
         + "\n"
     )
     (stage / "SHA256SUMS").write_text(
@@ -219,6 +232,8 @@ if __name__ == "__main__":
     parser.add_argument("--work", type=Path, default=ROOT / ".work/opticlient")
     parser.add_argument("--output", type=Path, default=ROOT / "dist/opticlient")
     parser.add_argument("--dotnet", type=Path, required=True, help=".NET 10 SDK executable")
-    parser.add_argument("--dll-zip", type=Path, required=True)
+    parser.add_argument(
+        "--dll-zip", type=Path, required=True, help="The release ZIP pinned by the client manifest"
+    )
     args = parser.parse_args()
     build(args.work, args.output, args.dotnet.resolve(), args.dll_zip.resolve())

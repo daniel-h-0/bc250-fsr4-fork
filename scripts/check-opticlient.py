@@ -18,16 +18,31 @@ def check(root=ROOT, archive=None):
     integration = root / "integrations/optiscaler-client"
     manifest = json.loads((integration / "manifest.json").read_text())
     data = root / "docs/data"
-    record = json.loads((data / "optiscaler-client-5.json").read_text())
+    record = json.loads((data / "optiscaler-client-6.json").read_text())
     # Later builds change only the files they list; bc250.3's deployment evidence covers the rest.
     baseline = json.loads((data / record["deployment_baseline"]).read_text())
     previous = json.loads((data / baseline["general_layout_baseline"]).read_text())
-    dll = json.loads((root / "dll/manifest.json").read_text())
+    # The general-layout load checks ran with RC11, which dll/manifest.json pins.
+    rc11 = json.loads((root / "dll/manifest.json").read_text())
+    bundle = manifest["dll_zip"]
+    release = json.loads((root / bundle["release"]).read_text())
     changed = set(record["changed_since_baseline"])
     assert changed <= set(record["sources"])
     assert record["client_version"] == manifest["version"]
     assert record["upstream_commit"] == baseline["upstream_commit"] == manifest["upstream_commit"]
+    assert f'"{manifest["version"]}"' in (integration / "prepare.py").read_text()
+    assert bundle["file"] == "bc250-fsr4-dll-" + release["release_version"] + ".zip"
+    assert bundle["dll_sha256"] == release["expected_dll_sha256"]
+    assert bundle["url"].startswith("https://") and bundle["url"].endswith("/" + bundle["file"])
+    assert re.fullmatch(r"[a-f0-9]{64}", bundle["sha256"])
+    assert record["bundled_dll_zip"] == {
+        key: bundle[key] for key in ("file", "sha256", "dll_sha256")
+    }
+    assert {row["layout"] for row in record["real_payload"]} == {"flat", "nested", "unreal"}
+    for row in record["real_payload"]:
+        assert row["sha256"] == bundle["dll_sha256"] and row["ini_preserved"]
     assert record["transaction_result"] == record["first_setup"]["status"] == "pass"
+    assert record["first_setup"]["selected_release"] == release["release_version"]
     assert record["transaction_checks"] >= 56 and record["linked_temp_root"] == "pass"
     assert baseline["transaction_result"] == baseline["gui"]["status"] == "pass"
     assert baseline["cache_transaction_checks"] >= 26
@@ -48,7 +63,7 @@ def check(root=ROOT, archive=None):
     assert {row["layout"] for row in previous["real_payload"]} == {"flat", "nested", "unreal"}
     for row in previous["real_payload"]:
         assert row["loaded_expected_path"] and row["ini_preserved"]
-        assert row["sha256"] == dll["expected_dll_sha256"]
+        assert row["sha256"] == rc11["expected_dll_sha256"]
     for meta in manifest["inputs"].values():
         assert meta["url"].startswith("https://") and re.fullmatch(r"[a-f0-9]{64}", meta["sha256"])
     lock = json.loads((integration / "packages.lock.json").read_text())
@@ -93,21 +108,21 @@ def check(root=ROOT, archive=None):
                     hashlib.sha256(tar.extractfile(files[name]).read()).hexdigest() == expected
                 ), name
             build = json.load(tar.extractfile(files["build.json"]))
-            assert build["integration"] == manifest and build["dll"] == dll["expected_dll_sha256"]
+            assert build["integration"] == manifest and build["dll"] == bundle["dll_sha256"]
             guide = tar.extractfile(files["README.md"]).read().decode()
             assert all(
                 "://" in target or target.startswith("#")
                 for target in re.findall(r"\]\(([^)]+)\)", guide)
             )
-            release_zip = next(
-                name
-                for name in files
-                if name.startswith("bc250/bc250-fsr4-dll-") and name.endswith(".zip")
-            )
-            with zipfile.ZipFile(io.BytesIO(tar.extractfile(files[release_zip]).read())) as zip:
+            assert [
+                name for name in files if name.startswith("bc250/") and name.endswith(".zip")
+            ] == ["bc250/" + bundle["file"]]
+            bundled = tar.extractfile(files["bc250/" + bundle["file"]]).read()
+            assert hashlib.sha256(bundled).hexdigest() == bundle["sha256"]
+            with zipfile.ZipFile(io.BytesIO(bundled)) as zip:
                 assert (
                     hashlib.sha256(zip.read("amd_fidelityfx_upscaler_dx12.dll")).hexdigest()
-                    == dll["expected_dll_sha256"]
+                    == bundle["dll_sha256"]
                 )
             with tarfile.open(
                 fileobj=io.BytesIO(tar.extractfile(files["source.tar.gz"]).read())
@@ -139,7 +154,9 @@ def check(root=ROOT, archive=None):
                     .startswith(b"                    GNU GENERAL PUBLIC LICENSE")
                 )
     return (
-        "OptiScaler Client pins, transaction evidence, cache deployment, general-layout load checks"
+        "OptiScaler Client pins, bundled "
+        + bundle["file"]
+        + ", transaction evidence, cache deployment, general-layout load checks"
         + (" and complete package" if archive else "")
     )
 

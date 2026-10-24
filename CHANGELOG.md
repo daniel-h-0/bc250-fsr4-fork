@@ -1,5 +1,17 @@
 # Changelog
 
+## OptiScaler Client 1.0.7-bc250.6 — 2026-10-24
+
+- Bundle the published RC12 DLL ZIP in place of RC11's `rc11-docs2`. A fresh setup
+  selects RC12; an updated client keeps the DLL already selected until the bundled
+  ZIP is imported.
+- Pin the bundled ZIP in the client manifest (`dll_zip`: file, URL, SHA256) and its
+  DLL by `dll/rc12.json`; the packager, the package checker and CI refuse any other
+  ZIP.
+- The welcome dialog names RC12 and, for updated setups, the one-time import.
+  The application, installation engine, cache tools and OptiScaler pins are
+  otherwise bc250.5's.
+
 ## 4.0.0-rc12 — DLL pre-release
 
 - Carry the RC8/RC9 shader work to the 1080p (context maximum up to 1920×1080)
