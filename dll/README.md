@@ -64,7 +64,10 @@ Proton; other runtimes/drivers need their own qualification.
 ## SDK and PE changes
 
 [repack_dll.py](repack_dll.py) accepts the pinned SDK image and preserves its five
-FFX exports, numeric provider version, imports and host implementation. It applies:
+FFX exports, numeric provider version, imports and host implementation. Every offset and
+byte below comes from the [drop profile](port/profiles/sdk-2.3.0.json), which the build
+re-derives from the SDK bytes and must match exactly ([drop profiles](port/README.md#drop-profiles)).
+It applies:
 
 - The audited 18-byte INT8 eligibility change.
 - A provider-name pointer at offset `0x4a5` to the appended RC11 label, retaining
@@ -78,6 +81,15 @@ The repacker appends a read-only `.bc250` section, retargets shader pointers and
 lengths, updates PE sizes/checksum and removes the invalidated Authenticode
 certificate. It checks input bytes, relocation/pointer coverage and unique slots;
 existing output files are protected. The sidecar records every updated RVA/pointer.
+
+## New SDK drops
+
+[SDK drop intake](port/README.md) fetches and verifies a later SDK's upscaler DLL. It accepts
+only allowlisted GPUOpen tags whose license puts that exact DLL under MIT. A
+[drop profile](port/README.md#drop-profiles) then records that DLL's layout for the repacker, and
+[lowering recipes](port/README.md#lowering) regenerate replacement programs from its own DXIL.
+[Drop classes](port/README.md#drop-classes) sort a new drop's programs into identical,
+constants-only, changed and new against the earlier drop, and report host layout changes.
 
 ## Standalone compatibility probe
 

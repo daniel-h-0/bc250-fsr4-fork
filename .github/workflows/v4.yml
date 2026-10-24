@@ -137,6 +137,13 @@ jobs:
             --dxcompiler .work/dll-inputs/dxc/linux_dxc_2026_07_29.x86_x64/lib/libdxcompiler.so \
             --output .work/dll-build --jobs 2
           python3 scripts/check-rc11-release.py --dll .work/dll-build/amd_fidelityfx_upscaler_dx12.dll
+          python3 scripts/check-drop-profile.py --sdk .work/dll-inputs/sdk.dll \
+            --shaders .work/dll-build/shaders
+          for recipe in dll/port/recipes/*.json; do
+            python3 dll/port/lower_pass.py generate --recipe "$recipe" --sdk .work/dll-inputs/sdk.dll \
+              --dxc .work/dll-inputs/dxc/linux_dxc_2026_07_29.x86_x64 \
+              --output "$RUNNER_TEMP/lowering/$(basename "$recipe" .json)"
+          done
           python3 scripts/package-dll.py \
             --dll .work/dll-build/amd_fidelityfx_upscaler_dx12.dll --documentation-revision 2 --output dist/dll
           cd dist/dll

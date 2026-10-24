@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "repository": "GPUOpen-LibrariesAndSDKs/FidelityFX-SDK",
+  "drops": [
+    {
+      "tag": "v2.0.0",
+      "commit": "f4c1da8e92f3fe563b5c28c44e6267ce6b6b8eb2",
+      "dll": {
+        "path": "Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_dx12.dll",
+        "sha256": "241e6e5e4d848424eb8ec9a6b22c43fe34cf0cf52d30002ca435ba42e53a9ca0",
+        "git_blob": "4bd446fd7b91f9f6072555b1907c7c49991c4160",
+        "bytes": 13138192
+      },
+      "license": {
+        "path": "docs/license.md",
+        "sha256": "be05d8cd5489deff924dbe91e0c5b8c0ff034d43cd11749bf9a67a0c38252b7b",
+        "git_blob": "03d3b5379ef7361fcb49b799919846730e49a4a2",
+        "bytes": 1119,
+        "grant": "whole-file-mit",
+        "line_number": 7,
+        "line": "Permission is hereby granted, free of charge, to any person obtaining a copy"
+      }
+    },
+    {
+      "tag": "v2.1.0",
+      "commit": "0836aa7f24058b3f8d035a88c0774457d78fc98e",
+      "dll": {
+        "path": "Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_dx12.dll",
+        "sha256": "3eab9a448db1ca09d5aba17d11df5b789649c11d60f1281f4be97bd007ac7d6d",
+        "git_blob": "f8c7c6e854d754195c4f86b4c6007ef9a822fa76",
+        "bytes": 22348552
+      },
+      "license": {
+        "path": "docs/license.md",
+        "sha256": "b1ff86575bba155d782c8d1f12b0ad07113ce7e62956fadc2169eba29048b966",
+        "git_blob": "5ff58e4fbdef830ce27cde3f9235bab04b7fc70e",
+        "bytes": 61309,
+        "grant": "mit-list",
+        "line_number": 593,
+        "line": "- `Kits\\FidelityFX\\signedbin\\amd_fidelityfx_upscaler_dx12.dll`"
+      }
+    },
+    {
+      "tag": "v2.1.1",
+      "commit": "8f7498a4b42d06d1daf64b3961ddcaedc07ccaf0",
+      "dll": {
+        "path": "Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_dx12.dll",
+        "sha256": "3eab9a448db1ca09d5aba17d11df5b789649c11d60f1281f4be97bd007ac7d6d",
+        "git_blob": "f8c7c6e854d754195c4f86b4c6007ef9a822fa76",
+        "bytes": 22348552
+      },
+      "license": {
+        "path": "docs/license.md",
+        "sha256": "b1ff86575bba155d782c8d1f12b0ad07113ce7e62956fadc2169eba29048b966",
+        "git_blob": "5ff58e4fbdef830ce27cde3f9235bab04b7fc70e",
+        "bytes": 61309,
+        "grant": "mit-list",
+        "line_number": 593,
+        "line": "- `Kits\\FidelityFX\\signedbin\\amd_fidelityfx_upscaler_dx12.dll`"
+      }
+    },
+    {
+      "tag": "v2.2.0",
+      "commit": "e236f2304dcda35f282fdddd085f41e2ff48c86a",
+      "dll": {
+        "path": "Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_dx12.dll",
+        "sha256": "ec7ed3ca674e288240e6f04b986342aece47454c41d9b0959449e82e22bd7f6d",
+        "git_blob": "b513cb19666d496bd5f82ead01646cd461f2d69f",
+        "bytes": 15605520
+      },
+      "license": {
+        "path": "docs/license.md",
+        "sha256": "d36e79d1ea4b5bd05da170f49764af898726c57aba70f354720d96c6a74b347d",
+        "git_blob": "ec8415fff429ca4282ef142f1d9d3513565b817a",
+        "bytes": 60975,
+        "grant": "mit-list",
+        "line_number": 586,
+        "line": "- `Kits\\FidelityFX\\signedbin\\amd_fidelityfx_upscaler_dx12.dll`"
+      }
+    },
+    {
+      "tag": "v2.3.0",
+      "commit": "60f4ea81909200d8542eca14dccb2628b763a9a3",
+      "dll": {
+        "path": "Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_dx12.dll",
+        "sha256": "d0dcccc74a43c44ba435b7a369b456e0970d8a4464e4bd683119b374f2c9fb46",
+        "git_blob": "199de3a500a1d153b7e73fa5ca0adbd2a4ac1229",
+        "bytes": 28761864
+      },
+      "license": {
+        "path": "docs/license.md",
+        "sha256": "6757f2fec461238da6f84f83536ec195e8c036b1773a06f6f34301b9ed8c0963",
+        "git_blob": "a80304f4edb2a86ae349e39872ea9c87a39c6f97",
+        "bytes": 60891,
+        "grant": "mit-list",
+        "line_number": 586,
+        "line": "- `Kits\\FidelityFX\\signedbin\\amd_fidelityfx_upscaler_dx12.dll`"
+      }
+    }
+  ]
+}

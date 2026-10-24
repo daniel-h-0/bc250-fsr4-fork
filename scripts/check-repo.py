@@ -316,6 +316,7 @@ def check_syntax(root):
         *(root / "tests").glob("*.py"),
         *(root / "runtime").glob("*.py"),
         *(root / "dll").glob("*.py"),
+        *(root / "dll/port").glob("*.py"),
         *(root / "legacy/game-setup").glob("*.py"),
     ]
     for path in python_files:
@@ -327,6 +328,9 @@ def check_syntax(root):
         *(root / "v4").glob("*.json"),
         *(root / "runtime").glob("*.json"),
         *(root / "docs").rglob("*.json"),
+        *(root / "dll/port").glob("*.json"),
+        *(root / "dll/port/profiles").glob("*.json"),
+        *(root / "dll/port/recipes").glob("*.json"),
     ]:
         load(path)
     return f"{len(python_files)} Python and {len(shell_files)} shell entry points, JSON documents"
@@ -835,6 +839,17 @@ def check_dll(root):
     )
 
 
+def check_sdk_drops(root):
+    if not (root / "dll/port/allowlist.json").exists():
+        return "source without the SDK drop allowlist"
+    summary = runpy.run_path(str(root / "dll/port/sdk_intake.py"))["check_tree"]()
+    if (root / "dll/port/drop_profile.py").exists():
+        summary += "; " + runpy.run_path(str(root / "dll/port/drop_profile.py"))["check_tree"]()
+    if (root / "dll/port/lower_pass.py").exists():
+        summary += "; " + runpy.run_path(str(root / "dll/port/lower_pass.py"))["check_tree"]()
+    return summary
+
+
 def check_startup_study(root):
     summarize = runpy.run_path(str(root / "scripts/check-startup-study.py"))["summarize"]
     result = summarize(load(root / "docs/data/rc10-startup-study-20260914.json"))
@@ -866,6 +881,7 @@ def main():
         check_snapshot,
         check_inputs,
         check_dll,
+        check_sdk_drops,
         check_docs,
         check_performance,
         check_fsr_cost,

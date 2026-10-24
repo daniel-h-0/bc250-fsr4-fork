@@ -1,0 +1,98 @@
+[
+ {
+  "name": "amd_fidelityfx_denoiser_dx12.dll",
+  "path": "Kits/FidelityFX/signedbin/amd_fidelityfx_denoiser_dx12.dll",
+  "sha": "40aabaae229139298d1858b4310bae9b22f36d94",
+  "size": 13782280,
+  "url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/Kits/FidelityFX/signedbin/amd_fidelityfx_denoiser_dx12.dll?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+  "html_url": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_denoiser_dx12.dll",
+  "git_url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/blobs/40aabaae229139298d1858b4310bae9b22f36d94",
+  "download_url": "https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_denoiser_dx12.dll",
+  "type": "file",
+  "_links": {
+   "self": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/Kits/FidelityFX/signedbin/amd_fidelityfx_denoiser_dx12.dll?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+   "git": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/blobs/40aabaae229139298d1858b4310bae9b22f36d94",
+   "html": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_denoiser_dx12.dll"
+  }
+ },
+ {
+  "name": "amd_fidelityfx_framegeneration_dx12.dll",
+  "path": "Kits/FidelityFX/signedbin/amd_fidelityfx_framegeneration_dx12.dll",
+  "sha": "1a06b72761086cb5561f8984ce0dc6a24a370e9e",
+  "size": 40085776,
+  "url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/Kits/FidelityFX/signedbin/amd_fidelityfx_framegeneration_dx12.dll?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+  "html_url": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_framegeneration_dx12.dll",
+  "git_url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/blobs/1a06b72761086cb5561f8984ce0dc6a24a370e9e",
+  "download_url": "https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_framegeneration_dx12.dll",
+  "type": "file",
+  "_links": {
+   "self": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/Kits/FidelityFX/signedbin/amd_fidelityfx_framegeneration_dx12.dll?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+   "git": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/blobs/1a06b72761086cb5561f8984ce0dc6a24a370e9e",
+   "html": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_framegeneration_dx12.dll"
+  }
+ },
+ {
+  "name": "amd_fidelityfx_loader_dx12.dll",
+  "path": "Kits/FidelityFX/signedbin/amd_fidelityfx_loader_dx12.dll",
+  "sha": "144916ba922c2a66149ad5cb1037a4f86d2b6491",
+  "size": 26376,
+  "url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/Kits/FidelityFX/signedbin/amd_fidelityfx_loader_dx12.dll?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+  "html_url": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_loader_dx12.dll",
+  "git_url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/blobs/144916ba922c2a66149ad5cb1037a4f86d2b6491",
+  "download_url": "https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_loader_dx12.dll",
+  "type": "file",
+  "_links": {
+   "self": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/Kits/FidelityFX/signedbin/amd_fidelityfx_loader_dx12.dll?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+   "git": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/blobs/144916ba922c2a66149ad5cb1037a4f86d2b6491",
+   "html": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_loader_dx12.dll"
+  }
+ },
+ {
+  "name": "amd_fidelityfx_loader_dx12.lib",
+  "path": "Kits/FidelityFX/signedbin/amd_fidelityfx_loader_dx12.lib",
+  "sha": "596854c7642297fd6f7a8fe41cbbbd2b412b3700",
+  "size": 2880,
+  "url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/Kits/FidelityFX/signedbin/amd_fidelityfx_loader_dx12.lib?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+  "html_url": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_loader_dx12.lib",
+  "git_url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/blobs/596854c7642297fd6f7a8fe41cbbbd2b412b3700",
+  "download_url": "https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_loader_dx12.lib",
+  "type": "file",
+  "_links": {
+   "self": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/Kits/FidelityFX/signedbin/amd_fidelityfx_loader_dx12.lib?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+   "git": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/blobs/596854c7642297fd6f7a8fe41cbbbd2b412b3700",
+   "html": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_loader_dx12.lib"
+  }
+ },
+ {
+  "name": "amd_fidelityfx_radiancecache_dx12.dll",
+  "path": "Kits/FidelityFX/signedbin/amd_fidelityfx_radiancecache_dx12.dll",
+  "sha": "16286736ffe8500550f28d1944b29bf08e50e12d",
+  "size": 798992,
+  "url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/Kits/FidelityFX/signedbin/amd_fidelityfx_radiancecache_dx12.dll?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+  "html_url": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_radiancecache_dx12.dll",
+  "git_url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/blobs/16286736ffe8500550f28d1944b29bf08e50e12d",
+  "download_url": "https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_radiancecache_dx12.dll",
+  "type": "file",
+  "_links": {
+   "self": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/Kits/FidelityFX/signedbin/amd_fidelityfx_radiancecache_dx12.dll?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+   "git": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/blobs/16286736ffe8500550f28d1944b29bf08e50e12d",
+   "html": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_radiancecache_dx12.dll"
+  }
+ },
+ {
+  "name": "amd_fidelityfx_upscaler_dx12.dll",
+  "path": "Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_dx12.dll",
+  "sha": "199de3a500a1d153b7e73fa5ca0adbd2a4ac1229",
+  "size": 28761864,
+  "url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_dx12.dll?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+  "html_url": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_dx12.dll",
+  "git_url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/blobs/199de3a500a1d153b7e73fa5ca0adbd2a4ac1229",
+  "download_url": "https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_dx12.dll",
+  "type": "file",
+  "_links": {
+   "self": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_dx12.dll?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+   "git": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/blobs/199de3a500a1d153b7e73fa5ca0adbd2a4ac1229",
+   "html": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/Kits/FidelityFX/signedbin/amd_fidelityfx_upscaler_dx12.dll"
+  }
+ }
+]

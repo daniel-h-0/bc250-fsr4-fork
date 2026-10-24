@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "kind": "fsr4-lowering-recipe",
+  "name": "rc11-pass1",
+  "sdk_tag": "v2.3.0",
+  "entry": "fsr4_model_v07_fp8_no_scale_pass1",
+  "description": "RC11's six INT8 programs of model pass 1 (3x3 convolution, 16 to 16 channels, then pointwise layers; literal weights). All six: RC7's literal lowering. 0x7de1d0 (1920x1080 grid) adds RC9's binned, postscaled Winograd F(2,3) and the binned last pointwise layer (8-dot chains); it and 0x2cce40, 0x4bee10 get RC10's compiler cleanup.",
+  "sequences": {
+    "unroll": [
+      ["unroll"]
+    ],
+    "winograd": [
+      ["winograd", {"accumulate": "binned", "postscale": true}],
+      ["pointwise", {"lengths": [8]}]
+    ],
+    "pack": [
+      ["stream", {"width": 4, "primary": false}],
+      ["prefix_pairs"],
+      ["half_groups"],
+      ["pack", {"mode": "halves"}],
+      ["drop_dot_declaration"],
+      ["shader_model", {"minor": 9}],
+      ["wave_size", {"lanes": 32}],
+      ["masked_stores"],
+      ["casts"]
+    ],
+    "cleanup": [
+      ["opt", {"passes": ["early-cse", "dce", "strip-dead-prototypes"]}]
+    ]
+  },
+  "slots": {
+    "0x2cce40": ["unroll", "pack", "cleanup"],
+    "0x41fa40": ["unroll", "pack"],
+    "0x4bee10": ["unroll", "pack", "cleanup"],
+    "0x7de1d0": ["unroll", "winograd", "pack", "cleanup"],
+    "0xa7b600": ["unroll", "pack"],
+    "0xa9d5c0": ["unroll", "pack"]
+  },
+  "history": {
+    "unroll": "RC7 build_unrolled.py (research/fsr4-dll-perf-20260909, label unrolled-direct-r1)",
+    "pack": "RC7 build_packed.py --passes 1 --vectors --stream 4 --prefix-pairs, set_wave_policy.py --passes 1, guard_masked_stores.py, dll/scalarize_casts.py; for 0x7de1d0 the same stages inside RC9 build_point_bins.py",
+    "winograd": "RC8 winograd-model1-r1; RC9 winograd-postscale-p1-r1, winograd-bins-p1-r1 and point-bins-last-p1-r1 (research/fsr4-dll-opt-20260910)",
+    "cleanup": "RC10 compiler cleanup (v4/experimental/compile-cse)"
+  }
+}

@@ -1,5 +1,11 @@
 # SPDX-License-Identifier: MIT
-"""Embed validated replacements in a single SDK DLL; never install it."""
+"""Embed validated replacements in a single SDK DLL; never install it.
+
+Every SDK-specific offset and byte (shader slots and their pointers, host patch sites, the
+provider label and its reference, certificate and section-table placement) comes from the drop
+profile in port/profiles/. The profile is re-derived from the SDK bytes on every build and must
+equal the reviewed copy.
+"""
 
 import argparse
 import hashlib
@@ -8,8 +14,15 @@ import struct
 import sys
 from pathlib import Path
 
+if __package__:
+    from .port import drop_profile
+else:
+    from port import drop_profile
+
 ROOT = Path(__file__).resolve().parent
-SDK_SHA = "d0dcccc74a43c44ba435b7a369b456e0970d8a4464e4bd683119b374f2c9fb46"
+SECTION_NAME = b".bc250\0\0"
+SECTION_FLAGS = 0x40000040  # initialized data, read-only
+CERTIFICATE_DIRECTORY = 112 + 8 * drop_profile.CERTIFICATE_DIRECTORY
 
 
 def sha(data):
@@ -20,110 +33,81 @@ def align(n, alignment):
     return (n + alignment - 1) // alignment * alignment
 
 
-def build(sdk, manifest, output):
+def build(sdk, manifest, output, profile=None, allowlist=None):
     if sys.byteorder != "little":
         raise ValueError("The reproducible DLL builder requires a little-endian host")
     for path in (output, output.with_suffix(".json")):
         if path.exists() or path.is_symlink():
             raise FileExistsError(path)
-    if len(manifest["replacements"]) != 348:
-        raise ValueError("The portable DLL requires all 348 shader replacements")
+    if not manifest["replacements"]:
+        raise ValueError("Empty replacement set")
     original = sdk.read_bytes()
-    if sha(original) != SDK_SHA or manifest["sdk_sha256"] != SDK_SHA:
+    if profile is None:
+        profile = drop_profile.select(sha(original))[1]
+    if sha(original) != profile["drop"]["dll_sha256"] or manifest["sdk_sha256"] != sha(original):
         raise ValueError("Unrecognized SDK")
+    drop_profile.verify(original, profile, allowlist)
+    layout = profile["pe"]
     data = bytearray(original)
     pe = struct.unpack_from("<I", data, 0x3C)[0]
-    if data[pe : pe + 4] != b"PE\0\0" or struct.unpack_from("<H", data, pe + 4)[0] != 0x8664:
-        raise ValueError("The pinned SDK is not an x86-64 PE image")
     optional = pe + 24
-    if struct.unpack_from("<H", data, optional)[0] != 0x20B:
-        raise ValueError("The pinned SDK is not PE32+")
-    count = struct.unpack_from("<H", data, pe + 6)[0]
-    table = optional + struct.unpack_from("<H", data, pe + 20)[0]
-    image_base = struct.unpack_from("<Q", data, optional + 24)[0]
-    section_alignment, file_alignment = struct.unpack_from("<II", data, optional + 32)
-    sections = []
-    for i in range(count):
-        start = table + i * 40
-        vsize, rva, size, offset = struct.unpack_from("<IIII", data, start + 8)
-        sections.append(
-            dict(
-                name=bytes(data[start : start + 8]).rstrip(b"\0").decode(),
-                vsize=vsize,
-                rva=rva,
-                size=size,
-                offset=offset,
-            )
-        )
+    count = len(layout["sections"])
+    image_base = layout["image_base"]
+    section_alignment, file_alignment = layout["section_alignment"], layout["file_alignment"]
+    sections = layout["sections"]
 
     def to_rva(offset):
         for section in sections:
-            if section["offset"] <= offset < section["offset"] + section["size"]:
+            if section["offset"] <= offset < section["offset"] + section["bytes"]:
                 return section["rva"] + offset - section["offset"]
         raise ValueError("Offset outside section")
 
-    def to_offset(rva):
-        for section in sections:
-            if section["rva"] <= rva < section["rva"] + section["size"]:
-                return section["offset"] + rva - section["rva"]
-        raise ValueError("RVA outside section")
-
-    # Preserve the previously audited INT8 eligibility repair exactly.
     host_changes = []
-    for at, old, new in [
-        (0x8189, "817c", "c744"),
-        (0x8191, "440fb6c075238b5424308d4aff83f90e", "c74424300100000041b801000000eb15"),
-    ]:
-        before, after = bytes.fromhex(old), bytes.fromhex(new)
-        if len(before) != len(after) or data[at : at + len(before)] != before:
-            raise ValueError("Unexpected INT8 eligibility instruction bytes")
-        data[at : at + len(after)] = after
-        host_changes.append(dict(offset=at, before=old, after=new))
-    # SDK 2.3.0 permits padding-clear compute jobs to skip UAV barriers.
-    # Those clears can overlap the preceding model dispatch on this path.
-    # Keep the existing buffer-UAV addBarrier call active for every non-null
-    # buffer binding. The texture/SRV policy and all shader math stay intact.
-    if data[0x4782:0x478A] != bytes.fromhex("41f686d80b000001"):
-        raise ValueError("Unexpected SDK buffer-UAV skip-barrier instruction")
-    data[0x4789] = 0
-    host_changes.append(dict(offset=0x4789, before="01", after="00"))
-    # RC10 no longer fits the original eight-byte string slot. Its only code
-    # reference is this RIP-relative LEA, consumed as the provider name pointer.
-    # Put the terminated name in our read-only section and redirect that LEA;
-    # the adjacent FSR4-i8 string and numeric provider/API versions stay intact.
-    label_offset = 0xC8300
-    if data[label_offset : label_offset + 16] != b"4.1.1\0\0\0FSR4-i8\0":
-        raise ValueError("The SDK provider label differs from the pinned layout")
-    label_instruction = 0x4A5
-    if data[label_instruction : label_instruction + 7] != bytes.fromhex("488d2d54840c00"):
-        raise ValueError("The SDK provider label reference differs from the pinned layout")
-    provider_name = "4.1.1r11"
-    cert, size = struct.unpack_from("<II", data, optional + 112 + 4 * 8)
-    if cert < max(s["offset"] + s["size"] for s in sections) or cert + size != len(data):
+    for patch in profile["host_patches"]:
+        for change in patch["edits"]:
+            at = change["offset"]
+            before, after = bytes.fromhex(change["before"]), bytes.fromhex(change["after"])
+            if len(before) != len(after) or data[at : at + len(before)] != before:
+                raise ValueError(f"Unexpected SDK bytes at the {patch['name']} site")
+            data[at : at + len(after)] = after
+            host_changes.append(dict(offset=at, before=change["before"], after=change["after"]))
+    # The new provider name does not fit the original string slot. Put the terminated name in
+    # the appended section and redirect the label's only code reference, a RIP-relative LEA;
+    # the adjacent variant string and the numeric provider/API versions stay intact.
+    label = profile["provider_label"]
+    original_label = bytes.fromhex(label["original"])
+    if data[label["offset"] : label["offset"] + len(original_label)] != original_label:
+        raise ValueError("The SDK provider label differs from the profile")
+    reference = label["reference"]
+    lea = bytes.fromhex(reference["original"])
+    label_instruction = reference["offset"]
+    if data[label_instruction : label_instruction + len(lea)] != lea:
+        raise ValueError("The SDK provider label reference differs from the profile")
+    provider_name = manifest["provider_name"]
+    if not provider_name or not provider_name.isascii() or not provider_name.isprintable():
+        raise ValueError("The provider name must be printable ASCII")
+    cert, size = struct.unpack_from("<II", data, optional + CERTIFICATE_DIRECTORY)
+    if dict(offset=cert, bytes=size) != layout["certificate"]:
         raise ValueError("Unexpected SDK certificate placement")
     data = data[:cert]
-    struct.pack_into("<II", data, optional + 112 + 4 * 8, 0, 0)
-    reloc_rva, reloc_size = struct.unpack_from("<II", data, optional + 112 + 5 * 8)
-    pos = to_offset(reloc_rva)
-    end = pos + reloc_size
-    relocations = set()
-    while pos < end:
-        page, size = struct.unpack_from("<II", data, pos)
-        if not 8 <= size <= end - pos or size % 2:
-            raise ValueError("Invalid SDK relocation block")
-        for word in struct.unpack_from("<" + "H" * ((size - 8) // 2), data, pos + 8):
-            if word >> 12 == 10:
-                relocations.add(page + (word & 4095))
-        pos += size
+    struct.pack_into("<II", data, optional + CERTIFICATE_DIRECTORY, 0, 0)
     raw = align(len(data), file_alignment)
-    va = align(max(s["rva"] + s["vsize"] for s in sections), section_alignment)
-    header = table + count * 40
-    if header + 40 > min(s["offset"] for s in sections) or any(data[header : header + 40]):
+    va = align(max(s["rva"] + s["virtual_size"] for s in sections), section_alignment)
+    header = layout["spare_section_header"]
+    if any(data[header : header + 40]):
         raise ValueError("No empty PE section-header slot")
+    slots = {slot["offset"]: slot for slot in profile["shaders"]["slots"]}
     appended, records, offsets = bytearray(), [], set()
     for row in manifest["replacements"]:
         offset, size = row["original_offset"], row["original_size"]
-        if offset in offsets or sha(original[offset : offset + size]) != row["original_sha256"]:
+        slot = slots.get(offset)
+        if (
+            slot is None
+            or offset in offsets
+            or slot["bytes"] != size
+            or slot["sha256"] != row["original_sha256"]
+            or sha(original[offset : offset + size]) != row["original_sha256"]
+        ):
             raise ValueError("Duplicate/mismatched shader")
         offsets.add(offset)
         shader = Path(row["replacement"]).read_bytes()
@@ -133,18 +117,10 @@ def build(sdk, manifest, output):
             or struct.unpack_from("<I", shader, 24)[0] != len(shader)
         ):
             raise ValueError("Replacement hash/container mismatch")
-        pointers = []
-        for section in sections:
-            if section["name"] != ".data":
-                continue
-            for ptr in range(section["offset"] + 8, section["offset"] + section["size"] - 7, 8):
-                length, pointer = struct.unpack_from("<QQ", original, ptr - 8)
-                if length == size and pointer == image_base + to_rva(offset):
-                    if to_rva(ptr) not in relocations:
-                        raise ValueError("Shader pointer lacks DIR64 relocation")
-                    pointers.append(ptr)
-        if not pointers:
-            raise ValueError("Shader pointer missing")
+        pointers = slot["pointers"]
+        for ptr in pointers:
+            if struct.unpack_from("<QQ", original, ptr - 8) != (size, image_base + to_rva(offset)):
+                raise ValueError("Shader pointer differs from the profile")
         start = align(len(appended), 16)
         appended.extend(bytes(start - len(appended)))
         appended.extend(shader)
@@ -161,18 +137,13 @@ def build(sdk, manifest, output):
                 pointer_offsets=pointers,
             )
         )
-    if not records:
-        raise ValueError("Empty replacement set")
     label_rva = va + len(appended)
     appended.extend(provider_name.encode("ascii") + b"\0")
-    displacement = label_rva - (to_rva(label_instruction) + 7)
-    struct.pack_into("<i", data, label_instruction + 3, displacement)
+    end = label_instruction + len(lea)
+    displacement = label_rva - to_rva(end)
+    struct.pack_into("<i", data, end - 4, displacement)
     host_changes.append(
-        dict(
-            offset=label_instruction + 3,
-            before="54840c00",
-            after=struct.pack("<i", displacement).hex(),
-        )
+        dict(offset=end - 4, before=lea[-4:].hex(), after=struct.pack("<i", displacement).hex())
     )
     size = align(len(appended), file_alignment)
     data.extend(bytes(raw - len(data)))
@@ -182,7 +153,7 @@ def build(sdk, manifest, output):
         "<8sIIIIIIHHI",
         data,
         header,
-        b".bc250\0\0",
+        SECTION_NAME,
         len(appended),
         va,
         size,
@@ -191,7 +162,7 @@ def build(sdk, manifest, output):
         0,
         0,
         0,
-        0x40000040,
+        SECTION_FLAGS,
     )
     struct.pack_into("<H", data, pe + 6, count + 1)
     struct.pack_into("<I", data, optional + 56, align(va + len(appended), section_alignment))
@@ -207,7 +178,10 @@ def build(sdk, manifest, output):
     with output.open("xb") as f:
         f.write(data)
     record = dict(
-        sdk_sha256=SDK_SHA,
+        sdk_sha256=profile["drop"]["dll_sha256"],
+        drop_profile=dict(
+            tag=profile["drop"]["tag"], sha256=sha(drop_profile.dumps(profile).encode())
+        ),
         output=str(output),
         sha256=sha(data),
         bytes=len(data),

@@ -11,8 +11,10 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 if __package__:
+    from .port import drop_profile
     from .repack_dll import build
 else:
+    from port import drop_profile
     from repack_dll import build
 
 ROOT = Path(__file__).resolve().parent
@@ -76,8 +78,13 @@ def main():
             raise ValueError("Shader source must stay inside shaders/")
         if sha(ROOT / source) != row["source_sha256"]:
             raise ValueError("Shader source identity mismatch: " + row["source"])
+    _, profile = drop_profile.select(manifest["sdk_sha256"])
+    drop_profile.check_manifest(profile, manifest)
     if a.verify_sources:
-        print(f"Verified {len(rows)} shader sources and the complete DLL source inventory")
+        print(
+            f"Verified {len(rows)} shader sources, the complete DLL source inventory and "
+            f"their slots in drop profile {profile['drop']['tag']}"
+        )
         return
     sdk = a.sdk.resolve()
     dxc = a.dxcompiler.resolve()
@@ -90,6 +97,7 @@ def main():
         raise ValueError("SDK identity mismatch")
     if sha(dxc) != manifest["dxcompiler_sha256"]:
         raise ValueError("DXC identity mismatch")
+    drop_profile.verify(sdk.read_bytes(), profile)
     out.mkdir(parents=True)
     (out / "shaders").mkdir()
     subprocess.run(
@@ -133,7 +141,16 @@ def main():
     with ThreadPoolExecutor(max_workers=a.jobs) as pool:
         rows = list(pool.map(compile_one, manifest["replacements"]))
     dll = out / "amd_fidelityfx_upscaler_dx12.dll"
-    record = build(sdk, dict(sdk_sha256=manifest["sdk_sha256"], replacements=rows), dll)
+    record = build(
+        sdk,
+        dict(
+            sdk_sha256=manifest["sdk_sha256"],
+            provider_name=manifest["provider_name"],
+            replacements=rows,
+        ),
+        dll,
+        profile,
+    )
     if (
         record["sha256"] != manifest["expected_dll_sha256"]
         or record["bytes"] != manifest["expected_dll_bytes"]

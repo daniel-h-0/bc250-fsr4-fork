@@ -1,0 +1,98 @@
+[
+ {
+  "name": "getting-started",
+  "path": "docs/getting-started",
+  "sha": "804a94f5d93a52edf6bb5ce474e613b10ad9172b",
+  "size": 0,
+  "url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/docs/getting-started?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+  "html_url": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/tree/60f4ea81909200d8542eca14dccb2628b763a9a3/docs/getting-started",
+  "git_url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/trees/804a94f5d93a52edf6bb5ce474e613b10ad9172b",
+  "download_url": null,
+  "type": "dir",
+  "_links": {
+   "self": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/docs/getting-started?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+   "git": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/trees/804a94f5d93a52edf6bb5ce474e613b10ad9172b",
+   "html": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/tree/60f4ea81909200d8542eca14dccb2628b763a9a3/docs/getting-started"
+  }
+ },
+ {
+  "name": "license.md",
+  "path": "docs/license.md",
+  "sha": "a80304f4edb2a86ae349e39872ea9c87a39c6f97",
+  "size": 60891,
+  "url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/docs/license.md?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+  "html_url": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/docs/license.md",
+  "git_url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/blobs/a80304f4edb2a86ae349e39872ea9c87a39c6f97",
+  "download_url": "https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/60f4ea81909200d8542eca14dccb2628b763a9a3/docs/license.md",
+  "type": "file",
+  "_links": {
+   "self": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/docs/license.md?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+   "git": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/blobs/a80304f4edb2a86ae349e39872ea9c87a39c6f97",
+   "html": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/docs/license.md"
+  }
+ },
+ {
+  "name": "media",
+  "path": "docs/media",
+  "sha": "c66152cdf9cd2fc732614af1f4339b60beeeb59b",
+  "size": 0,
+  "url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/docs/media?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+  "html_url": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/tree/60f4ea81909200d8542eca14dccb2628b763a9a3/docs/media",
+  "git_url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/trees/c66152cdf9cd2fc732614af1f4339b60beeeb59b",
+  "download_url": null,
+  "type": "dir",
+  "_links": {
+   "self": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/docs/media?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+   "git": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/trees/c66152cdf9cd2fc732614af1f4339b60beeeb59b",
+   "html": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/tree/60f4ea81909200d8542eca14dccb2628b763a9a3/docs/media"
+  }
+ },
+ {
+  "name": "samples",
+  "path": "docs/samples",
+  "sha": "dc9f513ee1092ea231a97726bb175d5323796eba",
+  "size": 0,
+  "url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/docs/samples?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+  "html_url": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/tree/60f4ea81909200d8542eca14dccb2628b763a9a3/docs/samples",
+  "git_url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/trees/dc9f513ee1092ea231a97726bb175d5323796eba",
+  "download_url": null,
+  "type": "dir",
+  "_links": {
+   "self": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/docs/samples?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+   "git": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/trees/dc9f513ee1092ea231a97726bb175d5323796eba",
+   "html": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/tree/60f4ea81909200d8542eca14dccb2628b763a9a3/docs/samples"
+  }
+ },
+ {
+  "name": "sdk.css",
+  "path": "docs/sdk.css",
+  "sha": "aba21bfb4111d97ba541f65e8528c120f330ac12",
+  "size": 719,
+  "url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/docs/sdk.css?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+  "html_url": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/docs/sdk.css",
+  "git_url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/blobs/aba21bfb4111d97ba541f65e8528c120f330ac12",
+  "download_url": "https://raw.githubusercontent.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/60f4ea81909200d8542eca14dccb2628b763a9a3/docs/sdk.css",
+  "type": "file",
+  "_links": {
+   "self": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/docs/sdk.css?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+   "git": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/blobs/aba21bfb4111d97ba541f65e8528c120f330ac12",
+   "html": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/blob/60f4ea81909200d8542eca14dccb2628b763a9a3/docs/sdk.css"
+  }
+ },
+ {
+  "name": "tools",
+  "path": "docs/tools",
+  "sha": "50b577d5f1a9293852f005af06c03b5f42325a55",
+  "size": 0,
+  "url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/docs/tools?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+  "html_url": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/tree/60f4ea81909200d8542eca14dccb2628b763a9a3/docs/tools",
+  "git_url": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/trees/50b577d5f1a9293852f005af06c03b5f42325a55",
+  "download_url": null,
+  "type": "dir",
+  "_links": {
+   "self": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/contents/docs/tools?ref=60f4ea81909200d8542eca14dccb2628b763a9a3",
+   "git": "https://api.github.com/repos/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/git/trees/50b577d5f1a9293852f005af06c03b5f42325a55",
+   "html": "https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/tree/60f4ea81909200d8542eca14dccb2628b763a9a3/docs/tools"
+  }
+ }
+]
