@@ -33,7 +33,9 @@ def align(n, alignment):
     return (n + alignment - 1) // alignment * alignment
 
 
-def build(sdk, manifest, output, profile=None, allowlist=None):
+def build(sdk, manifest, output, profile=None, allowlist=None, omit_host_patches=()):
+    """Write the DLL and its record. `omit_host_patches` names profile host patches to leave out
+    (their SDK bytes are checked and kept); the RC builds apply every patch."""
     if sys.byteorder != "little":
         raise ValueError("The reproducible DLL builder requires a little-endian host")
     for path in (output, output.with_suffix(".json")):
@@ -62,6 +64,9 @@ def build(sdk, manifest, output, profile=None, allowlist=None):
                 return section["rva"] + offset - section["offset"]
         raise ValueError("Offset outside section")
 
+    omitted = sorted(set(omit_host_patches))
+    if not set(omitted) <= {patch["name"] for patch in profile["host_patches"]}:
+        raise ValueError("Unknown host patch to omit")
     host_changes = []
     for patch in profile["host_patches"]:
         for change in patch["edits"]:
@@ -69,6 +74,8 @@ def build(sdk, manifest, output, profile=None, allowlist=None):
             before, after = bytes.fromhex(change["before"]), bytes.fromhex(change["after"])
             if len(before) != len(after) or data[at : at + len(before)] != before:
                 raise ValueError(f"Unexpected SDK bytes at the {patch['name']} site")
+            if patch["name"] in omitted:
+                continue
             data[at : at + len(after)] = after
             host_changes.append(dict(offset=at, before=change["before"], after=change["after"]))
     # The new provider name does not fit the original string slot. Put the terminated name in
@@ -190,6 +197,8 @@ def build(sdk, manifest, output, profile=None, allowlist=None):
         provider_name_rva=label_rva,
         replacements=records,
     )
+    if omitted:
+        record["omitted_host_patches"] = omitted
     with output.with_suffix(".json").open("x") as stream:
         stream.write(json.dumps(record, indent=2) + "\n")
     return record

@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "kind": "fsr4-lowering-recipe",
+  "name": "rc11-pass9",
+  "sdk_tag": "v2.3.0",
+  "entry": "fsr4_model_v07_fp8_no_scale_pass9",
+  "description": "RC11's six INT8 programs of model pass 9 (guarded weight specialisation). 0x337550, 0x6f7600 (1440p-4K family): RC8 cooperative Wave32 group guard (vector guard) + RC9 first-block 16-word pointwise chains in exact 4-output batches; the rest exact FP32. The 1080p (0x7a62f0, 0x7f57e0) and 8K (0x1460c0, 0x5a40c0) families: RC7's guarded exact FP32 lowering. All six get RC10's compiler cleanup.",
+  "sequences": {
+    "rc7": [
+      ["specialize", {"model": {"accessor_rva": "0x8be5", "bytes": 131072, "sha256": "a54e552ff69a3f7199861417f7ae461d1f67f636ab532c6ec9d8ea5d2963735a"}}],
+      ["mixed_float"],
+      ["canonical"],
+      ["wave_size", {"lanes": 32}],
+      ["masked_stores"],
+      ["casts"]
+    ],
+    "rc9": [
+      ["specialize", {"model": {"accessor_rva": "0x8be5", "bytes": 131072, "sha256": "a54e552ff69a3f7199861417f7ae461d1f67f636ab532c6ec9d8ea5d2963735a"}}],
+      ["point_small", {"length": 16, "width": 4, "blocks": "first", "dots": 2048}],
+      ["mixed_float", {"roots": "native", "graph_audit": true}],
+      ["canonical"],
+      ["wave_size", {"lanes": 32}],
+      ["masked_stores"],
+      ["casts"],
+      ["vector_guard"],
+      ["group_guard"]
+    ],
+    "cleanup": [
+      ["opt", {"passes": ["early-cse", "dce", "strip-dead-prototypes"]}]
+    ]
+  },
+  "slots": {
+    "0x1460c0": ["rc7", "cleanup"],
+    "0x337550": ["rc9", "cleanup"],
+    "0x5a40c0": ["rc7", "cleanup"],
+    "0x6f7600": ["rc9", "cleanup"],
+    "0x7a62f0": ["rc7", "cleanup"],
+    "0x7f57e0": ["rc7", "cleanup"]
+  },
+  "history": {
+    "rc7": "RC7 build_specialized.py --passes 7 8 9 (guarded-nested-r2), build_packed.py --passes 7 8 9 --mode float --keep-dynamic (float-keep-nested-r1), set_wave_policy.py, guard_masked_stores.py",
+    "rc9": "RC7 build_specialized.py --passes 7 8 9 (guarded-nested-r2) and guard_masked_stores.py; RC8 group-guards-r1 (build_vector_guards.py, build_group_guard.py); RC9 build_p9_point_small.py --part first16 (p9-point-small-first16-w4-r1); research/fsr4-dll-perf-20260909 and fsr4-dll-opt-20260910",
+    "cleanup": "RC10 compiler cleanup (v4/experimental/compile-cse)"
+  }
+}

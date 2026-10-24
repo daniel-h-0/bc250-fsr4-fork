@@ -748,9 +748,9 @@ def check_dll(root):
         [sys.executable, "-B", str(root / "dll/build.py"), "--verify-sources"], text=True
     )
     manifest = load(root / "dll/manifest.json")
-    runpy.run_path(str(root / "scripts/package-dll.py"))["validate_install_guide"](
-        (root / "dll/INSTALL.md").read_text(), manifest
-    )
+    package = runpy.run_path(str(root / "scripts/package-dll.py"))
+    release = package["release_identity"](root / "dll")
+    package["validate_install_guide"]((root / "dll/INSTALL.md").read_text(), release)
     record = load(root / "docs/data/portable-dll-rc7.json")
     require(
         record["dll_sha256"] == manifest["historical_rc7_release"]["dll_sha256"],
@@ -835,7 +835,10 @@ def check_dll(root):
             )
     return (
         output.strip()
-        + "; historical RC7/RC8 and RC9's 7,200 fresh samples/10 image cases verified; chart baselines preserved"
+        + f"; release DLL {release['release_version']} ({release['provider_name']}, "
+        + f"{release['expected_dll_sha256'][:12]}...) pinned by {release['record']} and named by "
+        + "dll/INSTALL.md; historical RC7/RC8 and RC9's 7,200 fresh samples/10 image cases "
+        + "verified; chart baselines preserved"
     )
 
 
@@ -847,6 +850,10 @@ def check_sdk_drops(root):
         summary += "; " + runpy.run_path(str(root / "dll/port/drop_profile.py"))["check_tree"]()
     if (root / "dll/port/lower_pass.py").exists():
         summary += "; " + runpy.run_path(str(root / "dll/port/lower_pass.py"))["check_tree"]()
+    if (root / "dll/rederived.json").exists():
+        summary += "; " + runpy.run_path(str(root / "dll/port/rederive.py"))["check_tree"]()
+    if (root / "dll/rc12.json").exists():
+        summary += "; " + runpy.run_path(str(root / "dll/port/rc12.py"))["check_tree"]()
     return summary
 
 
@@ -861,6 +868,8 @@ def check_startup_study(root):
     runpy.run_path(str(root / "scripts/check-cache-setup.py"))["main"]()
     runpy.run_path(str(root / "scripts/check-rc11-release.py"))["main"]()
     runpy.run_path(str(root / "scripts/check-rc11.1-driver.py"))["main"]()
+    if (root / "scripts/check-rc12-release.py").exists():
+        runpy.run_path(str(root / "scripts/check-rc12-release.py"))["main"]()
     return "RC10 startup development counters, GPU samples and native-code comparison verified"
 
 

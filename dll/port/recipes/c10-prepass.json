@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "kind": "fsr4-lowering-recipe",
+  "name": "c10-prepass",
+  "sdk_tag": "v2.3.0",
+  "entry": "fsr4_model_v07_fp8_no_scale_prepass",
+  "cover": "listed",
+  "description": "C10: RC8's required wave size 32 for the prep pass of all three context-size families. Prep has 180 slots without dot4; this recipe lists only the six slots the probe census selects: 0x103100 and 0x3940b0 (1440p-4K family, the same SDK program twice) keep RC11's program (RC7 image-prep port + RC8 wave32); 0x45bae0 and 0xa86cb0 (<= 1080p) and 0x2a8ae0 and 0x615390 (8K) get the same wave size on their RC7 release source.",
+  "sequences": {
+    "release": [
+      ["release_source"]
+    ],
+    "wave32": [
+      ["wave_size", {"lanes": 32}]
+    ]
+  },
+  "slots": {
+    "0x103100": ["release"],
+    "0x2a8ae0": ["release", "wave32"],
+    "0x3940b0": ["release"],
+    "0x45bae0": ["release", "wave32"],
+    "0x615390": ["release", "wave32"],
+    "0xa86cb0": ["release", "wave32"]
+  },
+  "expected": {
+    "0x2a8ae0": {"source_sha256": "6b48033302aa8f2db818b14bccdaeb6a4d17a75f54b0fc06080c59755b1dfdb6", "replacement_sha256": "ac2573040e461d5d8a4f1925a9ab79be1de610e5d34747d384c628ace0e08cab"},
+    "0x45bae0": {"source_sha256": "4dea3b3ab7aa810de729fae7a2dbef96a2d57f52d112e5e7c5cbb8a402297af4", "replacement_sha256": "c44d4837e8f6bf4633cb744c6c34b0cd842f29b215e6a630224b190b6a4382ea"},
+    "0x615390": {"source_sha256": "6b48033302aa8f2db818b14bccdaeb6a4d17a75f54b0fc06080c59755b1dfdb6", "replacement_sha256": "ac2573040e461d5d8a4f1925a9ab79be1de610e5d34747d384c628ace0e08cab"},
+    "0xa86cb0": {"source_sha256": "4dea3b3ab7aa810de729fae7a2dbef96a2d57f52d112e5e7c5cbb8a402297af4", "replacement_sha256": "c44d4837e8f6bf4633cb744c6c34b0cd842f29b215e6a630224b190b6a4382ea"}
+  },
+  "history": {
+    "release": "dll/shaders source of the slot (RC7 port_imageprep.py; RC8 wave32-prep-r2 on 0x103100, 0x3940b0)",
+    "wave32": "RC8 wave32-prep-r2 (build_candidate.py --wave 32, research/fsr4-dll-opt-20260910): metadata only"
+  }
+}

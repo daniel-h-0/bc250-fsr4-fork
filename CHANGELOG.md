@@ -1,5 +1,23 @@
 # Changelog
 
+## 4.0.0-rc12 — DLL release candidate
+
+- Carry the RC8/RC9 shader work to the 1080p (context maximum up to 1920×1080)
+  and 8K context-size families: 34 slots, 24 programs, generated from the SDK
+  2.3.0 DXIL by `dll/port`. Output bits equal RC11's. FSR4 GPU time at 1080p
+  output −0.41 to −0.43 ms (−11%); at 1440p Performance the 8K family's +0.72 ms
+  penalty is gone.
+- Final pass: AMD's `sdiv` again in slot `0x248220` (RC9–RC11 used a shift that
+  is exact only for in-spec input); cost within noise.
+- Provider label `4.1.1r12`. Host-code edits unchanged from RC11; their origin is
+  in `dll/notices/PROVENANCE.md`.
+- Tooling: SDK drop intake and licence allowlist, drop profiles, lowering
+  recipes, drop classification, `dll/rc12.json` as the release configuration
+  (`dll/build.py --config rc12`; the packagers read its identity). The driver and
+  the client are unchanged.
+
+See [the release notes](docs/release-notes-rc12.md).
+
 ## 4.0.0-rc11.1 — driver-only pre-release
 
 - Add upstream Mesa `a13dfbea0f89` (nir/opt_uub: fix imax optimization, Mesa 26.2.3)

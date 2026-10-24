@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "kind": "fsr4-lowering-recipe",
+  "name": "c10-pass11",
+  "sdk_tag": "v2.3.0",
+  "entry": "fsr4_model_v07_fp8_no_scale_pass11",
+  "description": "C10: RC8/RC9's P11 work on all three context-size families. 0x234860 (1440p-4K family) is RC11's release program (RC7 guarded lowering, RC8 vector guards and native stream, RC9 point/outer/spatial small sums, RC10 cleanup; frozen source, its stages are not ported). 0x820540 (<= 1080p) and 0x9b99a0 (8K) are that program with their own grid literals (transport) plus RC10 cleanup, instead of RC11's RC7 lowering. The other three slots stay RC7.",
+  "sequences": {
+    "release": [
+      ["release_source"]
+    ],
+    "transport": [
+      ["transport", {"donor": "0x234860"}]
+    ],
+    "cleanup": [
+      ["opt", {"passes": ["early-cse", "dce", "strip-dead-prototypes"]}]
+    ]
+  },
+  "slots": {
+    "0x234860": ["release"],
+    "0x4436e0": ["release"],
+    "0x77c9f0": ["release"],
+    "0x820540": ["transport", "cleanup"],
+    "0x9b99a0": ["transport", "cleanup"],
+    "0xae8d50": ["release"]
+  },
+  "expected": {
+    "0x820540": {"source_sha256": "a43ed2a0a071229d6e697ccbbbcdca0fecb8818de135495242b82a5d886188df", "replacement_sha256": "c1a1be5f8d1d2649098503e477727edaddcc484740e0b661072164670151a228"},
+    "0x9b99a0": {"source_sha256": "a5d5a4bb10243357b1160bdfe1f19eb8b461f0010c9423008be32fc4732cb651", "replacement_sha256": "803fb6b77509c610728978119b3e03494a55d87fb48ece283ee2095b4608d82f"}
+  },
+  "history": {
+    "release": "dll/shaders source of the slot (RC7 build_specialized + build_packed --native-dynamic; for 0x234860 also RC8 vector-guards-r1 and guarded-p11-stream-all-r1, RC9 p11-point-small-w4-r1, p11-outer-small-first-r1, p11-spatial-small-w4-r1, RC10 cleanup)",
+    "transport": "dll/port/transport.py: the donor's release program with the target family's grid literals",
+    "cleanup": "RC10 compiler cleanup (v4/experimental/compile-cse)"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "kind": "fsr4-lowering-recipe",
+  "name": "c10-pass12",
+  "sdk_tag": "v2.3.0",
+  "entry": "fsr4_model_v07_fp8_no_scale_pass12",
+  "description": "C10 family coverage for model pass 12: RC11's recipe (rc11-pass12) with the hot slot's RC8/RC9 Winograd sequence also on the 1080p-family slot 0x647fd0 (context maximum <= 1920x1080, 960x540 grid) and the 8K-family slot 0xaed1d0 (context maximum 7680x4320, 3840x2160 grid). The hot slot 0xb14220 and the other three slots are unchanged from RC11. `expected` pins the two new programs; they compute RC11's (and the SDK's) integers bit for bit (dll/port/equivalence.py prove).",
+  "sequences": {
+    "unroll": [
+      ["unroll"]
+    ],
+    "winograd": [
+      ["winograd", {"accumulate": "binned", "postscale": true}]
+    ],
+    "pack": [
+      ["stream", {"width": 4, "primary": true}],
+      ["prefix_pairs"],
+      ["half_groups"],
+      ["pack", {"mode": "halves"}],
+      ["drop_dot_declaration"],
+      ["shader_model", {"minor": 9}],
+      ["wave_size", {"lanes": 32}],
+      ["masked_stores"],
+      ["casts"]
+    ],
+    "cleanup": [
+      ["opt", {"passes": ["early-cse", "dce", "strip-dead-prototypes"]}]
+    ]
+  },
+  "slots": {
+    "0x647fd0": ["unroll", "winograd", "pack", "cleanup"],
+    "0x7e7860": ["unroll", "pack"],
+    "0x8a7b20": ["unroll", "pack"],
+    "0xab3560": ["unroll", "pack"],
+    "0xaed1d0": ["unroll", "winograd", "pack", "cleanup"],
+    "0xb14220": ["unroll", "winograd", "pack", "cleanup"]
+  },
+  "expected": {
+    "0x647fd0": {
+      "replacement_sha256": "b3e8c56052781a0354ee8874104e24da676b3aab1e9bade9ea1d3d1766fe1ee9",
+      "source_sha256": "f12ac43170c8fe2e9721c7d6ba524a1f093c5b68a403bd68650a9a9eb86f3970"
+    },
+    "0xaed1d0": {
+      "replacement_sha256": "c2bac3e69513af1dcc5852fa5560454f11c6fa170859556a9ba4bd36216a1898",
+      "source_sha256": "b54dfbf4a3d01f72833a7c8f9652eb927229399ac4a57cb5df0d33c70510c2ba"
+    }
+  },
+  "history": {
+    "unroll": "RC7 build_unrolled.py (research/fsr4-dll-perf-20260909, label unrolled-direct-r1)",
+    "pack": "RC7 build_packed.py --passes 2 4 5 10 12 --vectors --stream 4 --stream-primary --prefix-pairs, set_wave_policy.py --passes 12, guard_masked_stores.py, dll/scalarize_casts.py; for 0xb14220 the same stages inside RC9 build_winograd_bins.py",
+    "winograd": "RC8 winograd-model12-r1, RC9 winograd-postscale-p12-r1 and winograd-bins-p12-r1 (research/fsr4-dll-opt-20260910)",
+    "cleanup": "RC10 compiler cleanup (v4/experimental/compile-cse)",
+    "c10": "C10 (RC12, 2026-10-23): the hot slot 0xb14220's winograd sequence applied to 0x647fd0 and 0xaed1d0"
+  }
+}

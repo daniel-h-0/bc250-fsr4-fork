@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "kind": "fsr4-lowering-recipe",
+  "name": "rc11-pass7",
+  "sdk_tag": "v2.3.0",
+  "entry": "fsr4_model_v07_fp8_no_scale_pass7",
+  "description": "RC11's six INT8 programs of model pass 7 (guarded weight specialisation). 0x49a0c0, 0x642b40 (1440p-4K family): RC8 native streams (wave64, vector guard) + RC9 16-word pointwise chains in exact 4-output batches. The 1080p (0x522900, 0x6e05c0) and 8K (0x10fcd0, 0x34fa40) families: RC7's guarded exact FP32 lowering. All six get RC10's compiler cleanup.",
+  "sequences": {
+    "rc7": [
+      ["specialize", {"model": {"accessor_rva": "0x8be5", "bytes": 131072, "sha256": "a54e552ff69a3f7199861417f7ae461d1f67f636ab532c6ec9d8ea5d2963735a"}}],
+      ["mixed_float"],
+      ["canonical"],
+      ["wave_size", {"lanes": 32}],
+      ["casts"]
+    ],
+    "rc9": [
+      ["specialize", {"model": {"accessor_rva": "0x8be5", "bytes": 131072, "sha256": "a54e552ff69a3f7199861417f7ae461d1f67f636ab532c6ec9d8ea5d2963735a"}}],
+      ["point_small", {"length": 16, "width": 4, "blocks": "all", "dots": 2048}],
+      ["native_stream", {"width": 4, "extra_lengths": [32, 36]}],
+      ["mixed_float", {"roots": "native"}],
+      ["canonical"],
+      ["wave_size", {"lanes": 64}],
+      ["casts"],
+      ["vector_guard"]
+    ],
+    "cleanup": [
+      ["opt", {"passes": ["early-cse", "dce", "strip-dead-prototypes"]}]
+    ]
+  },
+  "slots": {
+    "0x10fcd0": ["rc7", "cleanup"],
+    "0x34fa40": ["rc7", "cleanup"],
+    "0x49a0c0": ["rc9", "cleanup"],
+    "0x522900": ["rc7", "cleanup"],
+    "0x642b40": ["rc9", "cleanup"],
+    "0x6e05c0": ["rc7", "cleanup"]
+  },
+  "history": {
+    "rc7": "RC7 build_specialized.py --passes 7 8 9 (guarded-nested-r2), build_packed.py --passes 7 8 9 --mode float --keep-dynamic (float-keep-nested-r1), set_wave_policy.py",
+    "rc9": "RC7 build_specialized.py --passes 7 8 9 (guarded-nested-r2); RC8 build_guarded_native.py --pass-number 7 --part all --wave 64 (guarded-p7-native-all-wave64-r1); RC9 build_p78_point_small.py --pass-number 7 --part point16 (p7-point16-small-w4-r1); research/fsr4-dll-perf-20260909 and fsr4-dll-opt-20260910",
+    "cleanup": "RC10 compiler cleanup (v4/experimental/compile-cse)"
+  }
+}

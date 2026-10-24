@@ -138,11 +138,12 @@ def _loop(header, body, bodies, successors, predecessors):
     )
 
 
-def expand_loops(text, serial_prefix="%bc250_unrolled"):
+def expand_loops(text, serial_prefix="%bc250_unrolled", headers=None):
     """Expand every proven finite two-block loop (literal start, unit step, literal bound <= 32).
 
     The body and latch keep their instruction order, every phi is substituted per iteration and
-    the last iteration omits the latch, exactly as the original branch does.
+    the last iteration omits the latch, exactly as the original branch does. `headers` limits
+    the expansion to loops whose header is in that set (RC7's guarded fast path).
     """
     bodies = _blocks(text)
     successors = {
@@ -156,7 +157,7 @@ def expand_loops(text, serial_prefix="%bc250_unrolled"):
     replacements, removed, renames, records = {}, set(), {}, []
     serial = max([0, *[int(x) for x in re.findall(re.escape(serial_prefix) + r"(\d+)", text)]])
     for header, body in bodies.items():
-        if len(successors[header]) != 2:
+        if (headers is not None and header not in headers) or len(successors[header]) != 2:
             continue
         loop = _loop(header, body, bodies, successors, predecessors)
         if loop is None:

@@ -9,13 +9,17 @@ only the stage order and options. `generate` gates the SDK DLL on the allowlist 
 drop profile, disassembles each slot with the pinned DXC, runs the stages, assembles and
 validates the result, and compares it with dll/manifest.json: the validated container must equal
 the manifest's replacement hash, and the source must equal the manifest's source except its first
-line (the `; ModuleID` comment `opt` writes from its input path).
+line (the `; ModuleID` comment `opt` writes from its input path). A slot the recipe pins under
+`expected` gets a program that is not the release's; it must equal the pin instead (container and
+whole source), and the group's checker (equivalence.py, simt_equivalence.py, execute.py,
+differential.py) proves it against the SDK program.
 
 Stages run on text IR with the DXC 1.9.2607 tools (`dxc -dumpbin`, `opt`, libdxcompiler through
 dll/assemble.cpp); see dll/port/README.md for the recipe format.
 """
 
 import argparse
+import collections
 import hashlib
 import importlib.util
 import json
@@ -28,7 +32,18 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 if __package__:
-    from . import bins, drop_profile, packing, sdk_intake, unroll, winograd
+    from . import (
+        bins,
+        drop_profile,
+        final_pass,
+        guarded,
+        guards,
+        packing,
+        sdk_intake,
+        transport,
+        unroll,
+        winograd,
+    )
     from .ir import (
         LoweringError,
         Program,
@@ -45,8 +60,12 @@ else:
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     import bins
     import drop_profile
+    import final_pass
+    import guarded
+    import guards
     import packing
     import sdk_intake
+    import transport
     import unroll
     import winograd
     from ir import (
@@ -73,6 +92,11 @@ TOOLS = {
     "bin/opt": "e0d605396860b49678cd7f39678c64769e4545b1cf81623160bfc06a41349ab2",
 }
 MODULE_ID = re.compile(r"; ModuleID = '[^'\n]*'\n")
+# A recipe slot whose program is not the manifest's names its pinned result and why:
+# `rederived` = dll/rederived.json's program for the slot, `new` = a program RC11 does not have
+# (proven equal to the SDK program by its recipe's stages and checks, see dll/port/README.md).
+BASES = ("rederived", "new")
+PIN_FIELDS = ("source_sha256", "replacement_sha256")
 
 
 def sha(data):
@@ -192,6 +216,15 @@ def step_winograd(text, context, accumulate="binned", postscale=True):
     return canonical_ssa(text), proof
 
 
+def _named(function):
+    """A stage that keeps the SDK's value names (no canonical_ssa afterwards)."""
+
+    def step(text, context, **options):
+        return function(text, **options)
+
+    return step
+
+
 def step_drop_dot_declaration(text, context):
     return drop_dot_declaration(text), {}
 
@@ -214,9 +247,90 @@ def step_casts(text, context):
     return text, dict(lowered=count)
 
 
+def release_source(row):
+    """A manifest row's committed release source, checked against its pinned hash."""
+    source = (DLL / row["source"]).read_text()
+    require(sha(source) == row["source_sha256"], f"{row['source']} differs from the manifest")
+    return source
+
+
+def step_release_source(text, context):
+    """Start from the slot's committed release source instead of the SDK program.
+
+    For passes whose RC7 lowering is not ported to these stages yet (prep, the guarded passes);
+    the release source is the reviewed RC7 output and is pinned by the manifest.
+    """
+    require(context["first"], "release_source must be the first stage")
+    row = context["row"]
+    return release_source(row), dict(source=row["source"], source_sha256=row["source_sha256"])
+
+
+def step_transport(text, context, donor):
+    """The donor slot's release program with this slot's grid literals (transport.py)."""
+    require(context["first"], "transport must be the first stage (it reads the SDK program)")
+    offset = int(donor, 16)
+    require(offset != context["offset"], "A slot cannot be its own donor")
+    donor_row = context["rows"].get(offset)
+    require(donor_row is not None, f"Donor {donor} is not a manifest row")
+    require(context["slots"][offset]["entry"] == context["entry"], "Donor is another entry's slot")
+    out, proof = transport.transport(
+        context["sdk_program"](offset),
+        text,
+        release_source(donor_row),
+        release_source(context["row"]),
+    )
+    proof.update(donor=donor, donor_source_sha256=donor_row["source_sha256"])
+    return out, proof
+
+
+def step_vector_guards(text, context):
+    return guards.vector_guards(text)
+
+
 def step_opt(text, context, passes):
     require(all(re.fullmatch(r"[a-z][a-z0-9-]*", p) for p in passes), "Invalid opt pass name")
     return context["toolchain"].opt(text, ["-" + p for p in passes]), dict(passes=passes)
+
+
+def step_canonical(text, context):
+    return canonical_ssa(text), {}
+
+
+def step_specialize(text, context, model):
+    """RC7 guarded specialisation with the initializer table the recipe's accessor returns."""
+    require(re.fullmatch(r"0x[0-9a-f]+", model["accessor_rva"]), "Invalid accessor RVA")
+    table, identity = guarded.model_table(
+        context["sdk"], int(model["accessor_rva"], 16), model["bytes"], model["sha256"]
+    )
+    text, record = guarded.specialize(text, context["toolchain"], table)
+    context.update(basis=text, native_tails=[])
+    return text, dict(record, model_offset=identity["offset"])
+
+
+def _native(function):
+    def step(text, context, **options):
+        require("basis" in context, "Native stages need a specialised basis")
+        text, proof = function(text, **options)
+        context["native_tails"].extend(proof.pop("tails"))
+        return text, proof
+
+    return step
+
+
+def step_mixed_float(text, context, roots=None, graph_audit=False):
+    """RC8 exact FP32 graph; `roots: native` passes the native tails' basis intervals."""
+    require(roots in (None, "native"), "Invalid roots option")
+    external = {}
+    if roots == "native":
+        intervals = guarded.graph_intervals(context["basis"])
+        require(all(t in intervals for t in context["native_tails"]), "A native tail is unbounded")
+        external = {t: intervals[t] for t in context["native_tails"]}
+    remaining = {m[1] for line in text.splitlines() if (m := guarded.literal_dot(line))}
+    code, proof = guarded.mixed_float(text, external)
+    if graph_audit:
+        control, _ = guarded.mixed_float(context["basis"])
+        proof.update(guarded.float_graph_audit(control, code, remaining))
+    return code, proof
 
 
 STEPS = dict(
@@ -233,6 +347,19 @@ STEPS = dict(
     masked_stores=step_masked_stores,
     casts=step_casts,
     opt=step_opt,
+    float_graph=_named(final_pass.float_graph),
+    native_blocks=_named(final_pass.native_blocks),
+    color_reuse=_named(final_pass.color_reuse),
+    canonical=step_canonical,
+    specialize=step_specialize,
+    point_small=_native(guarded.point_small),
+    native_stream=_native(guarded.native_stream),
+    mixed_float=step_mixed_float,
+    vector_guard=lambda text, context: guarded.vector_guard(text),
+    group_guard=lambda text, context: guarded.group_guard(text),
+    release_source=step_release_source,
+    transport=step_transport,
+    vector_guards=step_vector_guards,
 )
 
 
@@ -275,6 +402,21 @@ def load_recipe(path):
             sequences and all(s in recipe["sequences"] for s in sequences),
             f"Unknown sequence in {offset}",
         )
+    # Slots whose program is new (not the release's): the generated program is pinned here,
+    # with its basis (default `new`; `rederived` = dll/rederived.json's program for the slot).
+    for offset, pin in recipe.get("expected", {}).items():
+        require(offset in recipe["slots"], f"Expected program for {offset}, not a recipe slot")
+        require(
+            isinstance(pin, dict)
+            and set(pin) - {"basis"} == set(PIN_FIELDS)
+            and pin.get("basis", "new") in BASES
+            and all(
+                isinstance(pin[k], str) and re.fullmatch(r"[0-9a-f]{64}", pin[k])
+                for k in PIN_FIELDS
+            ),
+            f"Invalid expected program for {offset}",
+        )
+    require(recipe.get("cover", "int8") in ("int8", "listed"), "Invalid cover")
     return recipe
 
 
@@ -290,14 +432,40 @@ def check_recipe(recipe, profile, manifest):
             f"{key} is not a slot of the entry",
         )
         require(offset in rows, f"{key} is not a manifest row")
-    return f"recipe {recipe['name']}: {len(recipe['slots'])} slots of {recipe['entry']}"
+    expected = recipe.get("expected", {})
+    for key, pin in expected.items():
+        row = rows[int(key, 16)]
+        require(
+            pin["replacement_sha256"] != row["replacement_sha256"],
+            f"{key}: a pin equal to the release program is redundant",
+        )
+        if pin.get("basis", "new") == "rederived":
+            rederived = json.loads((DLL / "rederived.json").read_text())
+            restored = {}
+            for element in rederived["elements"].values():
+                restored.update(element.get("slots", {}))
+            require(
+                key in restored and all(restored[key][k] == pin[k] for k in PIN_FIELDS),
+                f"{key}: pin differs from dll/rederived.json",
+            )
+    bases = collections.Counter(pin.get("basis", "new") for pin in expected.values())
+    pinned = ", ".join(f"{bases[b]} {b}" for b in BASES if bases[b])
+    return f"recipe {recipe['name']}: {len(recipe['slots'])} slots of {recipe['entry']}" + (
+        f" ({pinned})" if pinned else ""
+    )
 
 
-def run_slot(slot, recipe, data, toolchain, casts):
+def sdk_program(data, slot, toolchain):
+    """The renamed `dxc -dumpbin` text of one profile slot of the gated SDK DLL."""
     name = f"{slot['offset']:08x}"
     container = data[slot["offset"] : slot["offset"] + slot["bytes"]]
     require(sha(container) == slot["sha256"], f"{name}: SDK program differs from the profile")
-    text = rename_ssa(toolchain.disassemble(container, name))
+    return rename_ssa(toolchain.disassemble(container, name))
+
+
+def run_slot(slot, recipe, data, toolchain, casts, shared):
+    name = f"{slot['offset']:08x}"
+    text = sdk_program(data, slot, toolchain)
     record = dict(
         offset=hex(slot["offset"]),
         entry=slot["entry"],
@@ -311,11 +479,22 @@ def run_slot(slot, recipe, data, toolchain, casts):
         f"{name}: entry name",
     )
     context = dict(
-        toolchain=NamedToolchain(toolchain, name), casts=casts, sdk_dots=record["sdk_dots"]
+        toolchain=NamedToolchain(toolchain, name),
+        casts=casts,
+        sdk_dots=record["sdk_dots"],
+        sdk=data,
+        offset=slot["offset"],
+        entry=slot["entry"],
+        row=shared["rows"][slot["offset"]],
+        rows=shared["rows"],
+        slots=shared["slots"],
+        sdk_program=lambda offset: sdk_program(data, shared["slots"][offset], toolchain),
+        first=True,
     )
     for sequence in recipe["slots"][hex(slot["offset"])]:
         for step in recipe["sequences"][sequence]:
             text, proof = STEPS[step[0]](text, context, **(step[1] if len(step) > 1 else {}))
+            context["first"] = False
             record["stages"].append(
                 dict(sequence=sequence, step=step[0], sha256=sha(text), **_summary(proof))
             )
@@ -330,7 +509,10 @@ def compare(record, text, row):
     expected = (DLL / row["source"]).read_text()
     module = MODULE_ID.match(expected)
     ours = MODULE_ID.match(text)
-    body_equal = bool(module and ours) and text[ours.end() :] == expected[module.end() :]
+    if module is None and ours is None:  # never through `opt`: the whole text must match
+        body_equal = text == expected
+    else:
+        body_equal = bool(module and ours) and text[ours.end() :] == expected[module.end() :]
     stamped = module[0] + text[ours.end() :] if module and ours else text
     return dict(
         container_equal=record["replacement_sha256"] == row["replacement_sha256"],
@@ -338,6 +520,21 @@ def compare(record, text, row):
         source_equal_with_release_module_id=sha(stamped) == row["source_sha256"],
         release_module_id=module[0].strip() if module else None,
         generated_module_id=ours[0].strip() if ours else None,
+    )
+
+
+def compare_pinned(record, text, pin, row=None):
+    """A pinned program: container and whole source equal the recipe's pin (ModuleID included)."""
+    module = MODULE_ID.match(text)
+    return dict(
+        baseline="recipe pin",
+        expected_basis=pin.get("basis", "new"),
+        container_equal=record["replacement_sha256"] == pin["replacement_sha256"],
+        source_equal_except_module_id=sha(text) == pin["source_sha256"],
+        source_equal_with_release_module_id=None,
+        release_replacement_sha256=row["replacement_sha256"] if row else None,
+        release_module_id=None,
+        generated_module_id=module[0].strip() if module else None,
     )
 
 
@@ -356,36 +553,49 @@ def generate(recipe_path, sdk, dxc, output, jobs=2):
     with tempfile.TemporaryDirectory(dir=output) as work:
         toolchain = Toolchain(dxc, work, manifest["dxcompiler_sha256"])
         casts = _casts()
-        # Every INT8 (dot4) program of the entry must be covered by the recipe.
-        int8 = []
-        for slot in slots:
-            text = toolchain.disassemble(
-                data[slot["offset"] : slot["offset"] + slot["bytes"]], "probe"
+        if recipe.get("cover", "int8") == "int8":
+            # Every INT8 (dot4) program of the entry must be covered by the recipe.
+            int8 = []
+            for slot in slots:
+                text = toolchain.disassemble(
+                    data[slot["offset"] : slot["offset"] + slot["bytes"]], "probe"
+                )
+                if "@dx.op.dot4AddPacked.i32(" in text:
+                    int8.append(hex(slot["offset"]))
+            require(
+                sorted(int8) == sorted(recipe["slots"]),
+                f"INT8 slots {int8} differ from the recipe's",
             )
-            if "@dx.op.dot4AddPacked.i32(" in text:
-                int8.append(hex(slot["offset"]))
-        require(
-            sorted(int8) == sorted(recipe["slots"]), f"INT8 slots {int8} differ from the recipe's"
-        )
         selected = [s for s in slots if hex(s["offset"]) in recipe["slots"]]
+        require(len(selected) == len(recipe["slots"]), "A recipe slot is not a slot of the entry")
+        shared = dict(rows=rows, slots={s["offset"]: s for s in profile["shaders"]["slots"]})
         with ThreadPoolExecutor(max_workers=jobs) as pool:
             results = list(
-                pool.map(lambda s: run_slot(s, recipe, data, toolchain, casts), selected)
+                pool.map(lambda s: run_slot(s, recipe, data, toolchain, casts, shared), selected)
             )
     records = []
+    pins = recipe.get("expected", {})
     for name, text, shader, record in results:
         (output / "shaders" / f"{name}.ll").write_text(text)
         (output / "shaders" / f"{name}.dxil").write_bytes(shader)
-        record.update(compare(record, text, rows[int(record["offset"], 16)]))
+        row = rows[int(record["offset"], 16)]
+        if record["offset"] in pins:
+            record.update(compare_pinned(record, text, pins[record["offset"]], row))
+        else:
+            record.update(compare(record, text, row), baseline="release")
         records.append(record)
+    kept = [r for r in records if r["baseline"] == "release"]
     summary = dict(
         recipe=recipe["name"],
         recipe_sha256=sha(Path(recipe_path).read_bytes()),
         sdk_sha256=sha(data),
         drop=profile["drop"]["tag"],
         slots=len(records),
+        new_programs=len(pins),
         containers_equal=sum(r["container_equal"] for r in records),
         sources_equal_except_module_id=sum(r["source_equal_except_module_id"] for r in records),
+        release_equal=sum(r["container_equal"] for r in kept) == len(kept),
+        pinned_equal=all(r["container_equal"] for r in records if r["baseline"] == "recipe pin"),
         records=records,
     )
     (output / "record.json").write_text(json.dumps(summary, indent=2) + "\n")
@@ -421,7 +631,9 @@ def main(argv=None):
             "equal" if record["container_equal"] else "DIFFERS",
             "source",
             "equal" if record["source_equal_except_module_id"] else "DIFFERS",
+            f"(pinned, {record['expected_basis']})" if record["baseline"] == "recipe pin" else "",
         )
+    # Every slot equals the release program, or the recipe's pin for slots it changes on purpose.
     ok = summary["containers_equal"] == summary["slots"]
     return 0 if ok else 1
 

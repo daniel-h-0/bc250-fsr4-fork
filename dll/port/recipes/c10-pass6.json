@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "kind": "fsr4-lowering-recipe",
+  "name": "c10-pass6",
+  "sdk_tag": "v2.3.0",
+  "entry": "fsr4_model_v07_fp8_no_scale_pass6",
+  "description": "C10: RC8's vector guard tables on all three context-size families of pass 6. 0x8f3770, 0xb512e0 (1440p-4K family) keep RC11's program (RC7 guarded lowering + RC8 vector guards + RC10 cleanup); 0x4f4de0, 0x98e620, 0xa616b0, 0xbb0080 (<= 1080p and 8K families) get RC8's vector guards on their own RC7 release source, then RC10 cleanup.",
+  "sequences": {
+    "release": [
+      ["release_source"]
+    ],
+    "guards": [
+      ["vector_guards"]
+    ],
+    "cleanup": [
+      ["opt", {"passes": ["early-cse", "dce", "strip-dead-prototypes"]}]
+    ]
+  },
+  "slots": {
+    "0x4f4de0": ["release", "guards", "cleanup"],
+    "0x8f3770": ["release"],
+    "0x98e620": ["release", "guards", "cleanup"],
+    "0xa616b0": ["release", "guards", "cleanup"],
+    "0xb512e0": ["release"],
+    "0xbb0080": ["release", "guards", "cleanup"]
+  },
+  "expected": {
+    "0x4f4de0": {"source_sha256": "7896620e35893cf7af77f48e10593f473ccf79087332b5f517b66ef8d5b354fe", "replacement_sha256": "ec35aaf7dfd6f5c2426c84d183cd67b407fc9d8100e3115a4e54a5c2d626ab2d"},
+    "0x98e620": {"source_sha256": "c7d71a9925512acd6003d7c8b04f5dcd235189d2ad090fc683538f73667f0628", "replacement_sha256": "7ceb981b44f954a94d2d2f64e9a2a62e17e37136d1c0118b530941b5eaf0a341"},
+    "0xa616b0": {"source_sha256": "403cad7540e3d20d562f2d74f149d6482a439a423a1fe9d3bffe99d6f5ca534f", "replacement_sha256": "ec35aaf7dfd6f5c2426c84d183cd67b407fc9d8100e3115a4e54a5c2d626ab2d"},
+    "0xbb0080": {"source_sha256": "7ade44e64406c55df62f50a4cfce669e8fbc32e40be7091339a280a0d4bf62d9", "replacement_sha256": "7ceb981b44f954a94d2d2f64e9a2a62e17e37136d1c0118b530941b5eaf0a341"}
+  },
+  "history": {
+    "release": "dll/shaders source of the slot (RC7 build_specialized, build_packed; RC10 cleanup on the 1440p-4K, 1080p and 8K slots)",
+    "guards": "RC8 vector-guards-r1 (build_vector_guards.py, research/fsr4-dll-opt-20260910)",
+    "cleanup": "RC10 compiler cleanup (v4/experimental/compile-cse)"
+  }
+}

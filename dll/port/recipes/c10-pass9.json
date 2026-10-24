@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "kind": "fsr4-lowering-recipe",
+  "name": "c10-pass9",
+  "sdk_tag": "v2.3.0",
+  "entry": "fsr4_model_v07_fp8_no_scale_pass9",
+  "description": "C10: RC11's 1440p-4K recipe for all six INT8 programs of model pass 9: RC8 cooperative Wave32 group guard (vector guard) + RC9 first-block 16-word pointwise chains in exact 4-output batches; the rest exact FP32. 0x337550, 0x6f7600 stay RC11's programs; the 1080p (0x7a62f0, 0x7f57e0) and 8K (0x1460c0, 0x5a40c0) families get the same lowering in place of RC7's.",
+  "expected": {
+    "0x7a62f0": {"source_sha256": "3c762744a9096e127955b803a692604035e67ca21e260edaad81a434ccbe2d4f", "replacement_sha256": "5683bf3579bf690c953092998515994fc248ca86a243cc2a080a9cb7e4bbd4c4"},
+    "0x7f57e0": {"source_sha256": "f365ae99e5ccda22db50a96189bfa8aaf709334d9950be55c3bab5207641ce1a", "replacement_sha256": "5683bf3579bf690c953092998515994fc248ca86a243cc2a080a9cb7e4bbd4c4"},
+    "0x1460c0": {"source_sha256": "6f23dc5bb1d0c6960d97a501986bcf1bd27336696fa5ba4ecb5e9fdb67764f3c", "replacement_sha256": "74a0c7a8892e24568af690716f987ca7a36703c47553bd5af0f0666210313c76"},
+    "0x5a40c0": {"source_sha256": "b38bce6e48d5e0a23fa0bc45eefd608ce9b0a76458e9596a5839d93a4d7778de", "replacement_sha256": "74a0c7a8892e24568af690716f987ca7a36703c47553bd5af0f0666210313c76"}
+  },
+  "sequences": {
+    "rc9": [
+      ["specialize", {"model": {"accessor_rva": "0x8be5", "bytes": 131072, "sha256": "a54e552ff69a3f7199861417f7ae461d1f67f636ab532c6ec9d8ea5d2963735a"}}],
+      ["point_small", {"length": 16, "width": 4, "blocks": "first", "dots": 2048}],
+      ["mixed_float", {"roots": "native", "graph_audit": true}],
+      ["canonical"],
+      ["wave_size", {"lanes": 32}],
+      ["masked_stores"],
+      ["casts"],
+      ["vector_guard"],
+      ["group_guard"]
+    ],
+    "cleanup": [
+      ["opt", {"passes": ["early-cse", "dce", "strip-dead-prototypes"]}]
+    ]
+  },
+  "slots": {
+    "0x1460c0": ["rc9", "cleanup"],
+    "0x337550": ["rc9", "cleanup"],
+    "0x5a40c0": ["rc9", "cleanup"],
+    "0x6f7600": ["rc9", "cleanup"],
+    "0x7a62f0": ["rc9", "cleanup"],
+    "0x7f57e0": ["rc9", "cleanup"]
+  },
+  "history": {
+    "rc9": "RC7 build_specialized.py --passes 7 8 9 (guarded-nested-r2) and guard_masked_stores.py; RC8 group-guards-r1 (build_vector_guards.py, build_group_guard.py); RC9 build_p9_point_small.py --part first16 (p9-point-small-first16-w4-r1); research/fsr4-dll-perf-20260909 and fsr4-dll-opt-20260910",
+    "cleanup": "RC10 compiler cleanup (v4/experimental/compile-cse)"
+  }
+}

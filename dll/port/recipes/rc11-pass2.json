@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "kind": "fsr4-lowering-recipe",
+  "name": "rc11-pass2",
+  "sdk_tag": "v2.3.0",
+  "entry": "fsr4_model_v07_fp8_no_scale_pass2",
+  "description": "RC11's six INT8 programs of model pass 2 (3x3 convolution, 16 to 16 channels, literal weights). All six: RC7's literal lowering. 0x482860 (1920x1080 grid, the slot 1440p/4K context maxima select) adds RC9's binned, postscaled Winograd F(2,3) (RC8's wave64 metadata on it was superseded by RC9's Wave32 Winograd form); it and 0x278960, 0x9739d0 get RC10's compiler cleanup.",
+  "sequences": {
+    "unroll": [
+      ["unroll"]
+    ],
+    "winograd": [
+      ["winograd", {"accumulate": "binned", "postscale": true}]
+    ],
+    "pack": [
+      ["stream", {"width": 4, "primary": true}],
+      ["prefix_pairs"],
+      ["half_groups"],
+      ["pack", {"mode": "halves"}],
+      ["drop_dot_declaration"],
+      ["shader_model", {"minor": 9}],
+      ["wave_size", {"lanes": 32}],
+      ["masked_stores"],
+      ["casts"]
+    ],
+    "cleanup": [
+      ["opt", {"passes": ["early-cse", "dce", "strip-dead-prototypes"]}]
+    ]
+  },
+  "slots": {
+    "0x1aad00": ["unroll", "pack"],
+    "0x278960": ["unroll", "pack", "cleanup"],
+    "0x30c5a0": ["unroll", "pack"],
+    "0x482860": ["unroll", "winograd", "pack", "cleanup"],
+    "0x9739d0": ["unroll", "pack", "cleanup"],
+    "0xaa9e70": ["unroll", "pack"]
+  },
+  "history": {
+    "unroll": "RC7 build_unrolled.py (research/fsr4-dll-perf-20260909, label unrolled-direct-r1)",
+    "pack": "RC7 build_packed.py --passes 2 4 5 10 12 --vectors --stream 4 --stream-primary --prefix-pairs (wave32 inside), guard_masked_stores.py, dll/scalarize_casts.py; for 0x482860 the same stages inside RC9 build_winograd_p2_bins.py",
+    "winograd": "RC8 wave64-p2-r1 (metadata only, superseded); RC9 winograd-postscale-p2-r1 and winograd-bins-p2-r1 (build_winograd_p2_bins.py, plan_winograd_p2_bins.py; research/fsr4-dll-opt-20260910)",
+    "cleanup": "RC10 compiler cleanup (v4/experimental/compile-cse)"
+  }
+}

@@ -1,6 +1,6 @@
-# RC11 DLL quick start
+# RC12 DLL quick start
 
-Project version **4.0.0-rc11**; SDK display name **4.1.1r11**.
+Project version **4.0.0-rc12**; SDK display name **4.1.1r12**.
 
 **Using the BC250 OptiScaler Client build?** Import this ZIP once and use
 **Install / update selected** to update your games together. Follow
@@ -47,7 +47,7 @@ The documented layout is OptiScaler 10.0.0-pre1 from September 4, 2026.
    the game's supported DLSS/FSR input. Its menu label can remain unchanged.
 
 For a first check, set `[FSR] Fsr4EnableWatermark=true` and restart. Look for
-**4.1.1R11**, **FSR-INT8** and **SOURCE: LOCAL** in a rendered scene. Then use
+**4.1.1R12**, **FSR-INT8** and **SOURCE: LOCAL** in a rendered scene. Then use
 `Fsr4EnableWatermark=auto` and restart to hide it. Remove any `MLSR-WATERMARK`
 environment variable.
 
@@ -76,16 +76,17 @@ The archive's `linux/` cache helpers can be left unused.
 
 ## Verify the DLL
 
-The DLL is 94,840,832 bytes, SHA256:
+The DLL is 93,110,784 bytes, SHA256:
 
 ```text
-8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175
+4b0df27761d7ced52c30dcbd1641c55bdcf4d2ae10d59f7e5b4b2f895b6bba79
 ```
 
 Use `sha256sum -c SHA256SUMS` in the extracted folder, or PowerShell
 `Get-FileHash .\amd_fidelityfx_upscaler_dx12.dll -Algorithm SHA256`.
 The modified DLL is not AMD-signed. Retain the included notices.
 
-BC250/Linux is tested. RC11 has synthetic rendering checks; earlier game checks
-belong to RC7. Windows, other GPUs, frame generation and unlisted combinations
-remain unqualified. [Validation](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/portable-dll-rc11.md).
+BC250/Linux is tested. RC12 has synthetic rendering and timing checks; earlier game
+checks belong to RC7. Windows, other GPUs, frame generation and unlisted combinations
+remain unqualified. [Validation](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/release-notes-rc12.md#validation)
+and [provenance](notices/PROVENANCE.md).

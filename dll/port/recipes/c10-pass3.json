@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "kind": "fsr4-lowering-recipe",
+  "name": "c10-pass3",
+  "sdk_tag": "v2.3.0",
+  "entry": "fsr4_model_v07_fp8_no_scale_pass3",
+  "description": "C10: RC8's vector guard tables on all three context-size families of pass 3. 0x11a890 (1440p-4K family) keep RC11's program (RC7 guarded lowering + RC8 vector guards + RC10 cleanup); 0x166450, 0x66ed50 (<= 1080p and 8K families) get RC8's vector guards on their own RC7 release source, then RC10 cleanup. The other three slots stay RC7.",
+  "sequences": {
+    "release": [
+      ["release_source"]
+    ],
+    "guards": [
+      ["vector_guards"]
+    ],
+    "cleanup": [
+      ["opt", {"passes": ["early-cse", "dce", "strip-dead-prototypes"]}]
+    ]
+  },
+  "slots": {
+    "0x108710": ["release"],
+    "0x11a890": ["release"],
+    "0x166450": ["release", "guards", "cleanup"],
+    "0x31fba0": ["release"],
+    "0x652650": ["release"],
+    "0x66ed50": ["release", "guards", "cleanup"]
+  },
+  "expected": {
+    "0x166450": {"source_sha256": "59bb01f033254e3377c63a362d6a741f697d8bf167d7695305f319398cb4f079", "replacement_sha256": "a354d16e7ee03f5bd9c8c7da678e6d50a0fd0209c12f399feb0ab93992f43026"},
+    "0x66ed50": {"source_sha256": "756dc04fb516f2831c73718a880139d10528eab1265d5ad68d3ec192a69b460e", "replacement_sha256": "3c8981ef48bd13cb4023077c6281350abe000c789157582d57dcb91031c594e2"}
+  },
+  "history": {
+    "release": "dll/shaders source of the slot (RC7 build_specialized, build_packed; RC10 cleanup on the 1440p-4K, 1080p and 8K slots)",
+    "guards": "RC8 vector-guards-r1 (build_vector_guards.py, research/fsr4-dll-opt-20260910)",
+    "cleanup": "RC10 compiler cleanup (v4/experimental/compile-cse)"
+  }
+}

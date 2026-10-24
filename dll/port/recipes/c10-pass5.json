@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "kind": "fsr4-lowering-recipe",
+  "name": "c10-pass5",
+  "sdk_tag": "v2.3.0",
+  "entry": "fsr4_model_v07_fp8_no_scale_pass5",
+  "description": "C10: RC9's P5 stream pairing on all three context-size families. 0x7b6f00 (1440p-4K family) is RC11's program (RC7 literal lowering + RC9 spatial stream pairing + RC10 cleanup); 0xbd2c80 (<= 1080p family) and 0x3d9f20 (8K family) get the same stages instead of RC11's RC7 lowering + cleanup. The other three slots stay RC7.",
+  "sequences": {
+    "unroll": [
+      ["unroll"]
+    ],
+    "pack": [
+      ["stream", {"width": 4, "primary": true}],
+      ["prefix_pairs"],
+      ["half_groups"],
+      ["pack", {"mode": "halves"}],
+      ["drop_dot_declaration"],
+      ["shader_model", {"minor": 9}],
+      ["wave_size", {"lanes": 32}],
+      ["masked_stores"],
+      ["casts"]
+    ],
+    "pack-paired": [
+      ["stream", {"width": 4, "primary": true, "pairing": "spatial"}],
+      ["prefix_pairs"],
+      ["half_groups"],
+      ["pack", {"mode": "halves"}],
+      ["drop_dot_declaration"],
+      ["shader_model", {"minor": 9}],
+      ["wave_size", {"lanes": 32}],
+      ["masked_stores"],
+      ["casts"]
+    ],
+    "cleanup": [
+      ["opt", {"passes": ["early-cse", "dce", "strip-dead-prototypes"]}]
+    ]
+  },
+  "slots": {
+    "0x1b43e0": ["unroll", "pack"],
+    "0x3d9f20": ["unroll", "pack-paired", "cleanup"],
+    "0x5b68a0": ["unroll", "pack"],
+    "0x757820": ["unroll", "pack"],
+    "0x7b6f00": ["unroll", "pack-paired", "cleanup"],
+    "0xbd2c80": ["unroll", "pack-paired", "cleanup"]
+  },
+  "expected": {
+    "0x3d9f20": {"source_sha256": "7640f33f13dec32a595ad6a4ecd844c4f20a2b958c57e3c7e0d243b5670d872d", "replacement_sha256": "dbefa8135253095abd7318b6a2fa4b7215dd14ffb40e5e9e25387a50fcdc4cf7"},
+    "0xbd2c80": {"source_sha256": "caf32a412e0e5544ae753e6be5f5631c427e2f6a9652ef59c1f73ffd4dead072", "replacement_sha256": "95d9fac4c7e9047f8ac684466223c66f080f72568abcec82da52b5e1accd15ae"}
+  },
+  "history": {
+    "unroll": "RC7 build_unrolled.py (research/fsr4-dll-perf-20260909, label unrolled-direct-r1)",
+    "pack": "RC7 build_packed.py --passes 2 4 5 10 12 --vectors --stream 4 --stream-primary --prefix-pairs, guard_masked_stores.py, dll/scalarize_casts.py",
+    "pack-paired": "RC9 p5-stream-pairing-r1 (build_p5_stream_pairing.py --pairing spatial-optimal, research/fsr4-dll-opt-20260910): the same stages with the four spatial stream groups paired for fewest flushes",
+    "cleanup": "RC10 compiler cleanup (v4/experimental/compile-cse)"
+  }
+}

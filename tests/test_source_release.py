@@ -86,6 +86,17 @@ class SourceReleaseTests(unittest.TestCase):
             self.assertEqual(bundle.extractfile(member).read(), b"#!/bin/sh\nexit 0\n")
             self.assertFalse(any(member.name.endswith("new-source.txt") for member in bundle))
 
+    def test_the_release_configuration_names_the_source_archive(self):
+        (self.root / "dll").mkdir()
+        (self.root / "dll/manifest.json").write_text('{"release_version":"4.0.0-rc11"}')
+        (self.root / "dll/rc12.json").write_text('{"release_version":"4.0.0-rc12"}')
+        self.git("add", ".")
+        self.git("commit", "-qm", "Release configuration on the frozen manifest")
+        self.assertTrue(self.export("rc12").name.startswith("bc250-fsr4-v4.0.0-rc12-source-"))
+        (self.root / "dll/rc12.json").write_text('{"name":"comparison build"}')
+        self.git("commit", "-qam", "Configuration without a release version")
+        self.assertTrue(self.export("rc11").name.startswith("bc250-fsr4-v4.0.0-rc11-source-"))
+
     def test_dll_source_identity_does_not_relabel_the_retained_runtime(self):
         for name in source_release.SETUP_FILES:
             path = self.root / name

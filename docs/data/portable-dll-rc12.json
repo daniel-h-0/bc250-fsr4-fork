@@ -1,0 +1,398 @@
+{
+  "schema": 1,
+  "release_version": "4.0.0-rc12",
+  "provider_name": "4.1.1r12",
+  "dll_sha256": "4b0df27761d7ced52c30dcbd1641c55bdcf4d2ae10d59f7e5b4b2f895b6bba79",
+  "dll_bytes": 93110784,
+  "configuration": "dll/rc12.json",
+  "status": "candidate",
+  "previous_release": {
+    "version": "4.0.0-rc11",
+    "provider_name": "4.1.1r11",
+    "dll_sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+    "dll_bytes": 94840832
+  },
+  "rc11_comparison": {
+    "tool": "dll/port/rc12.py compare, plus an independent byte accounting",
+    "changed_slots": 35,
+    "c10_slots": 34,
+    "restored_slot": "0x248220",
+    "moved_only_slots": 310,
+    "unchanged_slots": 3,
+    "host_patches_differing": [],
+    "differing_bytes_before_appended_section": 1137,
+    "differing_runs_before_appended_section": 384,
+    "unexplained_bytes": 0,
+    "regions": [
+      "shader pointers and sizes",
+      "provider-label displacement (3 bytes)",
+      "PE SizeOfInitializedData, SizeOfImage, CheckSum, appended section header"
+    ]
+  },
+  "tested_build": {
+    "description": "Test build used for the GPU checks: this release's programs, host code and layout, with the provider label 4.1.1r12t. Not distributed.",
+    "dll_sha256": "83a0f71bc71fc87abe33878438b0ae7d59aab4602a00103472fe49edad0ea618",
+    "dll_bytes": 93110784,
+    "provider_name": "4.1.1r12t",
+    "delta": [
+      {
+        "field": "pe-checksum",
+        "offset": 352,
+        "release": 22,
+        "tested": 139
+      },
+      {
+        "field": "appended-section-virtual-size",
+        "offset": 776,
+        "release": 133,
+        "tested": 134
+      },
+      {
+        "field": "provider-label",
+        "offset": 93110660,
+        "release": 0,
+        "tested": 116
+      }
+    ]
+  },
+  "gpu": {
+    "date": "2026-10-23",
+    "platform": "BC250 (gfx1013) at 1850 MHz, Linux, system Mesa 26.2.5 RADV (RADV_DIRECTMESH=0), GE-Proton11-6",
+    "probe": "dll/probe provider probe, revision 3, 1ea66d09b2ca8863fbabf18adf0ebf10423a8e1f66bc22399e44ec7f76749d76",
+    "method": "Synthetic scene. Untimed 600-frame runs (median of frames 300-599) and traced 240-frame runs; arms rotated, order reversed every other round. Values: mean of per-run medians of whole-dispatch GPU time per frame.",
+    "census": {
+      "runs": 15,
+      "rc11_control_runs": 3,
+      "provider": "4.1.1r12t",
+      "configurations": [
+        "1080p Quality",
+        "1080p Performance",
+        "1080p with a 2560x1440 maximum",
+        "1440p Quality",
+        "1440p Balanced",
+        "1440p Performance",
+        "1440p Performance with a 7680x4320 maximum",
+        "1440p Performance: HDR, SDR, motion, reset, sharpening, resize",
+        "4K Quality",
+        "4K Performance"
+      ],
+      "result": "every dispatched program equals the build record; the 17 new programs of a family run at 1080p (maximum = output) and with a 7680x4320 maximum; images equal RC11's"
+    },
+    "images": "byte-identical to RC11's in every census, image and timed run",
+    "negative_control": {
+      "dll_sha256": "eac7cd96e8936843f6ca914d5901781c369063af87ffa32193532ac66c3c9910",
+      "description": "RC12 programs without the eligibility edit",
+      "provider": "3.1.5",
+      "int8_programs_dispatched": 0
+    },
+    "timing": [
+      {
+        "block": "C12-1080p",
+        "configuration": "1080p Quality",
+        "render": [
+          1280,
+          720
+        ],
+        "output": [
+          1920,
+          1080
+        ],
+        "rounds": 8,
+        "arms": {
+          "rc11": {
+            "description": "RC11",
+            "context_max": "1920x1080",
+            "dll": "rc11",
+            "run_medians_ms": [
+              3.6756599999999997,
+              3.67274,
+              3.67564,
+              3.68614,
+              3.6726,
+              3.67292,
+              3.6738999999999997,
+              3.67432
+            ],
+            "mean_ms": 3.67549,
+            "se_ms": 0.001581,
+            "images": [
+              "52e5f04c513fc1e7005060376d990f54dcb3ab6dc674252e16369ab7c080fa9f",
+              "a11e846b8db2e9b49b250cb8f6f890dc8bdf2da98ebb7d904e0701d31721188e"
+            ]
+          },
+          "rc11_aa": {
+            "description": "RC11, second copy (A/A)",
+            "context_max": "1920x1080",
+            "dll": "rc11",
+            "run_medians_ms": [
+              3.6794599999999997,
+              3.6728199999999998,
+              3.6799999999999997,
+              3.68482,
+              3.67272,
+              3.674,
+              3.6727999999999996,
+              3.67414
+            ],
+            "mean_ms": 3.676345,
+            "se_ms": 0.0016,
+            "images": [
+              "52e5f04c513fc1e7005060376d990f54dcb3ab6dc674252e16369ab7c080fa9f",
+              "a11e846b8db2e9b49b250cb8f6f890dc8bdf2da98ebb7d904e0701d31721188e"
+            ]
+          },
+          "rc11_1440p_4k_family": {
+            "description": "RC11, 1440p-4K family",
+            "context_max": "2560x1440",
+            "dll": "rc11",
+            "run_medians_ms": [
+              3.26642,
+              3.258,
+              3.25778,
+              3.26328,
+              3.25808,
+              3.2586000000000004,
+              3.2629200000000003,
+              3.26182
+            ],
+            "mean_ms": 3.260862,
+            "se_ms": 0.001137,
+            "images": [
+              "52e5f04c513fc1e7005060376d990f54dcb3ab6dc674252e16369ab7c080fa9f",
+              "a11e846b8db2e9b49b250cb8f6f890dc8bdf2da98ebb7d904e0701d31721188e"
+            ]
+          },
+          "rc12": {
+            "description": "RC12 test build",
+            "context_max": "1920x1080",
+            "dll": "tested_build",
+            "run_medians_ms": [
+              3.2536199999999997,
+              3.27236,
+              3.25232,
+              3.276,
+              3.26844,
+              3.26796,
+              3.2508600000000003,
+              3.25074
+            ],
+            "mean_ms": 3.261538,
+            "se_ms": 0.003764,
+            "images": [
+              "52e5f04c513fc1e7005060376d990f54dcb3ab6dc674252e16369ab7c080fa9f",
+              "a11e846b8db2e9b49b250cb8f6f890dc8bdf2da98ebb7d904e0701d31721188e"
+            ]
+          }
+        }
+      },
+      {
+        "block": "F12-1080p-perf",
+        "configuration": "1080p Performance",
+        "render": [
+          960,
+          540
+        ],
+        "output": [
+          1920,
+          1080
+        ],
+        "rounds": 5,
+        "arms": {
+          "rc11": {
+            "description": "RC11",
+            "context_max": "1920x1080",
+            "dll": "rc11",
+            "run_medians_ms": [
+              3.6494999999999997,
+              3.65482,
+              3.65748,
+              3.6506600000000002,
+              3.6518
+            ],
+            "mean_ms": 3.652852,
+            "se_ms": 0.001457,
+            "images": [
+              "409db19a62a3d35217db516225468689e7edd368e8839cb1bf2810199c76e050",
+              "fe1a13f5071ba2092212fb59e224e617483833450efdf31710bc155f6569d640"
+            ]
+          },
+          "rc11_aa": {
+            "description": "RC11, second copy (A/A)",
+            "context_max": "1920x1080",
+            "dll": "rc11",
+            "run_medians_ms": [
+              3.64926,
+              3.65608,
+              3.65102,
+              3.65118,
+              3.6532
+            ],
+            "mean_ms": 3.652148,
+            "se_ms": 0.001164,
+            "images": [
+              "409db19a62a3d35217db516225468689e7edd368e8839cb1bf2810199c76e050",
+              "fe1a13f5071ba2092212fb59e224e617483833450efdf31710bc155f6569d640"
+            ]
+          },
+          "rc11_1440p_4k_family": {
+            "description": "RC11, 1440p-4K family",
+            "context_max": "2560x1440",
+            "dll": "rc11",
+            "run_medians_ms": [
+              3.2294,
+              3.2328200000000002,
+              3.23056,
+              3.2340400000000002,
+              3.2328200000000002
+            ],
+            "mean_ms": 3.231928,
+            "se_ms": 0.000846,
+            "images": [
+              "409db19a62a3d35217db516225468689e7edd368e8839cb1bf2810199c76e050",
+              "fe1a13f5071ba2092212fb59e224e617483833450efdf31710bc155f6569d640"
+            ]
+          },
+          "rc12": {
+            "description": "RC12 test build",
+            "context_max": "1920x1080",
+            "dll": "tested_build",
+            "run_medians_ms": [
+              3.21948,
+              3.21962,
+              3.21992,
+              3.2243,
+              3.2218
+            ],
+            "mean_ms": 3.221024,
+            "se_ms": 0.000919,
+            "images": [
+              "409db19a62a3d35217db516225468689e7edd368e8839cb1bf2810199c76e050",
+              "fe1a13f5071ba2092212fb59e224e617483833450efdf31710bc155f6569d640"
+            ]
+          }
+        }
+      },
+      {
+        "block": "G12-1440p-perf",
+        "configuration": "1440p Performance",
+        "render": [
+          1280,
+          720
+        ],
+        "output": [
+          2560,
+          1440
+        ],
+        "rounds": 8,
+        "arms": {
+          "rc11": {
+            "description": "RC11",
+            "context_max": "2560x1440",
+            "dll": "rc11",
+            "run_medians_ms": [
+              5.3867,
+              5.37226,
+              5.38282,
+              5.38502,
+              5.3849,
+              5.38472,
+              5.37412,
+              5.374560000000001
+            ],
+            "mean_ms": 5.380637,
+            "se_ms": 0.002092,
+            "images": [
+              "732edc4c215a0bd945130f2563cc421eedfa91f1438922412b21e172cade841e",
+              "98ee43a101f5aa31d726b92d09b37f6a8bb0b278a9a5aae35c52ca8fef7a43e7"
+            ]
+          },
+          "rc11_aa": {
+            "description": "RC11, second copy (A/A)",
+            "context_max": "2560x1440",
+            "dll": "rc11",
+            "run_medians_ms": [
+              5.38814,
+              5.37238,
+              5.3841,
+              5.38586,
+              5.3836200000000005,
+              5.38508,
+              5.38514,
+              5.37392
+            ],
+            "mean_ms": 5.38228,
+            "se_ms": 0.002054,
+            "images": [
+              "732edc4c215a0bd945130f2563cc421eedfa91f1438922412b21e172cade841e",
+              "98ee43a101f5aa31d726b92d09b37f6a8bb0b278a9a5aae35c52ca8fef7a43e7"
+            ]
+          },
+          "rc11_8k_family": {
+            "description": "RC11, 8K family",
+            "context_max": "7680x4320",
+            "dll": "rc11",
+            "run_medians_ms": [
+              6.10624,
+              6.10544,
+              6.10624,
+              6.10604,
+              6.1049,
+              6.10548,
+              6.1051400000000005,
+              6.10412
+            ],
+            "mean_ms": 6.10545,
+            "se_ms": 0.000259,
+            "images": [
+              "732edc4c215a0bd945130f2563cc421eedfa91f1438922412b21e172cade841e",
+              "98ee43a101f5aa31d726b92d09b37f6a8bb0b278a9a5aae35c52ca8fef7a43e7"
+            ]
+          },
+          "rc12": {
+            "description": "RC12 test build",
+            "context_max": "2560x1440",
+            "dll": "tested_build",
+            "run_medians_ms": [
+              5.392379999999999,
+              5.37356,
+              5.38004,
+              5.38542,
+              5.3849599999999995,
+              5.3845,
+              5.37594,
+              5.38442
+            ],
+            "mean_ms": 5.382652,
+            "se_ms": 0.002107,
+            "images": [
+              "732edc4c215a0bd945130f2563cc421eedfa91f1438922412b21e172cade841e",
+              "98ee43a101f5aa31d726b92d09b37f6a8bb0b278a9a5aae35c52ca8fef7a43e7"
+            ]
+          },
+          "rc12_8k_family": {
+            "description": "RC12 test build, 8K family",
+            "context_max": "7680x4320",
+            "dll": "tested_build",
+            "run_medians_ms": [
+              5.3844,
+              5.38352,
+              5.38368,
+              5.38208,
+              5.38286,
+              5.38256,
+              5.38164,
+              5.38208
+            ],
+            "mean_ms": 5.382853,
+            "se_ms": 0.000335,
+            "images": [
+              "732edc4c215a0bd945130f2563cc421eedfa91f1438922412b21e172cade841e",
+              "98ee43a101f5aa31d726b92d09b37f6a8bb0b278a9a5aae35c52ca8fef7a43e7"
+            ]
+          }
+        }
+      }
+    ],
+    "image_runs": 8
+  }
+}

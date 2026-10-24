@@ -53,13 +53,77 @@ def _apply(lines, replacements):
     return "\n".join(output) + "\n"
 
 
-def stream_outputs(text, width=4, primary=False, extra_lengths=()):
+def pair_chunks(left, right):
+    """i16 chunks (flushes + 1) of two columns streamed as one lane pair, in emission order."""
+    weights = [[d["w"][byte] for d in col["chain"] for byte in range(4)] for col in (left, right)]
+    lo, hi, chunks = [0, 0], [0, 0], 1
+    for pair in zip(*weights):
+        low = [byte_range(w)[0] for w in pair]
+        high = [byte_range(w)[1] for w in pair]
+        if any(lo[k] + low[k] < I16_MIN or hi[k] + high[k] > I16_MAX for k in range(2)):
+            chunks += 1
+            lo, hi = [0, 0], [0, 0]
+        lo = [lo[k] + low[k] for k in range(2)]
+        hi = [hi[k] + high[k] for k in range(2)]
+    return chunks
+
+
+def best_pairing(cols):
+    """Exact minimum-chunk perfect matching of an even number of columns (<= 16).
+
+    Ties go to the lexicographically smallest list of index pairs; the source order (pairs
+    0-1, 2-3, ...) is kept unless the matching is strictly cheaper. Returns (order, record).
+    """
+    n = len(cols)
+    require(n % 2 == 0 and 2 <= n <= 16, "Pairing needs an even group of at most 16 columns")
+    costs = {(i, j): pair_chunks(cols[i], cols[j]) for i in range(n) for j in range(i + 1, n)}
+    memo = {}
+
+    def solve(mask):
+        if not mask:
+            return (0, ())
+        if mask in memo:
+            return memo[mask]
+        first = (mask & -mask).bit_length() - 1
+        rest, best = mask ^ (1 << first), None
+        for second in range(first + 1, n):
+            if rest & (1 << second):
+                cost, pairs = solve(rest ^ (1 << second))
+                candidate = (cost + costs[first, second], ((first, second),) + pairs)
+                if best is None or candidate < best:
+                    best = candidate
+        memo[mask] = best
+        return best
+
+    cost, pairs = solve((1 << n) - 1)
+    source = sum(costs[i, i + 1] for i in range(0, n, 2))
+    require(cost <= source, "Matching worse than the source order")
+    order = [i for pair in pairs for i in pair] if cost < source else list(range(n))
+    return order, dict(source_chunks=source, chunks=min(cost, source), order=order)
+
+
+def stream_outputs(
+    text,
+    width=4,
+    primary=False,
+    extra_lengths=(),
+    allowed_blocks=None,
+    allowed_tails=None,
+    pairing="source",
+):
     """Stream common byte inputs through several outputs (chains of 4/8/16, or 36 if primary).
 
     Columns in one block with identical input words are grouped; each group of `width` (16 for
     primary 36-input groups) computes output pairs in i16 lanes with per-lane bounded flushes.
+    `allowed_blocks` / `allowed_tails` (sets of block labels / tail values) restrict streaming
+    to the selected columns; the others stay as they are (RC8 final pass).
+    `pairing="spatial"` (RC9 P5 stream pairing) reorders each group of four 36-input (3x3
+    spatial) columns into the lane pairs with the fewest flushes; other groups keep the source
+    order. Pairing only chooses which two outputs share a vector: every product, bound and flush
+    rule is the same, so each output still equals its dot4 chain.
     """
     require(width in (4, 8, 16), "Unsupported stream width")
+    require(pairing in ("source", "spatial"), "Unsupported stream pairing")
     p = Program(text)
     groups = collections.defaultdict(list)
     for col in sorted(p.columns(), key=lambda c: c["tail"]["line"]):
@@ -68,6 +132,15 @@ def stream_outputs(text, width=4, primary=False, extra_lengths=()):
             groups[(col["tail"]["block"], col["inputs"])].append(col)
     emit, replace, records = Emitter("stream"), {}, []
     for (block, inputs), group in groups.items():
+        if allowed_blocks is not None and block not in allowed_blocks:
+            continue
+        if allowed_tails is not None:
+            group = [col for col in group if col["tail"]["name"] in allowed_tails]
+        paired = None
+        if pairing == "spatial" and len(inputs) == 36:
+            require(len(group) == 4, "A spatial stream group does not have four outputs")
+            order, paired = best_pairing(group)
+            group = [group[i] for i in order]
         capacity = 16 if primary and len(inputs) == 36 else width
         for start in range(0, len(group), capacity):
             cols = group[start : start + capacity]
@@ -148,10 +221,28 @@ def stream_outputs(text, width=4, primary=False, extra_lengths=()):
                     replace[dot["line"]] = []
             replace.update(tails_code)
             replace[at] = out + replace[at]
-            records.append(
-                dict(outputs=len(cols), dots=len(cols) * len(inputs), width=capacity, chunks=chunks)
+            record = dict(
+                outputs=len(cols),
+                dots=len(cols) * len(inputs),
+                width=capacity,
+                chunks=chunks,
+                block=block,
+                tails=[c["tail"]["name"] for c in cols],
             )
+            if paired is not None:
+                record["pairing"] = paired
+            records.append(record)
     proof = dict(streamed_dots=sum(r["dots"] for r in records), groups=records)
+    if pairing == "spatial":
+        spatial = [r["pairing"] for r in records if "pairing" in r]
+        require(spatial, "No spatial stream groups to pair")
+        proof.update(
+            pairing=pairing,
+            spatial_groups=len(spatial),
+            reordered_groups=sum(r["order"] != sorted(r["order"]) for r in spatial),
+            source_spatial_chunks=sum(r["source_chunks"] for r in spatial),
+            spatial_chunks=sum(r["chunks"] for r in spatial),
+        )
     return _apply(p.lines, replace), proof
 
 

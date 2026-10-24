@@ -139,7 +139,11 @@ def create_archive(root, output, ref=None, *, setup=False):
             )
         ref = "HEAD"
     commit, files = snapshot(root, ref)
-    if "dll/manifest.json" in files:
+    release = json.loads(files["dll/rc12.json"][0]) if "dll/rc12.json" in files else {}
+    if "release_version" in release:
+        # RC12 and later: the release configuration names the version (see package-dll.py).
+        version = release["release_version"]
+    elif "dll/manifest.json" in files:
         version = json.loads(files["dll/manifest.json"][0])["release_version"]
     elif "runtime/manifest.json" in files:
         version = json.loads(files["runtime/manifest.json"][0])["release"]["version"]

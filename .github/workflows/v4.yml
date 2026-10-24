@@ -131,7 +131,7 @@ jobs:
           with tarfile.open(root / 'dxc.tar.gz') as archive:
               archive.extractall(root / 'dxc', filter='data')
           PY
-      - name: Rebuild and validate all shaders and the exact release DLL
+      - name: Rebuild and validate all shaders, RC11 and the exact RC12 release DLL
         run: |
           python3 dll/build.py --sdk .work/dll-inputs/sdk.dll \
             --dxcompiler .work/dll-inputs/dxc/linux_dxc_2026_07_29.x86_x64/lib/libdxcompiler.so \
@@ -139,15 +139,38 @@ jobs:
           python3 scripts/check-rc11-release.py --dll .work/dll-build/amd_fidelityfx_upscaler_dx12.dll
           python3 scripts/check-drop-profile.py --sdk .work/dll-inputs/sdk.dll \
             --shaders .work/dll-build/shaders
+          python3 dll/build.py --config rc12 --sdk .work/dll-inputs/sdk.dll \
+            --dxcompiler .work/dll-inputs/dxc/linux_dxc_2026_07_29.x86_x64/lib/libdxcompiler.so \
+            --output .work/dll-rc12 --jobs 2
+          python3 scripts/check-rc12-release.py --dll .work/dll-rc12/amd_fidelityfx_upscaler_dx12.dll
+          python3 dll/port/rc12.py compare .work/dll-build/amd_fidelityfx_upscaler_dx12.dll \
+            .work/dll-rc12/amd_fidelityfx_upscaler_dx12.dll --json "$RUNNER_TEMP/compare-rc11-rc12.json"
           for recipe in dll/port/recipes/*.json; do
             python3 dll/port/lower_pass.py generate --recipe "$recipe" --sdk .work/dll-inputs/sdk.dll \
               --dxc .work/dll-inputs/dxc/linux_dxc_2026_07_29.x86_x64 \
               --output "$RUNNER_TEMP/lowering/$(basename "$recipe" .json)"
           done
           python3 scripts/package-dll.py \
-            --dll .work/dll-build/amd_fidelityfx_upscaler_dx12.dll --documentation-revision 2 --output dist/dll
+            --dll .work/dll-rc12/amd_fidelityfx_upscaler_dx12.dll --output dist/dll
           cd dist/dll
           sha256sum -c *.sha256
+      - name: Obtain the published RC11 DLL ZIP that the client bundles
+        run: |
+          python3 - <<'PY'
+          import hashlib, urllib.request
+          from pathlib import Path
+          url = ('https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/'
+                 'opticlient-v1.0.7-bc250.2/bc250-fsr4-dll-4.0.0-rc11-docs2.zip')
+          path = Path('.work/client-inputs/bc250-fsr4-dll-4.0.0-rc11-docs2.zip')
+          path.parent.mkdir(parents=True)
+          with urllib.request.urlopen(url, timeout=120) as response, path.open('xb') as stream:
+              while chunk := response.read(1024 * 1024):
+                  stream.write(chunk)
+          with path.open('rb') as stream:
+              actual = hashlib.file_digest(stream, 'sha256').hexdigest()
+          if actual != '1eab11f2d9c34eebb15afe5815029c69b2d04dda2b94395486e2c2f5adb82ae0':
+              raise RuntimeError('RC11 DLL ZIP hash mismatch')
+          PY
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: portable-dll-candidate
@@ -162,7 +185,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libarchive-tools
           python3 scripts/package-opticlient.py --dotnet "$(command -v dotnet)" \
-            --dll-zip dist/dll/bc250-fsr4-dll-4.0.0-rc11-docs2.zip
+            --dll-zip .work/client-inputs/bc250-fsr4-dll-4.0.0-rc11-docs2.zip
           dotnet run -c Release --project integrations/optiscaler-client/tests/ClientTests.csproj \
             -p:ClientSource="$PWD/.work/opticlient/source/Optiscaler-Client-dd534b7d1cb8a0edf174a6917f5179791603d364"
           python3 scripts/check-opticlient.py --archive dist/opticlient/bc250-opticlient-1.0.7-bc250.5-linux-x64.tar.gz

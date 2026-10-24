@@ -269,6 +269,49 @@ class DllPackageTests(unittest.TestCase):
                     self.root, self.dll, output, documentation_revision=invalid
                 )
 
+    def test_a_release_configuration_supersedes_the_frozen_manifest(self):
+        source = self.root / "dll"
+        config_path = source / package_dll.RELEASE_CONFIGURATION
+        config_path.write_text(json.dumps({"provider_name": "no release version"}))
+        self.assertEqual(package_dll.release_identity(source)["record"], "dll/manifest.json")
+        self.assertEqual(package_dll.release_files(self.root, self.dll)[0], "4.0.0-rc7-test")
+
+        later = Path(self.temp.name) / "later.dll"
+        later.write_bytes(b"MZ a later release built on the same frozen manifest\n")
+        identity = {
+            "release_version": "4.0.0-rc8-test",
+            "provider_name": "4.1.1-next",
+            "expected_dll_bytes": later.stat().st_size,
+            "expected_dll_sha256": hashlib.sha256(later.read_bytes()).hexdigest(),
+        }
+        config_path.write_text(json.dumps(identity))
+        self.assertEqual(
+            package_dll.release_identity(source), dict(identity, record="dll/rc12.json")
+        )
+        with self.assertRaisesRegex(ValueError, r"qualified manifest \(dll/rc12.json\)"):
+            package_dll.release_files(self.root, self.dll)  # the manifest's DLL is not the release
+        with self.assertRaisesRegex(ValueError, "release identity"):
+            package_dll.release_files(self.root, later)  # the guide still names the old release
+        guide = (
+            "Project version **4.0.0-rc8-test**; SDK display name **4.1.1-next**.\n\n"
+            f"The DLL is {later.stat().st_size:,} bytes, SHA256:\n\n```text\n"
+            + identity["expected_dll_sha256"]
+            + "\n```\n"
+        )
+        (source / "INSTALL.md").write_text(guide)
+        inventory = json.loads((source / "source-inventory.json").read_text())
+        inventory["INSTALL.md"] = hashlib.sha256(guide.encode()).hexdigest()
+        (source / "source-inventory.json").write_text(json.dumps(inventory))
+        archive = package_dll.create_archive(self.root, later, Path(self.temp.name) / "later")
+        self.assertEqual(archive.name, "bc250-fsr4-dll-4.0.0-rc8-test.zip")
+        with zipfile.ZipFile(archive) as bundle:
+            self.assertEqual(bundle.read(package_dll.DLL_NAME), later.read_bytes())
+
+        config_path.unlink()
+        config_path.symlink_to(source / "manifest.json")
+        with self.assertRaisesRegex(ValueError, "regular file"):
+            package_dll.release_identity(source)
+
 
 if __name__ == "__main__":
     unittest.main()

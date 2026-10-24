@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "kind": "fsr4-lowering-recipe",
+  "name": "c10-pass8",
+  "sdk_tag": "v2.3.0",
+  "entry": "fsr4_model_v07_fp8_no_scale_pass8",
+  "description": "C10: RC11's 1440p-4K recipe for all six INT8 programs of model pass 8: RC8 native streams (wave64, vector guard). 0x92fc80, 0xb7db30 stay RC11's programs; the 1080p (0x6855c0, 0x72a890) and 8K (0x793060, 0xb314d0) families get the same lowering in place of RC7's.",
+  "expected": {
+    "0x6855c0": {"source_sha256": "64ea3c78395f01100a0db129813a6536dc0e9f57b786a17618017d03eb6da720", "replacement_sha256": "381221ec6a4e7570d19190d83e3ddb3619addd0761b329f3e19bfca35bf4601f"},
+    "0x72a890": {"source_sha256": "b155a0504a6007e84b3a24f073b8401111a6f9fe492643329762372fad979ed8", "replacement_sha256": "381221ec6a4e7570d19190d83e3ddb3619addd0761b329f3e19bfca35bf4601f"},
+    "0x793060": {"source_sha256": "e7344f75691135dc8c1ac9f4466e7c1db76783a16857da44eb8aa20a0ed05d48", "replacement_sha256": "6411df0b2013d24a22b6eff04d1239144ad41c7b5cc98b0fd956d287ab242c04"},
+    "0xb314d0": {"source_sha256": "9df800a604c02f0eac16f0efd0aa30e551be8d615219414795a87151dd6415e7", "replacement_sha256": "6411df0b2013d24a22b6eff04d1239144ad41c7b5cc98b0fd956d287ab242c04"}
+  },
+  "sequences": {
+    "rc8": [
+      ["specialize", {"model": {"accessor_rva": "0x8be5", "bytes": 131072, "sha256": "a54e552ff69a3f7199861417f7ae461d1f67f636ab532c6ec9d8ea5d2963735a"}}],
+      ["native_stream", {"width": 4, "extra_lengths": [32, 36]}],
+      ["mixed_float", {"roots": "native"}],
+      ["canonical"],
+      ["wave_size", {"lanes": 64}],
+      ["casts"],
+      ["vector_guard"]
+    ],
+    "cleanup": [
+      ["opt", {"passes": ["early-cse", "dce", "strip-dead-prototypes"]}]
+    ]
+  },
+  "slots": {
+    "0x6855c0": ["rc8", "cleanup"],
+    "0x72a890": ["rc8", "cleanup"],
+    "0x793060": ["rc8", "cleanup"],
+    "0x92fc80": ["rc8", "cleanup"],
+    "0xb314d0": ["rc8", "cleanup"],
+    "0xb7db30": ["rc8", "cleanup"]
+  },
+  "history": {
+    "rc8": "RC7 build_specialized.py --passes 7 8 9 (guarded-nested-r2); RC8 build_guarded_native.py --pass-number 8 --part all --wave 64 (guarded-p8-native-all-wave64-r1); research/fsr4-dll-perf-20260909 and fsr4-dll-opt-20260910",
+    "cleanup": "RC10 compiler cleanup (v4/experimental/compile-cse)"
+  }
+}

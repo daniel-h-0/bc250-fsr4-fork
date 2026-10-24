@@ -1,9 +1,10 @@
-# Rebuilding the RC11 DLL
+# Rebuilding the DLL
 
 For installation, use [Install across your games](../docs/optiscaler-client.md)
 or the [manual DLL guide](../docs/beginner-guide.md).
 This directory contains the 348 editable LLVM/DXIL sources, pinned inputs,
-assembler/validator and PE repacker used to build RC11.
+assembler/validator and PE repacker used to build RC11, and the
+[RC12 configuration](rc12.json) built on them.
 
 ## Inputs and commands
 
@@ -16,8 +17,8 @@ library is `linux_dxc_2026_07_29.x86_x64/lib/libdxcompiler.so`.
 From the repository root:
 
 ```sh
-python3 dll/build.py --verify-sources
-python3 dll/build.py \
+python3 dll/build.py --config rc12 --verify-sources
+python3 dll/build.py --config rc12 \
   --sdk /path/to/original/amd_fidelityfx_upscaler_dx12.dll \
   --dxcompiler /path/to/dxc/lib/libdxcompiler.so \
   --output .work/dll --jobs 2
@@ -26,9 +27,19 @@ python3 scripts/package-dll.py \
 ```
 
 Choose a new output directory outside `dll/`. The builder hashes, assembles and
-validates every shader, then checks the complete DLL: **94,840,832 bytes**,
-SHA256 **8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175**.
-Any mismatch stops the build.
+validates every shader, then checks the complete DLL against its configuration's
+pin. Any mismatch stops the build.
+
+| `--config` | Builds | Bytes | SHA256 |
+| --- | --- | ---: | --- |
+| `rc12` | The RC12 release: [rc12.json](rc12.json), the DLL `package-dll.py` packages | 93,110,784 | `4b0df27761d7ced52c30dcbd1641c55bdcf4d2ae10d59f7e5b4b2f895b6bba79` |
+| `rc11` (default) | RC11 from the frozen sources and [manifest.json](manifest.json) | 94,840,832 | `8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175` |
+| `rederived` | Comparison build of [rederived.json](rederived.json): the [re-derived elements](port/README.md#re-derived-configuration), no eligibility edit (no INT8 provider on the BC250) | 94,840,832 | `d0c2e17f1945038abc521c8caa37de8512e6c613cb947b62a6ee7581db9eeb39` |
+
+RC12 = `rederived` + RC11's eligibility edit + the 34 [C10 programs](port/README.md#rc12-configuration)
+(the 1440p–4K family's RC8/RC9 lowering in the 1080p and 8K context-size families) + the
+provider label `4.1.1r12`. [Provenance](notices/PROVENANCE.md) records where each host edit
+and the final-pass division come from.
 
 `source-inventory.json` records every source file except itself and Python caches.
 Extra/missing/changed files and symlinks fail verification. Update the inventory
@@ -57,6 +68,7 @@ records the driver work from which the optimizations were derived.
 | RC9 | Exact Winograd convolution in passes 1/2/4/10/12, bounded grouping, streamed accumulation and unsigned halfword extraction; [checkpoint](../docs/legacy/research/portable-dll-rc9.md). |
 | RC10 | Pinned `early-cse`, `dce`, `strip-dead-prototypes` on 48 slots. The 36 distinct changed programs match native code on three Mesa builds; 300 slots retain RC9 bytes. [Measurements](../docs/legacy/research/portable-dll-rc10.md). |
 | RC11 | RC10 shader programs, with provider label `4.1.1r11` and updated PE checksum. [Validation](../docs/portable-dll-rc11.md). |
+| RC12 | RC8/RC9 work in the 1080p and 8K families (34 slots, generated from the SDK DXIL); AMD's division restored in `0x248220`; label `4.1.1r12`. [Validation](../docs/release-notes-rc12.md#validation). |
 
 The shaders use DXIL 1.9 / Shader Model 6.9. Testing covers BC250/Linux through
 Proton; other runtimes/drivers need their own qualification.
@@ -69,8 +81,8 @@ byte below comes from the [drop profile](port/profiles/sdk-2.3.0.json), which th
 re-derives from the SDK bytes and must match exactly ([drop profiles](port/README.md#drop-profiles)).
 It applies:
 
-- The audited 18-byte INT8 eligibility change.
-- A provider-name pointer at offset `0x4a5` to the appended RC11 label, retaining
+- The 18-byte INT8 eligibility change ([origin](notices/PROVENANCE.md#int8-eligibility)).
+- A provider-name pointer at offset `0x4a5` to the appended label, retaining
   the original name slot and adjacent `FSR4-i8` watermark.
 - The buffer-UAV synchronization mask at `0x4789`, changing `01` to `00` after
   verifying the complete instruction at `0x4782`. This keeps `addBarrier` active

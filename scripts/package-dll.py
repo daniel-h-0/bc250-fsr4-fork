@@ -14,10 +14,29 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DLL_NAME = "amd_fidelityfx_upscaler_dx12.dll"
+# RC12 and later build on RC11's frozen dll/manifest.json; the configuration that names a
+# release_version is the release. Without one, the manifest is (RC11 and earlier).
+RELEASE_CONFIGURATION = "rc12.json"
+IDENTITY = ("release_version", "provider_name", "expected_dll_sha256", "expected_dll_bytes")
 
 
 def digest(data):
     return hashlib.sha256(data).hexdigest()
+
+
+def release_identity(source):
+    """{release_version, provider_name, expected_dll_sha256, expected_dll_bytes, record} of
+    the DLL this source tree releases; `record` names the file that pins it."""
+    record = "manifest.json"
+    path = source / RELEASE_CONFIGURATION
+    if path.is_symlink() or (path.exists() and not path.is_file()):
+        raise ValueError("The release configuration must be a regular file")
+    if path.is_file() and "release_version" in json.loads(path.read_text()):
+        record = RELEASE_CONFIGURATION
+    values = json.loads((source / record).read_text())
+    identity = {key: values[key] for key in IDENTITY}
+    identity["record"] = "dll/" + record
+    return identity
 
 
 def validate_install_guide(text, manifest):
@@ -36,17 +55,20 @@ def validate_install_guide(text, manifest):
 def release_files(root, dll):
     source = root / "dll"
     manifest = json.loads((source / "manifest.json").read_text())
-    version = manifest["release_version"]
+    identity = release_identity(source)
+    version = identity["release_version"]
     if not re.fullmatch(r"[A-Za-z0-9.-]+", version):
         raise ValueError("Invalid DLL release version")
     if dll.is_symlink() or not dll.is_file():
         raise ValueError("The release DLL must be a regular file")
     content = dll.read_bytes()
     if (
-        len(content) != manifest["expected_dll_bytes"]
-        or digest(content) != manifest["expected_dll_sha256"]
+        len(content) != identity["expected_dll_bytes"]
+        or digest(content) != identity["expected_dll_sha256"]
     ):
-        raise ValueError("The release DLL does not match the qualified manifest")
+        raise ValueError(
+            "The release DLL does not match the qualified manifest (" + identity["record"] + ")"
+        )
     inventory = json.loads((source / "source-inventory.json").read_text())
     paths = {"README.md": source / "INSTALL.md"}
     notices = {"notices/" + p.name: p for p in sorted((source / "notices").iterdir())}
@@ -62,7 +84,7 @@ def release_files(root, dll):
         if digest(content) != inventory.get(str(path.relative_to(source))):
             raise ValueError("Release documentation differs from the source inventory")
         files[name] = content
-    validate_install_guide(files["README.md"].decode(), manifest)
+    validate_install_guide(files["README.md"].decode(), identity)
     for name, metadata in manifest.get("optional_files", {}).items():
         destination = Path(name)
         relative = Path(metadata["source"])
