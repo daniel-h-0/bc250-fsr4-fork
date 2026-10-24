@@ -3,7 +3,7 @@
   "kind": "fsr4-rederived-configuration",
   "name": "rederived",
   "description": "RC11's sources with each element whose design followed the third-party 4.1.1b DLL replaced by its independent re-derivation from the SDK 2.3.0 code, where one exists. A comparison build: built by dll/build.py --config rederived; checked by dll/port/rederive.py. The RC12 release (dll/rc12.json) builds on it.",
-  "base_manifest_sha256": "ac85f887914e99fcd1e55b15e41f42e507ebebb031fe269d67fa2f9a0c899395",
+  "base_manifest_sha256": "b115da78b84992190beb099290102ca889088f5d2707d6302254d4771f95b298",
   "elements": {
     "final-pass-divisions": {
       "status": "derived",
@@ -47,7 +47,7 @@
   },
   "provenance": {
     "final-pass-divisions": "Re-derived from the SDK 2.3.0 code alone (2026-10-23): dll/port/sdiv_shift.py cannot prove the dividend of any of the final pass's power-of-two signed divisions non-negative from the IR (they divide constant-buffer fields), so every one stays sdiv. RC9-RC11 replaced two of them with logical shifts in slot 0x248220; this configuration restores the SDK's instructions there.",
-    "int8-eligibility": "Not re-derived: two attempts at an independent derivation (2026-10-23) did not complete. This configuration applies no edit at the site and keeps the SDK's bytes, so its DLL does not offer the INT8 provider on non-RDNA4 GPUs. The RC12 release (dll/rc12.json) applies RC11's edit unchanged (decision of 2026-10-24); see dll/notices/PROVENANCE.md."
+    "int8-eligibility": "Not re-derived: two attempts at an independent derivation (2026-10-23) did not complete. This configuration applies no edit at the site and keeps the SDK's bytes, so its DLL does not offer the INT8 provider on the BC250. The RC12 release (dll/rc12.json) applies RC11's edit unchanged (decision of 2026-10-24); see dll/notices/PROVENANCE.md."
   },
   "expected_dll_sha256": "d0c2e17f1945038abc521c8caa37de8512e6c613cb947b62a6ee7581db9eeb39",
   "expected_dll_bytes": 94840832

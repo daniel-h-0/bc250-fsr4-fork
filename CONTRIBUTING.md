@@ -1,7 +1,7 @@
 # Contributing
 
-Start with the [DLL source and rebuild guide](dll/README.md). RC11 is the current
-release. The [GPU probe](dll/probe/README.md) can check a new D3D12 environment
+Start with the [DLL source and rebuild guide](dll/README.md). RC12 is the current
+DLL release. The [GPU probe](dll/probe/README.md) can check a new D3D12 environment
 without a game. Driver and old runtime components have separate
 [source contracts](docs/development.md) and recovery requirements.
 

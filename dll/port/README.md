@@ -334,7 +334,7 @@ third-party "4.1.1b" DLL is replaced by an independent re-derivation from the SD
 | Element | Status | Re-derived form |
 | --- | --- | --- |
 | `final-pass-divisions` | derived | [sdiv_shift.py](sdiv_shift.py) decides each `sdiv i32 x, 2**k` on the SDK's own program: a logical shift only where an interval analysis proves `x >= 0`. None of SDK 2.3.0's 192 qualifies (each divides a constant-buffer field). RC11 has a shift in two of them (slot `0x248220`); the configuration restores the SDK's division there. |
-| `int8-eligibility` | pending | Not re-derived: two attempts at an independent derivation (2026-10-23) did not complete. The re-derived build leaves the SDK's bytes at the profile's `int8-eligibility` site, so that DLL does not offer the INT8 provider on non-RDNA4 GPUs: a comparison build. The [RC12 release](#rc12-configuration) applies RC11's edit unchanged ([provenance](../notices/PROVENANCE.md#int8-eligibility)). |
+| `int8-eligibility` | pending | Not re-derived: two attempts at an independent derivation (2026-10-23) did not complete. The re-derived build leaves the SDK's bytes at the profile's `int8-eligibility` site, so that DLL does not offer the INT8 provider on the BC250: a comparison build. The [RC12 release](#rc12-configuration) applies RC11's edit unchanged ([provenance](../notices/PROVENANCE.md#int8-eligibility)). |
 
 ```sh
 python3 dll/port/rederive.py check                         # pinned restorations (offline)

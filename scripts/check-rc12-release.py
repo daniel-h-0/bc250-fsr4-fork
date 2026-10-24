@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
-"""Check the RC12 release record: identity, RC11 comparison, tested-build delta and GPU data."""
+"""Check the RC12 release record (identity, RC11 comparison, tested-build delta, GPU data) and
+the same-day baselines of docs/gpu-cost.md."""
 
 import argparse
 import hashlib
@@ -8,10 +9,11 @@ import json
 import math
 import struct
 from pathlib import Path
-from statistics import mean
+from statistics import mean, stdev
 
 ROOT = Path(__file__).resolve().parents[1]
 STATUSES = {"candidate", "qualified"}
+CHECK_STATUSES = {"pending", "pass"}
 DELTA_FIELDS = ("pe-checksum", "appended-section-virtual-size", "provider-label")
 
 
@@ -49,6 +51,80 @@ def verify_binary(path, record):
     tested = record["tested_build"]
     assert sha(data) == tested["dll_sha256"], "RC12 differs from the tested build elsewhere"
     assert data.find(tested["provider_name"].encode() + b"\0") > 0
+
+
+def check_baselines(record, rc11_sha256):
+    """docs/data/fsr-cost-20261023.json: AMD's original shaders against RC11 on one driver."""
+    assert record["schema"] == 1 and record["date"] == "2026-10-23"
+    assert record["arms"]["rc11"]["dll_sha256"] == rc11_sha256
+    assert record["arms"]["rc11"]["provider"] == "4.1.1r11"
+    assert record["arms"]["original"]["provider"] == "4.1.1"
+    chart = json.loads((ROOT / "docs/data/fsr-cost-20260911-rc9/configuration.json").read_text())
+    original = record["arms"]["original"]["dll_sha256"]
+    driver = record["driver"]["libvulkan_radeon_sha256"]
+    assert any(
+        v.get("dll_sha256") == original and v.get("driver_sha256") == driver
+        for v in chart["variants"].values()
+    ), "Not the September chart's original-shader DLL and driver"
+    assert record["probe"]["sha256"] == chart["probe_sha256"]
+    assert record["proton_sha256"] == chart["proton_sha256"]
+    assert [b["configuration"] for b in record["blocks"]] == [
+        "1080p Quality",
+        "1440p Quality",
+        "4K Quality",
+    ]
+    for block in record["blocks"]:
+        arms = block["arms"]
+        assert set(arms) == {"original", "rc11"} and block["context_max"] == block["output"]
+        assert arms["original"]["rounds"] == arms["rc11"]["rounds"]
+        assert len(arms["rc11"]["rounds"]) == block["rounds"]
+        assert arms["original"]["image"] == arms["rc11"]["image"], block["block"]
+        for arm in arms.values():
+            values = arm["run_medians_ms"]
+            assert len(values) == block["rounds"] and all(v > 0 for v in values)
+            assert math.isclose(mean(values), arm["mean_ms"], abs_tol=1e-9)
+            assert math.isclose(stdev(values) / math.sqrt(len(values)), arm["se_ms"], abs_tol=1e-9)
+        d = [
+            a - b
+            for a, b in zip(arms["rc11"]["run_medians_ms"], arms["original"]["run_medians_ms"])
+        ]
+        pair = block["rc11_minus_original_ms"]
+        assert math.isclose(mean(d), pair["mean"], abs_tol=1e-9)
+        assert math.isclose(stdev(d) / math.sqrt(len(d)), pair["se"], abs_tol=1e-9)
+        assert math.isclose(100 * mean(d) / arms["original"]["mean_ms"], pair["percent"])
+    return len(record["blocks"])
+
+
+def check_release_dll(record, validation):
+    """The release DLL's own GPU start: this DLL and label, every new slot dispatched, the tested
+    build's timed images (= RC11's), and a watermark capture of this DLL."""
+    check = record["release_dll_check"]
+    assert check["status"] in CHECK_STATUSES
+    if record["status"] == "qualified":
+        assert check["status"] == "pass", "A qualified RC12 needs the release DLL's own GPU start"
+    if check["status"] == "pending":
+        assert "**Pending:**" in validation
+        return check
+    assert "**Pending:**" not in validation, "The validation page still shows a pending check"
+    assert check["dll_sha256"] == record["dll_sha256"]
+    assert check["provider"] == record["provider_name"]
+    assert check["census"]["runs"] == record["gpu"]["census"]["runs"]
+    assert check["census"]["c10_slots_dispatched"] == record["rc11_comparison"]["c10_slots"]
+    timed = {block["block"]: block["arms"]["rc11"]["images"] for block in record["gpu"]["timing"]}
+    assert 2 * len(check["image_runs"]) == record["gpu"]["image_runs"]
+    for run in check["image_runs"]:
+        assert run["images"] == timed[run["block"]], run["block"]
+    files = check["watermark"]
+    assert files["record"].startswith("docs/data/") and files["image"].startswith("docs/assets/")
+    watermark = json.loads((ROOT / files["record"]).read_text())
+    assert watermark["provider"] == record["provider_name"]
+    assert watermark["dll_sha256"] == record["dll_sha256"]
+    assert watermark["all_dispatches_completed"] and watermark["loaded_dll_path_matches"]
+    assert watermark["png_sha256"] == sha((ROOT / files["image"]).read_bytes())
+    guide = (ROOT / "docs/beginner-guide.md").read_text()
+    assert files["image"].removeprefix("docs/") in guide
+    assert files["record"].removeprefix("docs/") in guide
+    return check
 
 
 def main(dll=None):
@@ -104,13 +180,20 @@ def main(dll=None):
         images.add(tuple(arms["rc11"]["images"]))
     assert len(images) == len(gpu["timing"])
     notes = (ROOT / "docs/release-notes-rc12.md").read_text()
-    assert record["dll_sha256"] in notes and tested["dll_sha256"] in notes
+    validation = (ROOT / "docs/portable-dll-rc12.md").read_text()
+    assert record["dll_sha256"] in notes
+    assert record["dll_sha256"] in validation and tested["dll_sha256"] in validation
+    for change in tested["delta"]:
+        assert f"`{change['offset']:#x}`" in validation, change["field"]
+    check = check_release_dll(record, validation)
+    baselines = check_baselines(load("docs/data/fsr-cost-20261023.json"), previous["dll_sha256"])
     if dll is not None:
         verify_binary(dll, record)
     print(
         f"PASS: RC12 {record['status']}: identity = dll/rc12.json, 35 slots changed from RC11 with "
         "RC11's host edits, tested build = RC12 except label/size/checksum bytes, "
-        f"{len(gpu['timing'])} timed GPU blocks with RC11's images"
+        f"{len(gpu['timing'])} timed GPU blocks with RC11's images, release DLL GPU start "
+        f"{check['status']}; {baselines} same-day original-shader baselines"
     )
 
 

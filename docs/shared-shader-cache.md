@@ -22,7 +22,7 @@ the standalone `uninstall` command does not remove launcher references.
 
 ## Manual DLL users: install once, copy one launch command
 
-From the extracted RC11 DLL download:
+From the extracted DLL download:
 
 ```sh
 sh linux/shared-cache.sh install

@@ -5,7 +5,7 @@
   "dll_sha256": "4b0df27761d7ced52c30dcbd1641c55bdcf4d2ae10d59f7e5b4b2f895b6bba79",
   "dll_bytes": 93110784,
   "configuration": "dll/rc12.json",
-  "status": "candidate",
+  "status": "qualified",
   "previous_release": {
     "version": "4.0.0-rc11",
     "provider_name": "4.1.1r11",
@@ -55,11 +55,65 @@
       }
     ]
   },
+  "release_dll_check": {
+    "status": "pass",
+    "date": "2026-10-24",
+    "description": "Untimed GPU start of this DLL on the tested build's stack and probe: the tested build's census and image configurations, plus a watermark capture. Timing is the tested build's (identical programs, host code and layout).",
+    "dll_sha256": "4b0df27761d7ced52c30dcbd1641c55bdcf4d2ae10d59f7e5b4b2f895b6bba79",
+    "provider": "4.1.1r12",
+    "census": {
+      "runs": 15,
+      "rc11_control_runs": 3,
+      "c10_slots_dispatched": 34,
+      "result": "every dispatched program equals the release build record; each configuration dispatches RC11's 19 INT8 slots; the 17 new programs of a family run at 1080p (maximum = output) and with a 7680x4320 maximum, 0x248220 with the 1440p-4K family; images equal RC11's and the tested build's; the RC11 controls reproduce RC11's census"
+    },
+    "image_runs": [
+      {
+        "block": "C12-1080p",
+        "context_max": "1920x1080",
+        "images": [
+          "52e5f04c513fc1e7005060376d990f54dcb3ab6dc674252e16369ab7c080fa9f",
+          "a11e846b8db2e9b49b250cb8f6f890dc8bdf2da98ebb7d904e0701d31721188e"
+        ]
+      },
+      {
+        "block": "F12-1080p-perf",
+        "context_max": "1920x1080",
+        "images": [
+          "409db19a62a3d35217db516225468689e7edd368e8839cb1bf2810199c76e050",
+          "fe1a13f5071ba2092212fb59e224e617483833450efdf31710bc155f6569d640"
+        ]
+      },
+      {
+        "block": "G12-1440p-perf",
+        "context_max": "2560x1440",
+        "images": [
+          "732edc4c215a0bd945130f2563cc421eedfa91f1438922412b21e172cade841e",
+          "98ee43a101f5aa31d726b92d09b37f6a8bb0b278a9a5aae35c52ca8fef7a43e7"
+        ]
+      },
+      {
+        "block": "G12-1440p-perf",
+        "context_max": "7680x4320",
+        "images": [
+          "732edc4c215a0bd945130f2563cc421eedfa91f1438922412b21e172cade841e",
+          "98ee43a101f5aa31d726b92d09b37f6a8bb0b278a9a5aae35c52ca8fef7a43e7"
+        ]
+      }
+    ],
+    "image_order": "traced 240-frame run, then untraced 600-frame run, as in gpu.timing",
+    "watermark": {
+      "record": "docs/data/beginner-watermark-rc12.json",
+      "image": "docs/assets/rc12-watermark-reference.png",
+      "pixels_differing_from_rc11_capture": 135,
+      "difference": "the label's last digit only"
+    }
+  },
   "gpu": {
     "date": "2026-10-23",
     "platform": "BC250 (gfx1013) at 1850 MHz, Linux, system Mesa 26.2.5 RADV (RADV_DIRECTMESH=0), GE-Proton11-6",
     "probe": "dll/probe provider probe, revision 3, 1ea66d09b2ca8863fbabf18adf0ebf10423a8e1f66bc22399e44ec7f76749d76",
-    "method": "Synthetic scene. Untimed 600-frame runs (median of frames 300-599) and traced 240-frame runs; arms rotated, order reversed every other round. Values: mean of per-run medians of whole-dispatch GPU time per frame.",
+    "method": "Synthetic scene. Untraced 600-frame runs (median of frames 300-599) and traced 240-frame runs; arms rotated, order reversed every other round. Values: mean of per-run medians of whole-dispatch GPU time per frame.",
     "census": {
       "runs": 15,
       "rc11_control_runs": 3,

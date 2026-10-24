@@ -1,12 +1,13 @@
 # Downloads and release packaging
 
-**[Install across your games](optiscaler-client.md)** with the BC250 client build,
-or use the [RC11 DLL ZIP with refreshed instructions](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.2/bc250-fsr4-dll-4.0.0-rc11-docs2.zip)
+**[Install across your games](optiscaler-client.md)** with the BC250 client build
+(import the RC12 ZIP), or use the
+[RC12 DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc12/bc250-fsr4-dll-4.0.0-rc12.zip)
 for a [manual installation](beginner-guide.md).
-[RC11 release notes](release-notes-rc11.md) and
-[DLL validation](portable-dll-rc11.md) cover the unchanged renderer.
+[RC12 release notes](release-notes-rc12.md) and
+[DLL validation](portable-dll-rc12.md) cover the current DLL.
 The [RC11.1 driver pre-release](release-notes-rc11.1.md) changes only the optional
-Linux driver: Mesa 26.2.2 + the upstream `nir_opt_uub` fix.
+Linux driver: Mesa 26.2.2 + the upstream `nir_opt_uub` fix. RC12 does not change it.
 DLL users: system Mesa 26.2.x before 26.2.3 has that upstream compiler bug, which
 can break other shaders such as HelixSR frame generation; update to 26.2.3 or newer
 ([details](release-notes-rc11.1.md#affected-downloads-and-system-mesa)).
@@ -14,11 +15,12 @@ can break other shaders such as HelixSR frame generation; update to 26.2.3 or ne
 ## Client addon
 
 [OptiScaler Client 1.0.7-bc250.5](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/opticlient-v1.0.7-bc250.5)
-is a separately versioned prerelease addon for RC11. It adds selection-based
+is a separately versioned prerelease addon. It bundles RC11 and imports later DLL
+ZIPs such as RC12's. It adds selection-based
 installation, DLL updates, file restoration and optional shared-cache setup using
 one general setup across
-OptiScaler-compatible games. RC11 remains the DLL release;
-this addon changes installation rather than shader code or measured performance.
+OptiScaler-compatible games.
+This addon changes installation rather than shader code or measured performance.
 Version bc250.4 fixes first setup and installation on Bazzite and other Fedora
 Atomic systems, where `/home` is a link to `/var/home`. Version bc250.5 treats
 both spellings of a game folder as one game.
@@ -37,11 +39,12 @@ separates installation/loading checks from the existing DLL rendering evidence.
 
 | Download | Who needs it |
 | --- | --- |
-| `bc250-opticlient-1.0.7-bc250.5-linux-x64.tar.gz` | Client route: Linux application, RC11 ZIP, complete modified client source and dependency download pins. |
-| `bc250-fsr4-dll-4.0.0-rc11-docs2.zip` | Manual installation or client import; unchanged RC11 DLL with current instructions and notices. |
+| `bc250-opticlient-1.0.7-bc250.5-linux-x64.tar.gz` | Client route: Linux application, RC11 ZIP, complete modified client source and dependency download pins. Import the RC12 ZIP for RC12. |
+| `bc250-fsr4-dll-4.0.0-rc12.zip` | Manual installation or client import: the RC12 DLL, instructions, notices and provenance, in the [RC12 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc12). SHA256 `646778a0d06c42bf3cdcc99f9396680f5cc4a33658b90c0889fd15751bfb800d`. |
+| `bc250-fsr4-dll-4.0.0-rc11-docs2.zip` | Previous DLL: RC11 with refreshed instructions; bundled in the client. |
 | `bc250-fsr4-v4.0.0-rc11.1-linux-glibc236-x86_64.tar.gz` | Alternative AMD-provider/driver route: RC11's driver plus the upstream `nir_opt_uub` fix, in the [RC11.1 pre-release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11.1). SHA256 `6f89cf227cd14afc49e66304ee872cff68a9378aec2147c1ab644b2cd5193a5d`. |
 | `bc250-fsr4-v4.0.0-rc11-linux-glibc236-x86_64.tar.gz` | Previous driver, retained in the [RC11 release](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/tag/v4.0.0-rc11); lacks the compiler fix. |
-| `bc250-fsr4-v4.0.0-rc11-source-COMMIT.tar.gz` | Developers: complete source, tools, docs and evidence. |
+| `bc250-fsr4-v4.0.0-rc12-source-COMMIT.tar.gz` | Developers: complete source, tools, docs and evidence. |
 | `SHA256SUMS` | Checksums for the corresponding downloads. |
 
 GitHub's automatic **Source code** downloads are not the DLL ZIP. The archive
@@ -53,21 +56,27 @@ sha256sum --ignore-missing -c SHA256SUMS
 ```
 
 Original archives/tags remain unchanged when the maintained docs are revised.
-The client has its own version and archive checksum; RC11's DLL is unchanged.
+The client has its own version and archive checksum.
 This client build bundles the `4.0.0-rc11-docs2` DLL ZIP, whose instructions
 include the client route. It contains the same RC11 DLL as the original download.
+The client checks an imported ZIP's DLL against the ZIP's `SHA256SUMS`, so RC12
+needs no client update.
 
 ## Packaging
 
 Maintainers use a reviewed clean checkout and qualified build outputs:
 
 ```sh
-python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll \
-  --documentation-revision 2
+python3 scripts/package-dll.py --dll .work/dll/amd_fidelityfx_upscaler_dx12.dll
 python3 scripts/source-release.py --output dist/source
+python3 scripts/release-assets.py --dll PATH_TO_DLL_ZIP \
+  --source PATH_TO_COMPLETE_SOURCE_TAR --output dist/upload
 ```
 
-Build the client separately with the .NET 10 SDK and `bsdtar`:
+The packagers take the release identity from `dll/rc12.json`
+(`release_version`), falling back to `dll/manifest.json` for RC11 and earlier.
+Build the client separately with the .NET 10 SDK and `bsdtar`. Its packager
+requires the RC11 ZIP that client 1.0.7-bc250.5 bundles:
 
 ```sh
 python3 scripts/package-opticlient.py --dotnet /path/to/dotnet \
@@ -81,7 +90,7 @@ tests, source delivery and first-run upstream downloads. Include the client
 archive and its checksum when publishing this route. The client archive embeds
 the DLL ZIP supplied to the command; document which documentation revision it contains.
 
-The DLL packager checks the exact DLL, guide identity, notices and helper hashes.
+The DLL packager checks the exact release DLL, guide identity, notices and helper hashes.
 The driver packager checks build provenance and strips a copy of the library.
 The staging tool checks archive sidecars and writes a combined checksum list;
 it does not publish. Omit the driver or client argument when staging only the
@@ -89,7 +98,7 @@ other components.
 
 For corrected archive instructions without a binary change, pass
 `--documentation-revision N` to the DLL packager. It produces a new `-docsN`
-filename and still requires the exact manifest-pinned DLL. Retain old assets
+filename and still requires the exact pinned release DLL. Retain old assets
 and publish matching checksums/source; do not replace downloads in place.
 
 ## Source snapshots

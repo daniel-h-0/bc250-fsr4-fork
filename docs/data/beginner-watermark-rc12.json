@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-24",
+  "purpose": "Actual SDK watermark on a synthetic SDR pattern; not gameplay or a performance measurement",
+  "dll_sha256": "4b0df27761d7ced52c30dcbd1641c55bdcf4d2ae10d59f7e5b4b2f895b6bba79",
+  "provider": "4.1.1r12",
+  "render": [
+    1280,
+    720
+  ],
+  "output": [
+    1920,
+    1080
+  ],
+  "frames": 8,
+  "all_dispatches_completed": true,
+  "loaded_dll_path_matches": true,
+  "probe_sha256": "1ea66d09b2ca8863fbabf18adf0ebf10423a8e1f66bc22399e44ec7f76749d76",
+  "raw_rgba32f_sha256": "7b6fe64b62f1851305f73affb92fc08c89a8df72ce8b05835b17a967e73a794f",
+  "png_sha256": "bd7ad0b17045790ca55ca5e9fac225a5bfc9eeb421bbb711e93c1be372378ce8",
+  "png_conversion": "ImageMagick 7: little-endian float32 RGBA, linear RGB to sRGB, 8-bit PNG, date/time chunks excluded. No overlay text added or relabeled."
+}

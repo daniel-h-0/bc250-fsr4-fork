@@ -15,7 +15,11 @@ shared-cache setup.
 
 Download [OptiScaler Client 1.0.7-bc250.5 for Linux x64](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.5/bc250-opticlient-1.0.7-bc250.5-linux-x64.tar.gz),
 extract it, and run **`Start-BC250-OptiClient.sh`**. First setup downloads its
-OptiScaler dependencies. The RC11 DLL is included and selected automatically.
+OptiScaler dependencies. The client includes the RC11 DLL and selects it
+automatically. For RC12, download the
+[RC12 DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc12/bc250-fsr4-dll-4.0.0-rc12.zip)
+and choose **Import DLL ZIP** once on the **Install across your games** screen;
+it then shows **Selected release: 4.0.0-rc12**. Keep the ZIP's original filename.
 
 Choose **Scan Games**, then **Install across your games**. On Linux, the client
 scans Steam, Heroic's installed Windows Epic/GOG games, and Lutris entries in
@@ -45,7 +49,8 @@ DLL updates need no launch-option changes.
 Launch normally and select **DLSS**, or an FSR/XeSS input supported by that
 game's OptiScaler integration. OptiScaler uses that input to run FSR4. Press
 **Insert** to open its overlay; the optional
-[watermark check](beginner-guide.md#3-play-and-check-once) confirms RC11 and INT8.
+[watermark check](beginner-guide.md#3-play-and-check-once) confirms the release
+(`4.1.1R12` for RC12) and INT8 (`FSR4-I8`).
 First use can pause while shaders compile.
 
 ## Launcher setup

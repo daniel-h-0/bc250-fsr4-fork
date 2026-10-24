@@ -4,10 +4,10 @@
   "name": "rc12",
   "description": "The RC12 release: the re-derived configuration (dll/rederived.json), RC11's INT8 eligibility edit applied unchanged from the drop profile, and every exact C10 program: the hot slots' RC8/RC9 lowering carried to the 1080p and 8K context-size families of passes 1, 2, 3, 5, 6, 7, 8, 9, 11, 12, prep and the final pass, each pinned by its recipe in dll/port/recipes. Own provider label. Built by dll/build.py --config rc12; checked by dll/port/rc12.py; packaged by scripts/package-dll.py.",
   "release_version": "4.0.0-rc12",
-  "base_manifest_sha256": "ac85f887914e99fcd1e55b15e41f42e507ebebb031fe269d67fa2f9a0c899395",
+  "base_manifest_sha256": "b115da78b84992190beb099290102ca889088f5d2707d6302254d4771f95b298",
   "base": {
     "path": "rederived.json",
-    "sha256": "b090fdd333980a4cab4ca0f27ca6c7302a3e4ba90b29c65e61d8b9f40dca6e01"
+    "sha256": "e7d4a8cd36381275ea3604e5c0ba468e270dbd3b11d4a6522231d9df129abdc3"
   },
   "apply_host_patches": [
     "int8-eligibility"

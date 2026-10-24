@@ -193,6 +193,59 @@ class CommittedConfiguration(unittest.TestCase):
         self.assertIn("34 C10 slots", q.stdout)
 
 
+class ReleaseRecord(unittest.TestCase):
+    """docs/data/portable-dll-rc12.json and the same-day baselines behind docs/gpu-cost.md."""
+
+    def setUp(self):
+        self.check = runpy.run_path(str(ROOT / "scripts/check-rc12-release.py"))
+        self.baselines = json.loads((ROOT / "docs/data/fsr-cost-20261023.json").read_text())
+        self.rc11 = json.loads((ROOT / "dll/manifest.json").read_text())["expected_dll_sha256"]
+
+    def test_committed_records_pass(self):
+        self.check["main"]()
+        self.assertEqual(self.check["check_baselines"](self.baselines, self.rc11), 3)
+
+    def test_baseline_tampering_is_refused(self):
+        def run(change):
+            record = copy.deepcopy(self.baselines)
+            change(record)
+            with self.assertRaises((AssertionError, KeyError)):
+                self.check["check_baselines"](record, self.rc11)
+
+        run(lambda r: r["blocks"][0]["arms"]["rc11"]["run_medians_ms"].__setitem__(0, 3.5))
+        run(lambda r: r["blocks"][1]["arms"]["original"].update(image="0" * 64))
+        run(lambda r: r["blocks"][2]["rc11_minus_original_ms"].update(mean=-13.0))
+        run(lambda r: r["arms"]["original"].update(dll_sha256="0" * 64))
+        run(lambda r: r["driver"].update(libvulkan_radeon_sha256="0" * 64))
+        run(lambda r: r["blocks"].pop())
+        run(lambda r: r["blocks"][0].update(context_max=[2560, 1440]))
+        with self.assertRaises(AssertionError):
+            self.check["check_baselines"](self.baselines, "0" * 64)
+
+    def test_release_dll_check_tampering_is_refused(self):
+        record = json.loads((ROOT / "docs/data/portable-dll-rc12.json").read_text())
+        page = (ROOT / "docs/portable-dll-rc12.md").read_text()
+        self.assertEqual(self.check["check_release_dll"](record, page)["status"], "pass")
+
+        def run(change, validation=page):
+            changed = copy.deepcopy(record)
+            change(changed)
+            with self.assertRaises((AssertionError, KeyError)):
+                self.check["check_release_dll"](changed, validation)
+
+        check = "release_dll_check"
+        run(lambda r: r[check].update(dll_sha256=r["tested_build"]["dll_sha256"]))
+        run(lambda r: r[check].update(provider=r["tested_build"]["provider_name"]))
+        run(lambda r: r[check].update(status="pending"))
+        run(lambda r: r[check]["census"].update(c10_slots_dispatched=17))
+        run(lambda r: r[check]["image_runs"][0]["images"].reverse())
+        run(lambda r: r[check]["image_runs"].pop())
+        run(
+            lambda r: r[check]["watermark"].update(image="docs/assets/rc11-watermark-reference.png")
+        )
+        run(lambda r: None, page + "\n| Release DLL | **Pending:** |\n")
+
+
 @unittest.skipUnless(
     CACHE and DXC, "needs BC250_FSR4_SDK_CACHE and BC250_FSR4_DXC (extracted DXC 1.9.2607)"
 )

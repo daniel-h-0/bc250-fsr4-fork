@@ -1,15 +1,76 @@
 # FSR4 GPU cost and game FPS
 
-The updated chart measures the complete FSR upscaler on an AMD BC250 at
-1080p, 1440p and 4K Quality. **Only RC9 was remeasured on September 11.**
-The original FSR 4.1.1, supplied 4.1.1b and upstream v3 arms retain their
-September 10 data unchanged. Every value comes from completed GPU timestamps.
+These are GPU times of the complete FSR upscaler on an AMD BC250, from GPU
+timestamps of a synthetic D3D12 scene. The current numbers are the
+**October 23, 2026** same-day pairs below. The September chart keeps its
+original data.
 
 For installation, use [Install across your games](optiscaler-client.md) or
 [manual DLL replacement](beginner-guide.md).
-The chart below retains its original benchmark versions.
 
-![FSR4 GPU cost: fresh RC9 versus unchanged baselines](assets/fsr4-four-way-gpu-cost-rc9.svg)
+## October 23, 2026
+
+### RC11 against AMD's original shaders
+
+Quality mode, context maximum = output. Both arms ran in one session on stock
+Mesa 26.2.1 RADV, the September chart's driver.
+
+| Output / Quality input | FSR 4.1.1 original shaders | RC11 | RC11 − original |
+| --- | ---: | ---: | ---: |
+| 1080p / 1280×720 | 6.657 ms | 3.671 ms | −2.986 ms (−44.9%) |
+| 1440p / 1706×960 | 11.320 ms | 5.443 ms | −5.877 ms (−51.9%) |
+| 4K / 2560×1440 | 25.243 ms | 11.980 ms | −13.263 ms (−52.5%) |
+
+5, 6 and 4 rounds; standard errors ≤ 0.004 ms. [Record](data/fsr-cost-20261023.json).
+
+### RC12 against RC11
+
+System Mesa 26.2.5 RADV build with `RADV_DIRECTMESH=0`. RC12 ran as its
+GPU-tested build: RC12's programs, host code and layout with another label
+([identity](portable-dll-rc12.md#exact-identities)).
+
+| Output (input) | Context maximum | RC11 | RC12 | RC12 − RC11 |
+| --- | --- | ---: | ---: | ---: |
+| 1080p Quality (1280×720) | 1920×1080 | 3.675 ms | 3.262 ms | −0.414 ms (−11.3%) |
+| 1080p Performance (960×540) | 1920×1080 | 3.653 ms | 3.221 ms | −0.432 ms (−11.8%) |
+| 1440p Performance (1280×720) | 2560×1440 | 5.381 ms | 5.383 ms | +0.002 ms (noise) |
+| 1440p Performance (1280×720) | 7680×4320 | 6.105 ms | 5.383 ms | −0.723 ms (−11.8%) |
+
+8, 5 and 8 rounds; paired standard errors ≤ 0.004 ms. Two copies of RC11
+differed by up to 0.002 ms in the same runs. [Record](data/portable-dll-rc12.json).
+
+- RC12's 1080p programs cost what RC11's 1440p–4K programs cost at the same
+  output: RC11 with a 2560×1440 context maximum took 3.261 ms (Quality) and
+  3.232 ms (Performance).
+- RC12 was not timed at 1440p and 4K Quality. With those context maxima it runs
+  RC11's programs except the final-pass slot `0x248220` (AMD's division),
+  which the 2560×1440 row prices.
+
+### Method
+
+- The [full-dispatch probe](../dll/probe/README.md), revision 3, GE-Proton 11-6
+  and Steam Linux Runtime 4, as in the September chart. Sharpening off.
+- Each run: 600 frames, median of frames 300–599. Value: mean of the run
+  medians; differences are paired by round. Arms rotate within each round, in
+  reverse order every other round. Every scored sample ran at 1850 MHz.
+- In each block every arm produced the same image.
+- The September chart used the median of four launch medians and publishes
+  every timestamp; these records publish run medians.
+- With the same DLL, driver build, probe and Proton, the original shaders now
+  measure 6.657 / 11.320 / 25.243 ms against 7.13 / 11.51 / 25.72 ms on
+  September 10. Compare values within one date.
+
+The chart was not redrawn: FSR 4.1.1b and v3 were not remeasured, and RC12 was
+not timed at 1440p and 4K Quality.
+
+## September 10–11 chart
+
+This chart measures the complete FSR upscaler at 1080p, 1440p and 4K Quality.
+**Only RC9 was remeasured on September 11.** The original FSR 4.1.1, supplied
+4.1.1b and upstream v3 arms retain their September 10 data unchanged. Every
+value comes from completed GPU timestamps.
+
+![FSR4 GPU cost on September 10–11: RC9 versus unchanged baselines](assets/fsr4-four-way-gpu-cost-rc9.svg)
 
 | Output / Quality input | FSR 4.1.1 original shaders | FSR 4.1.1b | BC250 v3 | BC250 RC9 |
 | --- | ---: | ---: | ---: | ---: |
@@ -22,7 +83,7 @@ not total game frame time. The workload is a controlled synthetic D3D12 scene.
 Actual game inputs, context sizes, sharpening, overlap and integration can
 change the cost.
 
-## What was measured
+### What was measured
 
 - **FSR 4.1.1, original shaders:** the pinned AMD SDK, with only the existing
   18-byte host eligibility bypass needed for INT8 on BC250. Every original
@@ -42,7 +103,7 @@ it does not isolate one source patch from Mesa-version or build differences.
 All use ordinary GE-Proton 11-6 and Steam Linux Runtime 4. The optional
 driver-provider and automatic OptiScaler integrations are disabled.
 
-## Workload and sampling
+### Workload and sampling
 
 The [full-dispatch probe](../dll/probe/README.md) is the same revision 3 used
 for the RC7 GPU-time work. It runs the actual FSR shaders on the GPU, through
@@ -80,7 +141,7 @@ Every run's scored-period median GPU clock was **1850 MHz**.
 The experiment uses one board and one defined workload, with no Windows,
 other-GPU or whole-game FPS claim.
 
-## Data and reproduction
+### Data and reproduction
 
 [Every timestamp](data/fsr-cost-20260911-rc9/samples.csv),
 [run metadata and telemetry summaries](data/fsr-cost-20260911-rc9/runs.json),

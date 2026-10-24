@@ -152,9 +152,23 @@ below such a link. Links inside the selected game folder remain refused.
 [The bc250.5 record](../../docs/data/optiscaler-client-5.json) covers one record
 per game across those spellings and the running-game check for either spelling.
 The [RC11 validation](../../docs/portable-dll-rc11.md) remains the rendering evidence
-for that DLL. Client setup, DLL loading and actual game rendering are distinct
+for that DLL; [RC12's](../../docs/portable-dll-rc12.md) covers an imported RC12 ZIP.
+Client setup, DLL loading and actual game rendering are distinct
 checks; this build does not claim a new full gameplay campaign or support for
 Windows/other GPUs.
+
+## DLL releases
+
+The application pins no DLL. **Import DLL ZIP** accepts a ZIP named
+`bc250-fsr4-dll-4.….zip` that holds the DLL and a `SHA256SUMS` line for it, and
+checks the DLL against that line. The RC12 ZIP passes these checks (CPU check of
+the archive; not run in the client).
+
+The package bundles one DLL ZIP, imported at first start. `scripts/package-opticlient.py`
+and `scripts/check-opticlient.py` require it to hold `dll/manifest.json`'s DLL,
+RC11, the DLL of 1.0.7-bc250.5. RC12 ships without a client build: users import
+its ZIP. Bundling RC12 would be a new client version with its own archive and
+packaged-application checks.
 
 ## Release maintenance
 

@@ -47,7 +47,7 @@ when updating this project's upscaler.
 
 ## 1. Replace one file
 
-Download and extract the [RC11 DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/opticlient-v1.0.7-bc250.2/bc250-fsr4-dll-4.0.0-rc11-docs2.zip).
+Download and extract the [RC12 DLL ZIP](https://github.com/daniel-h-0/bc250-fsr4-fork/releases/download/v4.0.0-rc12/bc250-fsr4-dll-4.0.0-rc12.zip).
 Close the game. Back up the existing file, then copy the downloaded
 **`amd_fidelityfx_upscaler_dx12.dll`** over:
 
@@ -57,7 +57,7 @@ Your game's executable folder/
 ├── dxgi.dll                           OptiScaler
 ├── OptiScaler.ini
 └── OptiScaler/
-    └── amd_fidelityfx_upscaler_dx12.dll   ← replace this with RC11
+    └── amd_fidelityfx_upscaler_dx12.dll   ← replace this with RC12
 ```
 
 Keep the filename and the rest of OptiScaler in place. Its default settings
@@ -94,7 +94,9 @@ game's OptiScaler integration. That is the input OptiScaler uses to feed
 FSR4. **Keep the launch settings that already load OptiScaler.**
 
 For the first check, set `[FSR] Fsr4EnableWatermark=true`, restart and enter a
-rendered scene. Look for **`4.1.1R11`**, **`FSR-INT8`** and **`SOURCE: LOCAL`**.
+rendered scene. Look for **`FSR4-I8`**, **`4.1.1R12`** and **`SOURCE: LOCAL`** in
+the banner's first line, for example
+`FSR4-I8 UPSCALE 4.1.1R12 QUALITY 1.50X SOURCE: LOCAL`.
 Then set `Fsr4EnableWatermark=auto` and restart to hide it. Remove any explicit
 `MLSR-WATERMARK` launch variable.
 
@@ -104,17 +106,17 @@ First use can pause while shaders compile. Keep normal caches enabled;
 <details>
 <summary>Watermark reference and download checksum</summary>
 
-![RC11 watermark on the SDK's synthetic test pattern.](assets/rc11-watermark-reference.png)
+![RC12 watermark on the SDK's synthetic test pattern.](assets/rc12-watermark-reference.png)
 
 This synthetic reference uses the same linear-input settings as the guide.
 The banner should read `COLORSPACE: LINEAR`.
-[Capture record](data/beginner-watermark-rc11.json).
+[Capture record](data/beginner-watermark-rc12.json).
 
 Run `sha256sum -c SHA256SUMS` in the extracted download to verify its files.
-The RC11 DLL is 94,840,832 bytes, SHA256:
+The RC12 DLL is 93,110,784 bytes, SHA256:
 
 ```text
-8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175
+4b0df27761d7ced52c30dcbd1641c55bdcf4d2ae10d59f7e5b4b2f895b6bba79
 ```
 
 </details>
@@ -138,20 +140,20 @@ Wine launch settings; see [tested scope](#tested-scope).
 
 ## Native FidelityFX games
 
-These two games can use RC11 directly, without OptiScaler. Back up the file
-before replacing it with RC11:
+These two games can use the DLL directly, without OptiScaler. Back up the file
+before replacing it:
 
 | Game | File to replace | In-game choice |
 | --- | --- | --- |
 | Deadzone Rogue | `Valhalla/Binaries/Win64/amd_fidelityfx_upscaler_dx12.dll` | Native FSR4 |
 | Kingdom Come: Deliverance II | `Bin/Win64Shared/amd_fidelityfx_loader_dx12.dll` | FSR 4.1 |
 
-For KCD2, rename a copy of RC11 to the loader filename and keep the game's
+For KCD2, rename a copy of the DLL to the loader filename and keep the game's
 original upscaler DLL. This loader replacement is specific to KCD2 1.5.6.
 Keep working launch settings. To check the native watermark on Steam/Linux, use `env 'MLSR-WATERMARK=1' %command%`, preserving
 any existing arguments. Restore the previous launch options afterward.
 
-## Check that RC11 is rendering
+## Check that RC12 is rendering
 
 The [step 3 watermark](#3-play-and-check-once) identifies the active DLL.
 
@@ -239,9 +241,9 @@ managed separately; [shared caching](shared-shader-cache.md) is optional.
 
 ## Tested scope
 
-BC250/Linux is the tested platform. RC11 has synthetic rendering checks;
+BC250/Linux is the tested platform. RC12 has synthetic rendering and timing checks;
 [earlier game-route checks](legacy/research/portable-dll-rc7.md#supported-scope) used RC7 and the
-recorded Cyberpunk install used RC9. See [RC11 validation](portable-dll-rc11.md).
+recorded Cyberpunk install used RC9. See [RC12 validation](portable-dll-rc12.md).
 Frame generation, native Windows, other GPUs and unlisted combinations need
 separate testing. Windows needs a runtime/driver accepting DXIL 1.9 / Shader Model 6.9.
 

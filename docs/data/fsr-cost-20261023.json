@@ -1,0 +1,216 @@
+{
+  "schema": 1,
+  "date": "2026-10-23",
+  "purpose": "Same-day refresh of the GPU-cost comparison: AMD's original FSR 4.1.1 shaders against RC11, Quality mode, on the September chart's driver.",
+  "platform": "BC250 (gfx1013) at 1850 MHz, Linux kernel 7.3, GE-Proton11-6, Steam Linux Runtime 4",
+  "driver": {
+    "description": "Stock Mesa 26.2.1 RADV with LLVM 22 (the September chart driver), loaded privately",
+    "libvulkan_radeon_sha256": "38742ee177d3fe0601b73881c296d0320989125592934d1f2eed44853531bc49"
+  },
+  "probe": {
+    "description": "dll/probe provider probe, revision 3",
+    "sha256": "1ea66d09b2ca8863fbabf18adf0ebf10423a8e1f66bc22399e44ec7f76749d76"
+  },
+  "proton_sha256": "95a41f83184ab574d118fdd20f8647d5db0c350eb571314b475f0d25087311cf",
+  "arms": {
+    "original": {
+      "description": "AMD SDK 2.3.0 DLL with only the 18-byte INT8 eligibility edit: AMD's original shaders (the chart's FSR 4.1.1 arm)",
+      "dll_sha256": "7f96c60af6e5b0218d07dd938cc1be23ff127259fdd3b18144bff69be68455ea",
+      "provider": "4.1.1"
+    },
+    "rc11": {
+      "description": "RC11",
+      "dll_sha256": "8192ea97620f8e6407bff346bf905f0d555ff73d89fe14616eb1fa5e41ab3175",
+      "provider": "4.1.1r11"
+    }
+  },
+  "method": "Synthetic scene, sharpening off, context maximum = output. Each run: 600 frames, median GPU time of frames 300-599 for the complete FFX dispatch. Arms rotated within each round, order reversed every other round. Value: mean of run medians; difference: mean of per-round differences. Every scored sample at 1850 MHz.",
+  "blocks": [
+    {
+      "block": "C-1080p",
+      "configuration": "1080p Quality",
+      "render": [
+        1280,
+        720
+      ],
+      "output": [
+        1920,
+        1080
+      ],
+      "context_max": [
+        1920,
+        1080
+      ],
+      "rounds": 5,
+      "arms": {
+        "original": {
+          "rounds": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "run_medians_ms": [
+            6.65228,
+            6.6618,
+            6.65726,
+            6.6562,
+            6.65772
+          ],
+          "mean_ms": 6.657052,
+          "se_ms": 0.0015253012817145672,
+          "image": "a11e846b8db2e9b49b250cb8f6f890dc8bdf2da98ebb7d904e0701d31721188e"
+        },
+        "rc11": {
+          "rounds": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "run_medians_ms": [
+            3.67026,
+            3.67654,
+            3.67,
+            3.66866,
+            3.66948
+          ],
+          "mean_ms": 3.670988,
+          "se_ms": 0.0014146462455328105,
+          "image": "a11e846b8db2e9b49b250cb8f6f890dc8bdf2da98ebb7d904e0701d31721188e"
+        }
+      },
+      "rc11_minus_original_ms": {
+        "mean": -2.9860640000000003,
+        "se": 0.0011257068890256955,
+        "percent": -44.855650819612045
+      }
+    },
+    {
+      "block": "B-1440p",
+      "configuration": "1440p Quality",
+      "render": [
+        1706,
+        960
+      ],
+      "output": [
+        2560,
+        1440
+      ],
+      "context_max": [
+        2560,
+        1440
+      ],
+      "rounds": 6,
+      "arms": {
+        "original": {
+          "rounds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "run_medians_ms": [
+            11.31452,
+            11.32218,
+            11.325859999999999,
+            11.32136,
+            11.31512,
+            11.32328
+          ],
+          "mean_ms": 11.320386666666666,
+          "se_ms": 0.0018676878159310472,
+          "image": "576258f877229f93aaffe88fcd83b02ab121ad15b73d8c75ececc6656a95a10a"
+        },
+        "rc11": {
+          "rounds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "run_medians_ms": [
+            5.4367,
+            5.459160000000001,
+            5.43956,
+            5.44628,
+            5.4324,
+            5.4442
+          ],
+          "mean_ms": 5.44305,
+          "se_ms": 0.0038175585566345583,
+          "image": "576258f877229f93aaffe88fcd83b02ab121ad15b73d8c75ececc6656a95a10a"
+        }
+      },
+      "rc11_minus_original_ms": {
+        "mean": -5.877336666666666,
+        "se": 0.0032795016559092178,
+        "percent": -51.91816180601605
+      }
+    },
+    {
+      "block": "D-4k",
+      "configuration": "4K Quality",
+      "render": [
+        2560,
+        1440
+      ],
+      "output": [
+        3840,
+        2160
+      ],
+      "context_max": [
+        3840,
+        2160
+      ],
+      "rounds": 4,
+      "arms": {
+        "original": {
+          "rounds": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "run_medians_ms": [
+            25.24072,
+            25.24384,
+            25.24298,
+            25.242620000000002
+          ],
+          "mean_ms": 25.242539999999998,
+          "se_ms": 0.0006584324819851749,
+          "image": "be56daac4761e34195df9e9cf32267da6ffa36ef4bb5ae335b5d2e9343d0ebe7"
+        },
+        "rc11": {
+          "rounds": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "run_medians_ms": [
+            11.96894,
+            11.98066,
+            11.9848,
+            11.98518
+          ],
+          "mean_ms": 11.979894999999999,
+          "se_ms": 0.0037923991966387896,
+          "image": "be56daac4761e34195df9e9cf32267da6ffa36ef4bb5ae335b5d2e9343d0ebe7"
+        }
+      },
+      "rc11_minus_original_ms": {
+        "mean": -13.262645,
+        "se": 0.003301044026768542,
+        "percent": -52.54084969262206
+      }
+    }
+  ]
+}

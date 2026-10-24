@@ -46,8 +46,10 @@ The documented layout is OptiScaler 10.0.0-pre1 from September 4, 2026.
 3. Keep the launch settings that already load OptiScaler. Launch and select
    the game's supported DLSS/FSR input. Its menu label can remain unchanged.
 
-For a first check, set `[FSR] Fsr4EnableWatermark=true` and restart. Look for
-**4.1.1R12**, **FSR-INT8** and **SOURCE: LOCAL** in a rendered scene. Then use
+For a first check, set `[FSR] Fsr4EnableWatermark=true` and restart. In a
+rendered scene, look for **FSR4-I8**, **4.1.1R12** and **SOURCE: LOCAL** in the
+banner's first line, for example
+`FSR4-I8 UPSCALE 4.1.1R12 QUALITY 1.50X SOURCE: LOCAL`. Then use
 `Fsr4EnableWatermark=auto` and restart to hide it. Remove any `MLSR-WATERMARK`
 environment variable.
 
@@ -88,5 +90,5 @@ The modified DLL is not AMD-signed. Retain the included notices.
 
 BC250/Linux is tested. RC12 has synthetic rendering and timing checks; earlier game
 checks belong to RC7. Windows, other GPUs, frame generation and unlisted combinations
-remain unqualified. [Validation](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/release-notes-rc12.md#validation)
+remain unqualified. [Validation](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/portable-dll-rc12.md)
 and [provenance](notices/PROVENANCE.md).

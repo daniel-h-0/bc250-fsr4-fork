@@ -1,12 +1,12 @@
 # Changelog
 
-## 4.0.0-rc12 — DLL release candidate
+## 4.0.0-rc12 — DLL pre-release
 
 - Carry the RC8/RC9 shader work to the 1080p (context maximum up to 1920×1080)
   and 8K context-size families: 34 slots, 24 programs, generated from the SDK
   2.3.0 DXIL by `dll/port`. Output bits equal RC11's. FSR4 GPU time at 1080p
-  output −0.41 to −0.43 ms (−11%); at 1440p Performance the 8K family's +0.72 ms
-  penalty is gone.
+  output −0.41 to −0.43 ms (−11 to −12%); at 1440p Performance the 8K family's
+  +0.72 ms penalty is gone.
 - Final pass: AMD's `sdiv` again in slot `0x248220` (RC9–RC11 used a shift that
   is exact only for in-spec input); cost within noise.
 - Provider label `4.1.1r12`. Host-code edits unchanged from RC11; their origin is
@@ -14,7 +14,13 @@
 - Tooling: SDK drop intake and licence allowlist, drop profiles, lowering
   recipes, drop classification, `dll/rc12.json` as the release configuration
   (`dll/build.py --config rc12`; the packagers read its identity). The driver and
-  the client are unchanged.
+  the client are unchanged; the client imports the RC12 ZIP.
+- Validation: images byte-identical to RC11's in all three context families
+  (test build with RC12's programs, host code and layout); the release DLL's
+  own untimed GPU start and its `4.1.1R12` watermark capture.
+- Docs: RC12 validation page; GPU-cost tables from same-day pairs of October 23
+  (original shaders against RC11, RC12 against RC11), with the September chart
+  kept as it was; RC12 links and identity in the guides.
 
 See [the release notes](docs/release-notes-rc12.md).
 

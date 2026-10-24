@@ -68,7 +68,7 @@ records the driver work from which the optimizations were derived.
 | RC9 | Exact Winograd convolution in passes 1/2/4/10/12, bounded grouping, streamed accumulation and unsigned halfword extraction; [checkpoint](../docs/legacy/research/portable-dll-rc9.md). |
 | RC10 | Pinned `early-cse`, `dce`, `strip-dead-prototypes` on 48 slots. The 36 distinct changed programs match native code on three Mesa builds; 300 slots retain RC9 bytes. [Measurements](../docs/legacy/research/portable-dll-rc10.md). |
 | RC11 | RC10 shader programs, with provider label `4.1.1r11` and updated PE checksum. [Validation](../docs/portable-dll-rc11.md). |
-| RC12 | RC8/RC9 work in the 1080p and 8K families (34 slots, generated from the SDK DXIL); AMD's division restored in `0x248220`; label `4.1.1r12`. [Validation](../docs/release-notes-rc12.md#validation). |
+| RC12 | RC8/RC9 work in the 1080p and 8K families (34 slots, generated from the SDK DXIL); AMD's division restored in `0x248220`; label `4.1.1r12`. [Validation](../docs/portable-dll-rc12.md). |
 
 The shaders use DXIL 1.9 / Shader Model 6.9. Testing covers BC250/Linux through
 Proton; other runtimes/drivers need their own qualification.

@@ -15,10 +15,10 @@ native FidelityFX games and custom layouts.
 | Why does first launch stall? | [Shader compilation](first-run-shader-compilation.md) |
 | How much faster is it? | [GPU cost and game FPS](gpu-cost.md) |
 | Does the custom driver improve on the DLL? | [DLL versus driver](driver-rc10.md#dll-versus-driver) |
-| What was tested? | [Client validation](../integrations/optiscaler-client/README.md#validation), [RC11 DLL validation](portable-dll-rc11.md) |
+| What was tested? | [Client validation](../integrations/optiscaler-client/README.md#validation), [RC12 DLL validation](portable-dll-rc12.md) |
 | Which file should I download? | [Downloads](releases.md) |
 | Who made the software used here? | [Upstream credits and licenses](../THIRD_PARTY.md) |
-| What changed? | [Client addon](releases.md#client-addon), [RC11 release notes](release-notes-rc11.md), [RC11.1 driver](release-notes-rc11.1.md), [changelog](../CHANGELOG.md) |
+| What changed? | [RC12 release notes](release-notes-rc12.md), [RC11.1 driver](release-notes-rc11.1.md), [client addon](releases.md#client-addon), [changelog](../CHANGELOG.md) |
 
 ## Optional routes
 

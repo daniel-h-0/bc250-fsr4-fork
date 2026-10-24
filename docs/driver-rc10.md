@@ -11,7 +11,8 @@ generation, which RC10/RC11 miscompiled, now works
 ## DLL versus driver
 
 Both routes include the FSR optimizations. The three-resolution comparison
-found comparable GPU cost. Choose the DLL for the simpler setup; this driver
+(RC10) found comparable GPU cost. RC12's new 1080p and 8K programs were not
+compared with the driver. Choose the DLL for the simpler setup; this driver
 recognizes exact translated provider shaders, so changing the provider or Proton
 can lose optimization coverage. [Comparison record](https://github.com/daniel-h-0/bc250-fsr4-fork/blob/v4/docs/legacy/research/portable-dll-rc10.md).
 
@@ -76,7 +77,7 @@ established different adapter installation. If the current launch options contai
 
 Keep the pinned SDK bridge for this provider route. The original
 provider continues to identify itself as **4.1.1**, with source **DRIVER**.
-The primary DLL identifies itself as **4.1.1r11**, with source **LOCAL**.
+The primary DLL identifies itself as **4.1.1r12** (RC12), with source **LOCAL**.
 For temporary confirmation, `BC250_FSR4_RC9_LOG=true` prints exact shader matches
 during compilation. Warm cache hits can be silent. `BC250_FSR4_RC9_DISABLE=true`
 disables the new port and has a separate cache identity. Remove diagnostic
